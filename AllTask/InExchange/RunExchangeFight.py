@@ -42,7 +42,7 @@ class RunExchangeFight(Task):
             return
         logging.info("start raid")
         # max raid or times rard
-        if self.runtimes == -1:
+        if self.runtimes < 0:
             click((1084, 302))
         else:
             for t in range(self.runtimes):
