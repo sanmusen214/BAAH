@@ -106,7 +106,7 @@ if __name__=="__main__":
     screen_shot_to_file()
     
     # 测match
-    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TOTAL_PRICE), show_result=True)
+    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_NOTICE), show_result=True)
 
     
     # 比划点
@@ -118,7 +118,7 @@ if __name__=="__main__":
     # print(res:=ocr_number((159,90),(175, 109)))
     
     # 测task
-    InTimeTable().run()
+    InExchange().run()
     
     
     # 测透明图片的旋转

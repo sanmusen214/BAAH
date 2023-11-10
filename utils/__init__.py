@@ -66,7 +66,7 @@ def swipe(item:Item, toitem: Item, durationtime = 0.3, sleeptime = -1) -> bool:
         logging.warning("Cannot find the target pattern {} and {} when try to swipe".format(item, toitem))
         return False
 
-def match(imgurl:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[bool, Tuple[float, float], float]:
+def match(imgurl:str, threshold:float = 0.9, returnpos = False) -> bool | Tuple[bool, Tuple[float, float], float]:
     """
     Task: given a pattern picture url match it
     

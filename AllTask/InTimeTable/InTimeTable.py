@@ -26,15 +26,17 @@ class InTimeTable(Task):
             lambda: click((212, 669)),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE)
         )
-        # determine tickets left
-        lefttickets:str = ocr_number((159,90),(175, 109))
-        if lefttickets == "0":
-            logging.warn("没有课程表票卷了，开始返回主页")
-        else:
-            for i in range(len(config.TIMETABLE_TASK)):
-                if len(config.TIMETABLE_TASK[i]) == 0:
-                    continue
-                LocationSelect(location=i, classrooms=config.TIMETABLE_TASK[i]).run()
+        # for each TIMETABLE_TASK, determine whether need to click in
+        for i in range(len(config.TIMETABLE_TASK)):
+            # determine tickets left
+            lefttickets:str = ocr_number((159,90),(175, 109))
+            if lefttickets == "0":
+                logging.warn("没有课程表票卷了，开始返回主页")
+                break
+            # 如果这一location没有任务，就不点进去
+            if len(config.TIMETABLE_TASK[i]) == 0:
+                continue
+            LocationSelect(location=i, classrooms=config.TIMETABLE_TASK[i]).run()
         self.back_to_home()
 
     @override

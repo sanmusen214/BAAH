@@ -11,18 +11,19 @@ from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, o
 import logging
 import time
 import numpy as np
-from .RunWantedFight import RunWantedFight
-import config
 
-class InWanted(Task):
-    def __init__(self, name="InWanted") -> None:
+import config
+from .RunExchangeFight import RunExchangeFight
+
+class InExchange(Task):
+    def __init__(self, name="InExchange") -> None:
         super().__init__(name)
         
 
     @override
     def pre_condition(self) -> bool:
-        if len(config.WANTED_HIGHEST_LEVEL) == 0:
-            logging.warn("没有配置悬赏通缉的level")
+        if len(config.EXCHANGE_HIGHEST_LEVEL) == 0:
+            logging.warn("没有配置学院交流会的level")
             return False
         return Page.is_page(PageName.PAGE_HOME)
     
@@ -31,32 +32,32 @@ class InWanted(Task):
         # 得到今天是几号
         today = time.localtime().tm_mday
         # 选择一个location的下标
-        target_loc = today%len(config.WANTED_HIGHEST_LEVEL)
-        target_info = config.WANTED_HIGHEST_LEVEL[target_loc]
+        target_loc = today%len(config.EXCHANGE_HIGHEST_LEVEL)
+        target_info = config.EXCHANGE_HIGHEST_LEVEL[target_loc]
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
             sleeptime=4
         )
-        # 进入悬赏通缉页面
+        # 进入学院交流会页面
         self.run_until(
-            lambda: click((741, 424)),
-            lambda: Page.is_page(PageName.PAGE_WANTED),
+            lambda: click((712, 592)),
+            lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
         # check whether there is a ticket
         if ocr_number((162, 89), (179, 109)) == "0":
-            logging.warn("没有悬赏通缉券")
+            logging.warn("没有学院交流会券")
         else:
             # 可点击的一列点
-            points = np.linspace(206, 422, 3)
+            points = np.linspace(208, 421, 3)
             # 点击location
             self.run_until(
-                lambda: click((959, points[target_info[0]])),
-                lambda: Page.is_page(PageName.PAGE_WANTED_SUB),
+                lambda: click((963, points[target_info[0]])),
+                lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
             # 扫荡对应的level
-            RunWantedFight(target_info[1]).run()
+            RunExchangeFight(target_info[1]).run()
         self.back_to_home()
 
     @override

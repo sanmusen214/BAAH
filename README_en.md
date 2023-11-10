@@ -20,7 +20,7 @@ And thanks to these tools/libraries:
 - [x] InClub
 - [ ] InCraft
 
-- [ ] InWanted
+- [x] InWanted
 - [x] InExchange
 - [x] InContest
 
@@ -52,4 +52,10 @@ In `config.py`:
 1. TESSERACT_PATH: the installation path of tesseract.exe
 2. TARGET_PORT: the port of your emulator.
 3. TIME_AFTER_CLICK: the sleep time of each click, this will also effect the interval of screen shot.
-4. TIMETABLE_TASK: The desired timetable clicking. It is a list with length = 9, each element means the classroom of that location. All index start from 0.
+4. TIMETABLE_TASK: The desired timetable tasks. It is a list with length = 9, each element in the list means clicking which classrooms of that location. All index start from 0.
+   
+   `[[0,1],[1],[],[],[],[],[],[],[]]` means click the first and the second classroom in the first location and click the second classroom in the second location.
+5. WANTED_HIGHEST_LEVEL: The raid level of WANTED_TASK in turn.
+   
+   `[[0, 8], [1, 8], [2, 8]]` means in these tasks: [the 9th level in the first location, the 9th level in the second location, the 9th level in the third location], random select one and raid it.
+6. EXCHANGE_HIGHEST_LEVEL: just like WANTED_HIGHEST_LEVEL config

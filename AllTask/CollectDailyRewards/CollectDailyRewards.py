@@ -30,6 +30,10 @@ class CollectDailyRewards(Task):
         # collect 20
         click((975, 668))
         self.back_to_home()
+        # collect all
+        click((1150, 671))
+        sleep(1)
+        click(Page.MAGICPOINT)
 
     @override
     def post_condition(self) -> bool:

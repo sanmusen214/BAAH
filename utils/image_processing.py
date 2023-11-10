@@ -33,7 +33,7 @@ def rotate_image_with_transparency(image_mat, angle):
     return rotated_image[y_offset:y_offset+image_mat.shape[0], x_offset:x_offset+image_mat.shape[1]]
 
 
-def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_result:bool = False, auto_rotate_if_trans = True) -> Tuple[bool, Tuple[float, float], float]:
+def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_result:bool = False, auto_rotate_if_trans = True) -> Tuple[bool, Tuple[float, float], float]:
     """
     Match the pattern picture in the source picture.
     
