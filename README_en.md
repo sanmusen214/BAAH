@@ -20,8 +20,8 @@ And thanks to these tools/libraries:
 - [x] InClub
 - [ ] InCraft
 
-- [ ] 普通Quest
-- [ ] 困难Quest
+- [ ] NormalQuest
+- [ ] HardQuest
 - [x] InWanted
 - [x] InExchange
 - [x] InContest
