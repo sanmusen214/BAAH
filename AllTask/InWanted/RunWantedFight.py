@@ -47,7 +47,7 @@ class RunWantedFight(Task):
         if self.runtimes < 0:
             click((1084, 302))
         else:
-            for t in range(self.runtimes):
+            for t in range(max(0,self.runtimes-1)):
                 # add times
                 click((1014, 300))
         # 点击开始扫荡

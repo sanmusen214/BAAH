@@ -103,14 +103,14 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 if __name__=="__main__":
     
     # connect_to_device()
-    screen_shot_to_file()
+    # screen_shot_to_file()
     
     # 测match
     # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_NOTICE), show_result=True)
 
     
     # 比划点
-    main()
+    # main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
