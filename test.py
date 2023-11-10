@@ -110,7 +110,7 @@ if __name__=="__main__":
 
     
     # 比划点
-    # main()
+    main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
@@ -118,7 +118,7 @@ if __name__=="__main__":
     # print(res:=ocr_number((159,90),(175, 109)))
     
     # 测task
-    InExchange().run()
+    # InExchange().run()
     
     
     # 测透明图片的旋转

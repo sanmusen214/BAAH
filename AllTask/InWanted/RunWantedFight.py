@@ -13,7 +13,7 @@ import numpy as np
 import logging
 
 class RunWantedFight(Task):
-    def __init__(self, levelnum, name="RunWantedFight") -> None:
+    def __init__(self, levelnum, runtimes, name="RunWantedFight") -> None:
         """
         after enter the location, start to raid
         
@@ -21,6 +21,7 @@ class RunWantedFight(Task):
         """
         super().__init__(name)
         self.levelnum = levelnum
+        self.runtimes = runtimes
 
     @override
     def pre_condition(self) -> bool:
@@ -42,8 +43,13 @@ class RunWantedFight(Task):
             lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
         )
         logging.info("start raid")
-        # max raid
-        click((1084, 302))
+        # max raid or times rard
+        if self.runtimes == -1:
+            click((1084, 302))
+        else:
+            for t in range(self.runtimes):
+                # add times
+                click((1014, 300))
         # 点击开始扫荡
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),

@@ -13,7 +13,7 @@ import numpy as np
 import logging
 
 class RunExchangeFight(Task):
-    def __init__(self, levelnum, name="RunExchangeFight") -> None:
+    def __init__(self, levelnum, runtimes, name="RunExchangeFight") -> None:
         """
         after enter the location, start to raid
         
@@ -21,6 +21,7 @@ class RunExchangeFight(Task):
         """
         super().__init__(name)
         self.levelnum = levelnum
+        self.runtimes = runtimes
 
     @override
     def pre_condition(self) -> bool:
@@ -40,8 +41,13 @@ class RunExchangeFight(Task):
             logging.warn("没有成功点击到关卡，任务结束")
             return
         logging.info("start raid")
-        # max raid
-        click((1084, 302))
+        # max raid or times rard
+        if self.runtimes == -1:
+            click((1084, 302))
+        else:
+            for t in range(self.runtimes):
+                # add times
+                click((1014, 300))
         # 点击开始扫荡
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),

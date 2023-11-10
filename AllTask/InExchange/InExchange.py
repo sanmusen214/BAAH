@@ -57,7 +57,7 @@ class InExchange(Task):
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
             # 扫荡对应的level
-            RunExchangeFight(target_info[1]).run()
+            RunExchangeFight(levelnum = target_info[1], runtimes = target_info[2]).run()
         self.back_to_home()
 
     @override
