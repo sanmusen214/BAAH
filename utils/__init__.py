@@ -18,9 +18,9 @@ def click(item:Item, sleeptime = -1) -> bool:
     """
     # check if the item is a str
     if isinstance(item, str):
-        (res, pos) = match(item, returnpos=True)
-        if res:
-            click_on_screen(pos[0], pos[1])
+        matchRes = match(item, returnpos=True)
+        if matchRes[0]:
+            click_on_screen(matchRes[1][0], matchRes[1][1])
             time.sleep(config.TIME_AFTER_CLICK)
             return True
         else:
@@ -66,7 +66,7 @@ def swipe(item:Item, toitem: Item, durationtime = 0.3, sleeptime = -1) -> bool:
         logging.warning("Cannot find the target pattern {} and {} when try to swipe".format(item, toitem))
         return False
 
-def match(item:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[bool, Tuple[float, float]]:
+def match(item:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[bool, Tuple[float, float], float]:
     """
     Task: given a pattern picture url match it
     
@@ -74,7 +74,7 @@ def match(item:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[b
     
     if returnpos is True,
     
-        return whether the pattern is found and the position of the pattern
+        return whether the pattern is found and the position of the pattern and the max_val
         
     else:
     

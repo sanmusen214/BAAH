@@ -24,6 +24,8 @@ So that we can get the url path of any pattern picture like `urlpath = button_pi
 
 By using `match(urlpath)`, we try to match this pattern in the screenshot `./screenshot.png`.
 
+Attention, `match()`(implemented from cv2.matchTemplate()) really returns nearly no difference when two patterns just change the gray level.
+
 So that is how we can get to know where we are.
 
 ## Task
@@ -40,7 +42,7 @@ A Task contains three hooks(pre_condition(), on_run(), post_condition())
 
     Do not click or swipe in this hook.
 
-2. on_run(): defines what to do when perform the task.
+2. on_run(): defines what to do when perform the task. Please define every main operations of the task(including checking whether the task is completed)
 
     In this hook, I highly recommend using `Task.run_until()` instead of calling `click()` and `match()`.
 
@@ -57,7 +59,7 @@ A Task contains three hooks(pre_condition(), on_run(), post_condition())
         )
     ```
 
-3. post_condition(): defines whether the task is successfully completed and stayed at which page.
+3. post_condition(): defines whether the task is finished and is at the final page.
 
     Typically, all daily task(those tasks which have a folder name in `./AllTask`) ends at the main page.
 

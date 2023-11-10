@@ -29,5 +29,9 @@ my_AllTask.add_task(EnterGame())
 my_AllTask.add_task(InCafe())
 my_AllTask.add_task(InTimeTable())
 
+
+
+my_AllTask.add_task(InContest())
+
 my_AllTask.add_task(CollectDailyRewards())
 my_AllTask.add_task(CollectMails())

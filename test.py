@@ -94,15 +94,18 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 if __name__=="__main__":
     # connect_to_device()
-    for i in range(10):
-        screen_shot_to_file()
-        res = match_pattern("./screenshot.png", popup_pic(), show_result=True)
+    # screen_shot_to_file()
+    
+    # 测match
+    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_CONTEST_TARGET), show_result=True)
+
+    
     # 比划点
     # main()
     
     
     # 测task
-    # CollectMails().run()
+    InContest().run()
     
     
     # 测透明图片的旋转
