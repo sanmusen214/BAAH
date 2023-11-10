@@ -33,7 +33,7 @@ def rotate_image_with_transparency(image_mat, angle):
     return rotated_image[y_offset:y_offset+image_mat.shape[0], x_offset:x_offset+image_mat.shape[1]]
 
 
-def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_result:bool = False) -> Tuple[bool, Tuple[float, float], float]:
+def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_result:bool = False, auto_rotate_if_trans = True) -> Tuple[bool, Tuple[float, float], float]:
     """
     Match the pattern picture in the source picture.
     
@@ -44,7 +44,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_
     
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
     have_alpha=False
-    if(pattern.shape[2] == 4):
+    if(pattern.shape[2] == 4 and auto_rotate_if_trans):
         have_alpha = True
         best_max_val = -1
         best_max_loc = (0, 0)
@@ -65,7 +65,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_
                 best_max_loc = max_loc
         min_val, max_val, min_loc, max_loc = 0, best_max_val, 0, best_max_loc
     else:
-        result = cv2.matchTemplate(screenshot, pattern, cv2.TM_CCOEFF_NORMED)
+        result = cv2.matchTemplate(screenshot, pattern[:,:,:3], cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
     
     h, w, _ = pattern.shape

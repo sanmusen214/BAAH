@@ -8,8 +8,8 @@ from AllPage.Page import Page
 from AllTask.Task import Task
 import config
 
-from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
-
+from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_number
+import logging
 from .LocationSelect import LocationSelect
 
 class InTimeTable(Task):
@@ -26,10 +26,15 @@ class InTimeTable(Task):
             lambda: click((212, 669)),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE)
         )
-        for i in range(len(config.TIMETABLE_TASK)):
-            if len(config.TIMETABLE_TASK[i]) == 0:
-                continue
-            LocationSelect(location=i, classrooms=config.TIMETABLE_TASK[i]).run()
+        # determine tickets left
+        lefttickets:str = ocr_number((159,90),(175, 109))
+        if lefttickets == "0":
+            logging.warn("没有课程表票卷了，开始返回主页")
+        else:
+            for i in range(len(config.TIMETABLE_TASK)):
+                if len(config.TIMETABLE_TASK[i]) == 0:
+                    continue
+                LocationSelect(location=i, classrooms=config.TIMETABLE_TASK[i]).run()
         self.back_to_home()
 
     @override

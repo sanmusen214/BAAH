@@ -8,6 +8,8 @@ from assets.PageName import PageName
 from assets.PopupName import PopupName
 
 from AllTask import *
+from AllTask.InWanted.RunWantedFight import RunWantedFight
+from AllPage.Page import Page
 
 def match2():
     # 读取目标图像和模板图像
@@ -99,11 +101,12 @@ def main():
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 if __name__=="__main__":
+    
     # connect_to_device()
-    # screen_shot_to_file()
+    screen_shot_to_file()
     
     # 测match
-    # res = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_ALL_COLLECT), show_result=True)
+    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TOTAL_PRICE), show_result=True)
 
     
     # 比划点
@@ -112,10 +115,10 @@ if __name__=="__main__":
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
     # print(get_number(rawMat[49:84,22:71]))
-    print(ocr_number((74, 49), (18, 84)))
+    # print(res:=ocr_number((159,90),(175, 109)))
     
     # 测task
-    # InContest().run()
+    InTimeTable().run()
     
     
     # 测透明图片的旋转

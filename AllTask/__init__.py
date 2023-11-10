@@ -3,8 +3,9 @@ from .Task import Task
 from .EnterGame.EnterGame import EnterGame
 from .InCafe.InCafe import InCafe
 from .InTimeTable.InTimeTable import InTimeTable
+from .InClub.InClub import InClub
 
-
+from .InWanted.InWanted import InWanted
 
 from .InContest.InContest import InContest
 

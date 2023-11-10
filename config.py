@@ -1,9 +1,10 @@
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 # ========configuration============ 
 TESSERACT_PATH = r"D:\Software\Tesseract\tesseract.exe"
 TARGET_PORT = 6192
 
 TIMETABLE_TASK = [[6],[6],[6,7],[6,7],[6],[],[],[],[]]
+WANTED_HIGHEST_LEVEL = [8,8,8]
 
 TIME_AFTER_CLICK = 1
 

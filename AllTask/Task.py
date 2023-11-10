@@ -53,9 +53,9 @@ class Task:
         if(Task.run_until(self.click_magic_sleep,self.pre_condition, self.pre_times)):
             logging.info("执行任务{}".format(self.name))
             self.on_run()
-            logging.info("判断任务{}是否执行成功".format(self.name))
+            logging.info("判断任务{}是否执行完毕".format(self.name))
             if(Task.run_until(self.click_magic_sleep,self.post_condition, self.post_times)):
-                logging.info("任务{}执行成功".format(self.name))
+                logging.info("任务{}执行完毕".format(self.name))
             else:
                 logging.warn("任务{}执行后条件不成立或超时".format(self.name))
                 raise Exception("任务{}执行后条件不成立或超时，程序退出".format(self.name))
@@ -110,7 +110,7 @@ class Task:
         click(Page.MAGICPOINT, sleeptime)
     
     @staticmethod
-    def run_until(func1, func2, times=5, sleeptime = 1.5, noloopscreenshot = False) -> bool:
+    def run_until(func1, func2, times=5, sleeptime = 1.5) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
@@ -120,19 +120,29 @@ class Task:
 
         如果func2成立退出，返回true，否则返回false
         """
-        if noloopscreenshot:
-            screenshot()
         for i in range(times):
-            if not noloopscreenshot:
-                screenshot()
+            screenshot()
             if(func2()):
                 return True
             func1()
             sleep(sleeptime)
-        if not noloopscreenshot:
-            screenshot()
+        screenshot()
         if(func2()):
             return True
+        logging.warning("run_until exceeded max times")
         return False
+
+    @staticmethod
+    def scroll_right_up():
+        swipe((928, 226), (942, 561), sleeptime=0.2)
+        swipe((928, 226), (942, 561), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_right_down():
+        swipe((942, 561), (928, 226), sleeptime=0.2)
+        swipe((942, 561), (928, 226), sleeptime=0.2)
+        sleep(0.5)
+        
         
         

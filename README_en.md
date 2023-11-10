@@ -21,7 +21,7 @@ And thanks to these tools/libraries:
 - [ ] InCraft
 
 - [ ] InWanted
-- [ ] InExchange
+- [x] InExchange
 - [x] InContest
 
 - [x] CollectMails

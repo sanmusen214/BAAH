@@ -86,7 +86,7 @@ def match(imgurl:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple
     else:
         return match_pattern("./screenshot.png",imgurl, threshold=threshold)[0]
 
-def ocr_number(frompixel, topixel):
+def ocr_number(frompixel, topixel) -> str:
     """
     OCR the number in the given rectangle area of screenshot
     
@@ -97,7 +97,7 @@ def ocr_number(frompixel, topixel):
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    return ocr_pic_number("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
+    return ocr_pic_number("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1]).strip()
 
 def match_pixel(x, y, color):
     """
@@ -106,6 +106,7 @@ def match_pixel(x, y, color):
         color: Page.COLOR_*
         axis is in image form
     """
+    # TODO
     # ...
     pass
 

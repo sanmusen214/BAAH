@@ -36,13 +36,11 @@ class LocationSelect(Task):
     def on_run(self) -> None:
         if self.location < 5:
             # 滑到顶部
-            swipe((928, 226), (942, 561), sleeptime=0.2)
-            swipe((928, 226), (942, 561), sleeptime=0.2)
+            self.scroll_right_up()
             tapind = self.location
         elif self.location >= 5:
             # 滑到底部
-            swipe((942, 561), (928, 226), sleeptime=0.2)
-            swipe((942, 561), (928, 226), sleeptime=0.2)
+            self.scroll_right_up()
             tapind = self.location-4
         step = np.linspace(185, 612, 5, dtype=int)
         # 点击地点，直到跳到地区里
