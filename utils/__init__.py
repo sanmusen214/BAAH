@@ -66,7 +66,7 @@ def swipe(item:Item, toitem: Item, durationtime = 0.3, sleeptime = -1) -> bool:
         logging.warning("Cannot find the target pattern {} and {} when try to swipe".format(item, toitem))
         return False
 
-def match(item:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[bool, Tuple[float, float], float]:
+def match(imgurl:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[bool, Tuple[float, float], float]:
     """
     Task: given a pattern picture url match it
     
@@ -82,27 +82,50 @@ def match(item:str, threshold:float = 0.95, returnpos = False) -> bool | Tuple[b
     """
     # check if the item is a str
     if returnpos:
-        return match_pattern("./screenshot.png",item, threshold=threshold)
+        return match_pattern("./screenshot.png",imgurl, threshold=threshold)
     else:
-        return match_pattern("./screenshot.png",item, threshold=threshold)[0]
+        return match_pattern("./screenshot.png",imgurl, threshold=threshold)[0]
+
+def ocr_number(frompixel, topixel):
+    """
+    OCR the number in the given rectangle area of screenshot
     
+    frompixel: (x, y)
+    topixel: (x, y)
+    
+    axis is in image form, x axis is the horizontal axis, y axis is the vertical axis
+    """
+    lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
+    highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
+    return ocr_pic_number("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
+
+def match_pixel(x, y, color):
+    """
+        match whether the pixel is the given color
+        
+        color: Page.COLOR_*
+        axis is in image form
+    """
+    # ...
+    pass
+
 def page_pic(picname):
     """
     给定页面的图片名称，得到图片的路径
     """
-    return config.PIC_PATH + "/PAGE" + f"/{picname}" + ".png"
+    return config.PIC_PATH + "/PAGE" + f"/{picname}.png"
 
 def button_pic(buttonname):
     """
     给定按钮的图片名称，得到图片的路径
     """
-    return config.PIC_PATH + "/BUTTON" + f"/{buttonname}" + ".png"
+    return config.PIC_PATH + "/BUTTON" + f"/{buttonname}.png"
 
 def popup_pic(popupname):
     """
     给定弹窗的图片名称，得到图片的路径
     """
-    return config.PIC_PATH + "/POPUP" + f"/{popupname}" + ".png"
+    return config.PIC_PATH + "/POPUP" + f"/{popupname}.png"
 
 def sleep(seconds:float):
     """

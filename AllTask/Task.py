@@ -110,7 +110,7 @@ class Task:
         click(Page.MAGICPOINT, sleeptime)
     
     @staticmethod
-    def run_until(func1, func2, times=5, sleeptime = 2) -> bool:
+    def run_until(func1, func2, times=5, sleeptime = 1.5, noloopscreenshot = False) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
@@ -120,13 +120,17 @@ class Task:
 
         如果func2成立退出，返回true，否则返回false
         """
-        for i in range(times):
+        if noloopscreenshot:
             screenshot()
+        for i in range(times):
+            if not noloopscreenshot:
+                screenshot()
             if(func2()):
                 return True
             func1()
             sleep(sleeptime)
-        screenshot()
+        if not noloopscreenshot:
+            screenshot()
         if(func2()):
             return True
         return False

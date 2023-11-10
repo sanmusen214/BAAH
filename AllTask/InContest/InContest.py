@@ -22,7 +22,8 @@ class InContest(Task):
     def on_run(self) -> None:
         self.run_until(
             lambda: click((1196, 567)),
-            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER)
+            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
+            sleeptime=5
         )
         canincontest = self.run_until(
             lambda: click((1093, 500)),

@@ -26,6 +26,10 @@ class InCafe(Task):
     def on_run(self) -> None:
         # 进入咖啡厅
         click((92, 670))
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: Page.is_page(PageName.PAGE_CAFE),
+        ) 
         CollectPower().run()
         TouchHead().run()
         # 返回主页

@@ -24,10 +24,9 @@ class Loginin(Task):
 
     @staticmethod
     def try_jump_useless_pages():
-        if (match(button_pic(ButtonName.BUTTON_DONT_SHOW_TODAY))):
-            click(button_pic(ButtonName.BUTTON_DONT_SHOW_TODAY))
-        else:
-            click(Page.MAGICPOINT)
+        # 活动弹窗
+        click((1250, 40))
+        click(Page.MAGICPOINT)
     
     @override
     def on_run(self) -> None:

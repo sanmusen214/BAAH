@@ -19,6 +19,7 @@ class Page:
     """
     The circle back icon on the top left corner
     """
+
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

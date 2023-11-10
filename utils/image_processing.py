@@ -1,8 +1,10 @@
 import cv2
 import logging
 import math
+import config
 import numpy as np
 from typing import Tuple
+import pytesseract
 
 
 type Matchresult = (bool, (float, float))
@@ -37,6 +39,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_
     
     If the pattern picture is a transparent picture, it will be rotated to match the source picture.
     """
+    logging.debug("Matching pattern {} in {}".format(patternpic, sourcepic))
     screenshot = cv2.imread(sourcepic)
     
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
@@ -84,3 +87,39 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_
         logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
         return (True, (center_x, center_y), max_val)
     return (False, (0, 0), 0)
+
+def ocr_pic_number(imageurl, fromx, fromy, tox, toy):
+    """
+    get the number in the image
+    
+    axis in image is x: from left to right, y: from top to bottom
+    """
+    pytesseract.pytesseract.tesseract_cmd = config.TESSERACT_PATH
+    rawImage = cv2.imread(imageurl)
+    rawImage = rawImage[fromy:toy, fromx:tox]
+    # 灰度
+    gray = cv2.cvtColor(rawImage, cv2.COLOR_BGR2GRAY)
+    # 二值化
+    ret, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # 图像识别
+    resstring = pytesseract.image_to_string(binary, lang='eng', config='--psm 6 --oem 3 -c '
+                                                                'tessedit_char_whitelist'
+                                                                '=0123456789')
+    return resstring
+    
+def match_picel_color(imageurl, x, y, low_range, high_range):
+    """
+    match whether the color at that location is between the range
+    
+    x, y: the location of the pixel in the cv image
+    low_range: (120, 120, 120) rgb of a color
+    high_range: (125, 125, 125) rgb of a color
+    
+    return True if the color is between the range
+    """
+    img = cv2.imread(imageurl)
+    pixel = img[y, x][:3]
+    if (pixel[0] >= low_range[0] and pixel[0] <= high_range[0] and pixel[1] >= low_range[1] and pixel[1] <= high_range[1] and pixel[2] >= low_range[2] and pixel[2] <= high_range[2]):
+        return True
+    return False
+    

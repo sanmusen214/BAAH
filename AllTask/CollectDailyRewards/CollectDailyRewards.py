@@ -23,11 +23,12 @@ class CollectDailyRewards(Task):
             lambda: click((66, 237)),
             lambda: Page.is_page(PageName.PAGE_TASK_CENTER),
         )
-        
-        self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
-            lambda: not match(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
-        )
+        # collect all
+        click((1150, 671))
+        sleep(1)
+        click(Page.MAGICPOINT)
+        # collect 20
+        click((975, 668))
         self.back_to_home()
 
     @override

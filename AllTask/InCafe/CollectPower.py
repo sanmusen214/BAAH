@@ -21,6 +21,8 @@ class CollectPower(Task):
     
     @override
     def on_run(self) -> None:
+        # 清除学生入场弹窗
+        click(Page.MAGICPOINT)
         # 重复点收集直到出现弹窗
         self.run_until(lambda :click((1156, 648)), lambda: match(popup_pic(PopupName.POPUP_CAFE_INFO)), 3)
         logging.info("成功点击右下角收集")

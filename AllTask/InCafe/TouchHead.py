@@ -18,7 +18,7 @@ class TouchHead(Task):
         return Page.is_page(PageName.PAGE_CAFE)
     
     def click_head_and_magic(self):
-        canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.8, returnpos=True)
+        canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True)
         if(canmatchRes[0]):
             click((min(canmatchRes[1][0]+50, config.SCREEN_WIDTH),canmatchRes[1][1]))
             # 清除好感度弹窗
@@ -29,12 +29,14 @@ class TouchHead(Task):
     
     @override
     def on_run(self) -> None:
-        self.run_until(
-            lambda: self.click_head_and_magic(),
-            lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.9),
-            times = 2, # 两次没找到注意符号就退出
-            sleeptime=2
-        )
+        for i in range(2):
+            # sometimes a speak will cover the NOTICE icon, so we need to double check
+            self.run_until(
+                lambda: self.click_head_and_magic(),
+                lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95),
+                times = 3, # 至多运行3次，直到找不到注意力符号
+                sleeptime=2
+            )
 
     @override
     def post_condition(self) -> bool:

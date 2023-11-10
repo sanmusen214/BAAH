@@ -54,12 +54,18 @@ def main():
 
     # 读取透明度层
     screenshot = cv2.imread("./{}".format(config.SCREENSHOT_NAME))
-    
+    # 平均最大最小rgb
+    rgb_result = [[],[],[]]
     def mouse_callback_s(event, x, y, flags, param):
         # 截图
         global start_x, start_y, drawing
         if event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
-            print(f"Mouse clicked at pixel coordinates (x, y): ({x}, {y})")
+            print(f"Mouse click: ({x}, {y})", f"rgb array of this pixel: {screenshot[y, x]}")
+            rgb_result[0].append(screenshot[y, x][0])
+            rgb_result[1].append(screenshot[y, x][1])
+            rgb_result[2].append(screenshot[y, x][2])
+            print("min max avg rgb: ", np.min(rgb_result, axis=1), np.max(rgb_result, axis=1), np.mean(rgb_result, axis=1))
+            
         if event == cv2.EVENT_LBUTTONDOWN:  # 检查是否是鼠标左键按下事件
             drawing = True
             start_x, start_y = x, y
@@ -97,15 +103,19 @@ if __name__=="__main__":
     # screen_shot_to_file()
     
     # 测match
-    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_CONTEST_TARGET), show_result=True)
+    # res = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_ALL_COLLECT), show_result=True)
 
     
     # 比划点
     # main()
     
+    # 图像识别
+    # rawMat = cv2.imread("./screenshot.png")
+    # print(get_number(rawMat[49:84,22:71]))
+    print(ocr_number((74, 49), (18, 84)))
     
     # 测task
-    InContest().run()
+    # InContest().run()
     
     
     # 测透明图片的旋转
