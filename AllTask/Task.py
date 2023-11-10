@@ -38,9 +38,9 @@ class Task:
         """
         执行任务后的判断，只判断现有情况，不要进行有效操作(截图或点击)
 
-        看任务是否执行成功
+        看任务是否回到它该在的页面
         
-        返回true表示任务执行成功，false表示任务执行失败
+        返回true表示回到它该在的页面成功，false表示回到它该在的页面失败
         """
         return True
     
@@ -99,9 +99,9 @@ class Task:
         
         返回是否产生了关闭动作
         """
-        (isSetting, loc) = match(popup_pic(PopupName.POPUP_SETTING_SELECT), returnpos=True)
-        if(isSetting):
-            click(loc)
+        isSettingRes = match(popup_pic(PopupName.POPUP_SETTING_SELECT), returnpos=True)
+        if(isSettingRes[0]):
+            click(isSettingRes[1])
             return True
         return False
 

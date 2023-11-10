@@ -18,9 +18,9 @@ class TouchHead(Task):
         return Page.is_page(PageName.PAGE_CAFE)
     
     def click_head_and_magic(self):
-        (canmatch, loc) = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.8, returnpos=True)
-        if(canmatch):
-            click((min(loc[0]+50, config.SCREEN_WIDTH),loc[1]))
+        canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.8, returnpos=True)
+        if(canmatchRes[0]):
+            click((min(canmatchRes[1][0]+50, config.SCREEN_WIDTH),canmatchRes[1][1]))
             # 清除好感度弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),

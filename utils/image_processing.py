@@ -31,7 +31,7 @@ def rotate_image_with_transparency(image_mat, angle):
     return rotated_image[y_offset:y_offset+image_mat.shape[0], x_offset:x_offset+image_mat.shape[1]]
 
 
-def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_result:bool = False) -> Tuple[bool, Tuple[float, float]]:
+def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_result:bool = False) -> Tuple[bool, Tuple[float, float], float]:
     """
     Match the pattern picture in the source picture.
     
@@ -82,5 +82,5 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.95, show_
         cv2.destroyAllWindows()
     if(max_val >= threshold):
         logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
-        return (True, (center_x, center_y))
-    return (False, (0, 0))
+        return (True, (center_x, center_y), max_val)
+    return (False, (0, 0), 0)
