@@ -1,7 +1,6 @@
 from AllTask import *
 
 from AllPage.Page import Page
-from myAllPage import AllPage
 
 from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 import logging
@@ -10,7 +9,6 @@ class AllTask:
     # 单例
     def __init__(self) -> None:
         self.taskpool:list[Task] = []
-        self.allpage:AllPage|None = None
     
     def run(self):
         """

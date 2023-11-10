@@ -57,7 +57,7 @@ A Task contains three hooks(pre_condition(), on_run(), post_condition())
         )
     ```
 
-3. post_condition(): defines whether the task is completed.
+3. post_condition(): defines whether the task is successfully completed and stayed at which page.
 
     Typically, all daily task(those tasks which have a folder name in `./AllTask`) ends at the main page.
 
