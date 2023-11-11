@@ -64,25 +64,24 @@ def swipe(item:Union[str, Tuple[float, float]], toitem: Union[str, Tuple[float, 
         logging.warning("Cannot find the target pattern {} and {} when try to swipe".format(item, toitem))
         return False
 
-def match(imgurl:str, threshold:float = 0.9, returnpos = False) -> bool | Tuple[bool, Tuple[float, float], float]:
+def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=False) -> bool | Tuple[bool, Tuple[float, float], float]:
     """
     Task: given a pattern picture url match it
     
     match result will only differ a little if there just have a light change
     
     if returnpos is True,
-    
         return whether the pattern is found and the position of the pattern and the max_val
-        
     else:
-    
         return boolean
+        
+    if rotate_trans is True, the pattern will be rotated if it is transparent
     """
     # check if the item is a str
     if returnpos:
-        return match_pattern("./screenshot.png",imgurl, threshold=threshold)
+        return match_pattern("./screenshot.png",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
     else:
-        return match_pattern("./screenshot.png",imgurl, threshold=threshold)[0]
+        return match_pattern("./screenshot.png",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
 def ocr_number(frompixel, topixel) -> Tuple[str, float]:
     """

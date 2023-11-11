@@ -95,7 +95,7 @@ class LocationSelect(Task):
         logging.info("返回到课程表页面")
         self.run_until(
             lambda: click(Page.TOPLEFTBACK),
-            lambda: Page.is_page(PageName.PAGE_TIMETABLE)
+            lambda: Page.is_page(PageName.PAGE_TIMETABLE) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
         )
         
                     

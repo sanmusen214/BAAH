@@ -18,7 +18,7 @@ class TouchHead(Task):
         return Page.is_page(PageName.PAGE_CAFE)
     
     def click_head_and_magic(self):
-        canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True)
+        canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True, rotate_trans=True)
         if(canmatchRes[0]):
             logging.info("匹配到注意力符号，点击头部")
             click((min(canmatchRes[1][0]+50, 1280),canmatchRes[1][1]))
@@ -32,15 +32,17 @@ class TouchHead(Task):
     
      
     def on_run(self) -> None:
-        for i in range(2):
+        totalruns = 3
+        times_in_run = 3
+        for i in range(totalruns):
             # sometimes a speak will cover the NOTICE icon, so we need to double check
             self.run_until(
                 lambda: self.click_head_and_magic(),
-                lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95),
-                times = 3, # 至多运行3次，直到找不到注意力符号
-                sleeptime=2
+                lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.9, rotate_trans=True),
+                times = times_in_run, # 直到找不到注意力符号
+                sleeptime=1
             )
-            logging.info(f"第{i+1}轮摸头结束，尝试第{i+2}轮")
+            logging.info(f"第{i+1}/{totalruns}轮摸头结束")
             sleep(2)
 
      

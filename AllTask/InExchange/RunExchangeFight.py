@@ -35,8 +35,7 @@ class RunExchangeFight(Task):
         logging.info("click level {}".format(self.levelnum))
         seepopup = self.run_until(
             lambda: click((1118, points[clickind])),
-            lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-        )
+            lambda: match(popup_pic(PopupName.POPUP_TASK_INFO)))
         if not seepopup:
             logging.warn("没有成功点击到关卡，任务结束")
             return
