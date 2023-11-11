@@ -22,8 +22,8 @@ def subprocess_run(cmd: Cmd) -> bool:
         True if the command returns 0, False otherwise.
     """
     p = subprocess.run(cmd, encoding="utf-8")
-    if p.returncode == 0:
-        logging.info(f"Executing {cmd}...OK")
-    else:
-        logging.info(f"Executing {cmd}...Failed")
+    # if p.returncode == 0:
+    #     logging.info(f"Executing {cmd}...OK")
+    # else:
+    #     logging.info(f"Executing {cmd}...Failed")
     return p.returncode == 0

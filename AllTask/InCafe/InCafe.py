@@ -28,7 +28,7 @@ class InCafe(Task):
         click((92, 670))
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_CAFE),
+            lambda: Page.is_page(PageName.PAGE_CAFE) and not match(popup_pic(PopupName.POPUP_CAFE_VISITED)),
         ) 
         CollectPower().run()
         TouchHead().run()

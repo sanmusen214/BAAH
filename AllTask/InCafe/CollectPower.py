@@ -28,9 +28,11 @@ class CollectPower(Task):
         logging.info("成功点击右下角收集")
         # 重复点收集直到收集按钮消失
         self.run_until(lambda :click(button_pic(ButtonName.BUTTON_COLLECT)), lambda: not match(button_pic(ButtonName.BUTTON_COLLECT)), 3)
-        # 点两下魔法点去弹窗
-        click(Page.MAGICPOINT)
-        click(Page.MAGICPOINT)
+        # 点魔法点去弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: Page.is_page(PageName.PAGE_CAFE) and not match(popup_pic(PopupName.POPUP_CAFE_INFO)),
+        )
 
     @override
     def post_condition(self) -> bool:

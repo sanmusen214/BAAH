@@ -1,5 +1,7 @@
 import config
+import logging
 from utils.subprocess_helper import subprocess_run
+import time
 
 def connect_to_device():
     """Connect to a device with the given device port."""

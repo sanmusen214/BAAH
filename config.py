@@ -1,7 +1,7 @@
 VERSION = "0.3.0"
 # ========configuration============ 
 TESSERACT_PATH = r"D:\Software\Tesseract\tesseract.exe"
-TARGET_PORT = 6192
+TARGET_PORT = 11762
 
 TIMETABLE_TASK = [[6, 7],[6, 7],[6, 7],[6],[],[],[],[],[]]
 
@@ -19,7 +19,7 @@ QUEST = {
                         ],
         }
 
-TIME_AFTER_CLICK = 1
+TIME_AFTER_CLICK = 0.7
 
 # =================================
 SCREEN_WIDTH = 1280

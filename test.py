@@ -9,6 +9,7 @@ from assets.PopupName import PopupName
 
 from AllTask import *
 from AllTask.InWanted.RunWantedFight import RunWantedFight
+from AllTask.InCafe.TouchHead import TouchHead
 from AllPage.Page import Page
 
 def match2():
@@ -97,16 +98,30 @@ def main():
 
     # match_pattern("./screenshot.png", "./selected_region.png", show_result=True)
 
+def multi_match(patternurl):
+    matchhis=[]
+    for i in range(10):
+        screen_shot_to_file()
+        res = match_pattern("./screenshot.png", patternurl, show_result=True)
+        matchhis.append(res)
+    times = [each[0] for each in matchhis]
+    print("匹配成功次数: ", times.count(True), "匹配失败次数: ", times.count(False))
+    thresholds = [each[2] for each in matchhis]
+    print("平均可信度: ", np.mean(thresholds))
+    print("最大可信度: ", np.max(thresholds))
+    print("最小可信度: ", np.min(thresholds))
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 if __name__=="__main__":
     
-    # connect_to_device()
+    connect_to_device()
     # screen_shot_to_file()
     
     # 测match
-    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TASK_INFO), show_result=True)
+    # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_CAFE_VISITED), show_result=True)
+
+    
 
     
     # 比划点
@@ -118,7 +133,7 @@ if __name__=="__main__":
     # print(res:=ocr_number((159,90),(175, 109)))
     
     # 测task
-    InQuest().run()
+    InCafe().run()
     
     
     # 测透明图片的旋转
