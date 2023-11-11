@@ -1,4 +1,4 @@
-from typing import override
+ 
 import logging
 
 from assets.PageName import PageName
@@ -14,14 +14,14 @@ class NameOfTask(Task):
     def __init__(self, name="NameOfTask") -> None:
         super().__init__(name)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return super().pre_condition()
     
-    @override
+     
     def on_run(self) -> None:
         super().on_run()
 
-    @override
+     
     def post_condition(self) -> bool:
         return super().post_condition()

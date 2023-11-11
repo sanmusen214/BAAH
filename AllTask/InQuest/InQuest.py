@@ -1,4 +1,4 @@
-from typing import override
+ 
 import logging
 
 from assets.PageName import PageName
@@ -18,11 +18,11 @@ class InQuest(Task):
     def __init__(self, name="InQuest") -> None:
         super().__init__(name)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
     
-    @override
+     
     def on_run(self) -> None:
         # 进入Fight Center
         self.run_until(
@@ -58,6 +58,6 @@ class InQuest(Task):
             NormalQuest(normal_list).run()
         self.back_to_home()
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

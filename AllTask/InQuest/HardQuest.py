@@ -1,4 +1,4 @@
-from typing import override
+ 
 import logging
 
 from assets.PageName import PageName
@@ -17,11 +17,11 @@ class HardQuest(Task):
         super().__init__(name)
         self.questlist = questlist
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_QUEST_SEL)
     
-    @override
+     
     def on_run(self) -> None:
         logging.info("switch to hard quest")
         self.run_until(
@@ -80,6 +80,6 @@ class HardQuest(Task):
         # 体力不足，也关闭弹窗，直到看到hard按钮
         close_popup_until_see(button_pic(ButtonName.BUTTON_HARD))
             
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_QUEST_SEL)

@@ -2,6 +2,10 @@
 
 BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服）里的 **每日任务**.
 
+BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Android Emulator.
+
+[English Document]
+
 灵感来自以下项目:
 
 1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): 碧蓝档案国际服自动脚本
@@ -10,7 +14,8 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 
 本项目使用了以下库: 
 
-1. [tesseract](https://github.com/tesseract-ocr/tesseract): 用于OCR数字识别票卷情况
+1. [opencv-python](https://github.com/opencv/opencv): 用于模板匹配
+2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
 
 ## 已开发完成的自动化任务:
 
@@ -49,30 +54,36 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 
 # 如何运行
 
-1. 确保安装了 [python](https://www.python.org/downloads/) >= 3.12 (并且添加到系统环境变量中).
-2. 确保安装了 [tesseract](https://github.com/UB-Mannheim/tesseract/wiki) (并且添加到 `config.py`)
-3. 确保安装了 [adb](https://developer.android.com/studio/releases/platform-tools) (并且添加到系统环境变量中).
-4. 将模拟器分辨率设置为 1280*720像素， 240 DPI.
-5. 打开模拟器设置里的的adb调试.
-6. 将BA的语言设置为中文
-7. 确保BA的咖啡厅的摄像机拉到了最高.
+## 运行前请确保
 
-然后进行以下步骤来安装此项目并运行:
+1. 将模拟器分辨率设置为 1280*720像素， 240 DPI.
+2. 打开了模拟器设置里的的adb调试.
+3. 将BA的语言设置为中文
+4. 确保BA的咖啡厅的摄像机拉到了最高.
 
-1. 克隆本仓仓库 `git clone https://github.com/sanmusen214/BAAH.git` ,  然后执行 `cd ./BAAH`
-2. 运行 `python install -r requirements.txt` 来安装所需的依赖库。
-3. 改变 `config.py` 的内容来对关卡扫荡做配置
-4. 在模拟器内启动BA
-5. 执行 `python main.py`，确保此时BA界面在主页或登录进主页之前
+## 使用方式
+
+### 1. 通过release包运行
+
+下载最新版的release压缩包解压，启动模拟器点击ba后执行exe
+
+### 2. 通过python运行
+
+1. 确保安装了 [python](https://www.python.org/downloads/) == 3.10 (并且添加到系统环境变量中).
+2. 确保安装了 [adb](https://developer.android.com/studio/releases/platform-tools) (并且添加到 `config.py`).
+3. 克隆本仓仓库 `git clone https://github.com/sanmusen214/BAAH.git` ,  然后执行 `cd ./BAAH`
+4. 运行 `python install -r requirements.txt` 来安装所需的依赖库。
+5. 改变 `config.py` 的内容来对关卡扫荡做配置
+6. 启动模拟器点击ba后，执行 `python main.py`
 
 # 配置项目
 
 在 `config.py` 中:
 
-1. TESSERACT_PATH: 图像识别软件tesseract.exe所在的路径
+1. ADB_PATH: 安卓调试工具adb.exe所在路径
 2. TARGET_PORT: 模拟器adb调试的端口
 3. TIME_AFTER_CLICK: 执行点击操作后的等待时间
-4. TIMETABLE_TASK: 时间表任务配置. 长度为9的一个列表，列表的第i个元素内部指定那个地点要点击的教室们的下标，所有下标从0开始。
+4. TIMETABLE_TASK: 课程表任务配置. 长度为9的一个列表，列表的第i个元素内部指定那个地点要点击的教室们的下标，所有下标从0开始。
    
    `[[0,1],[1],[],[],[],[],[],[],[]]` 意味着在第一个地点点击第一个和第二个教室，在第二个地点点击第二个教室，其他地点无点击
 

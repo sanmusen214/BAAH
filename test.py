@@ -114,7 +114,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 if __name__=="__main__":
     
-    connect_to_device()
+    # connect_to_device()
     # screen_shot_to_file()
     
     # 测match
@@ -128,11 +128,10 @@ if __name__=="__main__":
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
-    # print(get_number(rawMat[49:84,22:71]))
-    # print(res:=ocr_number((159,90),(175, 109)))
+    print(ocr_number((122, 178),(164, 212)))
     
     # 测task
-    NormalQuest(config.QUEST["NORMAL"][1]).run()
+    # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
     # 测透明图片的旋转

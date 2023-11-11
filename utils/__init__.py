@@ -8,9 +8,7 @@ import logging
 import time
 import config
 
-type Item = Union[str, Tuple[float, float]]
-
-def click(item:Item, sleeptime = -1) -> bool:
+def click(item:Union[str, Tuple[float, float]], sleeptime = -1) -> bool:
     """
     Task: click the position (x, y) or the center of a picture (given by a str)
     
@@ -34,7 +32,7 @@ def click(item:Item, sleeptime = -1) -> bool:
             time.sleep(config.TIME_AFTER_CLICK)
         return True
 
-def swipe(item:Item, toitem: Item, durationtime = 0.3, sleeptime = -1) -> bool:
+def swipe(item:Union[str, Tuple[float, float]], toitem: Union[str, Tuple[float, float]], durationtime = 0.3, sleeptime = -1) -> bool:
     """
     Task: swipe the position (x, y) or the center of a picture to a position or a picture
     
@@ -86,7 +84,7 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False) -> bool | Tuple[
     else:
         return match_pattern("./screenshot.png",imgurl, threshold=threshold)[0]
 
-def ocr_number(frompixel, topixel) -> str:
+def ocr_number(frompixel, topixel) -> Tuple[str, float]:
     """
     OCR the number in the given rectangle area of screenshot
     
@@ -97,7 +95,7 @@ def ocr_number(frompixel, topixel) -> str:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    return ocr_pic_number("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1]).strip()
+    return ocr_pic_number("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
 
 def match_pixel(x, y, color):
     """

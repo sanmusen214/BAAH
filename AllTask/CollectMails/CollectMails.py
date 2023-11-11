@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -13,11 +13,11 @@ class CollectMails(Task):
     def __init__(self, name="CollectMails") -> None:
         super().__init__(name)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
     
-    @override
+     
     def on_run(self) -> None:
         self.run_until(
             lambda: click((1143, 38)),
@@ -30,6 +30,6 @@ class CollectMails(Task):
         )
         self.back_to_home()
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

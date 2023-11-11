@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -14,11 +14,11 @@ class InContest(Task):
     def __init__(self, name="InContest") -> None:
         super().__init__(name)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
     
-    @override
+     
     def on_run(self) -> None:
         self.run_until(
             lambda: click((1196, 567)),
@@ -83,6 +83,6 @@ class InContest(Task):
         sleep(1)
         click(Page.MAGICPOINT)
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

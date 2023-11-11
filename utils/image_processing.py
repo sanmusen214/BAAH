@@ -4,10 +4,9 @@ import math
 import config
 import numpy as np
 from typing import Tuple
-import pytesseract
+from pponnxcr import TextSystem
 
-
-type Matchresult = (bool, (float, float))
+ZHT = TextSystem('zht')
 
 def rotate_image_with_transparency(image_mat, angle):
     """
@@ -94,17 +93,10 @@ def ocr_pic_number(imageurl, fromx, fromy, tox, toy):
     
     axis in image is x: from left to right, y: from top to bottom
     """
-    pytesseract.pytesseract.tesseract_cmd = config.TESSERACT_PATH
     rawImage = cv2.imread(imageurl)
     rawImage = rawImage[fromy:toy, fromx:tox]
-    # 灰度
-    gray = cv2.cvtColor(rawImage, cv2.COLOR_BGR2GRAY)
-    # 二值化
-    ret, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     # 图像识别
-    resstring = pytesseract.image_to_string(binary, lang='eng', config='--psm 6 --oem 3 -c '
-                                                                'tessedit_char_whitelist'
-                                                                '=0123456789')
+    resstring = ZHT.ocr_single_line(rawImage)
     return resstring
     
 def match_picel_color(imageurl, x, y, low_range, high_range):

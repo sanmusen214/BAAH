@@ -6,9 +6,6 @@ from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, s
 import logging
 
 
-type Item = str | (int, int)
-
-
 class Task:
     # 父类
     def __init__(self, name, pre_times = 2, post_times = 4) -> None:

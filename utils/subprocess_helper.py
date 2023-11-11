@@ -2,12 +2,11 @@ import subprocess
 import sys
 import os
 import logging
-
-type Cmd = list[str]
+from typing import Tuple
 
 logging.getLogger("subprocess").setLevel(logging.WARNING)
 
-def subprocess_run(cmd: Cmd) -> bool:
+def subprocess_run(cmd: Tuple[str]) -> bool:
     """
     Run a command in a subprocess and return the return code.
     

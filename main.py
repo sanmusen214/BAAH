@@ -1,7 +1,7 @@
 import logging
 import config
 from utils import *
-from myAllTask import my_AllTask
+from AllTask.myAllTask import my_AllTask
 
 import sys
 import os

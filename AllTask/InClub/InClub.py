@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -13,11 +13,11 @@ class InClub(Task):
     def __init__(self, name="InClub") -> None:
         super().__init__(name)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
     
-    @override
+     
     def on_run(self) -> None:
         
         self.run_until(
@@ -31,6 +31,6 @@ class InClub(Task):
         )
         
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

@@ -3,7 +3,7 @@ from utils import match, page_pic
 import config
 
 class Page:
-    CENTER = (config.SCREEN_WIDTH/2, config.SCREEN_HEIGHT/2)
+    CENTER = (1280/2, 720/2)
     """
     Center of the screen
     """

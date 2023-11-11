@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -13,17 +13,17 @@ class CloseInform(Task):
     def __init__(self, name="CloseInform", pre_times = 3, post_times = 3) -> None:
         super().__init__(name, pre_times, post_times)
 
-    @override
+     
     def pre_condition(self) -> bool:
         if not match(popup_pic(PopupName.POPUP_LOGIN_FORM)):
             return False
         return True
     
-    @override
+     
     def on_run(self) -> None:
         click((1226, 56))
         click(Page.MAGICPOINT)
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

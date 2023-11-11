@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -13,7 +13,7 @@ class TouchHead(Task):
     def __init__(self, name="TouchHead") -> None:
         super().__init__(name)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_CAFE)
     
@@ -21,7 +21,7 @@ class TouchHead(Task):
         canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True)
         if(canmatchRes[0]):
             logging.info("匹配到注意力符号，点击头部")
-            click((min(canmatchRes[1][0]+50, config.SCREEN_WIDTH),canmatchRes[1][1]))
+            click((min(canmatchRes[1][0]+50, 1280),canmatchRes[1][1]))
             # 清除可能的好感度弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
@@ -30,7 +30,7 @@ class TouchHead(Task):
             
             
     
-    @override
+     
     def on_run(self) -> None:
         for i in range(2):
             # sometimes a speak will cover the NOTICE icon, so we need to double check
@@ -43,6 +43,6 @@ class TouchHead(Task):
             logging.info(f"第{i+1}轮摸头结束，尝试第{i+2}轮")
             sleep(2)
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_CAFE)

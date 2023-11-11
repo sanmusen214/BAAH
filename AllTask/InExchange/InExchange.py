@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -20,14 +20,14 @@ class InExchange(Task):
         super().__init__(name)
         
 
-    @override
+     
     def pre_condition(self) -> bool:
         if len(config.EXCHANGE_HIGHEST_LEVEL) == 0:
             logging.warn("没有配置学院交流会的level")
             return False
         return Page.is_page(PageName.PAGE_HOME)
     
-    @override
+     
     def on_run(self) -> None:
         # 得到今天是几号
         today = time.localtime().tm_mday
@@ -46,7 +46,7 @@ class InExchange(Task):
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
         # check whether there is a ticket
-        if ocr_number((162, 89), (179, 109)) == "0":
+        if ocr_number((162, 89), (179, 109))[0] == "0":
             logging.warn("没有学院交流会券")
         else:
             # 可点击的一列点
@@ -60,6 +60,6 @@ class InExchange(Task):
             RunExchangeFight(levelnum = target_info[1], runtimes = target_info[2]).run()
         self.back_to_home()
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

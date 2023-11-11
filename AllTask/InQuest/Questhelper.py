@@ -11,7 +11,7 @@ def jump_to_page(to_num: int) -> bool:
     """
     return Task.run_until(
         lambda: jump_to_neighbour_page(to_num),
-        lambda: ocr_number((122, 179), (165, 211)) == str(to_num),
+        lambda: ocr_number((122, 179), (165, 211))[0] == str(to_num),
         sleeptime=0.5
     )
      
@@ -21,7 +21,7 @@ def jump_to_neighbour_page(to_num: int) -> bool:
     
     return True if it is already in the page
     """
-    ocr_str = ocr_number((122, 179), (165, 211))
+    ocr_str = ocr_number((122, 179), (165, 211))[0]
     if ocr_str == "":
         return False
     # 如果字符串无法识别为数字，返回false

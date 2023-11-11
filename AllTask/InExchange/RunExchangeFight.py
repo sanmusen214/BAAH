@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -23,11 +23,11 @@ class RunExchangeFight(Task):
         self.levelnum = levelnum
         self.runtimes = runtimes
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_EXCHANGE_SUB)
     
-    @override
+     
     def on_run(self) -> None:
         # 找到目标关卡点击，不用滚动
         clickind = self.levelnum
@@ -73,6 +73,6 @@ class RunExchangeFight(Task):
         
         
     
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_EXCHANGE_SUB)

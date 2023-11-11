@@ -1,4 +1,4 @@
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -15,11 +15,11 @@ class CollectPower(Task):
     def __init__(self, name="CollectPower", pre_times = 3, post_times = 3) -> None:
         super().__init__(name, pre_times, post_times)
 
-    @override
+     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_CAFE) and match(button_pic(ButtonName.BUTTON_CAFE_CAN_COLLECT))
     
-    @override
+     
     def on_run(self) -> None:
         # 清除学生入场弹窗
         click(Page.MAGICPOINT)
@@ -34,6 +34,6 @@ class CollectPower(Task):
             lambda: Page.is_page(PageName.PAGE_CAFE) and not match(popup_pic(PopupName.POPUP_CAFE_INFO)),
         )
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_CAFE)

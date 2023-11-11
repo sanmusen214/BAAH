@@ -1,5 +1,5 @@
 import logging
-from typing import override
+ 
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
@@ -25,14 +25,14 @@ class LocationSelect(Task):
         self.location = location
         self.classrooms = classrooms
 
-    @override
+     
     def pre_condition(self) -> bool:
         if not Page.is_page(PageName.PAGE_TIMETABLE):
             return False
         # 如果没票了也False
         return True
     
-    @override
+     
     def on_run(self) -> None:
         if self.location < 5:
             # 滑到顶部
@@ -101,6 +101,6 @@ class LocationSelect(Task):
                     
         
 
-    @override
+     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_TIMETABLE)
