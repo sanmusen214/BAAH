@@ -31,8 +31,8 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
   - [ ] 制造
   - [ ] 合成
 
-- [ ] 主线关卡相关
-  - [ ] 普通Quest扫荡
+- [x] 主线关卡相关
+  - [x] 普通Quest扫荡
   - [x] 困难Quest扫荡
 - [x] 悬赏通缉
   - [x] 悬赏通缉每天扫荡随机一个地点
@@ -53,7 +53,7 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 2. 确保安装了 [tesseract](https://github.com/UB-Mannheim/tesseract/wiki) (并且添加到 `config.py`)
 3. 确保安装了 [adb](https://developer.android.com/studio/releases/platform-tools) (并且添加到系统环境变量中).
 4. 将模拟器分辨率设置为 1280*720像素， 240 DPI.
-5. 打开模拟器的adb调试界面.
+5. 打开模拟器设置里的的adb调试.
 6. 将BA的语言设置为中文
 7. 确保BA的咖啡厅的摄像机拉到了最高.
 
