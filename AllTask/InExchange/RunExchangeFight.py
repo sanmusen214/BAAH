@@ -41,7 +41,7 @@ class RunExchangeFight(Task):
             logging.warn("没有成功点击到关卡，任务结束")
             return
         logging.info("start raid")
-        # max raid or times rard
+        # max raid or times raid
         if self.runtimes < 0:
             click((1084, 302))
         else:

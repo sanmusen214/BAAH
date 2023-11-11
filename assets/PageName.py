@@ -16,6 +16,8 @@ class PageName:
     
     PAGE_FIGHT_CENTER = "PAGE_FIGHT_CENTER"
     
+    PAGE_QUEST_SEL = "PAGE_QUEST_SEL"
+    
     PAGE_WANTED = "PAGE_WANTED"
     PAGE_WANTED_SUB = "PAGE_WANTED_SUB"
     

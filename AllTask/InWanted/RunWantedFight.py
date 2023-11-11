@@ -43,7 +43,7 @@ class RunWantedFight(Task):
             lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
         )
         logging.info("start raid")
-        # max raid or times rard
+        # max raid or times raid
         if self.runtimes < 0:
             click((1084, 302))
         else:

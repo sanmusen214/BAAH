@@ -22,6 +22,7 @@ class CloseInform(Task):
     @override
     def on_run(self) -> None:
         click((1226, 56))
+        click(Page.MAGICPOINT)
 
     @override
     def post_condition(self) -> bool:

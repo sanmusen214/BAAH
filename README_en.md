@@ -21,7 +21,7 @@ And thanks to these tools/libraries:
 - [ ] InCraft
 
 - [ ] NormalQuest
-- [ ] HardQuest
+- [x] HardQuest
 - [x] InWanted
 - [x] InExchange
 - [x] InContest
