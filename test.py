@@ -8,8 +8,7 @@ from assets.PageName import PageName
 from assets.PopupName import PopupName
 
 from AllTask import *
-from AllTask.InWanted.RunWantedFight import RunWantedFight
-from AllTask.InCafe.TouchHead import TouchHead
+from AllTask.InQuest.NormalQuest import NormalQuest
 from AllPage.Page import Page
 
 def match2():
@@ -116,7 +115,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 if __name__=="__main__":
     
     connect_to_device()
-    screen_shot_to_file()
+    # screen_shot_to_file()
     
     # 测match
     # res = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_CAFE_VISITED), show_result=True)
@@ -125,7 +124,7 @@ if __name__=="__main__":
 
     
     # 比划点
-    main()
+    # main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
@@ -133,7 +132,7 @@ if __name__=="__main__":
     # print(res:=ocr_number((159,90),(175, 109)))
     
     # 测task
-    # CollectDailyRewards().run()
+    NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
     # 测透明图片的旋转

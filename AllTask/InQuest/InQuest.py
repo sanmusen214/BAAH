@@ -48,14 +48,14 @@ class InQuest(Task):
             HardQuest(hard_list).run()
 
         # 选择一个NORMAL QUEST List的下标
-        # if len(config.QUEST["NORMAL"]) != 0:
-        #     # 可选任务队列不为空时
-        #     normal_loc = today%len(config.QUEST["NORMAL"])
-        #     # 得到要执行的NORMAL QUEST LIST
-        #     # [[13,2,3],[19,2,3]]
-        #     normal_list = config.QUEST["NORMAL"][normal_loc]
-        #     # do NORMAL QUEST
-        #     NormalQuest(normal_list).run()
+        if len(config.QUEST["NORMAL"]) != 0:
+            # 可选任务队列不为空时
+            normal_loc = today%len(config.QUEST["NORMAL"])
+            # 得到要执行的NORMAL QUEST LIST
+            # [[13,2,3],[19,2,3]]
+            normal_list = config.QUEST["NORMAL"][normal_loc]
+            # do NORMAL QUEST
+            NormalQuest(normal_list).run()
         self.back_to_home()
 
     @override
