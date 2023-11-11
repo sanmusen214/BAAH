@@ -8,7 +8,7 @@ from assets.PageName import PageName
 from assets.PopupName import PopupName
 
 from AllTask import *
-from AllTask.InQuest.NormalQuest import NormalQuest
+from AllTask.InCafe.CollectPower import CollectPower
 from AllPage.Page import Page
 
 drawing = False  # 检查是否正在绘制
@@ -81,7 +81,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 if __name__=="__main__":
     
     # connect_to_device()
-    # screen_shot_to_file()
+    screen_shot_to_file()
     
     # 测match
     # res1 = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TASK_INFO),  show_result=True, auto_rotate_if_trans=False)
@@ -89,15 +89,14 @@ if __name__=="__main__":
 
     
     # 比划点
-    # main()
+    main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
     # print(ocr_area((122, 178),(164, 212)))
     
     # 测task
-    InWanted().run()
-    InExchange().run()
+    # CollectPower().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     

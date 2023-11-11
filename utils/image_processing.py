@@ -99,7 +99,7 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     resstring = ZHT.ocr_single_line(rawImage)
     return resstring
     
-def match_picel_color(imageurl, x, y, low_range, high_range):
+def match_pixel_color(imageurl, x, y, low_range, high_range):
     """
     match whether the color at that location is between the range
     

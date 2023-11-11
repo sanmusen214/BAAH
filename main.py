@@ -24,7 +24,6 @@ def main():
         screen_shot_to_file()
         if os.path.exists("./screenshot.png"):
             logging.info("adb与模拟器连接正常")
-            os.remove("./screenshot.png")
             break
         else:
             logging.error("adb与模拟器连接失败")

@@ -7,7 +7,7 @@ class Page:
     """
     Center of the screen
     """
-    MAGICPOINT = (498, 30)
+    MAGICPOINT = (523, 25)
     """
     Magicpoint is the point that never contains any activable item
     """
@@ -20,6 +20,8 @@ class Page:
     The circle back icon on the top left corner
     """
 
+    COLOR_GRAY = ((212, 211, 211),(220, 220, 220))
+    COLOR_WHITE_COVER = ((112, 112, 112),(116, 116, 116))
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

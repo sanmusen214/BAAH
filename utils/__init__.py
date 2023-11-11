@@ -112,7 +112,7 @@ def ocr_area_0(frompixel, topixel) -> bool:
         return True
     return False
 
-def match_pixel(x, y, color):
+def match_pixel(xy, color):
     """
         match whether the pixel is the given color
         
@@ -120,8 +120,7 @@ def match_pixel(x, y, color):
         axis is in image form
     """
     # TODO
-    # ...
-    pass
+    return match_pixel_color("./screenshot.png", xy[0], xy[1], color[0], color[1])
 
 def page_pic(picname):
     """
