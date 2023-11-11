@@ -84,9 +84,7 @@ if __name__=="__main__":
     screen_shot_to_file()
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TASK_INFO),  show_result=True, auto_rotate_if_trans=False)
-
-
+    res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_STU_NOTICE),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     main()
@@ -96,7 +94,7 @@ if __name__=="__main__":
     # print(ocr_area((122, 178),(164, 212)))
     
     # 测task
-    # CollectPower().run()
+    # InCafe().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     

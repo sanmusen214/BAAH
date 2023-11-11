@@ -32,7 +32,7 @@ class RunExchangeFight(Task):
         # 找到目标关卡点击，不用滚动
         clickind = self.levelnum
         points = np.linspace(209, 605, 5)
-        logging.info("click level {}".format(self.levelnum))
+        logging.info("click level {}".format(self.levelnum+1))
         seepopup = self.run_until(
             lambda: click((1118, points[clickind])),
             lambda: match(popup_pic(PopupName.POPUP_TASK_INFO)))

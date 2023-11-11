@@ -28,8 +28,14 @@ class InCafe(Task):
         click((92, 670))
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_CAFE) and not match(popup_pic(PopupName.POPUP_CAFE_VISITED)),
+            lambda: Page.is_page(PageName.PAGE_CAFE),
         ) 
+        # 清除"今天到场的学生"弹窗
+        if match(popup_pic(PopupName.POPUP_CAFE_VISITED)):
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: not match(popup_pic(PopupName.POPUP_CAFE_VISITED)),
+            ) 
         CollectPower().run()
         TouchHead().run()
         # 返回主页

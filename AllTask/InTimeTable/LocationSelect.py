@@ -50,6 +50,8 @@ class LocationSelect(Task):
         )
         logging.info("进入到第{}个地区".format(self.location+1))
         for classroom in self.classrooms:
+            # 序号转下标
+            classroom -= 1
             # 每个classroom都从还没有出现3x3的教室选择页面的地方开始循环
             # 左上角 “选择课程表”
             # 执行完毕，点两次magic point，回到PageName.PAGE_TIMETABLE_SEL并且不再有全体课程表弹窗
@@ -72,14 +74,14 @@ class LocationSelect(Task):
             row = int((classroom-col)/len(ys))
             targetloc = (xs[col], ys[row])
             # 点教室直到出现可获得奖励的弹窗
-            logging.info("点击教室{}".format(classroom))
+            logging.info("点击教室{}".format(classroom+1))
             havepopup = self.run_until(
                 lambda: click(targetloc),
                 lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_INFO)),
                 times=2
             )
             if not havepopup:
-                logging.info(f"教室{classroom}不存在或已经被点过了")
+                logging.info(f"教室{classroom+1}不存在或已经被点过了")
                 continue
             # 点击弹窗里的课程表开始
             logging.info("点击课程表开始")
@@ -90,7 +92,7 @@ class LocationSelect(Task):
             )
             # 如果点完开始发现购买弹窗
             if(match(popup_pic(PopupName.POPUP_TOTAL_PRICE))):
-                logging.info(f"教室{classroom}由于票卷不足，执行失败")
+                logging.info(f"教室{classroom+1}由于票卷不足，执行失败")
                 continue
         logging.info("返回到课程表页面")
         self.run_until(

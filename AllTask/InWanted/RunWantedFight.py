@@ -37,7 +37,7 @@ class RunWantedFight(Task):
             self.scroll_right_down()
             clickind = self.levelnum - 4
         points = np.linspace(209, 605, 5)
-        logging.info("click level {}".format(self.levelnum))
+        logging.info("click level {}".format(self.levelnum+1))
         self.run_until(
             lambda: click((1118, points[clickind])),
             lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))

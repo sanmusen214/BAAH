@@ -38,12 +38,11 @@ class TouchHead(Task):
             # sometimes a speak will cover the NOTICE icon, so we need to double check
             self.run_until(
                 lambda: self.click_head_and_magic(),
-                lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.9, rotate_trans=True),
+                lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95, rotate_trans=True),
                 times = times_in_run, # 直到找不到注意力符号
                 sleeptime=1
             )
             logging.info(f"第{i+1}/{totalruns}轮摸头结束")
-            sleep(2)
 
      
     def post_condition(self) -> bool:

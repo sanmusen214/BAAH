@@ -23,6 +23,8 @@ class CollectMails(Task):
             lambda: click((1143, 38)),
             lambda: Page.is_page(PageName.PAGE_MAILBOX)
         )
+        click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_ONE_COLLECT)),
             lambda: not match(button_pic(ButtonName.BUTTON_ONE_COLLECT)),

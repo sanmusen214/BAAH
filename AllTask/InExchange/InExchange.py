@@ -34,6 +34,9 @@ class InExchange(Task):
         # 选择一个location的下标
         target_loc = today%len(config.EXCHANGE_HIGHEST_LEVEL)
         target_info = config.EXCHANGE_HIGHEST_LEVEL[target_loc]
+        # 序号转下标
+        target_info[0] -= 1
+        target_info[1] -= 1
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
