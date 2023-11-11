@@ -11,43 +11,6 @@ from AllTask import *
 from AllTask.InQuest.NormalQuest import NormalQuest
 from AllPage.Page import Page
 
-def match2():
-    # 读取目标图像和模板图像
-    target_image = cv2.imread('./screenshot.png')
-    template_image = cv2.imread(button_pic(ButtonName.BUTTON_STU_NOTICE), cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
-    # template_image = cv2.imread("./selected_region.png", cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
-    print(template_image.shape)
-
-    # 获取模板图像的宽度和高度
-    template_width, template_height = template_image.shape[1], template_image.shape[0]
-
-    # 创建一个掩码，将透明区域设为0，不透明区域设为255
-    mask = template_image[:, :, 3]  # 透明通道
-    print(mask)
-    mask[mask > 0] = 255
-    # 将mask在第三维度上复制3份，因为目标图像是3通道的
-    mask = cv2.merge((mask, mask, mask))
-    print("mask的形状: ", mask.shape)
-    # 使用模板匹配
-    result = cv2.matchTemplate(target_image, template_image[:, :, :3], cv2.TM_CCORR_NORMED, mask=mask)
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-    print(max_val)
-    # 设置阈值来筛选匹配结果
-    threshold = 0.9
-    locations = np.where(result >= threshold)
-    # 绘制匹配结果的矩形框
-    if max_val > threshold:
-        print("Found possible match.")
-        top_left = max_loc
-        bottom_right = (top_left[0] + template_width, top_left[1] + template_height)
-        cv2.rectangle(target_image, top_left, bottom_right, (0, 255, 0), 2)
-
-    # 保存带有匹配结果的图像
-    cv2.imshow('Image', target_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-
 drawing = False  # 检查是否正在绘制
 start_x, start_y = -1, -1
 def main():
@@ -98,6 +61,9 @@ def main():
     # match_pattern("./screenshot.png", "./selected_region.png", show_result=True)
 
 def multi_match(patternurl):
+    """
+    连续匹配
+    """
     matchhis=[]
     for i in range(10):
         screen_shot_to_file()
@@ -118,10 +84,8 @@ if __name__=="__main__":
     # screen_shot_to_file()
     
     # 测match
-    res1 = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TASK_INFO),  show_result=True, auto_rotate_if_trans=False)
-    
+    # res1 = match_pattern("./screenshot.png", popup_pic(PopupName.POPUP_TASK_INFO),  show_result=True, auto_rotate_if_trans=False)
 
-    
 
     
     # 比划点
@@ -129,9 +93,11 @@ if __name__=="__main__":
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
-    # print(ocr_number((122, 178),(164, 212)))
+    # print(ocr_area((122, 178),(164, 212)))
     
     # 测task
+    InWanted().run()
+    InExchange().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     

@@ -83,9 +83,9 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     else:
         return match_pattern("./screenshot.png",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
-def ocr_number(frompixel, topixel) -> Tuple[str, float]:
+def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
-    OCR the number in the given rectangle area of screenshot
+    OCR the area in the given rectangle area of screenshot
     
     frompixel: (x, y)
     topixel: (x, y)
@@ -94,7 +94,23 @@ def ocr_number(frompixel, topixel) -> Tuple[str, float]:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    return ocr_pic_number("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
+    return ocr_pic_area("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1]).strip()
+
+def ocr_area_0(frompixel, topixel) -> bool:
+    """
+    OCR the number in the given rectangle area of screenshot whether it is 0
+    
+    frompixel: (x, y)
+    topixel: (x, y)
+    
+    axis is in image form, x axis is the horizontal axis, y axis is the vertical axis
+    """
+    lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
+    highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
+    res_str = ocr_pic_area("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1]).strip()
+    if res_str=="0" or res_str=="O" or res_str=="o" or res_str=="Q":
+        return True
+    return False
 
 def match_pixel(x, y, color):
     """

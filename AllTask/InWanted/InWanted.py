@@ -7,7 +7,7 @@ from assets.PopupName import PopupName
 from AllPage.Page import Page
 from AllTask.Task import Task
 
-from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_number
+from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 import logging
 import time
 import numpy as np
@@ -45,7 +45,7 @@ class InWanted(Task):
             lambda: Page.is_page(PageName.PAGE_WANTED),
         )
         # check whether there is a ticket
-        if ocr_number((162, 89), (179, 109))[0] == "0":
+        if ocr_area((162, 89), (179, 109))[0] == "0":
             logging.warn("没有悬赏通缉券")
         else:
             # 可点击的一列点

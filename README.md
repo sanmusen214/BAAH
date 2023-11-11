@@ -58,14 +58,16 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 
 1. 将模拟器分辨率设置为 1280*720像素， 240 DPI.
 2. 打开了模拟器设置里的的adb调试.
-3. 将BA的语言设置为中文
+3. 将国际服BA的语言设置为繁体中文
 4. 确保BA的咖啡厅的摄像机拉到了最高.
 
 ## 使用方式
 
 ### 1. 通过release包运行
 
-下载最新版的release压缩包解压，启动模拟器点击ba后执行exe
+1. 下载release包后解压
+2. 修改其下 `config.py` 的内容来对关卡扫荡做配置
+3. 启动模拟器后打开ba，随后点击文件夹下`开始运行.bat`
 
 ### 2. 通过python运行
 
@@ -73,8 +75,8 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 2. 确保安装了 [adb](https://developer.android.com/studio/releases/platform-tools) (并且添加到 `config.py`).
 3. 克隆本仓仓库 `git clone https://github.com/sanmusen214/BAAH.git` ,  然后执行 `cd ./BAAH`
 4. 运行 `python install -r requirements.txt` 来安装所需的依赖库。
-5. 改变 `config.py` 的内容来对关卡扫荡做配置
-6. 启动模拟器点击ba后，执行 `python main.py`
+5. 修改 `config.py` 的内容来对关卡扫荡做配置
+6. 启动模拟器打开ba后，执行 `python main.py`
 
 # 配置项目
 

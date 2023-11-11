@@ -8,7 +8,7 @@ from assets.PopupName import PopupName
 from AllPage.Page import Page
 from AllTask.Task import Task
 
-from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_number
+from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 from .Questhelper import jump_to_page,close_popup_until_see
 import numpy as np
 

@@ -87,7 +87,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         return (True, (center_x, center_y), max_val)
     return (False, (0, 0), 0)
 
-def ocr_pic_number(imageurl, fromx, fromy, tox, toy):
+def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     """
     get the number in the image
     

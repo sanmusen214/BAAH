@@ -8,7 +8,7 @@ from AllPage.Page import Page
 from AllTask.Task import Task
 import config
 
-from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_number
+from utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 import logging
 from .LocationSelect import LocationSelect
 
@@ -29,7 +29,7 @@ class InTimeTable(Task):
         # for each TIMETABLE_TASK, determine whether need to click in
         for i in range(len(config.TIMETABLE_TASK)):
             # determine tickets left
-            lefttickets:str = ocr_number((159,90),(175, 109))[0]
+            lefttickets:str = ocr_area((159,90),(175, 109))[0]
             if lefttickets == "0":
                 logging.warn("没有课程表票卷了，开始返回主页")
                 break
