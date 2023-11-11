@@ -1,7 +1,7 @@
 VERSION = "0.4.0"
 # ========configuration============ 
 ADB_PATH = r".\tools\adb\adb.exe"
-TARGET_PORT = 11762
+TARGET_PORT = 3861
 
 TIMETABLE_TASK = [[6, 7],[6, 7],[6, 7],[6],[],[],[],[],[]]
 

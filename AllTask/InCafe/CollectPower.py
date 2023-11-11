@@ -24,14 +24,22 @@ class CollectPower(Task):
         # 清除学生入场弹窗
         click(Page.MAGICPOINT)
         # 重复点收集直到出现弹窗
-        self.run_until(lambda :click((1156, 648)), lambda: match(popup_pic(PopupName.POPUP_CAFE_INFO)), 3)
+        self.run_until(
+            lambda :click((1156, 648)), 
+            lambda: match(popup_pic(PopupName.POPUP_CAFE_INFO)), 
+            times = 3
+        )
         logging.info("成功点击右下角收集")
-        # 重复点收集直到收集按钮消失
-        self.run_until(lambda :click(button_pic(ButtonName.BUTTON_COLLECT)), lambda: not match(button_pic(ButtonName.BUTTON_COLLECT)), 3)
+        # 重复点领取直到领取按钮变灰
+        self.run_until(
+            lambda :click(button_pic(ButtonName.BUTTON_COLLECT)), 
+            lambda: Page.is_page(PageName.PAGE_CAFE) and match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2] > match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2],
+            times = 5)
+        logging.info("成功点击领取")
         # 点魔法点去弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_CAFE) and not match(popup_pic(PopupName.POPUP_CAFE_INFO)),
+            lambda: Page.is_page(PageName.PAGE_CAFE) and not match(popup_pic(PopupName.POPUP_CAFE_INFO))
         )
 
      
