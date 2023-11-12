@@ -59,6 +59,7 @@ class LocationSelect(Task):
             self.run_until(
                 lambda: click(Page.MAGICPOINT, sleeptime=0.5),
                 lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
+                times = 6
             )
             
             # 点击右下角全体课程表，直到跳出3x3的教室选择页面
@@ -94,10 +95,17 @@ class LocationSelect(Task):
             if(match(popup_pic(PopupName.POPUP_TOTAL_PRICE))):
                 logging.info(f"教室{classroom+1}由于票卷不足，执行失败")
                 continue
+            else:
+                # 课程表执行后狂点魔法点跳过弹窗
+                sleep(1)
+                click(Page.MAGICPOINT)
+                click(Page.MAGICPOINT)
+                click(Page.MAGICPOINT)
         logging.info("返回到课程表页面")
         self.run_until(
             lambda: click(Page.TOPLEFTBACK),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
+            times = 6
         )
         
                     

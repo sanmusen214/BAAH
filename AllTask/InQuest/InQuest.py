@@ -44,8 +44,10 @@ class InQuest(Task):
             # 得到要执行的HARD QUEST LIST
             # [[13,2,3],[19,2,3]]
             hard_list = config.QUEST["HARD"][hard_loc]
+            # 序号转下标
+            hard_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in hard_list]
             # do HARD QUEST
-            HardQuest(hard_list).run()
+            HardQuest(hard_list_2).run()
 
         # 选择一个NORMAL QUEST List的下标
         if len(config.QUEST["NORMAL"]) != 0:
@@ -55,7 +57,9 @@ class InQuest(Task):
             # [[13,2,3],[19,2,3]]
             normal_list = config.QUEST["NORMAL"][normal_loc]
             # do NORMAL QUEST
-            NormalQuest(normal_list).run()
+            # 序号转下标
+            normal_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in normal_list]
+            NormalQuest(normal_list_2).run()
         self.back_to_home()
 
      

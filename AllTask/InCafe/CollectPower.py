@@ -36,7 +36,7 @@ class CollectPower(Task):
         # 重复点领取直到领取按钮变灰，这之间其实也关闭了领取成功的弹窗
         self.run_until(
             lambda: click((640, 520)), 
-            lambda: Page.is_page(PageName.PAGE_CAFE) and match(button_pic(ButtonName.BUTTON_COLLECT)) and match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2] > match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2],
+            lambda: match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)),
             times = 5)
         logging.info("成功点击领取")
         # 点魔法点去收益情况弹窗

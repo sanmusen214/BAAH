@@ -25,15 +25,15 @@ class AllTask:
 
 
 my_AllTask = AllTask()
-# my_AllTask.add_task(EnterGame())
-# my_AllTask.add_task(InCafe())
+my_AllTask.add_task(EnterGame())
+my_AllTask.add_task(InCafe())
 my_AllTask.add_task(InTimeTable())
-# my_AllTask.add_task(InClub())
+my_AllTask.add_task(InClub())
 
-# my_AllTask.add_task(InQuest())
+my_AllTask.add_task(InQuest())
 my_AllTask.add_task(InWanted())
 my_AllTask.add_task(InExchange())
-# my_AllTask.add_task(InContest())
+my_AllTask.add_task(InContest())
 
 my_AllTask.add_task(CollectDailyRewards())
 my_AllTask.add_task(CollectMails())
