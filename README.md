@@ -97,7 +97,7 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 
    `EXCHANGE_HIGHEST_LEVEL = [[1, 2, 3], [2, 2, 2], [3, 3, 3]]` 意味着每天从 [[ 第一个地点的第2个关卡扫荡3次 ]，[ 第二个地点的第2个关卡扫荡2次 ]，[ 第三个地点的第3个关卡扫荡3次 ]] 中**挑选一个**来完成。
 
-7. QUEST: 扫荡主线关卡，分为HARD和NORMAL，各自是一个数组，每天会挑一个数组内的元素执行。比如NORMAL的数组
+7. QUEST: 扫荡主线关卡，分为HARD和NORMAL，各自是一个数组，每天会挑一个数组内的元素执行。比如NORMAL的数组为例
 ```python
   [
     [[19,1,5], [20,1,-1]],
