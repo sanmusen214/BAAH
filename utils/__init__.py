@@ -99,7 +99,7 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """
-    OCR the number in the given rectangle area of screenshot whether it is 0
+    OCR the number in the given rectangle area of screenshot whether it contains 0
     
     frompixel: (x, y)
     topixel: (x, y)
@@ -110,6 +110,8 @@ def ocr_area_0(frompixel, topixel) -> bool:
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
     res_str = ocr_pic_area("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
     if res_str=="0" or res_str=="O" or res_str=="o" or res_str=="Q":
+        return True
+    if "0" in res_str:
         return True
     return False
 

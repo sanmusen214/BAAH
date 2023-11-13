@@ -71,17 +71,20 @@ class InContest(Task):
                 lambda: not match(popup_pic(PopupName.POPUP_FIGHT_RESULT))
             )
         # receive the reward
-        self.collect_and_magic(upper=True)
-        self.collect_and_magic(upper=False)
+        self.run_until(
+            self.collect_and_magic,
+            lambda: match(button_pic(ButtonName.BUTTON_CONTEST_COLLECT_BOTH_GRAY)),
+            times = 4
+        )
         self.back_to_home()
 
-    def collect_and_magic(self, upper:bool):
-        if(upper):
-            click((352, 388))
-        else:
-            click((354, 467))
+    def collect_and_magic(self):
+        click((352, 388))
+        click((354, 467))
         sleep(1)
         click(Page.MAGICPOINT)
+
+
 
      
     def post_condition(self) -> bool:

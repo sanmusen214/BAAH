@@ -76,20 +76,20 @@ def multi_match(patternurl):
     print("最大可信度: ", np.max(thresholds))
     print("最小可信度: ", np.min(thresholds))
 
-# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 if __name__=="__main__":
     
     # connect_to_device()
     screen_shot_to_file()
     
-    print(Page.is_page(PageName.PAGE_CAFE))
-    print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
-    print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
-    print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
+    # print(Page.is_page(PageName.PAGE_CAFE))
+    # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
+    # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
+    # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_STU_NOTICE),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONTEST_COLLECT_BOTH_GRAY),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     # main()
@@ -97,9 +97,11 @@ if __name__=="__main__":
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
     # print(ocr_area((122, 178),(164, 212)))
+    # for i in range(10):
+        # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    # InQuest().run()
+    InContest().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     

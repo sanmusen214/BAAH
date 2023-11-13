@@ -48,27 +48,32 @@ class LocationSelect(Task):
             lambda: click((933, step[tapind])),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)
         )
-        logging.info("进入到第{}个地区".format(self.location+1))
+        logging.info("进入到第{}个地区".format(self.location+1))   
+        # 来到
+        logging.info("尝试到全体课程表弹窗页面")
+        self.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_ALL_TIMETABLE)),
+            lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_ALL))
+        )     
         for classroom in self.classrooms:
             # 序号转下标
             classroom -= 1
-            # 每个classroom都从还没有出现3x3的教室选择页面的地方开始循环
-            # 左上角 “选择课程表”
-            # 执行完毕，点两次magic point，回到PageName.PAGE_TIMETABLE_SEL并且不再有全体课程表弹窗
-            logging.info("尝试到选择课程表页面")
-            self.run_until(
-                lambda: click(Page.MAGICPOINT, sleeptime=0.5),
-                lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
-                times = 6
-            )
-            
-            # 点击右下角全体课程表，直到跳出3x3的教室选择页面
-            logging.info("点击右下角全体课程表")
-            self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_ALL_TIMETABLE)),
-                lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_ALL))
-            )
-            
+            # 每个classroom都从出现3x3的教室选择页面的地方开始循环
+            if not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)):
+                # 如果3x3界面没有打开或被遮蔽
+                # 尝试点掉遮蔽界面
+                logging.info("尝试到全体课程表弹窗页面")
+                self.run_until(
+                    lambda: click(Page.MAGICPOINT, sleeptime=0.5),
+                    lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
+                    times = 6
+                )
+                # 尝试点进九宫格选取页面
+                self.run_until(
+                    lambda: click(button_pic(ButtonName.BUTTON_ALL_TIMETABLE)),
+                    lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_ALL))
+                )   
+            logging.info("进入到全体课程表弹窗页面")
             xs = np.linspace(299, 995, 3, dtype=int)
             ys = np.linspace(268, 573, 3, dtype=int)
             col = int(classroom%len(xs))
