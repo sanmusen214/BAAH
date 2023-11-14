@@ -64,7 +64,7 @@ class LocationSelect(Task):
                 # 尝试点掉遮蔽界面
                 logging.info("尝试到全体课程表弹窗页面")
                 self.run_until(
-                    lambda: click(Page.MAGICPOINT, sleeptime=0.5),
+                    lambda: click((1162, 664), sleeptime=1),
                     lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
                     times = 6
                 )

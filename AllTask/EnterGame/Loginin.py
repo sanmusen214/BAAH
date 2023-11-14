@@ -24,9 +24,12 @@ class Loginin(Task):
 
     @staticmethod
     def try_jump_useless_pages():
-        # 活动弹窗
-        click((1250, 40))
-        click(Page.MAGICPOINT)
+        # 更新通知
+        if match(popup_pic(PopupName.POPUP_NOTICE), threshold=0.9) or match(popup_pic(PopupName.POPUP_UPDATE_NOTICE), threshold=0.9):
+            click(button_pic(ButtonName.BUTTON_CONFIRMB))
+        else:
+            # 活动弹窗
+            click((1250, 40))
     
      
     def on_run(self) -> None:
@@ -34,7 +37,8 @@ class Loginin(Task):
         # 因为涉及到活动页面什么的，所以这里还要尝试识别左下角的不再显示
         self.run_until(self.try_jump_useless_pages, 
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
-                      20)
+                      times = 50,
+                      sleeptime = 5)
 
      
     def post_condition(self) -> bool:

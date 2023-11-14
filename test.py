@@ -80,7 +80,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 if __name__=="__main__":
     
-    # connect_to_device()
+    connect_to_device()
     screen_shot_to_file()
     
     # print(Page.is_page(PageName.PAGE_CAFE))
@@ -89,10 +89,10 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONTEST_COLLECT_BOTH_GRAY),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
-    # main()
+    main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
@@ -101,7 +101,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    InContest().run()
+    # InContest().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
