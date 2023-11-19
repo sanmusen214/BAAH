@@ -7,11 +7,11 @@ sys.path.append(current_dir)
 
 import logging
 import config
-from utils import *
-from AllTask.myAllTask import my_AllTask
+from modules.utils import *
+from modules.AllTask.myAllTask import my_AllTask
 
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 def main():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除

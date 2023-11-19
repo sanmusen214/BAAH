@@ -2,14 +2,14 @@
 import cv2
 import config
 import numpy as np
-from utils import *
+from modules.utils import *
 from assets.ButtonName import ButtonName
 from assets.PageName import PageName
 from assets.PopupName import PopupName
 
-from AllTask import *
-from AllTask.InCafe.CollectPower import CollectPower
-from AllPage.Page import Page
+from modules.AllTask import *
+from modules.AllTask.InCafe.CollectPower import CollectPower
+from modules.AllPage.Page import Page
 
 drawing = False  # 检查是否正在绘制
 start_x, start_y = -1, -1
@@ -80,8 +80,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 if __name__=="__main__":
     
-    connect_to_device()
-    screen_shot_to_file()
+    # connect_to_device()
+    # screen_shot_to_file()
     
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -89,10 +89,10 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CAFE_CAN_COLLECT),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
-    main()
+    # main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
@@ -101,7 +101,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    # InContest().run()
+    InCafe().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
