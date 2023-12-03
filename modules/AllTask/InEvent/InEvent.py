@@ -2,7 +2,7 @@
 import logging
 import random
 import time
-import requests as request
+import requests
 import config
 
 from assets.PageName import PageName
@@ -25,7 +25,7 @@ class InEvent(Task):
         # 获取国际服活动，判断是否有活动
         
         request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
-        response = request.get(request_url)
+        response = requests.get(request_url)
         if response.status_code == 200:
             if len(response.json()['data']) != 0:
                 logging.info("存在国际服活动")

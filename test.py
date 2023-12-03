@@ -1,4 +1,5 @@
 # 图片截取&标注
+import requests
 import cv2
 import config
 import numpy as np
@@ -80,6 +81,11 @@ def multi_match(patternurl):
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 if __name__=="__main__":
+    # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
+    # response = requests.get(request_url)
+    # if response.status_code == 200:
+    #     if len(response.json()['data']) != 0:
+    #         print(response.json()['data'])
     
     connect_to_device()
     screen_shot_to_file()
@@ -102,7 +108,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    InEvent().run()
+    # InEvent().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
