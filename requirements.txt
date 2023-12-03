@@ -17,3 +17,4 @@ pyreadline3==3.4.1
 shapely==2.0.2
 sympy==1.12
 userpath==1.9.1
+requests==2.31.0

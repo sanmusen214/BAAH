@@ -133,10 +133,12 @@ class Task:
     def scroll_right_up():
         swipe((928, 226), (942, 561), sleeptime=0.2)
         swipe((928, 226), (942, 561), sleeptime=0.2)
+        swipe((928, 226), (942, 561), sleeptime=0.2)
         sleep(0.5)
     
     @staticmethod
     def scroll_right_down():
+        swipe((942, 561), (928, 226), sleeptime=0.2)
         swipe((942, 561), (928, 226), sleeptime=0.2)
         swipe((942, 561), (928, 226), sleeptime=0.2)
         sleep(0.5)

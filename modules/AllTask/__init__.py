@@ -5,6 +5,7 @@ from .InCafe.InCafe import InCafe
 from .InTimeTable.InTimeTable import InTimeTable
 from .InClub.InClub import InClub
 
+from .InEvent.InEvent import InEvent
 from .InQuest.InQuest import InQuest
 from .InWanted.InWanted import InWanted
 from .InExchange.InExchange import InExchange

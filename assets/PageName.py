@@ -33,6 +33,8 @@ class PageName:
     PAGE_LOADING = "PAGE_LOADING"
     
     PAGE_MAILBOX = "PAGE_MAILBOX"
+    
+    PAGE_EVENT = "PAGE_EVENT"
 
 
     

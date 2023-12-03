@@ -27,7 +27,7 @@ class InCafe(Task):
     def on_run(self) -> None:
         # 进入咖啡厅
         self.run_until(
-            lambda: click((92, 670)) and click(Page.MAGICPOINT),
+            lambda: click((116, 687)) and click(Page.MAGICPOINT),
             lambda: Page.is_page(PageName.PAGE_CAFE),
         ) 
         # 清除"今天到场的学生"弹窗

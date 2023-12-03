@@ -90,7 +90,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CAFE_CAN_COLLECT),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", page_pic(PageName.PAGE_EVENT),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     # main()
@@ -102,7 +102,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    InviteStudent().run()
+    InEvent().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
