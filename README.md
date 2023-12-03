@@ -26,7 +26,7 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 
 - [x] 咖啡馆相关
   - [x] 领取体力
-  - [ ] 邀请学生
+  - [x] 邀请学生
   - [x] 摸头
 - [x] 课程表相关
   - [x] 完成多个课程
@@ -39,6 +39,8 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 - [x] 主线关卡相关
   - [x] 普通Quest扫荡
   - [x] 困难Quest扫荡
+- [ ] 活动关卡相关
+  - [ ] 活动Quest扫荡
 - [x] 悬赏通缉相关
   - [x] 悬赏通缉扫荡
 - [x] 学园交流会相关

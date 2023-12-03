@@ -1,8 +1,8 @@
 # Welcome to join the development
 
-Welcome to improving this project. But kindly keep in mind that the idea of this project is to help sensei finish **"daily task"**, but not **"help them play the game or complete events"**. So it will be good to focus on those daily tasks which can be completed everyday.
+Welcome to improving this project. But kindly keep in mind that the idea of this project is to help sensei finish **"daily task"**. So it will be good to focus on those daily tasks which can be completed everyday.
 
-All specs of functions will be translated into English soon.
+All specs of functions will be translated into English future.
 
 It spent me just one afternoon to generate the structure of this project from 0, so there may be many problems in it. Good message is that we just need to keep the idea "**daily task**".
 

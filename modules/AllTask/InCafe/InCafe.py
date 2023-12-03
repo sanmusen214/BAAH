@@ -5,6 +5,7 @@ from assets.ButtonName import ButtonName
 from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
+from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
@@ -25,9 +26,8 @@ class InCafe(Task):
      
     def on_run(self) -> None:
         # 进入咖啡厅
-        click((92, 670))
         self.run_until(
-            lambda: click(Page.MAGICPOINT),
+            lambda: click((92, 670)) and click(Page.MAGICPOINT),
             lambda: Page.is_page(PageName.PAGE_CAFE),
         ) 
         # 清除"今天到场的学生"弹窗
@@ -37,6 +37,7 @@ class InCafe(Task):
                 lambda: not match(popup_pic(PopupName.POPUP_CAFE_VISITED)),
             ) 
         CollectPower().run()
+        InviteStudent().run()
         TouchHead().run()
         # 返回主页
         Task.back_to_home()

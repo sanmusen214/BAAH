@@ -2,6 +2,7 @@
 import cv2
 import config
 import numpy as np
+from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.utils import *
 from assets.ButtonName import ButtonName
 from assets.PageName import PageName
@@ -80,8 +81,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 if __name__=="__main__":
     
-    # connect_to_device()
-    # screen_shot_to_file()
+    connect_to_device()
+    screen_shot_to_file()
     
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -101,7 +102,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    InCafe().run()
+    InviteStudent().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
@@ -123,3 +124,23 @@ if __name__=="__main__":
     #         cv2.circle(mypic, (xs[col], ys[row]), 10, (0, 0, 255), -1)
     # cv2.imshow("newpic", mypic)
     # cv2.waitKey(0)
+    
+    # # 测UI
+    # import PySimpleGUI as sg                        # Part 1 - The import
+
+    # # Define the window's contents
+    # layout = [  [sg.Text("What's your name?")],     # Part 2 - The Layout
+    #             [sg.Input()],
+    #             [sg.Button('Ok')] ]
+
+    # # Create the window
+    # window = sg.Window('Window Title', layout)      # Part 3 - Window Defintion
+                                                    
+    # # Display and interact with the Window
+    # event, values = window.read()                   # Part 4 - Event loop or Window.read call
+
+    # # Do something with the information gathered
+    # print('Hello', values[0], "! Thanks for trying PySimpleGUI")
+
+    # # Finish up by removing from the screen
+    # window.close()
