@@ -108,7 +108,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    # InEvent().run()
+    InEvent().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     

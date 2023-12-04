@@ -34,6 +34,7 @@ class InEvent(Task):
                 return Page.is_page(PageName.PAGE_HOME)
             else:
                 logging.warn("不存在国际服活动")
+                self.try_enter_times = 0
                 return False
         return Page.is_page(PageName.PAGE_HOME)
     
@@ -41,32 +42,46 @@ class InEvent(Task):
         """
         点击滚动栏，前往活动页面，否则返回上一级
         """
-        for i in range(self.try_enter_times):
-            logging.info("尝试第{}次进入活动页面".format(i+1))
+        if not Page.is_page(PageName.PAGE_FIGHT_CENTER) and not Page.is_page(PageName.PAGE_EVENT):
+            # 如果不在Fight Center页面，返回主页然后来到Fight Center页面
+            logging.warn("页面发生未知偏移，尝试修正")
+            self.back_to_home()
             self.run_until(
-                lambda: click((105, 162)),
-                lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
+                lambda: click((1196, 567)),
+                lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
             )
-            if not Page.is_page(PageName.PAGE_EVENT):
-                click(Page.TOPLEFTBACK, sleeptime=random.random()*5)
-            else:
-                return
+        # 尝试前往活动页面
+        logging.info("尝试前往活动页面")
+        self.run_until(
+            lambda: click((105, 162)),
+            lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
+        )
+        # 如果不是活动页面，返回上一级
+        if not Page.is_page(PageName.PAGE_EVENT):
+            logging.info("不是活动页面，返回上一级")
+            click(Page.TOPLEFTBACK, sleeptime=random.random()*5)
+        else:
+            return
             
      
     def on_run(self) -> None:
         # 进入Fight Center
         self.run_until(
             lambda: click((1196, 567)),
-            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER)
+            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
         )
         # 进入Event
-        self.goto_or_back()
+        self.run_until(
+            lambda: self.goto_or_back(),
+            lambda: Page.is_page(PageName.PAGE_EVENT),
+            times=self.try_enter_times
+        )
         
         if not Page.is_page(PageName.PAGE_EVENT):
-            logging.warn("Reach max try times, Can not enter Event page")
+            logging.warn("未能成功进入Event页面")
             return
         else:
-            logging.info("Enter Event page")
+            logging.info("进入Event页面")
         today = time.localtime().tm_mday
         if len(config.EVENT_QUEST_LEVEL) != 0:
             # 可选任务队列不为空时

@@ -1,5 +1,8 @@
 @echo off
 
+%1 mshta vbscript:createobject("shell.application").shellexecute("%~s0","::","","runas",1)(window.close)&exit
+cd /d %~dp0
+
 rem 获取当前命令执行地址
 cd
 echo Current working directory: %cd%

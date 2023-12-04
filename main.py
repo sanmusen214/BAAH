@@ -17,7 +17,8 @@ def main():
     disconnect_all_devices()
     # 启动模拟器
     logging.info("启动模拟器")
-    subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH),  '--instance', 'Pie64', '--cmd', 'launchApp', '--package', 'com.nexon.bluearchive'])
+    subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH),  '--instance', 'Pie64', '--cmd', 'launchApp', '--package', 'com.nexon.bluearchive'], isasync=True)
+    sleep(10)
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
     while(1):
         if os.path.exists("./screenshot.png"):
