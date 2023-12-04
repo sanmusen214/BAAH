@@ -3,6 +3,10 @@ import logging
 from modules.utils.subprocess_helper import subprocess_run
 import time
 
+def disconnect_all_devices():
+    """Disconnect all devices."""
+    subprocess_run([config.ADB_PATH, "disconnect"])
+
 def connect_to_device():
     """Connect to a device with the given device port."""
     subprocess_run([config.ADB_PATH, "connect", "127.0.0.1:{}".format(config.TARGET_PORT)])

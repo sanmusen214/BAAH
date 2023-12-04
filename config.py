@@ -1,6 +1,8 @@
-VERSION = "0.5.0"
+VERSION = "0.6.0"
 # ========configuration============ 
 # 模拟器的端口
+# 模拟器路径
+TARGET_EMULATOR_PATH = r'C:\Program Files\BlueStacks_nxt\HD-Player.exe'
 TARGET_PORT = 5479
 # 课程表安排，第一个子数组是第一个地点要点击的课程们，第二个子数组是第二个地点要点击的课程们
 TIMETABLE_TASK = [[7],[7],[7, 8],[6, 7, 8],[],[],[],[],[]]

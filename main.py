@@ -14,6 +14,10 @@ from modules.AllTask.myAllTask import my_AllTask
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 def main():
+    disconnect_all_devices()
+    # 启动模拟器
+    logging.info("启动模拟器")
+    subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH),  '--instance', 'Pie64', '--cmd', 'launchApp', '--package', 'com.nexon.bluearchive'])
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
     while(1):
         if os.path.exists("./screenshot.png"):

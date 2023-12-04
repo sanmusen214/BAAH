@@ -21,7 +21,7 @@ class TouchHead(Task):
         canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True, rotate_trans=True)
         if(canmatchRes[0]):
             logging.info("匹配到注意力符号，点击头部")
-            click((min(canmatchRes[1][0]+50, 1280),canmatchRes[1][1]), sleeptime=3)
+            click((min(canmatchRes[1][0]+50, 1280),canmatchRes[1][1]), sleeptime=1)
             # 清除可能的好感度弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),

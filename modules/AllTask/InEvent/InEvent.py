@@ -18,6 +18,7 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
         super().__init__(name)
+        self.try_enter_times = 5
 
      
     def pre_condition(self) -> bool:
@@ -29,6 +30,7 @@ class InEvent(Task):
         if response.status_code == 200:
             if len(response.json()['data']) != 0:
                 logging.info("存在国际服活动")
+                self.try_enter_times = 20
                 return Page.is_page(PageName.PAGE_HOME)
             else:
                 logging.warn("不存在国际服活动")
@@ -39,14 +41,14 @@ class InEvent(Task):
         """
         点击滚动栏，前往活动页面，否则返回上一级
         """
-        for i in range(5):
+        for i in range(self.try_enter_times):
             logging.info("尝试第{}次进入活动页面".format(i+1))
             self.run_until(
                 lambda: click((105, 162)),
                 lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
             )
             if not Page.is_page(PageName.PAGE_EVENT):
-                click(Page.TOPLEFTBACK, sleeptime=random.random()*4)
+                click(Page.TOPLEFTBACK, sleeptime=random.random()*5)
             else:
                 return
             
