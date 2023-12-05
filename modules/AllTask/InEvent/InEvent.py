@@ -59,7 +59,7 @@ class InEvent(Task):
         # 如果不是活动页面，返回上一级
         if not Page.is_page(PageName.PAGE_EVENT):
             logging.info("不是活动页面，返回上一级")
-            click(Page.TOPLEFTBACK, sleeptime=random.random()*5)
+            click(Page.TOPLEFTBACK, sleeptime=random.random()*6)
         else:
             return
             

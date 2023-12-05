@@ -15,9 +15,12 @@ import time
 import config
 
 class InQuest(Task):
-    def __init__(self, name="InQuest") -> None:
+    def __init__(self, types=["normal", "hard"], name="InQuest") -> None:
         super().__init__(name)
-
+        self.types = types
+        for type in types:
+            if type not in ["normal", "hard"]:
+                logging.warn("错误的扫荡类型")
      
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
@@ -37,29 +40,30 @@ class InQuest(Task):
         )
         # 当天日期
         today = time.localtime().tm_mday
-        # 选择一个HARD QUEST List的下标
-        if len(config.QUEST["HARD"]) != 0:
-            # 可选任务队列不为空时
-            hard_loc = today%len(config.QUEST["HARD"])
-            # 得到要执行的HARD QUEST LIST
-            # [[13,2,3],[19,2,3]]
-            hard_list = config.QUEST["HARD"][hard_loc]
-            # 序号转下标
-            hard_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in hard_list]
-            # do HARD QUEST
-            HardQuest(hard_list_2).run()
-
-        # 选择一个NORMAL QUEST List的下标
-        if len(config.QUEST["NORMAL"]) != 0:
-            # 可选任务队列不为空时
-            normal_loc = today%len(config.QUEST["NORMAL"])
-            # 得到要执行的NORMAL QUEST LIST
-            # [[13,2,3],[19,2,3]]
-            normal_list = config.QUEST["NORMAL"][normal_loc]
-            # do NORMAL QUEST
-            # 序号转下标
-            normal_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in normal_list]
-            NormalQuest(normal_list_2).run()
+        if "hard" in self.types:
+            # 选择一个HARD QUEST List的下标
+            if len(config.QUEST["HARD"]) != 0:
+                # 可选任务队列不为空时
+                hard_loc = today%len(config.QUEST["HARD"])
+                # 得到要执行的HARD QUEST LIST
+                # [[13,2,3],[19,2,3]]
+                hard_list = config.QUEST["HARD"][hard_loc]
+                # 序号转下标
+                hard_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in hard_list]
+                # do HARD QUEST
+                HardQuest(hard_list_2).run()
+        if "normal" in self.types:
+            # 选择一个NORMAL QUEST List的下标
+            if len(config.QUEST["NORMAL"]) != 0:
+                # 可选任务队列不为空时
+                normal_loc = today%len(config.QUEST["NORMAL"])
+                # 得到要执行的NORMAL QUEST LIST
+                # [[13,2,3],[19,2,3]]
+                normal_list = config.QUEST["NORMAL"][normal_loc]
+                # do NORMAL QUEST
+                # 序号转下标
+                normal_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in normal_list]
+                NormalQuest(normal_list_2).run()
         self.back_to_home()
 
      

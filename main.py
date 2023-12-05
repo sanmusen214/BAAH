@@ -19,23 +19,8 @@ def main():
     logging.info("启动模拟器")
     subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH),  '--instance', 'Pie64', '--cmd', 'launchApp', '--package', 'com.nexon.bluearchive'], isasync=True)
     sleep(10)
-    # 检查当前python目录下是否有screenshot.png文件，如果有就删除
-    while(1):
-        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-            logging.info("删除screenshot.png")
-            os.remove(f"./{config.SCREENSHOT_NAME}")
-        connect_to_device()
-        # 尝试截图
-        screenshot()
-        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-            logging.info("adb与模拟器连接正常")
-            break
-        else:
-            logging.error("adb与模拟器连接失败")
-            logging.info("请检查adb与模拟器连接端口号是否正确，你也可以在这里修改端口号")
-            input_port = input("请输入端口号（留空以继续使用config.py中的端口号）：")
-            config.TARGET_PORT = int(input_port) if input_port != "" else config.TARGET_PORT
-
+    logging.info("检查连接")
+    check_connect()
     my_AllTask.run()
 
 if __name__ == "__main__":

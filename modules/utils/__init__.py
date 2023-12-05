@@ -156,4 +156,27 @@ def screenshot():
     start = time.time()
     screen_shot_to_global()
     end = time.time()
-    logging.info("截图耗时{}秒".format(end-start))
+    # 输出截图耗时小数点后两位
+    logging.info("截图耗时{:.2f}秒".format(end-start))
+    
+def check_connect():
+    # 检查当前python目录下是否有screenshot.png文件，如果有就删除
+    while(1):
+        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
+            logging.info("删除screenshot.png")
+            os.remove(f"./{config.SCREENSHOT_NAME}")
+        connect_to_device()
+        # 尝试截图
+        screenshot()
+        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
+            # 检查文件大小
+            if os.path.getsize(f"./{config.SCREENSHOT_NAME}") > 1000:
+                logging.info("adb与模拟器连接正常")
+                break
+        logging.error("adb与模拟器连接失败")
+        logging.info("请检查adb与模拟器连接端口号是否正确，你也可以在这里修改端口号")
+        input_port = input("请输入端口号（留空以继续使用config.py中的端口号）：")
+        try:
+            config.TARGET_PORT = int(input_port) if input_port != "" else config.TARGET_PORT
+        except:
+            pass

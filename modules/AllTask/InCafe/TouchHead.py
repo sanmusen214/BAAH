@@ -44,6 +44,7 @@ class TouchHead(Task):
                 sleeptime=1
             )
             logging.info(f"第{i+1}/{totalruns}轮摸头结束")
+            sleep(3)
 
      
     def post_condition(self) -> bool:
