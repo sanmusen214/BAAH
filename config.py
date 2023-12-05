@@ -3,9 +3,9 @@ VERSION = "0.6.1"
 # 模拟器的端口
 # 模拟器路径
 TARGET_EMULATOR_PATH = r'C:\Program Files\BlueStacks_nxt\HD-Player.exe'
-TARGET_PORT = 5479
+TARGET_PORT = 2719
 # 课程表安排，第一个子数组是第一个地点要点击的课程们，第二个子数组是第二个地点要点击的课程们
-TIMETABLE_TASK = [[],[],[],[6, 7, 8],[],[],[],[],[]]
+TIMETABLE_TASK = [[],[],[7, 8],[7, 8],[7, 8],[7],[],[],[]]
 # 悬赏通缉安排，每天会挑一个做
 # 每天执行一个：[地点，关卡，次数]，-1表示max次
 WANTED_HIGHEST_LEVEL = [
@@ -22,8 +22,7 @@ EXCHANGE_HIGHEST_LEVEL = [
                         ]
 # 活动关卡扫荡，每天会挑一个做
 EVENT_QUEST_LEVEL = [
-    [[10, -1]], # 每个月第1天，第3天...
-    [[11, -1]]  # 每个月第2天，第4天...
+    [[10, -1]]
 ]
 # 关卡扫荡设置，HARD和NORMAL下的数组每天会挑一个做
 # 每天执行一组：[[地点，关卡，次数], [地点，关卡，次数]...]

@@ -21,13 +21,13 @@ def main():
     sleep(10)
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
     while(1):
-        if os.path.exists("./screenshot.png"):
+        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
             logging.info("删除screenshot.png")
-            os.remove("./screenshot.png")
+            os.remove(f"./{config.SCREENSHOT_NAME}")
         connect_to_device()
         # 尝试截图
-        screen_shot_to_file()
-        if os.path.exists("./screenshot.png"):
+        screenshot()
+        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
             logging.info("adb与模拟器连接正常")
             break
         else:

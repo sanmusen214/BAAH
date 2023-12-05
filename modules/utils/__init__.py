@@ -153,4 +153,7 @@ def screenshot():
     """
     Task: take a screenshot
     """
-    screen_shot_to_file()
+    start = time.time()
+    screen_shot_to_global()
+    end = time.time()
+    logging.info("截图耗时{}秒".format(end-start))

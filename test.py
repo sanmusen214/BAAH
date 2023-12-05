@@ -4,6 +4,7 @@ import cv2
 import config
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
+from modules.AllTask.InCafe.TouchHead import TouchHead
 from modules.utils import *
 from assets.ButtonName import ButtonName
 from assets.PageName import PageName
@@ -88,7 +89,6 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     connect_to_device()
-    screen_shot_to_file()
     
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -108,7 +108,7 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    InEvent().run()
+    # InTimeTable().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
