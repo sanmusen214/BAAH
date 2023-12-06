@@ -1,5 +1,5 @@
 import multiprocessing
-import PySimpleGUI as sg
+from nicegui import ui
 import logging
 
 # 创建一个自定义的 logging.Handler
@@ -14,33 +14,30 @@ class GUISupport(logging.Handler):
         msg = self.format(record)
         self.textbox.print(msg)
 
-def runGUI(mainfunc):
-    layout = [
-            [sg.Button("运行", key="run", size=(20,5)), sg.Button("停止", key="stop", disabled=True, size=(20,5))],
-            ]
-    window = sg.Window('BAAH', layout, finalize=True, size=(720, 460))
-    # 
-    runtask = None
-    while True:
-        event, values = window.read()
-        if event == sg.WINDOW_CLOSED or event == "Exit":
-            # 如果子进程还在运行，终止子进程
-            if runtask and runtask.is_alive():
-                runtask.terminate()
-            window.close()
-            break
-        elif event == "run":
-            # 运行main
-            if not runtask or not runtask.is_alive():
-                runtask = multiprocessing.Process(target=mainfunc)
-                logging.info("开始运行")
-                runtask.start()
-                window["run"].update(disabled=True)
-                window["stop"].update(disabled=False)
-        elif event == "stop":
-            if runtask and runtask.is_alive():
-                runtask.terminate()
-                logging.info("已停止")
-                window["run"].update(disabled=False)
-                window["stop"].update(disabled=True)
-                
+class BAAH_GUI:
+    def __init__(self, mainfunc) -> None:
+        self.runtask = None
+        self.mainfunc = mainfunc
+        self.title = {"text":"Blue Archive Auto Helper"}
+
+    def run_or_stop(self):
+        # 运行main
+        if not self.runtask or not self.runtask.is_alive():
+            self.runtask = multiprocessing.Process(target=self.mainfunc)
+            ui.notify("开始运行")
+            self.runtask.start()
+            self.title["text"] = "Blue Archive Auto Helper (运行中)"
+        # 停止main
+        elif self.runtask and self.runtask.is_alive():
+            ui.notify("停止运行")
+            self.runtask.terminate()
+            self.title["text"] = "Blue Archive Auto Helper (停止)"
+
+    def runGUI(self):
+        # 创建一个按钮
+        ui.label("Blue Archive Auto Helper").bind_text(self.title)
+        ui.button("开始/停止", on_click=self.run_or_stop)
+        ui.run(reload=False, native=True, title="Blue Archive Auto Helper")
+        # ui关闭后，停止main
+        if self.runtask and self.runtask.is_alive():
+            self.runtask.terminate()
