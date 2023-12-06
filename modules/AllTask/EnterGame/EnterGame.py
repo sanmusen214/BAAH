@@ -16,8 +16,10 @@ class EnterGame(Task):
     
      
     def pre_condition(self) -> bool:
-        if self.post_condition():
+        if Page.is_page(PageName.PAGE_HOME):
             return False
+        if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
+            return not self.back_to_home()
         return True
     
      
