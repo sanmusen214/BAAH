@@ -40,7 +40,7 @@ class LocationSelect(Task):
             tapind = self.location
         elif self.location >= 5:
             # 滑到底部
-            self.scroll_right_up()
+            self.scroll_right_down()
             tapind = self.location-4
         step = np.linspace(185, 612, 5, dtype=int)
         # 点击地点，直到跳到地区里
