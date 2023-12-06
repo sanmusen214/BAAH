@@ -1,4 +1,5 @@
 # 图片截取&标注
+import threading
 import requests
 import cv2
 import config
@@ -79,7 +80,19 @@ def multi_match(patternurl):
     print("最大可信度: ", np.max(thresholds))
     print("最小可信度: ", np.min(thresholds))
 
+# 创建一个自定义的 logging.Handler
+class GUISupport(logging.Handler):
+    def __init__(self, textbox):
+        logging.Handler.__init__(self)
+        self.textbox = textbox
+
+    def emit(self, record):
+        msg = self.format(record)
+        self.textbox.print(msg)
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+
+
 
 if __name__=="__main__":
     # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
@@ -88,7 +101,7 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    connect_to_device()
+    # connect_to_device()
     
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -131,22 +144,3 @@ if __name__=="__main__":
     # cv2.imshow("newpic", mypic)
     # cv2.waitKey(0)
     
-    # # 测UI
-    # import PySimpleGUI as sg                        # Part 1 - The import
-
-    # # Define the window's contents
-    # layout = [  [sg.Text("What's your name?")],     # Part 2 - The Layout
-    #             [sg.Input()],
-    #             [sg.Button('Ok')] ]
-
-    # # Create the window
-    # window = sg.Window('Window Title', layout)      # Part 3 - Window Defintion
-                                                    
-    # # Display and interact with the Window
-    # event, values = window.read()                   # Part 4 - Event loop or Window.read call
-
-    # # Do something with the information gathered
-    # print('Hello', values[0], "! Thanks for trying PySimpleGUI")
-
-    # # Finish up by removing from the screen
-    # window.close()
