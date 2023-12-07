@@ -22,7 +22,8 @@ EXCHANGE_HIGHEST_LEVEL = [
                         ]
 # 活动关卡扫荡，每天会挑一个做
 EVENT_QUEST_LEVEL = [
-    [[10, -1]]
+    [[11, -1]],
+    [[12, -1]]
 ]
 # 关卡扫荡设置，HARD和NORMAL下的数组每天会挑一个做
 # 每天执行一组：[[地点，关卡，次数], [地点，关卡，次数]...]
@@ -42,6 +43,7 @@ QUEST = {
 TIME_AFTER_CLICK = 0.7
 # adb.exe的路径，压缩包里包含了一个，不用改
 ADB_PATH = r".\tools\adb\adb.exe"
+PYTHON_PATH = r".\tools\python3.10\python.exe"
 # =================================
 
 PIC_PATH = "./assets"

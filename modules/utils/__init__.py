@@ -157,7 +157,7 @@ def screenshot():
     screen_shot_to_global()
     end = time.time()
     # 输出截图耗时小数点后两位
-    logging.info("截图耗时{:.2f}秒".format(end-start))
+    logging.debug("截图耗时{:.2f}秒".format(end-start))
     
 def check_connect():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除

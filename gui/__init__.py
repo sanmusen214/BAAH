@@ -1,6 +1,8 @@
 import multiprocessing
+import time
 from nicegui import ui
 import logging
+import config
 
 # 创建一个自定义的 logging.Handler
 class GUISupport(logging.Handler):
@@ -17,15 +19,15 @@ class GUISupport(logging.Handler):
 class BAAH_GUI:
     def __init__(self, mainfunc) -> None:
         self.runtask = None
-        self.mainfunc = mainfunc
         self.title = {"text":"Blue Archive Auto Helper"}
+        self.mainfunc = mainfunc
 
     def run_or_stop(self):
         # 运行main
         if not self.runtask or not self.runtask.is_alive():
-            self.runtask = multiprocessing.Process(target=self.mainfunc)
-            ui.notify("开始运行")
+            self.runtask = multiprocessing.Process(target=self.mainfunc, daemon=True)
             self.runtask.start()
+            ui.notify("开始运行")
             self.title["text"] = "Blue Archive Auto Helper (运行中)"
         # 停止main
         elif self.runtask and self.runtask.is_alive():
@@ -37,7 +39,8 @@ class BAAH_GUI:
         # 创建一个按钮
         ui.label("Blue Archive Auto Helper").bind_text(self.title)
         ui.button("开始/停止", on_click=self.run_or_stop)
+        # ui.button("获取子进程信息", on_click=self.get_sub_msg)
         ui.run(reload=False, native=True, title="Blue Archive Auto Helper")
         # ui关闭后，停止main
-        if self.runtask and self.runtask.is_alive():
-            self.runtask.terminate()
+        # if self.runtask and self.runtask.is_alive():
+        #     self.runtask.terminate()
