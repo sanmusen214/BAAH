@@ -8,7 +8,7 @@ from gui import BAAH_GUI
 from BAAH import BAAH_main
 
 if __name__ in ["__main__", "__mp_main__"]:
-    # BAAH_main()
+    BAAH_main()
     # 带GUI运行
-    gui = BAAH_GUI(BAAH_main)
-    gui.runGUI()
+    # gui = BAAH_GUI(BAAH_main)
+    # gui.runGUI()

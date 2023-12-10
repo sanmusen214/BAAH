@@ -41,8 +41,14 @@ class EventQuest(Task):
                     lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
                 )
             elif level_ind>=5 and level_ind<=6:
-                logging.info("暂不支持活动的中间关卡(6,7)扫荡")
-                return
+                self.scroll_right_up()
+                # 通过滑动来翻页level_ind=5的关卡此时从上到下第二关
+                swipe((915, 643), (920, 180), 1.5)
+                logging.info("click level {}".format(level_ind+1))
+                self.run_until(
+                    lambda: click((1129, ypoints[level_ind-4])),
+                    lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
+                )
             elif level_ind>=7:
                 self.scroll_right_down()
                 # clickable points

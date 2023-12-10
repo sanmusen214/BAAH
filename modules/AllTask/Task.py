@@ -131,6 +131,9 @@ class Task:
 
     @staticmethod
     def scroll_right_up():
+        """
+        scroll to top
+        """
         swipe((928, 226), (942, 561), sleeptime=0.2)
         swipe((928, 226), (942, 561), sleeptime=0.2)
         swipe((928, 226), (942, 561), sleeptime=0.2)
@@ -138,6 +141,9 @@ class Task:
     
     @staticmethod
     def scroll_right_down():
+        """
+        scroll to bottom
+        """
         swipe((942, 561), (928, 226), sleeptime=0.2)
         swipe((942, 561), (928, 226), sleeptime=0.2)
         swipe((942, 561), (928, 226), sleeptime=0.2)

@@ -15,17 +15,25 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 def BAAH_main():
     disconnect_all_devices()
     # 启动模拟器
-    logging.info("启动模拟器")
-    subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH),  '--instance', 'Pie64', '--cmd', 'launchApp', '--package', 'com.nexon.bluearchive'], isasync=True)
-    sleep(3)
-    for i in range(3):
+    if config.TARGET_EMULATOR_PATH != "":
+        logging.info("启动模拟器")
+        subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH)], isasync=True)
+        for i in range(5):
+            print("等待模拟器启动中...{}".format(5-i))
+            sleep(1.2)
+    else:
+        logging.info("未配置模拟器路径")
+    while 1:
         logging.info("检查连接")
         if check_connect():
-            # 连接成功，运行任务
+            # 连接成功
+            # 使用adb打开包名为com.nexon.bluearchive的app
+            subprocess_run(["{}".format(config.ADB_PATH), 'shell', 'am', 'start', 'com.nexon.bluearchive/.MxUnityPlayerActivity'])
+            # 运行任务
             my_AllTask.run()
             break
         else:
-            port = input("请输入模拟器端口号(留空以继续使用配置文件)：")
+            port = input("未能连接至模拟器，可能由于请输入模拟器端口号(留空以继续使用配置文件)：")
             if port=="":
                 continue
             else:

@@ -53,7 +53,7 @@ class InEvent(Task):
         # 尝试前往活动页面
         logging.info("尝试前往活动页面")
         self.run_until(
-            lambda: click((105, 162)),
+            lambda: click((105, 162), sleeptime=1.5),
             lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
         )
         # 如果不是活动页面，返回上一级

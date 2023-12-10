@@ -102,6 +102,7 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     # connect_to_device()
+    screenshot()
     
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -121,7 +122,8 @@ if __name__=="__main__":
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    # InTimeTable().run()
+    # swipe((915, 643), (920, 180), 1.5)
+    # InEvent().run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     
