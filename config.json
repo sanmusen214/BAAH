@@ -55,7 +55,7 @@
     ],
 
     "Warning" : "下方内容一般无需更改",
-    "VERSION" : "0.6.1",
+    "VERSION" : "1.0.0",
     "ADB_PATH" : "./tools/adb/adb.exe",
     "PIC_PATH" : "./assets",
     "SCREENSHOT_NAME" : "screenshot.png"
