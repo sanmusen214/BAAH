@@ -8,7 +8,7 @@ logging.getLogger("subprocess").setLevel(logging.WARNING)
 
 def subprocess_run(cmd: Tuple[str], isasync=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding = "utf-8"):
     """
-    Run a command in a subprocess and return the return code.
+    Run a command in a subprocess and return the instance.
     
     Parameters
     ==========

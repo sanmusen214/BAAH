@@ -50,3 +50,20 @@ def screen_shot_to_global():
     # # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
     # img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
     # cv2.imwrite("./{}".format(config.SCREENSHOT_NAME), img_screenshot)
+    
+def check_app_running(app_name:str) -> bool:
+    """
+    检查app是否在运行
+    """
+    # 使用adb获取当前运行的app
+    output = subprocess_run([config.ADB_PATH, 'shell', 'dumpsys', 'activity', 'activities']).stdout
+    if app_name in output:
+        return True
+    else:
+        return False
+    
+def open_app(app_name:str, activity_name:str):
+    """
+    使用adb打开app
+    """
+    subprocess_run(["{}".format(config.ADB_PATH), 'shell', 'am', 'start', f'{app_name}/.{activity_name}'])

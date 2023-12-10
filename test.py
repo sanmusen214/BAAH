@@ -103,7 +103,6 @@ if __name__=="__main__":
     
     # connect_to_device()
     screenshot()
-    
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])

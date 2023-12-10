@@ -18,9 +18,9 @@ def BAAH_main():
     if config.TARGET_EMULATOR_PATH != "":
         logging.info("启动模拟器")
         subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH)], isasync=True)
-        for i in range(5):
-            print("等待模拟器启动中...{}".format(5-i))
-            sleep(1.2)
+        for i in range(3):
+            logging.info("等待模拟器启动中...{}".format(i+1))
+            sleep(2)
     else:
         logging.info("未配置模拟器路径")
     while 1:
@@ -28,8 +28,13 @@ def BAAH_main():
         if check_connect():
             # 连接成功
             # 使用adb打开包名为com.nexon.bluearchive的app
-            subprocess_run(["{}".format(config.ADB_PATH), 'shell', 'am', 'start', 'com.nexon.bluearchive/.MxUnityPlayerActivity'])
+            # 检查这个app是否在运行
+            logging.info("连接成功，尝试进入游戏...")
+            while not check_app_running("com.nexon.bluearchive"):
+                subprocess_run(["{}".format(config.ADB_PATH), 'shell', 'am', 'start', 'com.nexon.bluearchive/.MxUnityPlayerActivity'])
+                sleep(3)
             # 运行任务
+            logging.info("运行任务")
             my_AllTask.run()
             break
         else:

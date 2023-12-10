@@ -44,21 +44,3 @@ for task_name in config.TASK_ORDER:
     if task_name not in task_dict:
         raise Exception(f"任务名:<{task_name}>不存在, 请检查config.py中的TASK_ORDER是否正确, 正确的任务名有: {list(task_dict.keys())}")
     my_AllTask.add_task(task_dict[task_name])
-
-
-my_AllTask.add_task(EnterGame())
-my_AllTask.add_task(InCafe())
-my_AllTask.add_task(InTimeTable())
-my_AllTask.add_task(InClub())
-
-
-my_AllTask.add_task(InWanted())
-my_AllTask.add_task(InExchange())
-my_AllTask.add_task(InContest())
-my_AllTask.add_task(InQuest(types=["hard"]))
-my_AllTask.add_task(InEvent())
-
-
-my_AllTask.add_task(CollectDailyRewards())
-my_AllTask.add_task(CollectMails())
-my_AllTask.add_task(InQuest(types=["normal"]))
