@@ -1,4 +1,5 @@
 import base64
+import traceback
 import sys
 import os
 # 将当前脚本所在目录添加到模块搜索路径
@@ -18,9 +19,12 @@ if __name__ in ["__main__", "__mp_main__"]:
     # base64解码
     print(base64.b64decode(aris_base64).decode("utf-8"))
     
-    
-    # 不带GUI运行
-    BAAH_main()
-    # 带GUI运行
-    # gui = BAAH_GUI(BAAH_main)
-    # gui.runGUI()
+    try:
+        # 不带GUI运行
+        BAAH_main()
+        # 带GUI运行
+        # gui = BAAH_GUI(BAAH_main)
+        # gui.runGUI()
+    except Exception as e:
+        # 打印完整的错误信息
+        traceback.print_exc()

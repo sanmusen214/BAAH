@@ -2,7 +2,7 @@ import multiprocessing
 import time
 from nicegui import ui
 import logging
-import config
+from modules.utils.MyConfig import config
 
 # 创建一个自定义的 logging.Handler
 class GUISupport(logging.Handler):

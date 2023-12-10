@@ -1,5 +1,5 @@
 import subprocess
-import config
+from modules.utils.MyConfig import config
 import logging
 from modules.utils.subprocess_helper import subprocess_run
 import time

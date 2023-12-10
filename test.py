@@ -2,7 +2,7 @@
 import threading
 import requests
 import cv2
-import config
+from modules.utils.MyConfig import config
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.InCafe.TouchHead import TouchHead

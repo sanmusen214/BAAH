@@ -6,7 +6,7 @@ from .subprocess_helper import *
 
 import logging
 import time
-import config
+from modules.utils.MyConfig import config
 
 def click(item:Union[str, Tuple[float, float]], sleeptime = -1) -> bool:
     """

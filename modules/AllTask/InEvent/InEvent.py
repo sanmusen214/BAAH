@@ -3,7 +3,7 @@ import logging
 import random
 import time
 import requests
-import config
+from modules.utils.MyConfig import config
 
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName

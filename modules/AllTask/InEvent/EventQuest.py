@@ -1,7 +1,7 @@
  
 import logging
 import time
-import config
+from modules.utils.MyConfig import config
 import numpy as np
 
 from assets.PageName import PageName

@@ -12,7 +12,7 @@ import logging
 import time
 import numpy as np
 
-import config
+from modules.utils.MyConfig import config
 from .RunExchangeFight import RunExchangeFight
 
 class InExchange(Task):

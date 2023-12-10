@@ -1,0 +1,58 @@
+{
+    "TARGET_PORT" : 5555,
+    "TARGET_EMULATOR_PATH" : "C:/Program Files/BlueStacks_nxt/HD-Player.exe",
+    "TIME_AFTER_CLICK" : 0.7,
+
+    "INFO1" : "课程表",
+    "TIMETABLE_TASK" : [
+        [],[],[7, 8],[7, 8],[7, 8],[7],[],[],[]
+    ],
+    "INFO2" : "悬赏通缉",
+    "WANTED_HIGHEST_LEVEL" : [
+                                [1, 9, -1],
+                                [2, 9, -1],
+                                [3, 9, -1]
+                            ],
+    "EXCHANGE_HIGHEST_LEVEL" : [
+                                [1, 2, 3],
+                                [2, 2, 3],
+                                [3, 2, 3]
+                            ],
+    "EVENT_QUEST_LEVEL" : [
+        [[11, -1]],
+        [[12, -1]]
+    ],
+
+    "QUEST" : {
+                "HARD":     [
+                                [[14,3,-1], [20,3,-1]]
+                            ],
+                "NORMAL":   [
+                                [[20,1,-1]],
+                                [[20,2,-1]],
+                                [[20,3,-1]],
+                                [[20,4,-1]],
+                                [[20,5,-1]]
+                            ]
+            },
+    "TASK_ORDER" : [
+        "登录游戏",
+        "咖啡馆",
+        "课程表",
+        "社团",
+        "悬赏通缉",
+        "学园交流会",
+        "战术大赛",
+        "困难关卡",
+        "活动关卡",
+        "每日任务",
+        "邮件",
+        "普通关卡"
+    ],
+
+    "Warning" : "下方内容一般无需更改",
+    "VERSION" : "0.6.1",
+    "ADB_PATH" : "./tools/adb/adb.exe",
+    "PIC_PATH" : "./assets",
+    "SCREENSHOT_NAME" : "screenshot.png"
+}

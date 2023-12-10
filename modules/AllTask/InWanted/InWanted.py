@@ -12,7 +12,7 @@ import logging
 import time
 import numpy as np
 from .RunWantedFight import RunWantedFight
-import config
+from modules.utils.MyConfig import config
 
 class InWanted(Task):
     def __init__(self, name="InWanted") -> None:
