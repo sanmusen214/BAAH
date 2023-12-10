@@ -1,6 +1,7 @@
 import json
 # this module is load before logging, so we just print things
 import os
+import time
 
 class MyConfigger:
     # 读取config这个py里面的配置
@@ -20,8 +21,8 @@ class MyConfigger:
                 return dictconfig
         except Exception as e:
             print(e)
-            print('读取config.json文件时发生错误，请检查config.json文件的以下行列',str(e))
-            
+            print('读取config.json文件时发生错误，请检查config.json文件',str(e))
+            input("按回车键退出程序")
             # 程序退出
             os._exit(0)
     
