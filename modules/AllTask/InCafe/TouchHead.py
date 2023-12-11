@@ -37,6 +37,7 @@ class TouchHead(Task):
         times_in_run = 3
         for i in range(totalruns):
             # sometimes a speak will cover the NOTICE icon, so we need to double check
+            click(Page.MAGICPOINT)
             self.run_until(
                 lambda: self.click_head_and_magic(),
                 lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95, rotate_trans=True),

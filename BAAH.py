@@ -36,7 +36,7 @@ def BAAH_main():
             # 检查这个app是否在运行
             while not check_app_running("com.nexon.bluearchive"):
                 logging.info("连接成功，尝试打开游戏...")
-                subprocess_run(["{}".format(config.ADB_PATH), 'shell', 'am', 'start', 'com.nexon.bluearchive/.MxUnityPlayerActivity'])
+                open_app("com.nexon.bluearchive", "MxUnityPlayerActivity")
                 sleep(3)
             # 运行任务
             logging.info("运行任务")
