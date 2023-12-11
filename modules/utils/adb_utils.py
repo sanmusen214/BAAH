@@ -9,6 +9,10 @@ import cv2
 def disconnect_all_devices():
     """Disconnect all devices."""
     subprocess_run([config.ADB_PATH, "disconnect"])
+    
+def kill_adb_server():
+    """Kill the adb server."""
+    subprocess_run([config.ADB_PATH, "kill-server"])
 
 def connect_to_device():
     """Connect to a device with the given device port."""

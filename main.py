@@ -29,4 +29,4 @@ if __name__ in ["__main__", "__mp_main__"]:
     except Exception as e:
         # 打印完整的错误信息
         traceback.print_exc()
-    input("按回车键退出BAAH")
+    input("按回车键退出BAAH:")
