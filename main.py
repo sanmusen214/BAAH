@@ -12,7 +12,7 @@ from BAAH import BAAH_main
 from assets.Aris import aris_base64
 if __name__ in ["__main__", "__mp_main__"]:
     print("+"+"BAAH".center(80, "="), "+")
-    print("||"+f"Version: {config.VERSION}".center(80, " ")+"||")
+    print("||"+f"Version: {config.NOWVERSION}".center(80, " ")+"||")
     print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
     print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
     print("||"+"".center(80, " ")+"||")

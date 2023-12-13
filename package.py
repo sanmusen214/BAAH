@@ -47,10 +47,10 @@ except FileExistsError as e:
     print("assets文件夹已存在!")
 
 # 压缩./dist/BAAH文件夹为BAAH.zip
-z = zipfile.ZipFile(f'./dist/BAAH{config.VERSION}.zip', 'w', zipfile.ZIP_DEFLATED)
+z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = "./dist/BAAH"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
         z.write(os.path.join(dirpath, filename))
 
-print(f"完成，压缩包'./dist/BAAH{config.VERSION}.zip'已生成")
+print(f"完成，压缩包'./dist/BAAH{config.NOWVERSION}.zip'已生成")

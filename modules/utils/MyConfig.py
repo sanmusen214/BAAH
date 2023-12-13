@@ -4,6 +4,7 @@ import os
 import time
 
 class MyConfigger:
+    NOWVERSION="1.0.2"
     # 读取config这个py里面的配置
     def __init__(self, file_path):
         self.file_path = file_path
