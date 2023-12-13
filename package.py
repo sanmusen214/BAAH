@@ -46,24 +46,32 @@ try:
 except FileExistsError as e:
     print("assets文件夹已存在!")
 
+# 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config.NOWVERSION}.exe
+os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config.NOWVERSION}.exe'))
+
+# 重命名./dist/BAAH/config.json为./dist/BAAH/config_example.json
+os.rename(os.path.join('./dist', 'BAAH', 'config.json'), os.path.join('./dist', 'BAAH', 'config_example.json'))
+
+# 重命名./dist/BAAH文件夹为./dist/BAAH{config.NOWVERSION}
+os.rename(os.path.join('./dist', 'BAAH'), os.path.join('./dist', f'BAAH{config.NOWVERSION}'))
+
+print("重命名成功")
+
 # 压缩./dist/BAAH文件夹为BAAH.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}.zip', 'w', zipfile.ZIP_DEFLATED)
-startdir = "./dist/BAAH"
+startdir = f"./dist/BAAH{config.NOWVERSION}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
         z.write(os.path.join(dirpath, filename))
         
 # 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}_update.zip', 'w', zipfile.ZIP_DEFLATED)
-startdir = "./dist/BAAH"
+startdir = f"./dist/BAAH{config.NOWVERSION}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     # 去除./dist/BAAH/_internal, tools
     if "_internal" in dirpath or "tools" in dirpath:
         continue
     for filename in filenames:
-        # 去除config.json
-        if filename == "config.json":
-            continue
         z.write(os.path.join(dirpath, filename))
 
 print(f"完成，压缩包已生成")
