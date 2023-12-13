@@ -43,22 +43,23 @@ class RaidQuest(Task):
         # 弹出任务咨询页面后选择次数
         if repeat_times < 0:
             # max times
-            if repeat_times == -1:
-                click((1084, 299))
-            else:
-                decrease_times = -1 - repeat_times
+            click((1084, 299))
+            if repeat_times < -1:
+                # max times - Math.abs(repeat_times)
                 # 按减号
-                
+                # decrease times
+                for t in range(abs(repeat_times)):
+                    click((857, 301))
         else:
             for t in range(max(0,repeat_times-1)):
-                # add times
+                # increase times
                 click((1014, 300))
         # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示，还有个是购买困难扫荡券的提示
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),
             lambda: match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9) or match(popup_pic(PopupName.POPUP_USE_DIAMOND))
         )
-        # 如果弹出购买票卷的弹窗，取消任务
+        # 如果弹出购买体力/票卷的弹窗，取消任务
         if match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
             logging.warn("检测到购买体力/卷票弹窗，取消此类（{}）扫荡任务".format(self.raidname))
             raidstate.set(self.raidname, False)
