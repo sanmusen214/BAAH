@@ -56,6 +56,8 @@ class InSpecial(Task):
         )
         # 扫荡对应的level
         RunSpecialFight(levelnum = target_info[1], runtimes = target_info[2]).run()
+        # 回到主页
+        self.back_to_home()
 
 
     def post_condition(self) -> bool:
