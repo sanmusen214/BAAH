@@ -10,31 +10,37 @@ workdir = os.getcwd()
 print("开始封装")
 
 try:
-    # 拷贝./tools/adb文件夹到./dist/BAAH/tools目录下
+    # 拷贝./tools/adb文件夹到./dist/BAAH/tools/adb
     shutil.copytree('./tools/adb', os.path.join('./dist','BAAH','tools','adb'))
     print("adb文件夹已拷贝")
 except FileExistsError as e:
     print("adb文件夹已存在!")
 try:
-    # 拷贝./tools/nicegui文件夹到./dist/BAAH/_internal目录下
+    # 拷贝./tools/nicegui文件夹到./dist/BAAH/_internal/nicegui
     shutil.copytree('./tools/nicegui', os.path.join('./dist','BAAH','_internal','nicegui'))
     print("nicegui文件夹已拷贝")
 except FileExistsError as e:
     print("nicegui文件夹已存在!")
 try:
-    # 拷贝./tools/pponnxcr文件夹到./dist/BAAH/_internal目录下
+    # 拷贝./tools/pponnxcr文件夹到./dist/BAAH/_internal/pponnxcr
     shutil.copytree('./tools/pponnxcr', os.path.join('./dist','BAAH','_internal','pponnxcr'))
     print("pponnxcr文件夹已拷贝")
 except FileExistsError as e:
     print("pponnxcr文件夹已存在!")
 try:
-    # 拷贝./config.json到./dist/BAAH目录下
+    # 拷贝./config.json到./dist/BAAH/config.json
     shutil.copyfile('./config.json', os.path.join('./dist', 'BAAH', 'config.json'))
     print("config.json已拷贝")
 except FileExistsError as e:
     print("config.json已存在!")
 try:
-    # 拷贝assets文件夹到./dist/BAAH目录下
+    # 拷贝./重启adb服务.bat到./dist/BAAH/重启adb服务.bat
+    shutil.copyfile('./重启adb服务.bat', os.path.join('./dist', 'BAAH', '重启adb服务.bat'))
+    print("重启adb服务.bat已拷贝")
+except FileExistsError as e:
+    print("重启adb服务.bat已存在!")
+try:
+    # 拷贝assets文件夹到./dist/BAAH/assets
     shutil.copytree('./assets', os.path.join('./dist', 'BAAH', 'assets'))
     print("assets文件夹已拷贝")
 except FileExistsError as e:

@@ -1,6 +1,7 @@
 tools/
 screenshot.png
 selected_region.png
+重启adb服务.bat
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
