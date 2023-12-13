@@ -30,6 +30,7 @@ task_dict= {
     "课程表":InTimeTable(),
     "社团":InClub(),
     "悬赏通缉":InWanted(),
+    "特殊任务":InSpecial(),
     "学园交流会":InExchange(),
     "战术大赛":InContest(),
     "困难关卡":InQuest(types=["hard"]),

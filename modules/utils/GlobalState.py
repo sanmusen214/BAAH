@@ -16,6 +16,7 @@ class __GlobalState:
 
 class RaidState(__GlobalState):
     Exchange="Exchange"
+    Special="Special"
     Wanted="Wanted"
     NormalQuest="NormalQuest"
     HardQuest="HardQuest"
@@ -23,4 +24,5 @@ class RaidState(__GlobalState):
     def __init__(self) -> None:
         super().__init__()
 
+# 全局变量，与扫荡相关的状态
 raidstate = RaidState()

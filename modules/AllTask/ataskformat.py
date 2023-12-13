@@ -8,7 +8,7 @@ from assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
 
 class NameOfTask(Task):
     def __init__(self, name="NameOfTask") -> None:

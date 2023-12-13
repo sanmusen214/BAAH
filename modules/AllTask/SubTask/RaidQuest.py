@@ -13,7 +13,7 @@ from modules.utils.GlobalState import raidstate
 
 class RaidQuest(Task):
     """
-    从看到扫荡弹窗开始，到点击了扫荡按钮或购买按钮结束，不包含后续关闭收获弹窗/购买弹窗的操作。
+    从看到扫荡弹窗开始，到点击了扫荡按钮或购买按钮结束，默认不包含后续关闭收获弹窗/购买弹窗的操作。
 
     Parameters
     ==========
@@ -21,12 +21,16 @@ class RaidQuest(Task):
         扫荡的关卡名称
     raidtimes: int
         扫荡次数，-1为最大次数，-n为最大次数减去若干次，0为不扫荡，正数为具体扫荡次数
+    recall_close：function
+        回调函数，用于后续关闭弹窗，通常建议将关闭操作放在此class外部
     """
-    def __init__(self, raidname,raidtimes,  name="RaidQuest") -> None:
+    def __init__(self, raidname,raidtimes, recall_close=None, name="RaidQuest") -> None:
         super().__init__(name)
         self.raidname = raidname
         self.raidtimes = raidtimes
         self.click_magic_when_run = False
+        # 回调函数，用于关闭弹窗
+        self.recall_close = recall_close
 
     def pre_condition(self) -> bool:
         return match(popup_pic(PopupName.POPUP_TASK_INFO))
@@ -50,6 +54,9 @@ class RaidQuest(Task):
                 # decrease times
                 for t in range(abs(repeat_times)):
                     click((857, 301))
+        elif repeat_times == 0:
+            logging.info("扫荡次数为0，不扫荡")
+            return
         else:
             for t in range(max(0,repeat_times-1)):
                 # increase times
@@ -72,6 +79,9 @@ class RaidQuest(Task):
                 lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 lambda: not match(popup_pic(PopupName.POPUP_NOTICE))
             )
+        # 如果传入了回调函数，则调用它来关闭弹窗
+        if self.recall_close:
+            self.recall_close()
 
      
     def post_condition(self) -> bool:
