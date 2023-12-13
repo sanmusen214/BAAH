@@ -95,6 +95,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 
 if __name__=="__main__":
+    # print(os.path.getsize(f"./{'screenshot.png'}"))
+    
     # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
     # response = requests.get(request_url)
     # if response.status_code == 200:
@@ -102,7 +104,7 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     # connect_to_device()
-    screenshot()
+    # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])

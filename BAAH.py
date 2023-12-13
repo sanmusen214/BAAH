@@ -35,10 +35,20 @@ def BAAH_main():
             # 连接成功
             # 使用adb打开包名为com.nexon.bluearchive的app
             # 检查这个app是否在运行
-            while not check_app_running("com.nexon.bluearchive"):
-                logging.info("连接成功，尝试打开游戏...")
-                open_app("com.nexon.bluearchive", "MxUnityPlayerActivity")
-                sleep(3)
+            for i in range(5):
+                if not check_app_running("com.nexon.bluearchive"):
+                    if i>=2:
+                        yorn = input("连接后多次打开失败，是否重启adb服务？(y/n):")
+                        if yorn == "y" or yorn == "Y":
+                            logging.warn("重启adb服务")
+                            kill_adb_server()
+                            raise Exception("由于重启了adb服务，请重新运行脚本")
+                    logging.info("尝试打开游戏...")
+                    open_app("com.nexon.bluearchive", "MxUnityPlayerActivity")
+                    sleep(3)
+                else:
+                    logging.info("打开游戏")
+                    break
             # 运行任务
             logging.info("运行任务")
             my_AllTask.run()

@@ -6,9 +6,11 @@ import time
 import numpy as np
 import cv2
 
+serialNumber = "127.0.0.1:"+str(config.TARGET_PORT)
+
 def disconnect_all_devices():
     """Disconnect all devices."""
-    subprocess_run([config.ADB_PATH, "disconnect"])
+    subprocess_run([config.ADB_PATH, "disconnect", serialNumber])
     
 def kill_adb_server():
     """Kill the adb server."""
@@ -20,11 +22,11 @@ def connect_to_device():
     
 def click_on_screen(x, y):
     """Click on the given coordinates."""
-    subprocess_run([config.ADB_PATH, "shell", "input", "tap", str(x), str(y)])
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "tap", str(x), str(y)])
 
 def swipe_on_screen(x1, y1, x2, y2, ms):
     """Swipe from the given coordinates to the other given coordinates."""
-    subprocess_run([config.ADB_PATH, "shell", "input", "swipe", str(x1), str(y1), str(x2), str(y2), str(int(ms))])
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "swipe", str(x1), str(y1), str(x2), str(y2), str(int(ms))])
 
 def convert_img(path):
     with open(path, "rb") as f:
@@ -39,14 +41,14 @@ def screen_shot_to_global():
     
     filename = config.SCREENSHOT_NAME
     with open("./{}".format(filename),"wb") as out:
-       subprocess_run([config.ADB_PATH, "shell", "screencap", "-p"], stdout=out)
+       subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "screencap", "-p"], stdout=out)
     #adb 命令有时直接截图保存到电脑出错的解决办法-加下面一段即可
     convert_img("./{}".format(filename))
     
     # 方法二，使用cv2提取PIPE管道中的数据
     
     # # 使用subprocess的Popen调用adb shell命令，并将结果保存到PIPE管道中
-    # process = subprocess.run([config.ADB_PATH, "shell", "screencap", "-p"], stdout=subprocess.PIPE)
+    # process = subprocess.run([config.ADB_PATH, "-s", serialNumber, "shell", "screencap", "-p"], stdout=subprocess.PIPE)
     # # 读取管道中的数据
     # screenshot = process.stdout
     # # 将读取的字节流数据的回车换行替换成'\n'
@@ -60,7 +62,7 @@ def check_app_running(app_name:str) -> bool:
     检查app是否在运行
     """
     # 使用adb获取当前运行的app
-    output = subprocess_run([config.ADB_PATH, 'shell', 'dumpsys', 'activity', 'activities']).stdout
+    output = subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'dumpsys', 'activity', 'activities']).stdout
     if app_name in output:
         return True
     else:
@@ -70,4 +72,4 @@ def open_app(app_name:str, activity_name:str):
     """
     使用adb打开app
     """
-    subprocess_run(["{}".format(config.ADB_PATH), 'shell', 'am', 'start', f'{app_name}/.{activity_name}'])
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'am', 'start', f'{app_name}/.{activity_name}'])

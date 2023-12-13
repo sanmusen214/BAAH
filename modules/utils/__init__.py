@@ -167,9 +167,11 @@ def check_connect():
     connect_to_device()
     # 尝试截图
     screenshot()
+    time.sleep(2)
     if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
+        print("截图文件大小为", os.path.getsize(f"./{config.SCREENSHOT_NAME}")/1024, "KB")
         # 检查文件大小
-        if os.path.getsize(f"./{config.SCREENSHOT_NAME}") > 1000:
+        if os.path.getsize(f"./{config.SCREENSHOT_NAME}") !=0: # 不为0
             logging.info("adb与模拟器连接正常")
             return True
     logging.error("adb与模拟器连接失败")
