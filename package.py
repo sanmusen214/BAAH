@@ -52,5 +52,18 @@ startdir = "./dist/BAAH"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
         z.write(os.path.join(dirpath, filename))
+        
+# 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH.zip
+z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}_update.zip', 'w', zipfile.ZIP_DEFLATED)
+startdir = "./dist/BAAH"
+for dirpath, dirnames, filenames in os.walk(startdir):
+    # 去除./dist/BAAH/_internal, tools
+    if "_internal" in dirpath or "tools" in dirpath:
+        continue
+    for filename in filenames:
+        # 去除config.json
+        if filename == "config.json":
+            continue
+        z.write(os.path.join(dirpath, filename))
 
-print(f"完成，压缩包'./dist/BAAH{config.NOWVERSION}.zip'已生成")
+print(f"完成，压缩包已生成")
