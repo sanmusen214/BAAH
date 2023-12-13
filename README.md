@@ -18,6 +18,10 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
 3. [nicegui](https://github.com/zauberzeug/nicegui): 用于未来的GUI功能
 
+## 交流群
+
+QQ: 441069156
+
 ## 打算开发/已开发完成的自动化任务:
 
 - [x] 登录游戏相关
@@ -124,3 +128,10 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
   ]
 ```
 表示第一天扫荡第19个地点的第一个关卡5次，然后扫荡第20个地点的第1个关卡max次。第二天扫荡第20个地点的第二个关卡max次。注意这里的关卡是指屏幕从上到下数的第几个关卡，比如普通关卡的第三个地区的第一个关卡是TR-5训练关卡，第二个关卡是3-1，那么如果你想刷取3-1，就应该设置为 [3,2,-1]
+
+# 打包
+
+项目下新建tools文件夹，放入压缩包中的adb，nicegui，pponnxcr文件夹
+
+1. `pyinstaller main.spec`
+2. `python package.py`
