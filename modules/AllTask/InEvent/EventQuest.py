@@ -1,6 +1,8 @@
  
 import logging
 import time
+from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.utils.GlobalState import raidstate
 from modules.utils.MyConfig import config
 import numpy as np
 
@@ -55,36 +57,15 @@ class EventQuest(Task):
                     lambda: click((1129, ypoints[level_ind-7])),
                     lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
                 )
-            # 弹出任务咨询页面后选择次数
-            if repeat_times < 0:
-                # max times
-                click((1084, 299))
-            else:
-                for t in range(max(0,repeat_times-1)):
-                    # add times
-                    click((1014, 300))
-            # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示。一个是弹出购买扫荡卷的提示
-            self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),
-                lambda: match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9)
-            )
-            # 如果弹出购买票卷的弹窗，取消任务
-            if match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
-                logging.warn("体力不足，取消扫荡任务")
-                break
-            else:
-                # 弹出确认框，点击确认
-                logging.info("点击弹窗内的确认")
-                self.run_until(
-                    lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
-                    lambda: not match(popup_pic(PopupName.POPUP_NOTICE))
-                )
+            RaidQuest(raidstate.Event, repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")
             Task.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
+            if not raidstate.get(raidstate.Event, True):
+                return
         
 
      

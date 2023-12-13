@@ -4,7 +4,7 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 
 BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Android Emulator.
 
-[English Document]
+[English Document is on the way, but it is a complex work to turn displayed text and suit language in BA to English. For those sensei who use English as their main language may need to wait Christmas holiday]
 
 灵感来自以下项目:
 

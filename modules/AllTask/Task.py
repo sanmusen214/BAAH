@@ -12,6 +12,8 @@ class Task:
         self.name = name
         self.pre_times = pre_times
         self.post_times = post_times
+        self.click_magic_when_run = True
+        """运行时是否点击魔法点重置窗口状态到Page级别"""
         
     def pre_condition(self) -> bool:
         """
@@ -50,12 +52,13 @@ class Task:
         if(Task.run_until(self.click_magic_sleep,self.pre_condition, self.pre_times)):
             logging.info("执行任务{}".format(self.name))
             self.on_run()
-            logging.info("判断任务{}是否执行完毕".format(self.name))
+            logging.info("判断任务{}执行结果是否可控".format(self.name))
             if(Task.run_until(self.click_magic_sleep,self.post_condition, self.post_times)):
-                logging.info("任务{}执行完毕".format(self.name))
+                logging.info("任务{}执行结束".format(self.name))
             else:
                 logging.warn("任务{}执行后条件不成立或超时".format(self.name))
-                raise Exception("任务{}执行后条件不成立或超时，程序退出".format(self.name))
+                if not self.back_to_home():
+                    raise Exception("任务{}执行后条件不成立或超时，且无法正确返回主页，程序退出".format(self.name))
         else:
             logging.warn("任务{}执行前条件不成立或超时，跳过此任务".format(self.name))
 
@@ -102,16 +105,18 @@ class Task:
             return True
         return False
 
-    @staticmethod
-    def click_magic_sleep(sleeptime = 3):
-        click(Page.MAGICPOINT, sleeptime)
+    def click_magic_sleep(self, sleeptime = 3):
+        if self.click_magic_when_run:
+            click(Page.MAGICPOINT, sleeptime)
+        else:
+            sleep(sleeptime)
     
     @staticmethod
     def run_until(func1, func2, times=5, sleeptime = 1.5) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
-        func1内部应当只产生有效操作一次, func2判断前会先触发截图
+        func1内部应当只产生有效操作一次或内部调用截图函数, func2判断前会先触发截图
         
         每次执行完func1后,等待sleeptime秒
 

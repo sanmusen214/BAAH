@@ -6,9 +6,11 @@ from assets.ButtonName import ButtonName
 from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
+from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils.GlobalState import raidstate
 from .Questhelper import jump_to_page, close_popup_until_see
 import numpy as np
 
@@ -60,31 +62,10 @@ class NormalQuest(Task):
                 logging.info("click right arrow to level {}".format(level_ind))
                 for i in range(level_ind-3):
                     click((1197, 359))
-
-            # 弹出任务咨询页面后选择次数
-            if repeat_times < 0:
-                # max times
-                click((1084, 299))
-            else:
-                for t in range(max(0,repeat_times-1)):
-                    # add times
-                    click((1014, 300))
-            # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示。一个是弹出购买扫荡卷的提示
-            self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),
-                lambda: match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9)
-            )
-            # 如果弹出购买票卷的弹窗，取消任务
-            if match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
-                logging.warn("体力不足，取消所有Normal扫荡任务")
+            # 扫荡
+            RaidQuest(raidstate.NormalQuest, repeat_times).run()
+            if not raidstate.get(raidstate.NormalQuest, True):
                 break
-            else:
-                # 弹出确认框，点击确认
-                logging.info("点击弹窗内的确认")
-                self.run_until(
-                    lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
-                    lambda: not match(popup_pic(PopupName.POPUP_NOTICE))
-                )
             # 清除所有弹窗
             close_popup_until_see(button_pic(ButtonName.BUTTON_NORMAL))
         # 清除所有弹窗

@@ -22,7 +22,7 @@ class InExchange(Task):
 
      
     def pre_condition(self) -> bool:
-        if len(config.EXCHANGE_HIGHEST_LEVEL) == 0:
+        if not config.EXCHANGE_HIGHEST_LEVEL or len(config.EXCHANGE_HIGHEST_LEVEL) == 0:
             logging.warn("没有配置学院交流会的level")
             return False
         return Page.is_page(PageName.PAGE_HOME)

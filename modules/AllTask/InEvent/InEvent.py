@@ -93,7 +93,7 @@ class InEvent(Task):
             logging.warn("未能成功进入活动Quest标签")
             return
         
-        if len(config.EVENT_QUEST_LEVEL) != 0:
+        if config.EVENT_QUEST_LEVEL and len(config.EVENT_QUEST_LEVEL) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.EVENT_QUEST_LEVEL)
             # 得到要执行的QUEST LIST
@@ -101,7 +101,7 @@ class InEvent(Task):
             quest_list = config.EVENT_QUEST_LEVEL[quest_loc]
             # 序号转下标
             quest_list_2 = [[x[0]-1,x[1]] for x in quest_list]
-            # do HARD QUEST
+            # do Event QUEST
             EventQuest(quest_list_2).run()
 
      
