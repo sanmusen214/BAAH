@@ -33,10 +33,12 @@ class RaidQuest(Task):
     
     
     def on_run(self) -> None:
-        # 全局变量存储是否可继续扫荡的信息
-        if not raidstate.get(self.raidname, True):
-            logging.info("记录到此类关卡（{}）已不可扫荡，取消扫荡任务".format(self.raidname))
-            return
+        # 全局变量存储当前这次任务是否可继续扫荡的信息
+        # 但不应当在开始就判断是否不合法，因为可能config.TASK_ORDER里有多次同名任务
+        # 判断是否提前中止的操作应当交给外部循环层考虑
+        # # if not raidstate.get(self.raidname, True):
+        #     # logging.info("记录到此类关卡（{}）已不可扫荡，取消扫荡任务".format(self.raidname))
+        #     # return
         repeat_times = self.raidtimes
         # 弹出任务咨询页面后选择次数
         if repeat_times < 0:
@@ -58,10 +60,10 @@ class RaidQuest(Task):
         )
         # 如果弹出购买票卷的弹窗，取消任务
         if match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
-            logging.warn("体力不足，取消此类（{}）扫荡任务".format(self.raidname))
+            logging.warn("检测到购买体力/卷票弹窗，取消此类（{}）扫荡任务".format(self.raidname))
             raidstate.set(self.raidname, False)
         elif match(popup_pic(PopupName.POPUP_USE_DIAMOND)):
-            logging.warn("当前关卡扫荡卷不足，跳过该关卡扫荡")
+            logging.warn("检测到需要消耗钻石，跳过该关卡扫荡")
         else:
             # 弹出确认框，点击确认
             logging.info("点击弹窗内的确认")
