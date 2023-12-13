@@ -83,6 +83,16 @@ class InEvent(Task):
         else:
             logging.info("进入Event页面")
         today = time.localtime().tm_mday
+        # 跳到Quest标签
+        self.run_until(
+            lambda: click((944, 98)),
+            lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
+            times=3
+        )
+        if not match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)):
+            logging.warn("未能成功进入活动Quest标签")
+            return
+        
         if len(config.EVENT_QUEST_LEVEL) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.EVENT_QUEST_LEVEL)

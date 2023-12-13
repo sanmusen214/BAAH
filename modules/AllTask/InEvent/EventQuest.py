@@ -24,8 +24,6 @@ class EventQuest(Task):
     
      
     def on_run(self) -> None:
-        # 跳到Quest标签
-        click((944, 98))
         # 按level执行
         for level in self.level_list:
             click((944, 98))
