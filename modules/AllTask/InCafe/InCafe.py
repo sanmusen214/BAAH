@@ -27,6 +27,7 @@ class InCafe(Task):
     def on_run(self) -> None:
         # 进入咖啡厅
         self.run_until(
+            # 恰好是主页中的咖啡厅按钮，而又不是咖啡厅里的编辑按钮
             lambda: click((116, 687)) and click(Page.MAGICPOINT),
             lambda: Page.is_page(PageName.PAGE_CAFE),
         ) 

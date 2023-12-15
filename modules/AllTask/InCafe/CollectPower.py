@@ -39,7 +39,7 @@ class CollectPower(Task):
         logging.info("成功点击右下角收集")
         # 重复点领取直到领取按钮变灰，这之间其实也关闭了领取成功的弹窗
         self.run_until(
-            lambda: click((640, 520)), 
+            lambda: click(button_pic(ButtonName.BUTTON_COLLECT)), 
             lambda: match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)),
             times = 5)
         logging.info("成功点击领取")

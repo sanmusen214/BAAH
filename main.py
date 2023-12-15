@@ -15,6 +15,7 @@ if __name__ in ["__main__", "__mp_main__"]:
     print("||"+f"Version: {config.NOWVERSION}".center(80, " ")+"||")
     print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
     print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
+    print("||" + "QQ群: 441069156".center(80, " ") + "||")
     print("||"+"".center(80, " ")+"||")
     print("+"+"".center(80, "=")+"+")
     # base64解码

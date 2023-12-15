@@ -22,7 +22,7 @@ class MyConfigger:
             #TODO: 启动游戏这个环节改成TASK
             self.__dict__['ACTIVITY_PATH'] = "com.nexon.bluearchive/.MxUnityPlayerActivity"
             self.configdict['ACTIVITY_PATH'] = "com.nexon.bluearchive/.MxUnityPlayerActivity"
-            logging.warn("缺少配置项：ACTIVITY_PATH，已自动设置为默认值(国际服）：{}".format(self.ACTIVITY_PATH))
+            logging.warn("缺少配置项：ACTIVITY_PATH，已自动设置为默认值(国际服）")
 
     def _read_config(self):
         try:
