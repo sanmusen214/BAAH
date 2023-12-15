@@ -10,7 +10,7 @@ from modules.utils.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 def BAAH_main():
     # 启动模拟器

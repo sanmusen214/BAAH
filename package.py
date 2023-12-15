@@ -45,6 +45,12 @@ try:
     print("assets文件夹已拷贝")
 except FileExistsError as e:
     print("assets文件夹已存在!")
+try:
+    # 拷贝assets_jp文件夹到./dist/BAAH/assets_jp
+    shutil.copytree('./assets_jp', os.path.join('./dist', 'BAAH', 'assets_jp'))
+    print("assets_jp文件夹已拷贝")
+except FileExistsError as e:
+    print("assets_jp文件夹已存在!")
 
 # 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config.NOWVERSION}.exe
 os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config.NOWVERSION}.exe'))

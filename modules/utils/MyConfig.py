@@ -8,7 +8,7 @@ class MyConfigger:
     """
     维护一个config字典，同时将config.json的配置项作为实例属性
     """
-    NOWVERSION="1.0.3"
+    NOWVERSION="1.0.4"
     # 读取config这个py里面的配置
     def __init__(self, file_path):
         self.file_path = file_path
