@@ -29,7 +29,7 @@ def main():
         # 截图
         global start_x, start_y, drawing
         if event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
-            print(f"Mouse click: ({x}, {y})", f"rgb array of this pixel: {screenshot[y, x]}")
+            print(f"点击位置: ({x}, {y})", f"RGB 数组: {screenshot[y, x]}")
             rgb_result[0].append(screenshot[y, x][0])
             rgb_result[1].append(screenshot[y, x][1])
             rgb_result[2].append(screenshot[y, x][2])
@@ -52,7 +52,7 @@ def main():
             # 保存截取的区域到当前目录
             selected_region = screenshot[min(start_y,end_y):max(start_y,end_y), min(start_x,end_x):max(start_x,end_x)]
             cv2.imwrite("./selected_region.png", selected_region)
-            print("Selected region saved as 'selected_region.png'")
+            print("选定区域已被保存为 'selected_region.png'")
 
     # cv2.circle(screenshot, (643, 518), 10, (0, 0, 255), -1)
 
@@ -95,6 +95,15 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 
 if __name__=="__main__":
+    # if not check_connect():
+    #     print("请先连接设备")
+    #     exit()
+    # while 1:
+    #     input("按回车键截图:")
+    #     print("左键拖动区域截图，右键点击获取坐标点信息")
+    #     screenshot()
+    #     main()
+    
     # print(os.path.getsize(f"./{'screenshot.png'}"))
     
     # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
@@ -104,14 +113,14 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     # connect_to_device()
-    # screenshot()
+    screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", page_pic(PageName.PAGE_EVENT),  show_result=True, auto_rotate_if_trans=True)
+    res1 = match_pattern("./screenshot.png", './selected_region.png',  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     # main()

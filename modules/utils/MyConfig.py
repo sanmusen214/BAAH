@@ -1,9 +1,13 @@
 import json
+import logging
 # this module is load before logging, so we just print things
 import os
 import time
 
 class MyConfigger:
+    """
+    维护一个config字典，同时将config.json的配置项作为实例属性
+    """
     NOWVERSION="1.0.3"
     # 读取config这个py里面的配置
     def __init__(self, file_path):
@@ -13,6 +17,12 @@ class MyConfigger:
         # 实例属性
         for key in self.configdict:
             self.__dict__[key] = self.configdict[key]
+        # 检查缺失的配置
+        if "ACTIVITY_PATH" not in self.configdict:
+            #TODO: 启动游戏这个环节改成TASK
+            self.__dict__['ACTIVITY_PATH'] = "com.nexon.bluearchive/.MxUnityPlayerActivity"
+            self.configdict['ACTIVITY_PATH'] = "com.nexon.bluearchive/.MxUnityPlayerActivity"
+            logging.warn("缺少配置项：ACTIVITY_PATH，已自动设置为默认值(国际服）：{}".format(self.ACTIVITY_PATH))
 
     def _read_config(self):
         try:
@@ -39,4 +49,3 @@ class MyConfigger:
 
 current_dir = os.getcwd()
 config=MyConfigger(os.path.join(current_dir, 'config.json'))
-    

@@ -57,10 +57,15 @@ def screen_shot_to_global():
     # img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
     # cv2.imwrite("./{}".format(config.SCREENSHOT_NAME), img_screenshot)
     
-def check_app_running(app_name:str) -> bool:
+def check_app_running(activity_path:str) -> bool:
     """
     检查app是否在运行
     """
+    try:
+        app_name = activity_path.split("/")[0]
+    except Exception as e:
+        logging.error("activity_path格式错误")
+        return False
     # 使用adb获取当前运行的app
     output = subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'dumpsys', 'activity', 'activities']).stdout
     if app_name in output:
@@ -68,8 +73,8 @@ def check_app_running(app_name:str) -> bool:
     else:
         return False
     
-def open_app(app_name:str, activity_name:str):
+def open_app(activity_path:str):
     """
     使用adb打开app
     """
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'am', 'start', f'{app_name}/.{activity_name}'])
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'am', 'start', activity_path])

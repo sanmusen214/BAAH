@@ -5,24 +5,19 @@
 
     "INFO1" : "课程表",
     "TIMETABLE_TASK" : [
-        [],[],[7, 8],[7, 8],[7, 8],[7],[],[],[]
+        [],[],[],[1, 2],[],[],[],[],[]
     ],
     "INFO2" : "悬赏通缉",
     "WANTED_HIGHEST_LEVEL" : [
-                                [1, 9, -1],
-                                [2, 9, -1],
-                                [3, 9, -1]
+                                [1, 1, -1]
                             ],
     "INFO3" : "特殊任务",
     "SPECIAL_HIGHTEST_LEVEL" : [
-                                [1, 9, 1],
-                                [2, 9, 1]
+                                [1, 1, 2]
                             ],
     "INFO4" : "学园交流会",
     "EXCHANGE_HIGHEST_LEVEL" : [
-                                [1, 2, 3],
-                                [2, 2, 3],
-                                [3, 2, 3]
+
                             ],
     "INFO5" : "活动关卡",
     "EVENT_QUEST_LEVEL" : [
@@ -32,15 +27,11 @@
     "QUEST" : {
                 "INFO6" : "困难关卡",
                 "HARD":     [
-                                [[14,3,-1], [20,3,-1]]
+                                [[1,1,-1]]
                             ],
                 "INFO7" : "普通关卡",
                 "NORMAL":   [
-                                [[20,1,-1]],
-                                [[20,2,-1]],
-                                [[20,3,-1]],
-                                [[20,4,-1]],
-                                [[20,5,-1]]
+                                [[2,1,-1]]
                             ]
             },
     "INFO8" : "任务的执行顺序",
@@ -57,11 +48,13 @@
         "普通关卡",
         "每日任务",
         "邮件",
-        "普通关卡"
+        "普通关卡",
+        "每日任务"
     ],
 
     "Warning" : "下方内容一般无需更改",
     "ADB_PATH" : "./tools/adb/adb.exe",
-    "PIC_PATH" : "./assets",
+    "PIC_PATH" : "./assets_jp",
+    "ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
     "SCREENSHOT_NAME" : "screenshot.png"
 }

@@ -10,7 +10,7 @@ from modules.utils.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 
 def BAAH_main():
     # 启动模拟器
@@ -36,7 +36,7 @@ def BAAH_main():
             # 使用adb打开包名为com.nexon.bluearchive的app
             # 检查这个app是否在运行
             for i in range(5):
-                if not check_app_running("com.nexon.bluearchive"):
+                if not check_app_running(config.ACTIVITY_PATH):
                     if i>=2:
                         yorn = input("连接后多次打开失败，是否重启adb服务？(y/n):")
                         if yorn == "y" or yorn == "Y":
@@ -44,7 +44,7 @@ def BAAH_main():
                             kill_adb_server()
                             raise Exception("由于重启了adb服务，请重新运行脚本")
                     logging.info("尝试打开游戏...")
-                    open_app("com.nexon.bluearchive", "MxUnityPlayerActivity")
+                    open_app(config.ACTIVITY_PATH)
                     sleep(3)
                 else:
                     logging.info("打开游戏")
