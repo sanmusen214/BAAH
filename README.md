@@ -1,8 +1,8 @@
 # Blue_Archive_ArisHelper(BAAH)
 
-BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服）里的 **每日任务**.
+BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服/日服）里的 **每日任务**.
 
-BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Android Emulator.
+BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ver.) in Android Emulator.
 
 [English Document is on the way, but it is a complex work to turn displayed text and suit language in BA to English. For those sensei who use English as their main language may need to wait Christmas holiday]
 
@@ -21,6 +21,10 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver.) in Andro
 ## 交流群
 
 QQ: 441069156
+
+## 致谢
+
+感谢群友 [LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
 
 ## 打算开发/已开发完成的自动化任务:
 
@@ -71,8 +75,8 @@ QQ: 441069156
 
 1. 将模拟器分辨率设置为 1280*720像素， 240 DPI.
 2. 将模拟器设置里的的adb调试打开.
-3. 国际服BA的语言设置为繁体中文
-4. 国际服BA的绘图里的选项全拉到最右边（FPS和渲染加速模式除外）。
+3. 国际服/日服BA的语言设置为繁体中文
+4. 国际服/日服BA的绘图里的选项全拉到最右边（FPS和渲染加速模式除外）。
 5. BA的咖啡厅的摄像机拉到了最高，最好家具全堆在屏幕最右侧
 
 ## 使用方式
@@ -93,27 +97,26 @@ QQ: 441069156
 6. 修改config.py
 7. 执行`python main.py` 运行BAAH
 
-# 配置项目
+# 每日任务配置项目
 
 在 `config.py` 中:
 
-1. ADB_PATH: 安卓调试工具adb.exe所在路径
-2. TARGET_EMULATOR_PATH：模拟器所在路径
-3. TARGET_PORT: 模拟器adb调试的端口
-4. TIME_AFTER_CLICK: 执行点击操作后的等待时间
-5. TIMETABLE_TASK: 课程表任务配置. 长度为9的一个列表，列表的第i个元素内部指定那个地点要点击的教室们的下标，所有下标从0开始。
+1. TARGET_EMULATOR_PATH：模拟器所在路径，空字符串代表不打开模拟器
+2. TARGET_PORT: 模拟器adb调试的端口
+3. TIME_AFTER_CLICK: 执行点击操作后的等待时间（秒）
+4. TIMETABLE_TASK: 课程表任务配置. 长度为9的一个列表，列表的第i个元素内部指定那个地点要点击的教室们的下标，所有下标从0开始。
    
    `[[1,2],[2],[],[],[],[],[],[],[]]` 意味着在第一个地点点击第一个和第二个教室，在第二个地点点击第二个教室，其他地点无点击
 
-6. WANTED_HIGHEST_LEVEL: 悬赏通缉的任务配置，一个列表。列表的每个元素都是长度为3的数组，第一位表示地点下标，第二位表示地点里的关卡下标，第三位表示扫荡次数。所有下标从0开始. 每天只会从列表中挑出一个关卡进行扫荡。
+5. WANTED_HIGHEST_LEVEL: 悬赏通缉的任务配置，一个列表。列表的每个元素都是长度为3的数组，第一位表示地点下标，第二位表示地点里的关卡下标，第三位表示扫荡次数。所有下标从0开始. 每天只会从列表中挑出一个关卡进行扫荡。
    
    `[[1, 9, -1], [2, 9, -1]]` 意味着每天从 [[ 第一个地点的第九个关卡扫荡max次 ]，[ 第二个地点的第九个关卡扫荡max次 ]] 中**挑选一个**来完成。
 
-7. EXCHANGE_HIGHEST_LEVEL: 学园交流会的任务配置，同悬赏通缉的任务配置结构。一个列表。列表的每个元素都是长度为3的数组，第一位表示地点下标，第二位表示地点里的关卡下标，第三位表示扫荡次数。所有下标从0开始. 每天只会从列表中挑出一个关卡进行扫荡。
+6. EXCHANGE_HIGHEST_LEVEL: 学园交流会的任务配置，同悬赏通缉的任务配置结构。一个列表。列表的每个元素都是长度为3的数组，第一位表示地点下标，第二位表示地点里的关卡下标，第三位表示扫荡次数。所有下标从0开始. 每天只会从列表中挑出一个关卡进行扫荡。
 
    `EXCHANGE_HIGHEST_LEVEL = [[1, 2, 3], [2, 2, 2], [3, 3, -3]]` 意味着每天从 [[ 第一个地点的第2个关卡扫荡3次 ]，[ 第二个地点的第2个关卡扫荡2次 ]，[ 第三个地点的第3个关卡扫荡max-3次 ]] 中**挑选一个**来完成。
 
-8. EVENT_QUEST_LEVEL：扫荡活动关卡，每行是一个数组，每天会挑一行执行，支持混合关卡刷取。比如
+7. EVENT_QUEST_LEVEL：扫荡活动关卡，每行是一个数组，每天会挑一行执行，支持混合关卡刷取。比如
 
 ```python
   [
@@ -132,7 +135,30 @@ QQ: 441069156
 ```
 表示第一天扫荡第19个地点的第一个关卡5次，然后扫荡第20个地点的第1个关卡max次。第二天扫荡第20个地点的第二个关卡max次。注意这里的关卡是指屏幕从上到下数的第几个关卡，比如普通关卡的第三个地区的第一个关卡是TR-5训练关卡，第二个关卡是3-1，那么如果你想刷取3-1，就应该设置为 [3,2,-1]
 
+# 服务器（国际服/日服）配置
+
+## 日股
+
+config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
+
+```
+"PIC_PATH" : "./assets_jp",
+"ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
+```
+
+## 国际服
+
+config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
+```
+"PIC_PATH" : "./assets",
+"ACTIVITY_PATH" : "com.nexon.bluearchive/.MxUnityPlayerActivity",
+```
+
 # 更新记录
+
+## 1.0.4
+
+1. 添加日服支持（神明文字活动关卡扫荡暂不支持，需等待下个版本更新）
 
 ## 1.0.3
 
@@ -158,11 +184,6 @@ QQ: 441069156
 
 # 碎碎念
 
-感觉得改改分发手段了，现在一份版本既要提交github，又要上传百度云，还要同步到QQ群里，多少有点杂。
-
-从之前ArisStudio可视化的时候就感觉分发手段多了会导致分发困难。
-
-既然增量更新只会影响BAAH.exe和config.json，干脆把这两个抽离出来得了。然后基础库什么的就永久保存在那不用动。这几天找找有没有相关的库，
+由于增加了对日服的支持，现在需要考虑账号config分离的问题。理想情况是通过参数化TASK_ORDER里的元素。
 
 GUI虽然个人感觉不是很重要，但是改config也不能老是到记事本里面改，有空再做个前端。目前先把基础功能完善了。不过制造的优先级判断太麻烦了实在不想写，购买也需要注意安全性，别一不小心给别人钻石花光了。
-
