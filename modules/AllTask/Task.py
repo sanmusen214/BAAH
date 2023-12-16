@@ -135,13 +135,13 @@ class Task:
         return False
 
     @staticmethod
-    def scroll_right_up():
+    def scroll_right_up(scrollx=928):
         """
         scroll to top
         """
-        swipe((928, 226), (942, 561), sleeptime=0.2)
-        swipe((928, 226), (942, 561), sleeptime=0.2)
-        swipe((928, 226), (942, 561), sleeptime=0.2)
+        swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
+        swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
+        swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
         sleep(0.5)
     
     @staticmethod
