@@ -11,22 +11,25 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 import logging
 
 class InContest(Task):
-    def __init__(self, name="InContest") -> None:
+    def __init__(self, collect=False, name="InContest") -> None:
         super().__init__(name)
+        # 是否领取奖励
+        self.collect = collect
 
      
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
     
-     
+    
     def on_run(self) -> None:
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
             sleeptime=4
         )
+        # 进入竞技场
         canincontest = self.run_until(
-            lambda: click((1093, 500)),
+            lambda: click((1084, 550)),
             lambda: Page.is_page(PageName.PAGE_CONTEST)
         )
         if not canincontest:
