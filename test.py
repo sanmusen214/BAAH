@@ -2,6 +2,7 @@
 import threading
 import requests
 import cv2
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.utils.MyConfig import config
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
@@ -112,7 +113,7 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    # connect_to_device()
+    connect_to_device()
     screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -120,10 +121,10 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    res1 = match_pattern("./screenshot.png", './selected_region.png',  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", './selected_region.png',  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
-    # main()
+    main()
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
@@ -133,7 +134,7 @@ if __name__=="__main__":
     
     # 测task
     # swipe((915, 643), (920, 180), 1.5)
-    # InEvent().run()
+    # ScrollSelect(7, 134, 237, 686, 1118, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
     # NormalQuest(config.QUEST["NORMAL"][1]).run()
     
     

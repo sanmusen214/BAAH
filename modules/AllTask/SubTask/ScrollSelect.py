@@ -53,20 +53,16 @@ class ScrollSelect(Task):
         self.scroll_right_up(scrollx=self.clickx)
         # 计算一个页面包含多少个完整的元素
         itemcount = self.windowheight // self.itemheight
-        print("itemcount: ", itemcount)
         # 计算该页面最后那一个不完整的元素占了多高
         lastitemheight = self.windowheight % self.itemheight
         # 不完整的元素下方还有多少
         hiddenlastitemheight = self.itemheight - lastitemheight
         # 第一个元素高度中心点
         start_center_y = self.window_starty + self.itemheight // 2
-        print("start_center_y: ", start_center_y)
         # 当页最后一个完整元素高度中心点
         end_center_y = start_center_y + (itemcount - 1) * self.itemheight
-        print("end_center_y: ", end_center_y)
         # 如果目标元素就在当前页面
         if self.targetind < itemcount:
-            print("targetind: ", self.targetind)
             # 目标元素高度中心点
             target_center_y = start_center_y + self.itemheight * self.targetind
             self.run_until(
@@ -79,24 +75,19 @@ class ScrollSelect(Task):
             # 目标元素在之后的页面
             # 计算页面应该滑动多少
             scrolltotal_distance = (self.targetind - itemcount) * self.itemheight + hiddenlastitemheight
-            print("scrolltotal_distance: ", scrolltotal_distance)
             # 先把hidden滑上来，多一点距离让ba响应这是个滑动事件
-            print("self.clickx: ", self.clickx, "scroll_start_from_y: ", scroll_start_from_y, "hiddenlastitemheight: ", hiddenlastitemheight)
             swipe((self.clickx, scroll_start_from_y), (self.clickx, scroll_start_from_y - hiddenlastitemheight - self.respoddis), 2)
-            print("hiddenlastitemheight: ", hiddenlastitemheight)
             # 更新scrolltotal_distance
             scrolltotal_distance -= hiddenlastitemheight
             # 还需要往上滑(self.targetind - itemcount) * self.itemheight
             # 重要：每次先划itemcount-1个元素的高度
             scroll_distance = (itemcount - 1) * self.itemheight
             while scroll_distance <= scrolltotal_distance:
-                print("scrolltotal_distance: ", scrolltotal_distance)
                 swipe((self.clickx, scroll_start_from_y), (self.clickx, scroll_start_from_y - scroll_distance - self.respoddis), 2)
                 scrolltotal_distance -= scroll_distance
             if scrolltotal_distance > 5:
                 # 最后一次滑动
                 swipe((self.clickx, scroll_start_from_y), (self.clickx, scroll_start_from_y - scrolltotal_distance - self.respoddis), 1)
-            print(f"滑动结束, {self.window_endy}, {self.itemheight//2}")
             self.run_until(
                 lambda: click((self.clickx, self.window_endy - self.itemheight // 2)),
                 self.hasexpectimage
