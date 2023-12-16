@@ -71,7 +71,8 @@ class RaidQuest(Task):
             logging.warn("检测到购买体力/卷票弹窗，取消此类（{}）扫荡任务".format(self.raidname))
             raidstate.set(self.raidname, False)
         elif match(popup_pic(PopupName.POPUP_USE_DIAMOND)):
-            logging.warn("检测到需要消耗钻石，跳过该关卡扫荡")
+            logging.warn("检测到需要消耗钻石，跳过关卡扫荡")
+            raidstate.set(self.raidname, False)
         else:
             # 弹出确认框，点击确认
             logging.info("点击弹窗内的确认")
@@ -79,6 +80,7 @@ class RaidQuest(Task):
                 lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 lambda: not match(popup_pic(PopupName.POPUP_NOTICE))
             )
+            raidstate.set(self.raidname, True)
         # 如果传入了回调函数，则调用它来关闭弹窗
         if self.recall_close:
             self.recall_close()
