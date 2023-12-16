@@ -11,8 +11,12 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 
 class InviteStudent(Task):
-    def __init__(self, name="InviteStudent") -> None:
+    """
+    stuind 从0开始，邀请的学生的下标
+    """
+    def __init__(self, stuind, name="InviteStudent") -> None:
         super().__init__(name)
+        self.stuind = stuind
 
      
     def pre_condition(self) -> bool:
@@ -20,14 +24,23 @@ class InviteStudent(Task):
     
      
     def on_run(self) -> None:
+        # 打开邀请界面
         self.run_until(
             lambda: click((834, 652)),
             lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
         )
+        # 打开确认弹窗
+        # 默认邀请第一个学生
+        click_pos = (787, 225)
+        # 如果邀请第二个学生
+        if self.stuind == 1:
+            click_pos = (785, 303)
+        # 邀请
         self.run_until(
-            lambda: click((787, 225)),
+            lambda: click(click_pos),
             lambda: match(popup_pic(PopupName.POPUP_NOTICE))
         )
+        # 确认，直到看不见通知弹窗
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
             lambda: not match(popup_pic(PopupName.POPUP_NOTICE))

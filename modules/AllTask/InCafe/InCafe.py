@@ -38,7 +38,7 @@ class InCafe(Task):
                 lambda: not match(popup_pic(PopupName.POPUP_CAFE_VISITED)),
             ) 
         CollectPower().run()
-        InviteStudent().run()
+        InviteStudent(0).run()
         TouchHead().run()
         # 检测是否有第二个咖啡厅
         if match(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM)):
@@ -48,7 +48,7 @@ class InCafe(Task):
             click((247, 165))
 
             CollectPower().run()
-            InviteStudent().run()
+            InviteStudent(1).run()
             TouchHead().run()
         # 返回主页
         Task.back_to_home()

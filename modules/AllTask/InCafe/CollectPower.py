@@ -31,22 +31,31 @@ class CollectPower(Task):
             return
         
         # 重复点收集直到出现弹窗
-        self.run_until(
+        openinfo = self.run_until(
             lambda :click((1156, 648)), 
             lambda: match(popup_pic(PopupName.POPUP_CAFE_INFO)), 
             times = 3
         )
-        logging.info("成功点击右下角收集")
+        if openinfo:
+            logging.info("成功点击右下角收集")
+        else:
+            logging.info("没有可收集的物品")
+            return
         # 重复点领取直到领取按钮变灰，这之间其实也关闭了领取成功的弹窗
         button_collect_match_res = match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)
         button_collect_position = button_collect_match_res[1]
-        self.run_until(
+        collect_res=self.run_until(
             lambda: click(button_collect_position), 
             # 亮度变换可信度不会下降太多，这里靠比可信度大小
             # 点击直到看到灰色按钮并确认是灰色不是亮色
             lambda: match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)) and (match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2] > match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2]),
-            times = 5)
-        logging.info("成功点击领取")
+            times = 4)
+        if collect_res:
+            logging.info("成功点击领取")
+        else:
+            logging.warn("领取失败")
+        # 不管成功失败，点击魔法点来关闭一次弹窗，让收益情况弹窗出现
+        click(Page.MAGICPOINT)
         # 点魔法点去收益情况弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
