@@ -46,10 +46,11 @@ class InContest(Task):
             lambda: click(button_pic(ButtonName.BUTTON_EDIT)),
             lambda: Page.is_page(PageName.PAGE_EDIT_TEAM) or match(popup_pic(PopupName.POPUP_NOTICE))
         )
-        
         if match(popup_pic(PopupName.POPUP_NOTICE)):
             # if no ticket
-            logging.warning("No ticket, try to collect rewards and quit this task...")
+            logging.warning("已经无票卷...尝试收集奖励")
+            # 强制收集
+            self.collect = True
             # close all popup
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
@@ -64,21 +65,29 @@ class InContest(Task):
                 lambda: match(button_pic(ButtonName.BUTTON_JUMP), returnpos=True)[2]>match(button_pic(ButtonName.BUTTON_NOT_JUMP), returnpos=True)[2]
             )
             # go fight and return to the Fight Result Popup
+            # 点击战斗按钮，此时是一定有票的，但是有可能冷却还没过，所以要多次尝试，最大60s冷却
+            # 这之间会不断弹出剩余时间弹窗，不过依旧能检测到战斗按钮，所以不影响
+            sleep(2)
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_GOFIGHT)),
-                lambda: match(popup_pic(PopupName.POPUP_FIGHT_RESULT))
+                lambda: match(popup_pic(PopupName.POPUP_FIGHT_RESULT)),
+                times = 20,
+                sleeptime = 2
             )
             # click magic point to close the Result popup, back to pure contest page
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: not match(popup_pic(PopupName.POPUP_FIGHT_RESULT))
             )
-        # receive the reward
-        self.run_until(
-            self.collect_and_magic,
-            lambda: match(button_pic(ButtonName.BUTTON_CONTEST_COLLECT_BOTH_GRAY)),
-            times = 4
-        )
+        if self.collect:
+            # receive the reward
+            self.run_until(
+                self.collect_and_magic,
+                lambda: match(button_pic(ButtonName.BUTTON_CONTEST_COLLECT_BOTH_GRAY)),
+                times = 4
+            )
+        else:
+            logging.info("设置的该次执行战术大赛不收集奖励, 直接返回主页")
         self.back_to_home()
 
     def collect_and_magic(self):
