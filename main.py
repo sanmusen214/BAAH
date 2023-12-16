@@ -1,3 +1,6 @@
+# config logging before all imports
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 import base64
 import traceback
 import sys

@@ -1,6 +1,5 @@
 import json
 import logging
-# this module is load before logging, so we just print things
 import os
 import time
 
