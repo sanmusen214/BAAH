@@ -71,7 +71,7 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     match result will only differ a little if there just have a light change
     
     if returnpos is True,
-        return whether the pattern is found and the position of the pattern and the max_val
+        return [whether the pattern is found, (x of the pattern, y of the pattern), the max matching val]
     else:
         return boolean
         
