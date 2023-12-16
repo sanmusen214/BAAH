@@ -7,7 +7,7 @@ from assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.Task import Task
-
+import logging
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
 
 # =====
@@ -40,6 +40,16 @@ class InCafe(Task):
         CollectPower().run()
         InviteStudent().run()
         TouchHead().run()
+        # 检测是否有第二个咖啡厅
+        if match(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM)):
+            # 进入第二个咖啡厅
+            logging.info("进入第二个咖啡厅")
+            click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM))
+            click((247, 165))
+
+            CollectPower().run()
+            InviteStudent().run()
+            TouchHead().run()
         # 返回主页
         Task.back_to_home()
 
