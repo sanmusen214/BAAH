@@ -47,7 +47,6 @@ class InCafe(Task):
             click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM))
             click((247, 165))
 
-            CollectPower().run()
             InviteStudent(1).run()
             TouchHead().run()
         # 返回主页
