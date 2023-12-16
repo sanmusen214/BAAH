@@ -32,6 +32,7 @@ task_dict= {
     "悬赏通缉":InWanted(),
     "特殊任务":InSpecial(),
     "学园交流会":InExchange(),
+    "战术大赛":InContest(collect=True),
     "战术大赛无收集":InContest(collect=False),
     "战术大赛有收集":InContest(collect=True),
     "困难关卡":InQuest(types=["hard"]),

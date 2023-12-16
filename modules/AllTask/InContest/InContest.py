@@ -11,7 +11,7 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 import logging
 
 class InContest(Task):
-    def __init__(self, collect=False, name="InContest") -> None:
+    def __init__(self, collect=True, name="InContest") -> None:
         super().__init__(name)
         # 是否领取奖励
         self.collect = collect

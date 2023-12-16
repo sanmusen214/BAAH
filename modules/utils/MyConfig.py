@@ -30,11 +30,7 @@ class MyConfigger:
                 print("读取config.json文件成功, 读取了{}个配置".format(len(dictconfig)))
                 return dictconfig
         except Exception as e:
-            print(e)
-            print('读取config.json文件时发生错误，请检查config.json文件',str(e))
-            input("按回车键退出程序")
-            # 程序退出
-            os._exit(0)
+            raise Exception('读取config.json文件时发生错误，请检查config.json文件',str(e))
     
     def update_config(self, key, value):
         self.key=value
