@@ -2,6 +2,7 @@
 import logging
 import time
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.utils.GlobalState import raidstate
 from modules.utils.MyConfig import config
 import numpy as np
@@ -31,32 +32,7 @@ class EventQuest(Task):
             click((944, 98))
             level_ind = level[0]
             repeat_times = level[1]
-            ypoints = np.linspace(184, 645, 5)
-            if level_ind<=4:
-                self.scroll_right_up()
-                # clickable points
-                logging.info("click level {}".format(level_ind+1))
-                self.run_until(
-                    lambda: click((1129, ypoints[level_ind])),
-                    lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-                )
-            elif level_ind>=5 and level_ind<=6:
-                self.scroll_right_up()
-                # 通过滑动来翻页level_ind=5的关卡此时从上到下第二关
-                swipe((915, 643), (920, 180), 1.5)
-                logging.info("click level {}".format(level_ind+1))
-                self.run_until(
-                    lambda: click((1129, ypoints[level_ind-4])),
-                    lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-                )
-            elif level_ind>=7:
-                self.scroll_right_down()
-                # clickable points
-                logging.info("click level {}".format(level_ind+1))
-                self.run_until(
-                    lambda: click((1129, ypoints[level_ind-7])),
-                    lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-                )
+            ScrollSelect(level_ind, 147, 236, 579, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             RaidQuest(raidstate.Event, repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")

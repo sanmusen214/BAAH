@@ -7,6 +7,7 @@ from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
@@ -43,25 +44,7 @@ class NormalQuest(Task):
                 logging.error("go to page {} failed, ignore this quest".format(to_page_num))
                 continue
             
-            # 前四个直接点击
-            self.scroll_right_up()
-            ypoints = np.linspace(242, 539, 4)
-            if level_ind <= 3:
-                # clickable points
-                logging.info("click level {}".format(level_ind+1))
-                self.run_until(
-                    lambda: click((1115, ypoints[level_ind])),
-                    lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-                )
-            else:
-                # 后面的关卡通过点开第四关后点右箭头访问
-                self.run_until(
-                    lambda: click((1115, ypoints[3])),
-                    lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-                )
-                logging.info("click right arrow to level {}".format(level_ind))
-                for i in range(level_ind-3):
-                    click((1197, 359))
+            ScrollSelect(level_ind, 190, 291, 628, 1115, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             # 扫荡
             RaidQuest(raidstate.NormalQuest, repeat_times).run()
             if not raidstate.get(raidstate.NormalQuest, True):

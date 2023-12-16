@@ -7,6 +7,7 @@ from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
@@ -28,20 +29,7 @@ class RunSpecialFight(Task):
     
      
     def on_run(self) -> None:
-        # 找到目标关卡点击
-        if self.levelnum <= 5:
-            self.scroll_right_up()
-            clickind = self.levelnum
-            points = np.linspace(162, 670, 6)
-        else:
-            self.scroll_right_down()
-            clickind = self.levelnum-6
-            points = np.linspace(151, 650, 6)
-        logging.info("点击关卡 {}".format(self.levelnum+1))
-        self.run_until(
-            lambda: click((1118, points[clickind])),
-            lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-        )
+        ScrollSelect(self.levelnum, 132, 236, 684, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
         RaidQuest(raidstate.Special, self.runtimes).run()
         # 关闭弹窗，回到底层页面

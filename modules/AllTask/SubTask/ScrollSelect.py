@@ -29,6 +29,8 @@ class ScrollSelect(Task):
         点击的x坐标
     hasexpectimage: function
         期望点击后出现的图片判断函数，返回bool
+    respoddis: int
+        多余滑动距离，让ba意识到响应滑动事件
     """
     def __init__(self, targetind, window_starty, first_item_endy, window_endy, clickx, hasexpectimage, responddis=5, name="ScrollSelect") -> None:
         super().__init__(name)

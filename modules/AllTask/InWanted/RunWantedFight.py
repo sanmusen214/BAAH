@@ -6,6 +6,7 @@ from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
@@ -33,18 +34,7 @@ class RunWantedFight(Task):
      
     def on_run(self) -> None:
         # 找到目标关卡点击
-        if self.levelnum <= 4:
-            self.scroll_right_up()
-            clickind = self.levelnum
-        else:
-            self.scroll_right_down()
-            clickind = self.levelnum - 4
-        points = np.linspace(209, 605, 5)
-        logging.info("click level {}".format(self.levelnum+1))
-        self.run_until(
-            lambda: click((1118, points[clickind])),
-            lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-        )
+        ScrollSelect(self.levelnum, 131, 237, 684, 1118, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
         RaidQuest(raidstate.Wanted, self.runtimes).run()
         

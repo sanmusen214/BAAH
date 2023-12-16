@@ -1,5 +1,3 @@
- 
-
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
 from assets.PopupName import PopupName

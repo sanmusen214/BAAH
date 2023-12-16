@@ -7,6 +7,7 @@ from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
@@ -44,13 +45,10 @@ class HardQuest(Task):
                 continue
             # clickable points
             logging.info("点击从上往下第{}关".format(level_ind+1))
-            ypoints = np.linspace(248, 480, 3)
-            self.run_until(
-                lambda: click((1118, ypoints[level_ind])),
-                lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))
-            )
+            ScrollSelect(level_ind, 190, 306, 630, 1116, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             # 扫荡
             RaidQuest(raidstate.HardQuest, repeat_times).run()
+            # RaidQuest里会更新raidstate.HardQuest得知能否继续扫荡
             if not raidstate.get(raidstate.HardQuest, True):
                 break
             

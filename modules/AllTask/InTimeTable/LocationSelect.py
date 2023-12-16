@@ -6,6 +6,7 @@ from assets.ButtonName import ButtonName
 from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
@@ -34,21 +35,13 @@ class LocationSelect(Task):
     
      
     def on_run(self) -> None:
-        if self.location < 5:
-            # 滑到顶部
-            self.scroll_right_up()
-            tapind = self.location
-        elif self.location >= 5:
-            # 滑到底部
-            self.scroll_right_down()
-            tapind = self.location-4
-        step = np.linspace(185, 612, 5, dtype=int)
+        
         # 点击地点，直到跳到地区里
-        self.run_until(
-            lambda: click((933, step[tapind])),
-            lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)
-        )
-        logging.info("进入到第{}个地区".format(self.location+1))   
+        ScrollSelect(self.location, 130, 237, 674, 1114, lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)).run()
+        if not match(PageName.PAGE_TIMETABLE_SEL):
+            logging.error("无法跳转到第{}地区页面".format(self.location+1))
+            return
+        logging.info("进入到第{}个地区".format(self.location+1))
         # 来到
         logging.info("尝试到全体课程表弹窗页面")
         self.run_until(
