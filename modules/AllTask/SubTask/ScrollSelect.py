@@ -31,8 +31,11 @@ class ScrollSelect(Task):
         期望点击后出现的图片判断函数，返回bool
     swipeoffsetx: int
         滑动时的x偏移量，防止意外点击按钮
+    responsey: int
+        滑动判断的空白长度
     """
-    def __init__(self, targetind, window_starty, first_item_endy, window_endy, clickx, hasexpectimage, swipeoffsetx = -100, name="ScrollSelect") -> None:
+    def __init__(self, targetind, window_starty, first_item_endy, window_endy, clickx, hasexpectimage, swipeoffsetx = -100, responsey=40, name="ScrollSelect") -> None:
+        # TODO: 其实只关心一个元素的高度，完全显示第一个按钮的y，完全显示贴底按钮的y,窗口容纳的完整的元素个数，最后一个元素在窗口里的那部分高度，以及向左偏移量和响应距离
         super().__init__(name)
         self.window_starty = window_starty
         self.first_item_endy = first_item_endy
@@ -43,12 +46,26 @@ class ScrollSelect(Task):
         self.clickx = clickx
         self.hasexpectimage = hasexpectimage
         self.swipeoffsetx = swipeoffsetx
+        self.responsey = responsey
 
     
     def pre_condition(self) -> bool:
         return True
     
-    
+    def compute_swipe(self, x1, y1, distance):
+        """
+        纵向从下向上滑动，实际滑动距离根据两目标点距离distance计算，考虑惯性
+        """
+        distance = abs(distance)
+        logging.debug(f"滑动距离: {distance}")
+        # 0-50
+        if distance<50:
+            swipe((x1, y1), (x1, y1-(distance+40)), 2)
+        else:
+            swipe((x1, y1), (x1, int(y1-(distance+40-4*(1+distance/100)))), 1+distance/100)
+            # swipe((x1, y1), (x1, y1-(200+40-4*3)), 3)
+            # swipe((x1, y1), (x1, y1-(300+40-4*4)), 4)
+            # swipe((x1, y1), (x1, y1-(400+40-4*5)), 5)
     
     def on_run(self) -> None:
         self.scroll_right_up(scrollx=self.clickx + self.swipeoffsetx)
@@ -78,7 +95,7 @@ class ScrollSelect(Task):
             scrolltotal_distance = (self.targetind - itemcount) * self.itemheight + hiddenlastitemheight
             logging.debug("最后一个元素隐藏高度: %d" % hiddenlastitemheight)
             # 先把hidden滑上来，多一点距离让ba响应这是个滑动事件
-            swipe((self.clickx+self.swipeoffsetx, scroll_start_from_y), (self.clickx+self.swipeoffsetx, scroll_start_from_y - hiddenlastitemheight), 3)
+            self.compute_swipe(self.clickx+self.swipeoffsetx, scroll_start_from_y,hiddenlastitemheight)
             logging.debug(f"滑动距离: {hiddenlastitemheight}")
             # 更新scrolltotal_distance
             scrolltotal_distance -= hiddenlastitemheight
@@ -86,11 +103,11 @@ class ScrollSelect(Task):
             # 重要：每次先划itemcount-1个元素的高度
             scroll_distance = (itemcount - 1) * self.itemheight
             while scroll_distance <= scrolltotal_distance:
-                swipe((self.clickx+self.swipeoffsetx, scroll_start_from_y), (self.clickx+self.swipeoffsetx, scroll_start_from_y - scroll_distance), 4)
+                self.compute_swipe(self.clickx+self.swipeoffsetx, scroll_start_from_y, scroll_distance)
                 scrolltotal_distance -= scroll_distance
             if scrolltotal_distance > 5:
                 # 最后一次滑动
-                swipe((self.clickx + self.swipeoffsetx, scroll_start_from_y), (self.clickx + self.swipeoffsetx, scroll_start_from_y - scrolltotal_distance), 4)
+                self.compute_swipe(self.clickx + self.swipeoffsetx, scroll_start_from_y, scrolltotal_distance)
             self.run_until(
                 lambda: click((self.clickx, self.window_endy - self.itemheight // 2)),
                 self.hasexpectimage

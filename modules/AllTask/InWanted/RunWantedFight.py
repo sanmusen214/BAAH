@@ -34,7 +34,7 @@ class RunWantedFight(Task):
      
     def on_run(self) -> None:
         # 找到目标关卡点击
-        ScrollSelect(self.levelnum, 131, 237, 684, 1118, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+        ScrollSelect(self.levelnum, 131, 230, 684, 1118, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
         RaidQuest(raidstate.Wanted, self.runtimes).run()
         

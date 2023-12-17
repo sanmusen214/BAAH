@@ -29,7 +29,7 @@ class RunSpecialFight(Task):
     
      
     def on_run(self) -> None:
-        ScrollSelect(self.levelnum, 132, 236, 684, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+        ScrollSelect(self.levelnum, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
         RaidQuest(raidstate.Special, self.runtimes).run()
         # 关闭弹窗，回到底层页面

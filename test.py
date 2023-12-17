@@ -124,18 +124,25 @@ if __name__=="__main__":
     # res1 = match_pattern("./screenshot.png", './selected_region.png',  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
-    main()
+    # main()
+    # offset = 40
+    
+    
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
     # print(ocr_area((122, 178),(164, 212)))
+    # res = ocr_area((901, 88), (989, 123))
+    # print(res)
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
     
     # 测task
-    # swipe((915, 643), (920, 180), 1.5)
-    # ScrollSelect(7, 134, 237, 686, 1118, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
-    # NormalQuest(config.QUEST["NORMAL"][1]).run()
+    # Event
+    ScrollSelect(7, 130, 235, 674, 1114,  lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+    # special
+    # ScrollSelect(11, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+    # InEvent().run()
     
     
     # 测透明图片的旋转

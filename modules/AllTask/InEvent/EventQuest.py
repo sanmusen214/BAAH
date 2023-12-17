@@ -32,7 +32,7 @@ class EventQuest(Task):
             click((944, 98))
             level_ind = level[0]
             repeat_times = level[1]
-            ScrollSelect(level_ind, 147, 240, 580, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run() # 活动页面延迟响应要大一点
+            ScrollSelect(level_ind, 140, 238, 583, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run() # 活动页面延迟响应要大一点
             RaidQuest(raidstate.Event, repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")
