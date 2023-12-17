@@ -32,9 +32,14 @@ class InSpecial(Task):
         # 选择一个location的下标
         target_loc = today%len(config.SPECIAL_HIGHTEST_LEVEL)
         target_info = config.SPECIAL_HIGHTEST_LEVEL[target_loc]
+        # 判断target_info的第一个元素是不是数字
+        if isinstance(target_info[0], int):
+            target_info = [target_info]
+        # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
-        target_info[0] -= 1
-        target_info[1] -= 1
+        for i in range(len(target_info)):
+            target_info[i][0] -= 1
+            target_info[i][1] -= 1
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
@@ -46,16 +51,24 @@ class InSpecial(Task):
             lambda: click((721, 507)),
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
-        # 可点击的一列点
-        points = np.linspace(213, 315, 2)
-        # 点击location
-        self.run_until(
-            lambda: click((959, points[target_info[0]])),
-            # 重复使用关卡目录这个pattern
-            lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
-        )
-        # 扫荡对应的level
-        RunSpecialFight(levelnum = target_info[1], runtimes = target_info[2]).run()
+        # 开始扫荡target_info中的每一个关卡
+        for each_target in target_info:
+            # 可点击的一列点
+            points = np.linspace(213, 315, 2)
+            # 点击location
+            self.run_until(
+                lambda: click((959, points[each_target[0]])),
+                # 重复使用关卡目录这个pattern
+                lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
+            )
+            # 扫荡对应的level
+            RunSpecialFight(levelnum = each_target[1], runtimes = each_target[2]).run()
+            # 回到SUB界面之后，点击一下返回
+            self.run_until(
+                lambda: click(Page.TOPLEFTBACK),
+                lambda: not Page.is_page(PageName.PAGE_EXCHANGE_SUB),
+                sleeptime=3
+            )
         # 回到主页
         self.back_to_home()
 
