@@ -59,10 +59,12 @@
         "普通关卡",
         "每日任务"
     ],
+    
+    "SERVER_INFO" : "服务器信息",
+    "PIC_PATH" : "./assets_jp",
+    "ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
 
     "Warning" : "下方内容一般无需更改",
     "ADB_PATH" : "./tools/adb/adb.exe",
-    "PIC_PATH" : "./assets_jp",
-    "ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
     "SCREENSHOT_NAME" : "screenshot.png"
 }
