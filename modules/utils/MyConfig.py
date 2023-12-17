@@ -6,6 +6,8 @@ import time
 class MyConfigger:
     """
     维护一个config字典，同时将config.json的配置项作为实例属性
+    
+    file_path: config.json的路径
     """
     NOWVERSION="1.0.6"
     # 读取config这个py里面的配置
@@ -50,10 +52,9 @@ class MyConfigger:
             raise Exception(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)}')
     
     def update_config(self, key, value):
-        self.key=value
+        self.__dict__[key] = value
         self.configdict[key] = value
-        self.save_config(self.file_path)
-        
+
     def save_config(self, file_path):
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.configdict, f, indent=4, ensure_ascii=False)

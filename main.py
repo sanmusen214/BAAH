@@ -13,7 +13,6 @@ if __name__ in ["__main__", "__mp_main__"]:
         import base64
         import traceback
         from modules.utils.MyConfig import config
-        from gui import BAAH_GUI
         from BAAH import BAAH_main
         from assets.Aris import aris_base64
         from modules.AllTask.myAllTask import my_AllTask
@@ -51,9 +50,6 @@ if __name__ in ["__main__", "__mp_main__"]:
 
             else:
                 break
-        # 带GUI运行
-        # gui = BAAH_GUI(BAAH_main)
-        # gui.runGUI()
     except Exception as e:
         # 打印完整的错误信息
         traceback.print_exc()
