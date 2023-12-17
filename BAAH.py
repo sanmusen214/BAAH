@@ -35,6 +35,10 @@ def BAAH_main():
             # 使用adb打开包名为com.nexon.bluearchive的app
             # 检查这个app是否在运行
             for i in range(5):
+                # 打开游戏
+                open_app(config.ACTIVITY_PATH)
+                sleep(3)
+                # TODO: 不在视野内在后台也会被识别？？？
                 if not check_app_running(config.ACTIVITY_PATH):
                     if i>=2:
                         yorn = input("连接后多次打开失败，是否重启adb服务？(y/n):")

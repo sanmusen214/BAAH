@@ -91,20 +91,21 @@ class GUISupport(logging.Handler):
         msg = self.format(record)
         self.textbox.print(msg)
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
-
-
 
 if __name__=="__main__":
-    # if not check_connect():
-    #     print("请先连接设备")
-    #     exit()
-    # while 1:
-    #     input("按回车键截图:")
-    #     print("左键拖动区域截图，右键点击获取坐标点信息")
-    #     screenshot()
-    #     main()
-    
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+    try:
+        if not check_connect():
+            print("请手动打开模拟器，adb连接失败，可能config.json端口配置有误")
+        else:
+            while 1:
+                input("按回车键截图:")
+                print("左键拖动区域截图，右键点击获取坐标点信息")
+                screenshot()
+                main()
+    except Exception as e:
+        pass
+    input("按回车键退出")
     # print(os.path.getsize(f"./{'screenshot.png'}"))
     
     # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
@@ -113,8 +114,8 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    connect_to_device()
-    screenshot()
+    # connect_to_device()
+    # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
@@ -139,7 +140,7 @@ if __name__=="__main__":
     
     # 测task
     # Event
-    ScrollSelect(7, 130, 235, 674, 1114,  lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+    # ScrollSelect(7, 130, 235, 674, 1114,  lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
     # special
     # ScrollSelect(11, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
     # InEvent().run()

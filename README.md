@@ -139,7 +139,9 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 10. TASK_ORDER: 任务执行顺序，详见[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
 
-# 服务器（国际服/日服）配置
+11. NEXT_CONFIG: 运行结束此配置后，继续运行的下一个配置的文件名，如"config_jp.json"
+
+# 服务器（国际服/日服/国服）配置
 
 ## 日服
 
@@ -156,6 +158,14 @@ config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 ```
 "PIC_PATH" : "./assets",
 "ACTIVITY_PATH" : "com.nexon.bluearchive/.MxUnityPlayerActivity",
+```
+
+## 国服（未来版本实现）
+
+config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
+```
+"PIC_PATH" : "./assets_cn",
+"ACTIVITY_PATH" : "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
 ```
 
 # 更新记录

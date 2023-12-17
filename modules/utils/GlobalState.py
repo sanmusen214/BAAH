@@ -24,5 +24,8 @@ class RaidState(__GlobalState):
     def __init__(self) -> None:
         super().__init__()
 
-# 全局变量，与扫荡相关的状态
+
 raidstate = RaidState()
+"""
+全局变量，与扫荡相关的状态，这个变量第一次扫荡过后才会更新，第一次扫荡之前不应该用这个变量来判断是否应该扫荡
+"""
