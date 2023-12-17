@@ -22,11 +22,11 @@ def connect_to_device():
     
 def click_on_screen(x, y):
     """Click on the given coordinates."""
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "tap", str(x), str(y)])
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "tap", str(int(x)), str(int(y))])
 
 def swipe_on_screen(x1, y1, x2, y2, ms):
     """Swipe from the given coordinates to the other given coordinates."""
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "swipe", str(x1), str(y1), str(x2), str(y2), str(int(ms))])
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "swipe", str(int(x1)), str(int(y1)), str(int(x2)), str(int(y2)), str(int(ms))])
 
 def convert_img(path):
     with open(path, "rb") as f:
