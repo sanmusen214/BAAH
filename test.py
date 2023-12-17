@@ -94,18 +94,18 @@ class GUISupport(logging.Handler):
 
 if __name__=="__main__":
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
-    try:
-        if not check_connect():
-            print("请手动打开模拟器，adb连接失败，可能config.json端口配置有误")
-        else:
-            while 1:
-                input("按回车键截图:")
-                print("左键拖动区域截图，右键点击获取坐标点信息")
-                screenshot()
-                main()
-    except Exception as e:
-        pass
-    input("按回车键退出")
+    # try:
+    #     if not check_connect():
+    #         print("请手动打开模拟器，adb连接失败，可能config.json端口配置有误")
+    #     else:
+    #         while 1:
+    #             input("按回车键截图:")
+    #             print("左键拖动区域截图，右键点击获取坐标点信息")
+    #             screenshot()
+    #             main()
+    # except Exception as e:
+    #     pass
+    # input("按回车键退出")
     # print(os.path.getsize(f"./{'screenshot.png'}"))
     
     # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
@@ -125,7 +125,7 @@ if __name__=="__main__":
     # res1 = match_pattern("./screenshot.png", './selected_region.png',  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
-    # main()
+    main()
     # offset = 40
     
     
