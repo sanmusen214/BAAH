@@ -25,17 +25,17 @@ class InEvent(Task):
         # 通过get请求https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8
         # 获取国际服活动，判断是否有活动
         
-        request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
-        response = requests.get(request_url)
-        if response.status_code == 200:
-            if len(response.json()['data']) != 0:
-                logging.info("存在国际服活动")
-                self.try_enter_times = 20
-                return Page.is_page(PageName.PAGE_HOME)
-            else:
-                logging.warn("不存在国际服活动")
-                self.try_enter_times = 0
-                return False
+        # request_url = "https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8"
+        # response = requests.get(request_url)
+        # if response.status_code == 200:
+        #     if len(response.json()['data']) != 0:
+        #         logging.info("存在国际服活动")
+        #         self.try_enter_times = 20
+        #         return Page.is_page(PageName.PAGE_HOME)
+        #     else:
+        #         logging.warn("不存在国际服活动")
+        #         self.try_enter_times = 0
+        #         return False
         return Page.is_page(PageName.PAGE_HOME)
     
     def goto_or_back(self):
@@ -83,15 +83,18 @@ class InEvent(Task):
         else:
             logging.info("进入Event页面")
         today = time.localtime().tm_mday
-        # 跳到Quest标签
-        self.run_until(
-            lambda: click((944, 98)),
-            lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
-            times=3
-        )
-        if not match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)):
-            logging.warn("未能成功进入活动Quest标签")
+        # 判断这个活动是否有Quest
+        res = ocr_area((901, 88), (989, 123))
+        print("识别结果: ", res)
+        if res[0] == "Quest":
+            logging.info("存在活动Quest")
+        else:
+            logging.warn("不存在活动Quest, 退出活动扫荡任务")
             return
+        # 跳到Quest标签
+        click((944, 98))
+        click((944, 98))
+        
         
         if config.EVENT_QUEST_LEVEL and len(config.EVENT_QUEST_LEVEL) != 0:
             # 可选任务队列不为空时
