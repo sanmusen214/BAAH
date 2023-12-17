@@ -15,7 +15,9 @@ class InContest(Task):
         super().__init__(name)
         # 是否领取奖励
         self.collect = collect
-
+    
+    def set_collect(self, collect:bool) -> None:
+        self.collect = collect
      
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

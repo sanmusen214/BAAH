@@ -52,14 +52,23 @@ try:
 except FileExistsError as e:
     print("assets_jp文件夹已存在!")
 
-# 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config.NOWVERSION}.exe
-os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config.NOWVERSION}.exe'))
+try:
+    # 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config.NOWVERSION}.exe
+    os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config.NOWVERSION}.exe'))
+except Exception as e:
+    print(f"BAAH{config.NOWVERSION}.exe已存在!")
 
-# 重命名./dist/BAAH/config.json为./dist/BAAH/config_example.json
-os.rename(os.path.join('./dist', 'BAAH', 'config.json'), os.path.join('./dist', 'BAAH', 'config_example.json'))
-
-# 重命名./dist/BAAH文件夹为./dist/BAAH{config.NOWVERSION}
-os.rename(os.path.join('./dist', 'BAAH'), os.path.join('./dist', f'BAAH{config.NOWVERSION}'))
+try:
+    # 重命名./dist/BAAH/config.json为./dist/BAAH/config_example.json
+    os.rename(os.path.join('./dist', 'BAAH', 'config.json'), os.path.join('./dist', 'BAAH', 'config_example.json'))
+except Exception as e:
+    print("config_example.json已存在!")
+    
+try:
+    # 重命名./dist/BAAH文件夹为./dist/BAAH{config.NOWVERSION}
+    os.rename(os.path.join('./dist', 'BAAH'), os.path.join('./dist', f'BAAH{config.NOWVERSION}'))
+except Exception as e:
+    print(f'BAAH{config.NOWVERSION}已存在!')
 
 print("重命名成功")
 
