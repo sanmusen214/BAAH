@@ -79,9 +79,9 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     """
     # check if the item is a str
     if returnpos:
-        return match_pattern("./screenshot.png",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
+        return match_pattern(f"./{config.SCREENSHOT_NAME}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
     else:
-        return match_pattern("./screenshot.png",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
+        return match_pattern(f"./{config.SCREENSHOT_NAME}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
 def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
@@ -94,12 +94,12 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    ocr_result = ocr_pic_area("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
+    ocr_result = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
     return (ocr_result[0].strip(), ocr_result[1])
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """
-    OCR the number in the given rectangle area of screenshot whether it is 0
+    OCR the number in the given rectangle area of screenshot whether it contains 0
     
     frompixel: (x, y)
     topixel: (x, y)
@@ -108,7 +108,7 @@ def ocr_area_0(frompixel, topixel) -> bool:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    res_str = ocr_pic_area("./screenshot.png", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
+    res_str = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
     if res_str=="0" or res_str=="O" or res_str=="o" or res_str=="Q":
         return True
     if "0" in res_str:
