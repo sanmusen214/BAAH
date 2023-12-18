@@ -36,7 +36,7 @@ if __name__ in ["__main__", "__mp_main__"]:
             logging.debug("config历史列表: "+ ",".join(config_history))
             BAAH_main()
             # 判断config里是否有next_config文件
-            if hasattr(config, 'NEXT_CONFIG'):
+            if hasattr(config, 'NEXT_CONFIG') and len(config.NEXT_CONFIG) > 0:
                 # 有的话，更新配置项目
                 logging.debug("检测到next_config文件: "+config.NEXT_CONFIG)
                 if config.NEXT_CONFIG in config_history:

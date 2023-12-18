@@ -6,7 +6,12 @@ import time
 import numpy as np
 import cv2
 
-serialNumber = "127.0.0.1:"+str(config.TARGET_PORT)
+# 判断是否有TARGET_PORT这个配置项
+if "TARGET_PORT" in config.__dict__:
+    serialNumber = "127.0.0.1:"+str(config.TARGET_PORT)
+else:
+    logging.error("TARGET_PORT未设置")
+    serialNumber = "127.0.0.1:5555"
 
 def disconnect_all_devices():
     """Disconnect all devices."""

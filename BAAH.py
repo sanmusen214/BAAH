@@ -13,7 +13,7 @@ from modules.AllTask.myAllTask import my_AllTask
 
 def BAAH_main():
     # 启动模拟器
-    if config.TARGET_EMULATOR_PATH and config.TARGET_EMULATOR_PATH != "":
+    if hasattr(config, "TARGET_EMULATOR_PATH") and config.TARGET_EMULATOR_PATH != "":
         logging.info("启动模拟器")
         try:
             subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH)], isasync=True)
