@@ -108,7 +108,8 @@ def ocr_area_0(frompixel, topixel) -> bool:
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
     res_str = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
-    if res_str=="0" or res_str=="O" or res_str=="o" or res_str=="Q":
+    res_str = res_str.strip()
+    if res_str=="0" or res_str=="O" or res_str=="o" or res_str=="Q" or res_str=="０":
         return True
     if "0" in res_str:
         return True

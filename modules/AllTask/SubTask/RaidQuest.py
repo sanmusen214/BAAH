@@ -8,7 +8,7 @@ from assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, ocr_area_0, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 
 class RaidQuest(Task):
     """
@@ -29,7 +29,8 @@ class RaidQuest(Task):
         self.recall_close = recall_close
 
     def pre_condition(self) -> bool:
-        return match(popup_pic(PopupName.POPUP_TASK_INFO))
+        # 判断默认的次数不是0才能进入
+        return match(popup_pic(PopupName.POPUP_TASK_INFO)) and not ocr_area_0((906, 284),(970, 318))
     
     
     def on_run(self) -> None:
