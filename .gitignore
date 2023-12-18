@@ -2,6 +2,7 @@ tools/
 screenshot.png
 selected_region.png
 test.spec
+jsoneditor.spec
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
