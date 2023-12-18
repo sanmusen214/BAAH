@@ -1,6 +1,5 @@
 from typing import Tuple, Union
 from .adb_utils import *
-from .GlobalState import *
 from .image_processing import *
 from .subprocess_helper import *
 

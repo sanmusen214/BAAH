@@ -77,8 +77,8 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 1. 将模拟器分辨率设置为 1280*720像素， 240 DPI.
 2. 将模拟器设置里的的adb调试打开.
-3. 国际服/日服BA的语言设置为繁体中文
-4. 国际服/日服BA的绘图里的选项全拉到最右边（FPS和渲染加速模式除外）。
+3. 国际服/BA的语言设置为繁体中文
+4. 国际服/日服BA的设置里的画面相关的绘图里的选项全拉到最右边（FPS和渲染加速模式除外）。
 5. BA的咖啡厅的摄像机拉到了最高，最好家具全堆在屏幕最右侧
 
 ## 使用方式
@@ -107,8 +107,6 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 ## 日服
 
-config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
-
 ```
 "PIC_PATH" : "./assets_jp",
 "ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
@@ -116,7 +114,6 @@ config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 
 ## 国际服
 
-config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 ```
 "PIC_PATH" : "./assets",
 "ACTIVITY_PATH" : "com.nexon.bluearchive/.MxUnityPlayerActivity",
@@ -124,7 +121,6 @@ config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 
 ## 国服（未来版本实现）
 
-config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 ```
 "PIC_PATH" : "./assets_cn",
 "ACTIVITY_PATH" : "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
@@ -139,7 +135,5 @@ config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 
 
 # 碎碎念
-
-账号（区服）与config绑定，一个config表示一个模拟器的某一个服的每日任务。
 
 日常任务还缺个制造和商店，momotalk也可以当作feature添加

@@ -14,8 +14,6 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 
 import numpy as np
 
-from modules.utils.GlobalState import raidstate
-
 
 class RunSpecialFight(Task):
     def __init__(self, levelnum, runtimes, name="RunSpecialFight") -> None:
@@ -31,7 +29,7 @@ class RunSpecialFight(Task):
     def on_run(self) -> None:
         ScrollSelect(self.levelnum, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
-        RaidQuest(raidstate.Special, self.runtimes).run()
+        RaidQuest(self.runtimes).run()
         # 关闭弹窗，回到底层页面
         self.run_until(
             lambda: click(Page.MAGICPOINT),

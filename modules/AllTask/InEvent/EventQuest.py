@@ -3,7 +3,6 @@ import logging
 import time
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
-from modules.utils.GlobalState import raidstate
 from modules.utils.MyConfig import config
 import numpy as np
 
@@ -40,15 +39,13 @@ class EventQuest(Task):
                 # 没有进度条可滑动区域会更靠下
                 logging.info("底部没有进度条")
                 ScrollSelect(level_ind, 140, 238, 683, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
-            RaidQuest(raidstate.Event, repeat_times).run()
+            RaidQuest(repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")
             Task.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
-            if not raidstate.get(raidstate.Event, True):
-                return
         
 
      

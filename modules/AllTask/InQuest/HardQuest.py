@@ -11,7 +11,7 @@ from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
-from modules.utils.GlobalState import raidstate
+
 from .Questhelper import jump_to_page,close_popup_until_see
 import numpy as np
 
@@ -47,10 +47,7 @@ class HardQuest(Task):
             logging.info("点击从上往下第{}关".format(level_ind+1))
             ScrollSelect(level_ind, 190, 306, 630, 1116, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             # 扫荡
-            RaidQuest(raidstate.HardQuest, repeat_times).run()
-            # RaidQuest里会更新raidstate.HardQuest得知能否继续扫荡
-            if not raidstate.get(raidstate.HardQuest, True):
-                break
+            RaidQuest(repeat_times).run()
             
             # 关闭弹窗，直到看到hard按钮
             close_popup_until_see(button_pic(ButtonName.BUTTON_HARD))

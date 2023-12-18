@@ -14,8 +14,6 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 import numpy as np
 import logging
 
-from modules.utils.GlobalState import raidstate
-
 class RunWantedFight(Task):
     def __init__(self, levelnum, runtimes, name="RunWantedFight") -> None:
         """
@@ -36,7 +34,7 @@ class RunWantedFight(Task):
         # 找到目标关卡点击
         ScrollSelect(self.levelnum, 131, 230, 684, 1118, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
-        RaidQuest(raidstate.Wanted, self.runtimes).run()
+        RaidQuest(self.runtimes).run()
         
         # 关闭弹窗，回到WANTED_SUB页面
         self.run_until(

@@ -14,7 +14,6 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 import numpy as np
 import logging
 
-from modules.utils.GlobalState import raidstate
 
 class RunExchangeFight(Task):
     def __init__(self, levelnum, runtimes, name="RunExchangeFight") -> None:
@@ -37,7 +36,7 @@ class RunExchangeFight(Task):
         clickind = self.levelnum
         ScrollSelect(clickind, 134, 235, 682, 1115, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
         # 扫荡
-        RaidQuest(raidstate.Exchange, self.runtimes).run()
+        RaidQuest(self.runtimes).run()
         # 关闭弹窗，回到EXCHANGE_SUB页面
         self.run_until(
             lambda: click(Page.MAGICPOINT),

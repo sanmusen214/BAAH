@@ -11,7 +11,6 @@ from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
-from modules.utils.GlobalState import raidstate
 from .Questhelper import jump_to_page, close_popup_until_see
 import numpy as np
 
@@ -46,9 +45,7 @@ class NormalQuest(Task):
             
             ScrollSelect(level_ind, 190, 288, 628, 1115, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             # 扫荡
-            RaidQuest(raidstate.NormalQuest, repeat_times).run()
-            if not raidstate.get(raidstate.NormalQuest, True):
-                break
+            RaidQuest(repeat_times).run()
             # 清除所有弹窗
             close_popup_until_see(button_pic(ButtonName.BUTTON_NORMAL))
         # 清除所有弹窗
