@@ -32,7 +32,14 @@ class EventQuest(Task):
             click((944, 98))
             level_ind = level[0]
             repeat_times = level[1]
-            ScrollSelect(level_ind, 140, 238, 583, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run() # 活动页面延迟响应要大一点
+            # 判断底部是否有进度条
+            if match(button_pic(ButtonName.BUTTON_EVENT_BOTTOM_BAR)):
+                logging.info("底部有进度条")
+                ScrollSelect(level_ind, 140, 238, 583, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run() # 活动页面延迟响应要大一点
+            else:
+                # 没有进度条可滑动区域会更靠下
+                logging.info("底部没有进度条")
+                ScrollSelect(level_ind, 140, 238, 683, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             RaidQuest(raidstate.Event, repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")

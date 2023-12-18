@@ -68,6 +68,7 @@ class ScrollSelect(Task):
             # swipe((x1, y1), (x1, y1-(400+40-4*5)), 5)
     
     def on_run(self) -> None:
+        logging.info("滑动选取第{}个关卡".format(self.targetind+1))
         self.scroll_right_up(scrollx=self.clickx + self.swipeoffsetx)
         # 计算一个页面包含多少个完整的元素
         itemcount = self.windowheight // self.itemheight
