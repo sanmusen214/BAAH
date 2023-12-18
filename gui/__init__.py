@@ -90,8 +90,8 @@ def show_GUI(load_jsonname):
         def item_list():
             for i in range(len(datadict)):
                 line_item = datadict[i]
+                ui.label(f'第{i+1}{linedesc[0]}: (-1次即为max次，-2次即为max-2次)')
                 with ui.row():
-                    ui.label(f'第{i+1}{linedesc[0]}:')
                     for j in range(len(line_item)):
                         if len(linedesc) == 2:
                             # 第几个教室
@@ -289,7 +289,7 @@ def show_GUI(load_jsonname):
                 ui.label('其他设置').style('font-size: x-large')
             
             with ui.row():
-                ui.number('点击后停顿间隔', 
+                ui.number('点击后停顿时间', 
                           suffix="s",
                           step=0.1,
                           precision=1).bind_value(config.configdict, 'TIME_AFTER_CLICK')
@@ -301,4 +301,7 @@ def show_GUI(load_jsonname):
                 ui.input('截图名称').bind_value(config.configdict, 'SCREENSHOT_NAME',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
                 
             with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 20px; right: 20px;min-width: 150px;'):
-                ui.button('保存配置', on_click=lambda: config.save_config(load_jsonname))
+                def save_and_alert():
+                    config.save_config(load_jsonname)
+                    ui.notify("保存成功")
+                ui.button('保存配置', on_click=save_and_alert)
