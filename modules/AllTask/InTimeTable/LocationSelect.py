@@ -37,7 +37,7 @@ class LocationSelect(Task):
     def on_run(self) -> None:
         
         # 点击地点，直到跳到地区里
-        ScrollSelect(self.location, 130, 235, 674, 1114, lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)).run()
+        ScrollSelect(self.location, 130, 236, 669, 1114, lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)).run()
         if not match(page_pic(PageName.PAGE_TIMETABLE_SEL)):
             logging.error("无法跳转到第{}地区页面".format(self.location+1))
             return
