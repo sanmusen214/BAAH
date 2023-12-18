@@ -55,7 +55,7 @@ class InExchange(Task):
         )
         for each_target in target_info:
             # check whether there is a ticket
-            if ocr_area_0((72, 85), (200, 114)):
+            if ocr_area_0((72, 85), (233, 114)):
                 logging.warn("没有学院交流会券")
             else:
                 # 可点击的一列点

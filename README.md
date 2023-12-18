@@ -1,4 +1,4 @@
-# Blue_Archive_ArisHelper(BAAH)
+# Blue_Archive_ArisHelper碧蓝档案爱丽丝助手(BAAH)
 
 BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服/日服）里的 **每日任务**.
 
