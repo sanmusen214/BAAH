@@ -130,34 +130,6 @@ config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 "ACTIVITY_PATH" : "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
 ```
 
-# 更新记录
-
-## 1.0.5
-
-1. 修复日服相关bug
-2. 支持第二咖啡厅，支持日服神明文字活动扫荡
-3. 支持多次战术大赛挑战，在config.json的TASK_ORDER里写多次"战术大赛"即可
-4. 优化咖啡厅领取逻辑
-5. 优化选关逻辑
-
-## 1.0.4
-
-1. 添加日服支持（神明文字活动关卡扫荡暂不支持，需等待下个版本或下下个版本更新）
-
-## 1.0.3
-
-1. 添加特殊关卡扫荡功能
-2. 设置中添加 max-n 次扫荡次数
-
-## 1.0.2
-
-1. 初步修复了adb命令未指定设备导致的截图失效以及无限尝试打开ba的问题
-2. 从config.json中解离版本号
-
-## 1.0.1
-
-1. 初始版本
-
 # 打包
 
 项目下新建tools文件夹，放入压缩包中的adb，nicegui，pponnxcr文件夹
@@ -168,6 +140,6 @@ config.json末尾的PIC_PATH和ACTIVITY_PATH修改为：
 
 # 碎碎念
 
-由于增加了对日服的支持，现在需要考虑账号config分离的问题。理想情况是通过参数化TASK_ORDER里的元素。
+账号（区服）与config绑定，一个config表示一个模拟器的某一个服的每日任务。
 
-GUI虽然个人感觉不是很重要，但是改config也不能老是到记事本里面改，有空再做个前端。目前先把基础功能完善了。不过制造的优先级判断太麻烦了实在不想写，购买也需要注意安全性，别一不小心给别人钻石花光了。
+日常任务还缺个制造和商店，momotalk也可以当作feature添加
