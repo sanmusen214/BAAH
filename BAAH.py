@@ -16,7 +16,8 @@ def BAAH_main():
     if hasattr(config, "TARGET_EMULATOR_PATH") and config.TARGET_EMULATOR_PATH != "":
         logging.info("启动模拟器")
         try:
-            subprocess_run(["{}".format(config.TARGET_EMULATOR_PATH)], isasync=True)
+            # 以列表形式传命令行参数
+            subprocess_run(config.TARGET_EMULATOR_PATH.split(" "), isasync=True)
             for i in range(3):
                 logging.info("等待{}...".format(i+1))
                 sleep(2)
