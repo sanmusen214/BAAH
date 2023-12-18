@@ -34,26 +34,6 @@ def show_GUI(load_jsonname):
         "TARGET_PORT",
         "TIME_AFTER_CLICK",
     ]
-    # 不在configdict中的key，添加默认值
-    for key in all_list_key_names:
-        if key not in config.configdict:
-            if key == "TASK_ORDER":
-                config.configdict[key] = ["登录游戏"]
-            else:
-                config.configdict[key] = []
-    for key in all_str_key_names:
-        if key not in config.configdict:
-            if key == "ADB_PATH":
-                config.configdict[key] = "./tools/adb/adb.exe"
-            elif key == "SCREENSHOT_NAME":
-                config.configdict[key] = "screenshot.png"
-            else:
-                config.configdict[key] = ""
-    for key in all_num_key_names:
-        if key not in config.configdict:
-            config.configdict[key] = 1
-
-    all_task_names = list(task_dict.keys())
     
     server_map = {
         "server2pic": {
@@ -73,6 +53,35 @@ def show_GUI(load_jsonname):
             "com.nexon.bluearchive/.MxUnityPlayerActivity":"国际服",
         }
     }
+    
+    # 不在configdict中的key，添加默认值
+    for key in all_list_key_names:
+        if key not in config.configdict:
+            if key == "TASK_ORDER":
+                config.configdict[key] = ["登录游戏"]
+            else:
+                config.configdict[key] = []
+    for key in all_str_key_names:
+        if key not in config.configdict:
+            if key == "ADB_PATH":
+                config.configdict[key] = "./tools/adb/adb.exe"
+            elif key == "SCREENSHOT_NAME":
+                config.configdict[key] = "screenshot.png"
+            elif key == "PIC_PATH":
+                server = server_map["activity2server"][config.configdict['ACTIVITY_PATH']]
+                config.configdict[key] = server_map["server2pic"][server]
+            else:
+                config.configdict[key] = ""
+    for key in all_num_key_names:
+        if key not in config.configdict:
+            if key == "TARGET_PORT":
+                config.configdict[key] = 5555
+            else:
+                config.configdict[key] = 1
+
+    all_task_names = list(task_dict.keys())
+    
+    
     
     # =============================================
     
@@ -305,3 +314,6 @@ def show_GUI(load_jsonname):
                     config.save_config(load_jsonname)
                     ui.notify("保存成功")
                 ui.button('保存配置', on_click=save_and_alert)
+            
+            # 加载完毕保存一下config，让新建的config文件有默认值
+            config.save_config(load_jsonname)
