@@ -8,7 +8,7 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
 # =====
 from .Loginin import Loginin
-from .CloseInfrom import CloseInform
+from .CloseInform import CloseInform
 
 class EnterGame(Task):
     def __init__(self, name="EnterGame" , pre_times = 1, post_times = 10) -> None:
