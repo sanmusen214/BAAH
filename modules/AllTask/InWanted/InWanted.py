@@ -55,7 +55,7 @@ class InWanted(Task):
         # 开始循环扫荡target_info中的每一个关卡
         for each_target in target_info:
             # check whether there is a ticket
-            if ocr_area_0((72, 85), (233, 114)):
+            if ocr_area_0((72, 85), (322, 114)):
                 logging.warn("没有悬赏通缉券了")
             else:
                 # 可点击的一列点

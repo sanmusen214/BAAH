@@ -27,7 +27,7 @@ class InTimeTable(Task):
         # for each TIMETABLE_TASK, determine whether need to click in
         for i in range(len(config.TIMETABLE_TASK)):
             # determine tickets left
-            nolefttickets:bool = ocr_area_0((72, 85), (233, 114))
+            nolefttickets:bool = ocr_area_0((72, 85), (322, 114))
             if nolefttickets:
                 logging.warn("没有课程表票卷了，开始返回主页")
                 break
