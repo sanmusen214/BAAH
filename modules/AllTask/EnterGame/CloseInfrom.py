@@ -21,6 +21,7 @@ class CloseInform(Task):
     
      
     def on_run(self) -> None:
+        click(Page.MAGICPOINT)
         click((1226, 56))
         click(Page.MAGICPOINT)
 
