@@ -48,7 +48,7 @@ class InSpecial(Task):
         )
         # 进入特殊任务页面
         self.run_until(
-            lambda: click((721, 507)),
+            lambda: click((721, 538)),
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
         # 开始扫荡target_info中的每一个关卡

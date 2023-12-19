@@ -49,7 +49,7 @@ class InWanted(Task):
         )
         # 进入悬赏通缉页面
         self.run_until(
-            lambda: click((741, 424)),
+            lambda: click((741, 440)),
             lambda: Page.is_page(PageName.PAGE_WANTED),
         )
         # 开始循环扫荡target_info中的每一个关卡

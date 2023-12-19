@@ -1,6 +1,6 @@
 # Blue_Archive_ArisHelper碧蓝档案爱丽丝助手(BAAH)
 
-BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服/日服）里的 **每日任务**.
+BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服/日服/国服官服/国服B服）里的 **每日任务**.
 
 BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ver.) in Android Emulator.
 
@@ -103,7 +103,7 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 [首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
 
-# 服务器（国际服/日服/国服）配置
+# 服务器（国际服/日服/国服官服/国服B服）配置
 
 ## 日服
 
@@ -112,18 +112,25 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 "ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
 ```
 
-## 国际服
+## 国际服（繁中）
 
 ```
 "PIC_PATH" : "./assets",
 "ACTIVITY_PATH" : "com.nexon.bluearchive/.MxUnityPlayerActivity",
 ```
 
-## 国服（未来版本实现）
+## 国服官服
 
 ```
 "PIC_PATH" : "./assets_cn",
 "ACTIVITY_PATH" : "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
+```
+
+## 国服B服
+
+```
+"PIC_PATH" : "./assets_cn",
+"ACTIVITY_PATH" : "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
 ```
 
 # 打包

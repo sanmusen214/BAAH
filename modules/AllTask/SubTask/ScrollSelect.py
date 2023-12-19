@@ -31,12 +31,10 @@ class ScrollSelect(Task):
         期望点击后出现的图片判断函数，返回bool
     swipeoffsetx: int
         滑动时基础x坐标的x偏移量，防止滑动时意外点击按钮
-    responsey: int
-        滑动判断的空白长度
     finalclick: bool
         是否滑动结束后点击clickx与最后一行的y
     """
-    def __init__(self, targetind, window_starty, first_item_endy, window_endy, clickx, hasexpectimage, swipeoffsetx = -100, responsey=40, finalclick = True, name="ScrollSelect") -> None:
+    def __init__(self, targetind, window_starty, first_item_endy, window_endy, clickx, hasexpectimage, swipeoffsetx = -100, finalclick = True, name="ScrollSelect") -> None:
         # TODO: 其实只关心一个元素的高度，完全显示第一个按钮的y，完全显示贴底按钮的y,窗口容纳的完整的元素个数，最后一个元素在窗口里的那部分高度，以及向左偏移量和响应距离
         super().__init__(name)
         self.window_starty = window_starty
@@ -48,7 +46,10 @@ class ScrollSelect(Task):
         self.clickx = clickx
         self.hasexpectimage = hasexpectimage
         self.swipeoffsetx = swipeoffsetx
-        self.responsey = responsey
+        if hasattr(config, "RESPOND_Y"):
+            self.responsey = config.RESPOND_Y
+        else:
+            self.responsey = 40
         self.finalclick = finalclick
 
     

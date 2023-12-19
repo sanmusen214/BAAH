@@ -1,44 +1,127 @@
 {
-    "INFO00" : "不懂的看置顶视频：https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0",
-    "TARGET_PORT" : 5555,
-    "TARGET_EMULATOR_PATH" : "C:/Program Files/BlueStacks_nxt/HD-Player.exe",
-    "TIME_AFTER_CLICK" : 0.7,
-
-    "INFO1" : "课程表",
-    "TIMETABLE_TASK" : [
-        [],[],[],[],[7, 8],[],[],[1,3],[]
+    "INFO00": "不懂的看置顶视频：https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0",
+    "TARGET_PORT": 5555,
+    "TARGET_EMULATOR_PATH": "C:/Program Files/BlueStacks_nxt/HD-Player.exe",
+    "TIME_AFTER_CLICK": 0.7,
+    "INFO1": "课程表",
+    "TIMETABLE_TASK": [
+        [],
+        [],
+        [],
+        [],
+        [
+            7,
+            8
+        ],
+        [],
+        [],
+        [
+            1,
+            3
+        ],
+        []
     ],
-    "INFO2" : "悬赏通缉",
-    "WANTED_HIGHEST_LEVEL" : [
-                                [[1, 7, -1]],
-                                [[2, 4, -1]],
-                                [[3, 7, -1]]
-                            ],
-    "INFO3" : "特殊任务",
-    "SPECIAL_HIGHTEST_LEVEL" : [
-                                [[1, 8, 2]]
-                            ],
-    "INFO4" : "学园交流会",
-    "EXCHANGE_HIGHEST_LEVEL" : [
-                                [[1, 1, 3]],
-                                [[3, 1, 3]]
-                            ],
-    "INFO5" : "活动关卡",
-    "EVENT_QUEST_LEVEL" : [
-        [[1, 3]]
+    "INFO2": "悬赏通缉",
+    "WANTED_HIGHEST_LEVEL": [
+        [
+            [
+                1,
+                7,
+                -1
+            ]
+        ],
+        [
+            [
+                2,
+                4,
+                -1
+            ]
+        ],
+        [
+            [
+                3,
+                7,
+                -1
+            ]
+        ]
     ],
-    "INFO6" : "困难关卡",
-    "HARD":     [
-                    [[5,3,-1],[10,3,-1]]
-                ],
-    "INFO7" : "普通关卡",
-    "NORMAL":   [
-                    [[22,1,10]],
-                    [[22,2,10]],
-                    [[22,3,10]]
-                ],
-    "INFO8" : "任务的执行顺序",
-    "TASK_ORDER" : [
+    "INFO3": "特殊任务",
+    "SPECIAL_HIGHTEST_LEVEL": [
+        [
+            [
+                1,
+                8,
+                2
+            ]
+        ]
+    ],
+    "INFO4": "学园交流会",
+    "EXCHANGE_HIGHEST_LEVEL": [
+        [
+            [
+                1,
+                1,
+                3
+            ]
+        ],
+        [
+            [
+                3,
+                1,
+                3
+            ]
+        ]
+    ],
+    "INFO5": "活动关卡",
+    "EVENT_QUEST_LEVEL": [
+        [
+            [
+                1,
+                3
+            ]
+        ]
+    ],
+    "INFO6": "困难关卡",
+    "HARD": [
+        [
+            [
+                5,
+                3,
+                -1
+            ],
+            [
+                10,
+                3,
+                -1
+            ]
+        ]
+    ],
+    "INFO7": "普通关卡",
+    "NORMAL": [
+        [
+            [
+                22,
+                1,
+                10
+            ]
+        ],
+        [
+            [
+                22,
+                2,
+                10
+            ]
+        ],
+        [
+            [
+                22,
+                3,
+                10
+            ]
+        ]
+    ],
+    "INFO8": "任务的执行顺序",
+    "TASK_ORDER": [
         "登录游戏",
         "战术大赛",
         "咖啡馆",
@@ -58,12 +141,12 @@
         "普通关卡",
         "每日任务"
     ],
-    
-    "SERVER_INFO" : "服务器信息",
-    "PIC_PATH" : "./assets_jp",
-    "ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
-
-    "Warning" : "下方内容一般无需更改",
-    "ADB_PATH" : "./tools/adb/adb.exe",
-    "SCREENSHOT_NAME" : "screenshot.png"
+    "SERVER_INFO": "服务器信息",
+    "PIC_PATH": "./assets_jp",
+    "ACTIVITY_PATH": "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
+    "Warning": "下方内容一般无需更改",
+    "ADB_PATH": "./tools/adb/adb.exe",
+    "SCREENSHOT_NAME": "screenshot.png",
+    "RESPOND_Y": 40,
+    "NEXT_CONFIG": ""
 }

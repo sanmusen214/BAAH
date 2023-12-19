@@ -54,7 +54,7 @@ class RaidQuest(Task):
         else:
             for t in range(max(0,repeat_times-1)):
                 # increase times
-                click((1014, 300))
+                click((1017, 300))
         # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示，还有个是购买困难扫荡券的提示
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),

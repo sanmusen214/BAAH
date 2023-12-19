@@ -33,24 +33,27 @@ def show_GUI(load_jsonname):
     all_num_key_names = [
         "TARGET_PORT",
         "TIME_AFTER_CLICK",
+        "RESPOND_Y",
     ]
     
     server_map = {
         "server2pic": {
             "日服":"./assets_jp",
             "国际服":"./assets",
-        },
-        "pic2server": {
-            "./assets_jp":"日服",
-            "./assets":"国际服",
+            "国服官服":"./assets_cn",
+            "国服B服":"./assets_cn"
         },
         "server2activity": {
             "日服":"com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
             "国际服":"com.nexon.bluearchive/.MxUnityPlayerActivity",
+            "国服官服":"com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
+            "国服B服":"com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity"
         },
         "activity2server": {
             "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity":"日服",
             "com.nexon.bluearchive/.MxUnityPlayerActivity":"国际服",
+            "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":"国服官服",
+            "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":"国服B服"
         }
     }
     
@@ -76,6 +79,10 @@ def show_GUI(load_jsonname):
         if key not in config.configdict:
             if key == "TARGET_PORT":
                 config.configdict[key] = 5555
+            elif key == "RESPOND_Y":
+                config.configdict[key] = 40
+            elif key == "TIME_AFTER_CLICK":
+                config.configdict[key] = 0.7
             else:
                 config.configdict[key] = 1
 
@@ -201,7 +208,7 @@ def show_GUI(load_jsonname):
                 ui.link_target("SERVER")
                 ui.label('服务器配置').style('font-size: x-large')
             
-            server = ui.radio(["日服", "国际服"], value=server_map["activity2server"][config.configdict['ACTIVITY_PATH']], on_change=lambda a:set_server_info(a.value)).props('inline')
+            server = ui.radio(["日服", "国际服", "国服官服","国服B服"], value=server_map["activity2server"][config.configdict['ACTIVITY_PATH']], on_change=lambda a:set_server_info(a.value)).props('inline')
             
             def set_server_info(server):
                 config.configdict["PIC_PATH"] = server_map["server2pic"][server]
