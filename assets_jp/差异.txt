@@ -1,8 +1,0 @@
-2023/12/15:
-POPUP_UPDATE_NOTICE.png 暂无：日文的更新说明
-
-2023/12/16:
-BUTTON_CAFE_SET_ROOM.png 暂无：国际服的咖啡厅切换
-
-2023/12/17:
-POPUP_CAFE_REPLACE.png 暂无：国际服的咖啡厅同名人物替换
