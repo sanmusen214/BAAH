@@ -128,6 +128,9 @@ if __name__=="__main__":
     main()
     # offset = 40
     
+    # ScrollSelect(9, 144, 243, 691, 1130, lambda: False).run() # Event无进度条
+    # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
+    
     
     
     # 图像识别
