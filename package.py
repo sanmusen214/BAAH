@@ -90,6 +90,12 @@ try:
 except FileExistsError as e:
     print("assets_jp文件夹已存在!")
 try:
+    # 拷贝assets_cn文件夹到./dist/BAAH/assets_cn
+    shutil.copytree('./assets_cn', os.path.join('./dist', 'BAAH', 'assets_cn'))
+    print("assets_cn文件夹已拷贝")
+except FileExistsError as e:
+    print("assets_cn文件夹已存在!")
+try:
     # 拷贝./dist/jsoneditor/jsoneditor.exe到./dist/BAAH/jsoneditor.exe
     shutil.copyfile(os.path.join('./dist', 'jsoneditor', 'jsoneditor.exe'), os.path.join('./dist', 'BAAH', 'jsoneditor.exe'))
     print("jsoneditor.exe已拷贝")
