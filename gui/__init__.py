@@ -54,6 +54,12 @@ def show_GUI(load_jsonname):
             "com.nexon.bluearchive/.MxUnityPlayerActivity":"国际服",
             "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":"国服官服",
             "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":"国服B服"
+        },
+        "server2respond": {
+            "日服":40,
+            "国际服":40,
+            "国服官服":60,
+            "国服B服":40
         }
     }
     
@@ -213,6 +219,7 @@ def show_GUI(load_jsonname):
             def set_server_info(server):
                 config.configdict["PIC_PATH"] = server_map["server2pic"][server]
                 config.configdict["ACTIVITY_PATH"] = server_map["server2activity"][server]
+                config.configdict["RESPOND_Y"] = server_map["server2respond"][server]
                 
             
             # with ui.row():
