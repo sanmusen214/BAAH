@@ -63,9 +63,10 @@ class ScrollSelect(Task):
         logging.debug(f"滑动距离: {distance}")
         # 0-50
         if distance<50:
-            swipe((x1, y1), (x1, y1-(distance+40)), 2)
+            swipe((x1, y1), (x1, y1-(distance+self.responsey)), 2)
         else:
-            swipe((x1, y1), (x1, int(y1-(distance+40-4*(1+distance/100)))), 1+distance/100)
+            # 国服滑动有效距离为60
+            swipe((x1, y1), (x1, int(y1-(distance+self.responsey-4*(1+distance/100)))), 1+distance/100)
             # swipe((x1, y1), (x1, y1-(200+40-4*3)), 3)
             # swipe((x1, y1), (x1, y1-(300+40-4*4)), 4)
             # swipe((x1, y1), (x1, y1-(400+40-4*5)), 5)
