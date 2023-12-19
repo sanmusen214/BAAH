@@ -173,6 +173,8 @@ def show_GUI(load_jsonname):
         
         def del_item_item(item_ind):
             datadict[item_ind].pop()
+            if len(datadict[item_ind]) == 0:
+                datadict.pop(item_ind)
             item_list.refresh()
 
         item_list()
