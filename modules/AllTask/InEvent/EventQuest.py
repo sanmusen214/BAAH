@@ -38,7 +38,7 @@ class EventQuest(Task):
             else:
                 # 没有进度条可滑动区域会更靠下
                 logging.info("底部没有进度条")
-                ScrollSelect(level_ind, 140, 238, 683, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+                ScrollSelect(level_ind, 148, 262, 694, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             RaidQuest(repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")
