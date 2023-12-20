@@ -38,5 +38,6 @@ class PageName:
     
     PAGE_EVENT = "PAGE_EVENT"
 
+    PAGE_SHOP = "PAGE_SHOP"
 
     

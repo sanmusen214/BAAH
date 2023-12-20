@@ -57,7 +57,8 @@ class ScrollSelect(Task):
     def pre_condition(self) -> bool:
         return True
     
-    def compute_swipe(self, x1, y1, distance):
+    @staticmethod
+    def compute_swipe(x1, y1, distance, responsey):
         """
         纵向从下向上滑动，实际滑动距离根据两目标点距离distance计算，考虑惯性
         """
@@ -65,10 +66,10 @@ class ScrollSelect(Task):
         logging.debug(f"滑动距离: {distance}")
         # 0-50
         if distance<50:
-            swipe((x1, y1), (x1, y1-(distance+self.responsey)), 2)
+            swipe((x1, y1), (x1, y1-(distance+responsey)), 2)
         else:
             # 国服滑动有效距离为60
-            swipe((x1, y1), (x1, int(y1-(distance+self.responsey-4*(1+distance/100)))), 1+distance/100)
+            swipe((x1, y1), (x1, int(y1-(distance+responsey-4*(1+distance/100)))), 1+distance/100)
             # swipe((x1, y1), (x1, y1-(200+40-4*3)), 3)
             # swipe((x1, y1), (x1, y1-(300+40-4*4)), 4)
             # swipe((x1, y1), (x1, y1-(400+40-4*5)), 5)
@@ -96,25 +97,28 @@ class ScrollSelect(Task):
             )
         else:
             # 从关卡中间的空隙开始滑
-            scroll_start_from_y = end_center_y - self.itemheight // 2
+            scroll_start_from_y = self.window_endy - self.itemheight // 2
             # 目标元素在之后的页面
             # 计算页面应该滑动多少
             scrolltotal_distance = (self.targetind - itemcount) * self.itemheight + hiddenlastitemheight
             logging.debug("最后一个元素隐藏高度: %d" % hiddenlastitemheight)
             # 先把hidden滑上来，多一点距离让ba响应这是个滑动事件
-            self.compute_swipe(self.clickx+self.swipeoffsetx, scroll_start_from_y,hiddenlastitemheight)
+            self.compute_swipe(self.clickx+self.swipeoffsetx, scroll_start_from_y,hiddenlastitemheight, self.responsey)
             logging.debug(f"滑动距离: {hiddenlastitemheight}")
             # 更新scrolltotal_distance
             scrolltotal_distance -= hiddenlastitemheight
             # 还需要往上滑(self.targetind - itemcount) * self.itemheight
             # 重要：每次先划itemcount-1个元素的高度
-            scroll_distance = (itemcount - 1) * self.itemheight
+            if itemcount==1:
+                scroll_distance = itemcount * self.itemheight
+            else:
+                scroll_distance = (itemcount - 1) * self.itemheight
             while scroll_distance <= scrolltotal_distance:
-                self.compute_swipe(self.clickx+self.swipeoffsetx, scroll_start_from_y, scroll_distance)
+                self.compute_swipe(self.clickx+self.swipeoffsetx, scroll_start_from_y, scroll_distance, self.responsey)
                 scrolltotal_distance -= scroll_distance
             if scrolltotal_distance > 5:
                 # 最后一次滑动
-                self.compute_swipe(self.clickx + self.swipeoffsetx, scroll_start_from_y, scrolltotal_distance)
+                self.compute_swipe(self.clickx + self.swipeoffsetx, scroll_start_from_y, scrolltotal_distance, self.responsey)
             if self.finalclick:
                 # 点击最后一行
                 self.run_until(
