@@ -143,4 +143,6 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 # 碎碎念
 
-日常任务还缺个制造和商店，momotalk也可以当作feature添加
+日常任务还缺个制造
+
+国服悬赏通缉选地区的标签大小改动估计得等一月加学园交流会的时候改UI

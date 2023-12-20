@@ -53,8 +53,12 @@ class InSpecial(Task):
         )
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
-            # 可点击的一列点
-            points = np.linspace(213, 315, 2)
+            # 国服的话区域会大一些
+            if config.PIC_PATH == "./assets_cn":
+                points = np.linspace(276, 415, 2)
+            else:
+                # 可点击的一列点
+                points = np.linspace(213, 315, 2)
             # 点击location
             self.run_until(
                 lambda: click((959, points[each_target[0]])),

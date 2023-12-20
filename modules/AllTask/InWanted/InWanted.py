@@ -58,8 +58,12 @@ class InWanted(Task):
             if ocr_area_0((72, 85), (322, 114)):
                 logging.warn("没有悬赏通缉券了")
             else:
-                # 可点击的一列点
-                points = np.linspace(206, 422, 3)
+                # 如果国服，区域会大一些：
+                if config.PIC_PATH == "./assets_cn":
+                    points = np.linspace(271, 557, 3)
+                else:
+                    # 可点击的一列点
+                    points = np.linspace(206, 422, 3)
                 # 点击location
                 self.run_until(
                     lambda: click((959, points[each_target[0]])),

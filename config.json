@@ -149,5 +149,38 @@
     "SCREENSHOT_NAME": "screenshot.png",
     "RESPOND_Y": 60,
     "NEXT_CONFIG": "",
-    "TARGET_IP_PATH": "127.0.0.1"
+    "TARGET_IP_PATH": "127.0.0.1",
+    "SHOP_NORMAL": [
+        [],
+        [],
+        []
+    ],
+    "SHOP_CONTEST": [
+        [
+            4
+        ],
+        [
+            1
+        ]
+    ],
+    "TASK_ACTIVATE": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+    ]
 }
