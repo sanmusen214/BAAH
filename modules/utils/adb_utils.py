@@ -6,16 +6,19 @@ import time
 import numpy as np
 import cv2
 
-# 判断是否有TARGET_PORT这个配置项
-if "TARGET_PORT" in config.__dict__:
-    serialNumber = "127.0.0.1:"+str(config.TARGET_PORT)
-else:
-    logging.error("TARGET_PORT未设置")
-    serialNumber = "127.0.0.1:5555"
+def getNewestSeialNumber():
+    # 从配置文件里得到最新的模拟器IP和端口
+    if "TARGET_PORT" in config.__dict__ and "TARGET_IP_PATH" in config.__dict__":
+        return "{}:{}".format(config.TARGET_IP_PATH,config.TARGET_PORT)
+    else:
+        logging.error("TARGET_IP_PATH或TARGET_PORT未设置")
+        logging.warn("使用默认值：127.0.0.1:5555")
+        return "127.0.0.1:5555"
 
+# 判断是否有TARGET_PORT这个配置项
 def disconnect_all_devices():
     """Disconnect all devices."""
-    subprocess_run([config.ADB_PATH, "disconnect", serialNumber])
+    subprocess_run([config.ADB_PATH, "disconnect", getNewestSeialNumber()])
     
 def kill_adb_server():
     """Kill the adb server."""
@@ -23,15 +26,15 @@ def kill_adb_server():
 
 def connect_to_device():
     """Connect to a device with the given device port."""
-    subprocess_run([config.ADB_PATH, "connect", "127.0.0.1:{}".format(config.TARGET_PORT)])
+    subprocess_run([config.ADB_PATH, "connect", getNewestSeialNumber()])
     
 def click_on_screen(x, y):
     """Click on the given coordinates."""
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "tap", str(int(x)), str(int(y))])
+    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), "shell", "input", "tap", str(int(x)), str(int(y))])
 
 def swipe_on_screen(x1, y1, x2, y2, ms):
     """Swipe from the given coordinates to the other given coordinates."""
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "input", "swipe", str(int(x1)), str(int(y1)), str(int(x2)), str(int(y2)), str(int(ms))])
+    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), "shell", "input", "swipe", str(int(x1)), str(int(y1)), str(int(x2)), str(int(y2)), str(int(ms))])
 
 def convert_img(path):
     with open(path, "rb") as f:
@@ -46,14 +49,14 @@ def screen_shot_to_global():
     
     filename = config.SCREENSHOT_NAME
     with open("./{}".format(filename),"wb") as out:
-       subprocess_run([config.ADB_PATH, "-s", serialNumber, "shell", "screencap", "-p"], stdout=out)
+       subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), "shell", "screencap", "-p"], stdout=out)
     #adb 命令有时直接截图保存到电脑出错的解决办法-加下面一段即可
     convert_img("./{}".format(filename))
     
     # 方法二，使用cv2提取PIPE管道中的数据
     
     # # 使用subprocess的Popen调用adb shell命令，并将结果保存到PIPE管道中
-    # process = subprocess.run([config.ADB_PATH, "-s", serialNumber, "shell", "screencap", "-p"], stdout=subprocess.PIPE)
+    # process = subprocess.run([config.ADB_PATH, "-s", getNewestSeialNumber(), "shell", "screencap", "-p"], stdout=subprocess.PIPE)
     # # 读取管道中的数据
     # screenshot = process.stdout
     # # 将读取的字节流数据的回车换行替换成'\n'
@@ -72,7 +75,7 @@ def check_app_running(activity_path:str) -> bool:
         logging.error("activity_path格式错误")
         return False
     # 使用adb获取当前运行的app
-    output = subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'dumpsys', 'activity', 'activities']).stdout
+    output = subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'activity', 'activities']).stdout
     if app_name in output:
         return True
     else:
@@ -82,6 +85,6 @@ def open_app(activity_path:str):
     """
     使用adb打开app
     """
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'am', 'start', activity_path])
+    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path])
     appname = activity_path.split("/")[0]
-    subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'monkey', '-p', appname, '1'])
+    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'])
