@@ -21,6 +21,7 @@ class NormalItems(Task):
     
      
     def on_run(self) -> None:
+        logging.info("开始普通商店购买")
         BuyItems(config.SHOP_NORMAL).run()
 
      

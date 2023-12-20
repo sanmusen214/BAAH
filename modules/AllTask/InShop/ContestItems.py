@@ -20,7 +20,8 @@ class ContestItems(Task):
         return Page.is_page(PageName.PAGE_SHOP) and hasattr(config, "SHOP_CONTEST")
     
     
-    def on_run(self) -> None:        
+    def on_run(self) -> None:
+        logging.info("开始竞技场商店购买")
         BuyItems(config.SHOP_CONTEST).run()
 
      

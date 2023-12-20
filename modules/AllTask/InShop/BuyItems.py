@@ -36,12 +36,14 @@ class BuyItems(Task):
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
                         itemind = lineitems[j]-1
+                        logging.info(f"购买第{i+1}行第{itemind+1}个物品")
                         click((clickable_xs[itemind], 246))
             else:
                 # 其他行不管点不点都翻页
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
                         itemind = lineitems[j]-1
+                        logging.info(f"购买第{i+1}行第{itemind+1}个物品")
                         click((clickable_xs[itemind], 508))
                 # 往下翻一行
                 ScrollSelect.compute_swipe(930, 532, 260, responsey)
@@ -55,6 +57,7 @@ class BuyItems(Task):
             logging.warn("未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买")
             click(Page.MAGICPOINT)
             return
+        logging.info("成功点击右下角购买")
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)),
             lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMY))   
