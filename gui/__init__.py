@@ -28,6 +28,7 @@ def show_GUI(load_jsonname):
         "ACTIVITY_PATH",
         "ADB_PATH",
         "SCREENSHOT_NAME",
+        "TARGET_IP_PATH",
     ]
     
     all_num_key_names = [
@@ -79,6 +80,8 @@ def show_GUI(load_jsonname):
             elif key == "PIC_PATH":
                 server = server_map["activity2server"][config.configdict['ACTIVITY_PATH']]
                 config.configdict[key] = server_map["server2pic"][server]
+            elif key == "TARGET_IP_PATH":
+                config.configdict[key] = "127.0.0.1"
             else:
                 config.configdict[key] = ""
     for key in all_num_key_names:
@@ -318,6 +321,9 @@ def show_GUI(load_jsonname):
                           suffix="s",
                           step=0.1,
                           precision=1).bind_value(config.configdict, 'TIME_AFTER_CLICK')
+                
+            with ui.row():
+                ui.input("模拟器监听IP地址（此项不包含端口号）").bind_value(config.configdict, 'TARGET_IP_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
             
             with ui.row():
                 ui.input('ADB路径').bind_value(config.configdict, 'ADB_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
