@@ -188,8 +188,6 @@ def show_GUI(load_jsonname):
         
         def del_item_item(item_ind):
             datadict[item_ind].pop()
-            if len(datadict[item_ind]) == 0:
-                datadict.pop(item_ind)
             item_list.refresh()
 
         item_list()
@@ -259,19 +257,22 @@ def show_GUI(load_jsonname):
                                   value=config.configdict["TASK_ORDER"][i],
                                   on_change=lambda v,i=i: config.configdict["TASK_ORDER"].__setitem__(i, v.value),
                                   )
-                        ui.checkbox('启用', value=config.configdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.configdict["TASK_ACTIVATE"].__setitem__(i, v.value))
+                        acheck = ui.checkbox('启用', value=config.configdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.configdict["TASK_ACTIVATE"].__setitem__(i, v.value))
                         if i==0:
                             atask.set_enabled(False)
+                            acheck.set_enabled(False)
                         ui.button("添加任务", on_click=lambda i=i+1: add_task(i))
                         if len(config.configdict["TASK_ORDER"]) > 0 and i > 0:
                             ui.button("删除任务", on_click=lambda i=i: del_task(i), color="red")
 
             def add_task(i):
                 config.configdict["TASK_ORDER"].insert(i, "邮件")
+                config.configdict["TASK_ACTIVATE"].insert(i, True)
                 task_order.refresh()
             
             def del_task(i):
                 config.configdict["TASK_ORDER"].pop(i)
+                config.configdict["TASK_ACTIVATE"].pop(i)
                 task_order.refresh()
             
             task_order()
