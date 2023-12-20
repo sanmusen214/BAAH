@@ -36,16 +36,24 @@ class AllTask:
         self.taskpool = []
         # 用于保存最后一次战术大赛的任务实例
         last_contest = None
-        if "TASK_ORDER" in config.__dict__:
-            for task_name in config.TASK_ORDER:
+        # GUI之前会运行到这里，所以这里需要判断一下
+        if "TASK_ORDER" in config.__dict__ and "TASK_ACTIVATE" in config.__dict__:
+            # 把config的任务列表转换成任务实例列表
+            for i in range(len(config.TASK_ORDER)):
+                task_name = config.TASK_ORDER[i]
                 if task_name not in task_dict:
                     raise Exception(f"任务名:<{task_name}>不存在, 请检查config.py中的TASK_ORDER是否正确, 正确的任务名有: {list(task_dict.keys())}")
+                # 如果任务对应的TASK_ACTIVATE为False，则不添加任务
+                if config.TASK_ACTIVATE[i] == False:
+                    continue
                 self.add_task(task_dict[task_name][0](**task_dict[task_name][1]))
                 if task_name == "战术大赛":
                     last_contest = self.taskpool[-1]
             # 将最后一次战术大赛的收集奖励设置为True
             if last_contest:
                 last_contest.set_collect(True)
+        else:
+            logging.error("配置文件严重错误，请打开GUI.exe生成config.py文件或进群询问")
         
         
     

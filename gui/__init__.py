@@ -20,6 +20,9 @@ def show_GUI(load_jsonname):
         "HARD",
         "NORMAL",
         "TASK_ORDER",
+        "SHOP_NORMAL",
+        "SHOP_CONTEST",
+        "TASK_ACTIVATE"
     ]
     
     all_str_key_names = [
@@ -94,7 +97,16 @@ def show_GUI(load_jsonname):
                 config.configdict[key] = 0.7
             else:
                 config.configdict[key] = 1
-
+    # 判断TASK_ACTIVATE长度与TASK_ORDER长度是否一致
+    if len(config.configdict["TASK_ACTIVATE"]) != len(config.configdict["TASK_ORDER"]):
+        # 给TASK_ACTIVATE添加len(TASK_ORDER)的True
+        for i in range(len(config.configdict["TASK_ORDER"])):
+            config.configdict["TASK_ACTIVATE"].append(True)
+        # 截取TASK_ACTIVATE前len(TASK_ORDER)个
+        config.configdict["TASK_ACTIVATE"] = config.configdict["TASK_ACTIVATE"][:len(config.configdict["TASK_ORDER"])]
+    
+    
+    
     all_task_names = list(task_dict.keys())
     
     
@@ -246,6 +258,7 @@ def show_GUI(load_jsonname):
                                   value=config.configdict["TASK_ORDER"][i],
                                   on_change=lambda v,i=i: config.configdict["TASK_ORDER"].__setitem__(i, v.value),
                                   )
+                        ui.checkbox('启用', value=config.configdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.configdict["TASK_ACTIVATE"].__setitem__(i, v.value))
                         if i==0:
                             atask.set_enabled(False)
                         ui.button("添加任务", on_click=lambda i=i+1: add_task(i))
