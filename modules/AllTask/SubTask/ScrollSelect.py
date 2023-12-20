@@ -49,6 +49,7 @@ class ScrollSelect(Task):
         if hasattr(config, "RESPOND_Y"):
             self.responsey = config.RESPOND_Y
         else:
+            logging.warn("未设置滑动触发距离RESPOND_Y，使用默认值40")
             self.responsey = 40
         self.finalclick = finalclick
 
