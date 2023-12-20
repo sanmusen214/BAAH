@@ -122,13 +122,13 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", './selected_region.png',  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", './assets_cn/PAGE/PAGE_WANTED_SUB.png',  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     main()
     # offset = 40
     
-    # ScrollSelect(9, 144, 243, 691, 1130, lambda: False).run() # Event无进度条
+    # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
     

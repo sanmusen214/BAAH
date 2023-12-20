@@ -323,6 +323,12 @@ def show_GUI(load_jsonname):
                           precision=1).bind_value(config.configdict, 'TIME_AFTER_CLICK')
                 
             with ui.row():
+                ui.number("滑动触发距离",
+                          step=1,
+                          min=1,
+                          precision=0).bind_value(config.configdict, 'RESPOND_Y').set_enabled(False)
+                
+            with ui.row():
                 ui.input("模拟器监听IP地址（此项不包含端口号）").bind_value(config.configdict, 'TARGET_IP_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
             
             with ui.row():
