@@ -8,7 +8,7 @@ import cv2
 
 def getNewestSeialNumber():
     # 从配置文件里得到最新的模拟器IP和端口
-    if "TARGET_PORT" in config.__dict__ and "TARGET_IP_PATH" in config.__dict__":
+    if "TARGET_PORT" in config.__dict__ and "TARGET_IP_PATH" in config.__dict__:
         return "{}:{}".format(config.TARGET_IP_PATH,config.TARGET_PORT)
     else:
         logging.error("TARGET_IP_PATH或TARGET_PORT未设置")
