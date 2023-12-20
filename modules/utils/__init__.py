@@ -94,7 +94,11 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
     ocr_result = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
-    return (ocr_result[0].strip(), ocr_result[1])
+    word = ocr_result[0].strip()
+    threshold = ocr_result[1]
+    # 替换一些契奇古怪的字符
+    word = word.replace("９", "9")
+    return (word, threshold)
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """
