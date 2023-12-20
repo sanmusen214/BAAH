@@ -82,5 +82,6 @@ def open_app(activity_path:str):
     """
     使用adb打开app
     """
+    subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'am', 'start', activity_path])
     appname = activity_path.split("/")[0]
     subprocess_run([config.ADB_PATH, "-s", serialNumber, 'shell', 'monkey', '-p', appname, '1'])
