@@ -12,6 +12,7 @@ task_dict= {
     "咖啡馆":[InCafe,{}],
     "课程表":[InTimeTable,{}],
     "社团":[InClub,{}],
+    "商店":[InShop,{}],
     "悬赏通缉":[InWanted,{}],
     "特殊任务":[InSpecial,{}],
     "学园交流会":[InExchange,{}],

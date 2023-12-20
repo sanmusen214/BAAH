@@ -4,6 +4,7 @@ from .EnterGame.EnterGame import EnterGame
 from .InCafe.InCafe import InCafe
 from .InTimeTable.InTimeTable import InTimeTable
 from .InClub.InClub import InClub
+from .InShop.InShop import InShop
 
 from .InEvent.InEvent import InEvent
 from .InQuest.InQuest import InQuest

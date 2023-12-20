@@ -203,7 +203,8 @@ def show_GUI(load_jsonname):
                 ui.link('服务器配置', '#SERVER')
                 ui.link('任务执行顺序', '#TASK_ORDER')
                 ui.link('后续配置文件', '#NEXT_CONFIG')
-                ui.link('课程表', '#COURSE_TABLE')
+                ui.link('课程表/日程', '#COURSE_TABLE')
+                ui.link('商店', '#SHOP_NORMAL')
                 ui.link('悬赏通缉', '#WANTED')
                 ui.link('特殊任务', '#SPECIAL_TASK')
                 ui.link('学园交流会', '#EXCHANGE')
@@ -283,10 +284,21 @@ def show_GUI(load_jsonname):
             
             with ui.row():
                 ui.link_target("COURSE_TABLE")
-                ui.label('课程表').style('font-size: x-large')
+                ui.label('课程表/日程').style('font-size: x-large')
             
             list_edit_area(config.configdict["TIMETABLE_TASK"], ["个地区", "教室"])
                 
+            with ui.row():
+                ui.link_target("SHOP_NORMAL")
+                ui.label('商店（一般）').style('font-size: x-large')
+            
+            list_edit_area(config.configdict["SHOP_NORMAL"], ["行", "物品"])
+            
+            with ui.row():
+                ui.link_target("SHOPCONTEST")
+                ui.label('商店（战术大赛）').style('font-size: x-large')
+                
+            list_edit_area(config.configdict["SHOP_CONTEST"], ["行", "物品"])
             
             with ui.row():
                 ui.link_target("WANTED")
