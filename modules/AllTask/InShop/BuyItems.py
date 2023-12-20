@@ -45,7 +45,24 @@ class BuyItems(Task):
                         click((clickable_xs[itemind], 508))
                 # 往下翻一行
                 ScrollSelect.compute_swipe(930, 532, 260, responsey)
-
+        # 点击购买
+        # 刷新和购买按钮的中心点
+        buypop = self.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_SHOP_BUY)),
+            lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY))
+        )
+        if not buypop:
+            logging.warn("未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买")
+            click(Page.MAGICPOINT)
+            return
+        self.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)),
+            lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMY))   
+        )
+        click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
+        
      
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_SHOP)

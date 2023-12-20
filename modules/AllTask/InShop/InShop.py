@@ -33,16 +33,15 @@ class InShop(Task):
         NormalItems().run()
         switchres = self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
-            lambda: match(page_pic(PageName.PAGE_SHOP_CONTEST)),
+            lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),
         )
         if not switchres:
             logging.error("切换到竞技场商店失败，中止任务")
             return
         ContestItems().run()
-
         
-            
+        # 返回主页
+        self.back_to_home()
 
-     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
