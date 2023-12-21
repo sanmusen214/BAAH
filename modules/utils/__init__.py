@@ -114,12 +114,17 @@ def ocr_area_0(frompixel, topixel) -> bool:
     res_str = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
     res_str = res_str.strip()
     allpossibles = ["0", "O", "o", "Q", "０"]
-    # 区域判断是否有0，必须得是第一个字符或者前面没有数字
-    if res_str[0] in allpossibles:
-        return True
-    for i in range(1, len(res_str)):
-        if res_str[i] in allpossibles and not res_str[i-1].isdigit():
+    # 如果长度为1，就判断它是不是0
+    if len(res_str) == 1:
+        if res_str[0] in allpossibles:
             return True
+    # 一长串判断是否有0，必须得是第一个字符或者前面没有数字
+    if len(res_str) >= 2:
+        if res_str[0] in allpossibles:
+            return True
+        for i in range(1, len(res_str)):
+            if res_str[i] in allpossibles and not res_str[i-1].isdigit():
+                return True
     return False
 
 def match_pixel(xy, color):
