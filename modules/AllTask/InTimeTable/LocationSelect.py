@@ -94,11 +94,17 @@ class LocationSelect(Task):
                 logging.info(f"教室{classroom+1}由于票卷不足，执行失败")
                 continue
             else:
-                # 课程表执行后狂点魔法点跳过弹窗
+                # 课程表执行后狂点魔法点跳过弹窗, 回到无弹窗界面
                 sleep(1)
                 click(Page.MAGICPOINT)
                 click(Page.MAGICPOINT)
                 click(Page.MAGICPOINT)
+
+                self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)) and Page.is_page(PageName.PAGE_TIMETABLE_SEL),
+                    times=4
+                )
         logging.info("返回到课程表页面")
         self.run_until(
             lambda: click(Page.TOPLEFTBACK),

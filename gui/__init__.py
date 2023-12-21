@@ -10,6 +10,11 @@ def show_GUI(load_jsonname):
     with ui.row():
         ui.label("Blue Archive Aris Helper").style('font-size: xx-large')
     
+    ui.label("BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务")
+    ui.label("QQ群：441069156")
+
+    ui.label("获取最新版本可以到Github下载，或进群下载")
+    
     config = MyConfigger(load_jsonname)
     # 在GUI里，我们只使用config.configdict这个字典，不用config下的属性
     all_list_key_names = [
