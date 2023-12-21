@@ -105,6 +105,8 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 # 服务器（国际服/日服/国服官服/国服B服）配置
 
+打开GUI后选择区服即可。如果选择区服后报错，则修改config.json的下方内容
+
 ## 日服
 
 ```
