@@ -9,7 +9,7 @@ class MyConfigger:
     
     file_path: config.json的路径
     """
-    NOWVERSION="1.1.3"
+    NOWVERSION="1.1.4"
     # 读取config这个py里面的配置
     def __init__(self, file_path=""):
         if file_path != "":
