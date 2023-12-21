@@ -208,7 +208,7 @@ def show_GUI(load_jsonname):
                 ui.link('课程表/日程', '#COURSE_TABLE')
                 ui.link('商店', '#SHOP_NORMAL')
                 ui.link('悬赏通缉', '#WANTED')
-                ui.link('特殊任务', '#SPECIAL_TASK')
+                ui.link('特殊任务/特别委托', '#SPECIAL_TASK')
                 ui.link('学园交流会', '#EXCHANGE')
                 ui.link('活动关卡', '#ACTIVITY')
                 ui.link('困难关卡', '#HARD')
@@ -285,7 +285,7 @@ def show_GUI(load_jsonname):
                 ui.link_target("NEXT_CONFIG")
                 ui.label('后续配置文件').style('font-size: x-large')
             
-            ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config.json是登录的国际服，那么你可以讲config.json复制一份重命名为config2.json。在config2.json里将区服改为日服").style('color: red')
+            ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config.json是登录的国际服，那么你可以把config.json复制一份重命名为config2.json。在config2.json里将区服改为日服").style('color: red')
             ui.label("如果你只想运行config.json一个配置文件的话此项直接不填").style('color: red')
             
                 
@@ -319,10 +319,10 @@ def show_GUI(load_jsonname):
             
             with ui.row():
                 ui.link_target("SPECIAL_TASK")
-                ui.label('特殊任务').style('font-size: x-large')
+                ui.label('特殊任务/特别委托').style('font-size: x-large')
             
             ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
-            list_edit_area(config.configdict["SPECIAL_HIGHTEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]],"一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。\n特殊任务的地区就是指进入特殊任务页面之后右侧第几个不同的刷取关（经验，金币）")
+            list_edit_area(config.configdict["SPECIAL_HIGHTEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]],"一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。\n特殊任务的地区就是指进入页面之后右侧第几个不同的刷取关（经验，金币）")
             
             with ui.row():
                 ui.link_target("EXCHANGE")

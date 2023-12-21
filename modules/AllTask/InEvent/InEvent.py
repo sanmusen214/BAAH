@@ -78,7 +78,7 @@ class InEvent(Task):
         )
         
         if not Page.is_page(PageName.PAGE_EVENT):
-            logging.warn("未能成功进入Event页面")
+            logging.warn("未能成功进入活动Event页面")
             return
         else:
             logging.info("进入Event页面")
@@ -86,14 +86,14 @@ class InEvent(Task):
         # 判断这个活动是否有Quest
         res = ocr_area((901, 88), (989, 123))
         print("识别结果: ", res)
-        if res[0] == "Quest":
+        if res[0] == "Quest" or res[0] == "任务":
             logging.info("存在活动Quest")
         else:
             logging.warn("不存在活动Quest, 退出活动扫荡任务")
             return
         # 跳到Quest标签
-        click((944, 98))
-        click((944, 98))
+        click((965, 98))
+        click((965, 98))
         
         
         if config.EVENT_QUEST_LEVEL and len(config.EVENT_QUEST_LEVEL) != 0:
