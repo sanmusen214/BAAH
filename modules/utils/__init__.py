@@ -102,7 +102,7 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """
-    OCR the number in the given rectangle area of screenshot whether it contains 0
+    OCR the number in the given rectangle area of screenshot whether it contains 0 and has no number in front of it
     
     frompixel: (x, y)
     topixel: (x, y)
@@ -113,10 +113,13 @@ def ocr_area_0(frompixel, topixel) -> bool:
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
     res_str = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
     res_str = res_str.strip()
-    if res_str=="0" or res_str=="O" or res_str=="o" or res_str=="Q" or res_str=="０":
+    allpossibles = ["0", "O", "o", "Q", "０"]
+    # 区域判断是否有0，必须得是第一个字符或者前面没有数字
+    if res_str[0] in allpossibles:
         return True
-    if "0" in res_str:
-        return True
+    for i in range(1, len(res_str)):
+        if res_str[i] in allpossibles and not res_str[i-1].isdigit():
+            return True
     return False
 
 def match_pixel(xy, color):
