@@ -12,7 +12,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         # 维护当前正在看的json文件名字
         now_json_name = {"name":"config.json"}
 
-        from gui import show_GUI
+        from gui import show_GUI, MyConfigger
         from nicegui import native, ui
         
         @ui.refreshable
@@ -31,7 +31,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         
         
         ui.timer(10.0, lambda: draw_upper_right_selectlist.refresh(get_json_list()))
-        ui.run(native=True, window_size=(1280, 720), title="Blue Archive Aris Helper", favicon="./assets/favicon.ico", language="zh-cn", reload=False, port=native.find_open_port())
+        ui.run(native=True, window_size=(1280, 720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./assets/favicon.ico", language="zh-cn", reload=False, port=native.find_open_port())
     except Exception as e:
         import traceback
         traceback.print_exc()

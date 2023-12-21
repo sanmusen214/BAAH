@@ -1,4 +1,5 @@
 from nicegui import ui
+import os
 import json
 from modules.utils.MyConfig import MyConfigger
 from modules.AllTask.myAllTask import task_dict
@@ -113,11 +114,12 @@ def show_GUI(load_jsonname):
     
     # =============================================
     
-    def list_edit_area(datadict, linedesc):
+    def list_edit_area(datadict, linedesc, blockdesc=""):
         """
-        keyname: configdict中的key
-        linedesc: 描述列表，长度代表列表维度
+        datadict: 要修改的二维或三维列表，长度代表列表维度
             [str1, str2] 或 [str1, str2, [str3, str4]] 或 [str1, str2, [str3, str4, str5]]
+        linedesc: 二维或三维列表的描述，长度代表列表维度
+        blockdesc: 对于这个块的描述
         """
         dim = len(linedesc)
         subdim = 0
@@ -125,9 +127,11 @@ def show_GUI(load_jsonname):
             subdim = len(linedesc[2])
         @ui.refreshable
         def item_list():
+            for blocklinedesc in blockdesc.split('\n'):
+                ui.label(f'{blocklinedesc}')
             for i in range(len(datadict)):
                 line_item = datadict[i]
-                ui.label(f'第{i+1}{linedesc[0]}: (-1次即为max次，-2次即为max-2次)')
+                ui.label(f'第{i+1}{linedesc[0]}: ')
                 with ui.row():
                     for j in range(len(line_item)):
                         if len(linedesc) == 2:
@@ -280,6 +284,10 @@ def show_GUI(load_jsonname):
             with ui.row():
                 ui.link_target("NEXT_CONFIG")
                 ui.label('后续配置文件').style('font-size: x-large')
+            
+            ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config.json是登录的国际服，那么你可以讲config.json复制一份重命名为config2.json。在config2.json里将区服改为日服").style('color: red')
+            ui.label("如果你只想运行config.json一个配置文件的话此项直接不填").style('color: red')
+            
                 
             ui.input('执行完此配置文件过后，继续执行配置文件').bind_value(config.configdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
             
@@ -287,60 +295,69 @@ def show_GUI(load_jsonname):
                 ui.link_target("COURSE_TABLE")
                 ui.label('课程表/日程').style('font-size: x-large')
             
-            list_edit_area(config.configdict["TIMETABLE_TASK"], ["个地区", "教室"])
+            list_edit_area(config.configdict["TIMETABLE_TASK"], ["个地区", "房间"], "其中地区指课程表/日程右侧那些列表的不同选项卡（夏莱办公室，夏莱居住区等）\n房间指课程表/日程每个学院里的房间，从左往右从上往下数，数字从1到9\n如果某个地区没有设置点击的房间则会跳过那个地区")
                 
             with ui.row():
                 ui.link_target("SHOP_NORMAL")
                 ui.label('商店（一般）').style('font-size: x-large')
             
-            list_edit_area(config.configdict["SHOP_NORMAL"], ["行", "物品"])
+            list_edit_area(config.configdict["SHOP_NORMAL"], ["行", "物品"], "其中行数指普通商店里右侧物品的行，物品指那一行里从左到右四个物品。如果某一行不买物品就把那一行不添加物品就行了")
             
             with ui.row():
                 ui.link_target("SHOPCONTEST")
                 ui.label('商店（战术大赛）').style('font-size: x-large')
                 
-            list_edit_area(config.configdict["SHOP_CONTEST"], ["行", "物品"])
+            list_edit_area(config.configdict["SHOP_CONTEST"], ["行", "物品"], "其中行数指竞技场商店里右侧物品的行，物品指那一行里从左到右四个物品。如果某一行不买物品就把那一行不添加物品就行了")
             
             with ui.row():
                 ui.link_target("WANTED")
                 ui.label('悬赏通缉').style('font-size: x-large')
             
-            list_edit_area(config.configdict["WANTED_HIGHEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]])
+            ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
+            list_edit_area(config.configdict["WANTED_HIGHEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]], "一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。\n悬赏通缉的地区就是指进入悬赏通缉页面之后右侧那三个不同的地区（高架公路，沙漠铁道，教室）")
+            
             
             with ui.row():
                 ui.link_target("SPECIAL_TASK")
                 ui.label('特殊任务').style('font-size: x-large')
-                
-            list_edit_area(config.configdict["SPECIAL_HIGHTEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]])
+            
+            ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
+            list_edit_area(config.configdict["SPECIAL_HIGHTEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]],"一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。\n特殊任务的地区就是指进入特殊任务页面之后右侧第几个不同的刷取关（经验，金币）")
             
             with ui.row():
                 ui.link_target("EXCHANGE")
                 ui.label('学园交流会').style('font-size: x-large')
-                
-            list_edit_area(config.configdict["EXCHANGE_HIGHEST_LEVEL"], ["天刷取", "", ["地区", "关卡", "次数"]])
+            
+            ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
+            list_edit_area(config.configdict["EXCHANGE_HIGHEST_LEVEL"], ["天刷取", "", ["学院", "关卡", "次数"]],"一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。\n学学院就是指进入学园交流会页面之后右侧第几个学院（三一，格黑娜，千年）")
 
             with ui.row():
                 ui.link_target("ACTIVITY")
                 ui.label('活动关卡').style('font-size: x-large')
 
-            list_edit_area(config.configdict["EVENT_QUEST_LEVEL"], ["天刷取", "", ["关卡", "次数"]])
+            ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
+            list_edit_area(config.configdict["EVENT_QUEST_LEVEL"], ["天刷取", "", ["关卡", "次数"]], "一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。")
                 
 
             with ui.row():
                 ui.link_target("HARD")
                 ui.label('困难关卡').style('font-size: x-large')
-                
-            list_edit_area(config.configdict["HARD"], ["天刷取", "", ["地区", "关卡", "次数"]])
+            
+            ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
+            list_edit_area(config.configdict["HARD"], ["天刷取", "", ["地区", "关卡", "次数"]], "一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。")
                 
             with ui.row():
                 ui.link_target("NORMAL")
                 ui.label('普通关卡').style('font-size: x-large')
             
-            list_edit_area(config.configdict["NORMAL"], ["天刷取", "", ["地区", "关卡", "次数"]])
+            ui.label('关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。国服暂未实装扫荡max次')
+            list_edit_area(config.configdict["NORMAL"], ["天刷取", "", ["地区", "关卡", "次数"]], "一个月有30天，如果在这里定义了30天每天刷什么，那么每天都会刷取不同的东西。如果定义了3天，那每三天一轮按照这个来刷取。")
                 
             with ui.row():
                 ui.link_target("TOOL_PATH")
                 ui.label('其他设置').style('font-size: x-large')
+                
+            ui.label("注意：以下设置不建议修改，除非你知道你在干什么").style('color: red')
             
             with ui.row():
                 ui.number('点击后停顿时间', 
@@ -358,16 +375,24 @@ def show_GUI(load_jsonname):
                 ui.input("模拟器监听IP地址（此项不包含端口号）").bind_value(config.configdict, 'TARGET_IP_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
             
             with ui.row():
-                ui.input('ADB路径').bind_value(config.configdict, 'ADB_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+                ui.input('ADB.exe路径').bind_value(config.configdict, 'ADB_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
             
             with ui.row():
                 ui.input('截图名称').bind_value(config.configdict, 'SCREENSHOT_NAME',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
                 
-            with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 20px; right: 20px;min-width: 150px;'):
+            with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
                 def save_and_alert():
                     config.save_config(load_jsonname)
                     ui.notify("保存成功")
                 ui.button('保存配置', on_click=save_and_alert)
+
+                def save_and_alert_and_run():
+                    config.save_config(load_jsonname)
+                    ui.notify("保存成功")
+                    ui.notify("开始执行")
+                    # 打开同目录中的BAAH.exe
+                    os.system(f"start BAAH{MyConfigger.NOWVERSION}.exe")
+                ui.button('保存配置并执行', on_click=save_and_alert_and_run)
             
             # 加载完毕保存一下config，让新建的config文件有默认值
             config.save_config(load_jsonname)
