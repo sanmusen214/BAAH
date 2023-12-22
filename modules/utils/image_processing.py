@@ -97,7 +97,12 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     rawImage = rawImage[fromy:toy, fromx:tox]
     # 图像识别
     resstring = ZHT.ocr_single_line(rawImage)
-    return resstring
+    string_word = resstring[0].strip()
+    # 替换一些错误字符
+    string_word = string_word.replace("呂", "8")
+    string_word = string_word.replace("９", "9")
+    threshold = resstring[1]
+    return [string_word, threshold]
     
 def match_pixel_color(imageurl, x, y, low_range, high_range):
     """

@@ -131,11 +131,16 @@ if __name__=="__main__":
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
+    # 扫荡关卡识别地区数字
+    # for i in range(20):
+    #     screenshot()
+    #     print(ocr_area((122, 179), (165, 211)))
+    #     # click((1242, 357)) # right
+    #     click((40, 357)) # left
     
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
-    # print(ocr_area((122, 178),(164, 212)))
     # res = ocr_area((901, 88), (989, 123))
     # print(res)
     # for i in range(10):
