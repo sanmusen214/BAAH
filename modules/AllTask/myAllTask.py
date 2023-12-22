@@ -54,7 +54,7 @@ class AllTask:
             if last_contest:
                 last_contest.set_collect(True)
         else:
-            logging.error("配置文件严重错误，请打开GUI.exe生成config.py文件或进群询问")
+            logging.error("配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问")
         
         
     
