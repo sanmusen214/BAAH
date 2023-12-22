@@ -33,10 +33,11 @@ class InWanted(Task):
         # 选择一个location的下标
         target_loc = today%len(config.WANTED_HIGHEST_LEVEL)
         target_info = config.WANTED_HIGHEST_LEVEL[target_loc]
-        # 判断target_info的第一个元素是不是数字
-        if isinstance(target_info[0], int):
-            target_info = [target_info]
         # 这之后target_info是一个list，内部会有多个关卡扫荡
+        # 判断这一天是否设置有扫荡任务关卡
+        if len(target_info) == 0:
+            logging.warn("今天轮次中无悬赏通缉关卡，跳过")
+            return
         # 序号转下标
         for i in range(len(target_info)):
             target_info[i][0] -= 1

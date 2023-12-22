@@ -34,9 +34,10 @@ class InExchange(Task):
         # 选择一个location的下标
         target_loc = today%len(config.EXCHANGE_HIGHEST_LEVEL)
         target_info = config.EXCHANGE_HIGHEST_LEVEL[target_loc]
-        # 判断target_info的第一个元素是不是数字
-        if isinstance(target_info[0], int):
-            target_info = [target_info]
+        # 判断这一天是否设置有交流会关卡
+        if len(target_info) == 0:
+            logging.warn("今天轮次中无学院交流会关卡，跳过")
+            return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
         for i in range(len(target_info)):
