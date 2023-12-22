@@ -36,15 +36,24 @@ class BuyItems(Task):
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
                         itemind = lineitems[j]-1
-                        logging.info(f"购买第{i+1}行第{itemind+1}个物品")
-                        click((clickable_xs[itemind], 246))
+                        # 判断itemind是否在clickable_xs有效范围内
+                        if itemind < 0 or itemind > 3:
+                            logging.warn(f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过")
+                        else:
+                            logging.info(f"购买第{i+1}行第{itemind+1}个物品")
+                            click((clickable_xs[itemind], 246))
             else:
                 # 其他行不管点不点都翻页
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
                         itemind = lineitems[j]-1
-                        logging.info(f"购买第{i+1}行第{itemind+1}个物品")
-                        click((clickable_xs[itemind], 508))
+                        # 判断itemind是否在clickable_xs有效范围内
+                        if itemind < 0 or itemind > 3:
+                            logging.warn(f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过")
+                            # 还是要往下翻一行！
+                        else:
+                            logging.info(f"购买第{i+1}行第{itemind+1}个物品")
+                            click((clickable_xs[itemind], 508))
                 # 往下翻一行
                 click(Page.MAGICPOINT)
                 ScrollSelect.compute_swipe(930, 532, 260, responsey)

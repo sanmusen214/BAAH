@@ -15,6 +15,8 @@ def show_GUI(load_jsonname):
 
     ui.label("获取最新版本可以到Github下载，或进群下载")
     
+    ui.label("模拟器分辨率请设置为1280*720，240DPI!").style('color: red; font-size: xxx-large')
+    
     config = MyConfigger(load_jsonname)
     # 在GUI里，我们只使用config.configdict这个字典，不用config下的属性
     all_list_key_names = [
