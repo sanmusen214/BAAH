@@ -46,6 +46,7 @@ class BuyItems(Task):
                         logging.info(f"购买第{i+1}行第{itemind+1}个物品")
                         click((clickable_xs[itemind], 508))
                 # 往下翻一行
+                click(Page.MAGICPOINT)
                 ScrollSelect.compute_swipe(930, 532, 260, responsey)
         # 点击购买
         # 刷新和购买按钮的中心点
