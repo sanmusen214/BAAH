@@ -66,6 +66,8 @@ class BuyItems(Task):
         if not buypop:
             logging.warn("未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买")
             click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
             return
         logging.info("成功点击右下角购买")
         self.run_until(
