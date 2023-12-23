@@ -172,7 +172,7 @@ def screenshot():
 def check_connect():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
     if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-        logging.info("删除screenshot.png")
+        logging.info(f"删除{config.SCREENSHOT_NAME}")
         os.remove(f"./{config.SCREENSHOT_NAME}")
     connect_to_device()
     # 尝试截图
