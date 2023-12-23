@@ -27,10 +27,15 @@ if __name__ in {"__main__", "__mp_main__"}:
                 ui.select(jsonfile_list, value=now_json_name["name"], on_change=lambda:show_GUI.refresh(now_json_name['name'])).bind_value(now_json_name, 'name')
         
         show_GUI("config.json")
-        draw_upper_right_selectlist(get_json_list())
+        alljson_list = get_json_list()
+        draw_upper_right_selectlist(alljson_list)
+        # 对每个get_json_list()里的文件，show_GUI一下
+        for i in range(len(alljson_list)):
+            show_GUI.refresh(alljson_list[i])
+        # 回到config.json
+        show_GUI.refresh("config.json")
         
-        
-        ui.timer(10.0, lambda: draw_upper_right_selectlist.refresh(get_json_list()))
+        ui.timer(30.0, lambda: draw_upper_right_selectlist.refresh(get_json_list()))
         ui.run(native=True, window_size=(1280, 720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./assets/favicon.ico", language="zh-cn", reload=False, port=native.find_open_port())
     except Exception as e:
         import traceback
