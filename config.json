@@ -1,7 +1,7 @@
 {
     "INFO00": "不懂的看置顶视频：https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0",
-    "TARGET_PORT": 5555,
-    "TARGET_EMULATOR_PATH": "C:/Program Files/BlueStacks_nxt/HD-Player.exe",
+    "TARGET_PORT": 16384,
+    "TARGET_EMULATOR_PATH": "D:/Software/MuMuPlayer-12.0/shell/MuMuPlayer.exe",
     "TIME_AFTER_CLICK": 0.7,
     "INFO1": "课程表",
     "TIMETABLE_TASK": [
@@ -108,11 +108,11 @@
     ],
     "SERVER_INFO": "服务器信息",
     "PIC_PATH": "./assets_cn",
-    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
+    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "screenshot.png",
-    "RESPOND_Y": 60,
+    "RESPOND_Y": 40,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",
     "SHOP_NORMAL": [

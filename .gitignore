@@ -4,6 +4,7 @@ selected_region.png
 test.spec
 jsoneditor.spec
 config2.json
+compact_log.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
