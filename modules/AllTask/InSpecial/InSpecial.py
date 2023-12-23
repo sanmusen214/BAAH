@@ -38,9 +38,7 @@ class InSpecial(Task):
             return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
-        for i in range(len(target_info)):
-            target_info[i][0] -= 1
-            target_info[i][1] -= 1
+        target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
