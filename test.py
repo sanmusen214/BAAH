@@ -1,10 +1,4 @@
-# 图片截取&标注
-import threading
-import requests
-import cv2
 import sys
-import os
-import time
 configname = "config.json"
 from modules.utils.MyConfig import config
 print("读取默认config文件: "+configname)
@@ -12,6 +6,13 @@ if len(sys.argv) > 1:
     configname = sys.argv[1]
     config.parse_config(configname)
     print("重新读取指定的config文件: "+configname)
+# 图片截取&标注
+import threading
+import requests
+import cv2
+import os
+import time
+from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
@@ -190,7 +191,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     # main()
@@ -220,6 +221,7 @@ if __name__=="__main__":
     # special
     # ScrollSelect(11, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
     # InEvent().run()
+    RaidQuest(1).run()
     
     
     # 测透明图片的旋转
