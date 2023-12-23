@@ -24,8 +24,8 @@ class Loginin(Task):
 
     @staticmethod
     def try_jump_useless_pages():
-        # 更新通知
-        if match(popup_pic(PopupName.POPUP_NOTICE), threshold=0.9) or match(popup_pic(PopupName.POPUP_UPDATE_NOTICE), threshold=0.9):
+        # 点掉确认按钮
+        if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             click(button_pic(ButtonName.BUTTON_CONFIRMB))
         else:
             # 活动弹窗

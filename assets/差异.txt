@@ -1,12 +1,9 @@
 日服
-POPUP_UPDATE_NOTICE.png 暂无：日文的更新弹窗
 
 国际服
 BUTTON_CAFE_SET_ROOM.png 暂无：国际服的咖啡厅切换（版本未到）
-POPUP_CAFE_REPLACE.png 暂无：国际服的咖啡厅同名人物替换（暂时代码里没用到）
 
 国服
 BUTTON_CAFE_SET_ROOM.png 暂无：国服的咖啡厅切换（版本未到）
 BUTTON_FINISH_9_DAILY.png 暂无：国服的每日任务领取20钻石（版本未到）
 PAGE_EXCHANGE.png 暂无：国服的学园交流会（版本未到）
-POPUP_CAFE_REPLACE.png 暂无：国服的咖啡厅同名人物替换（暂时代码里没用到）
