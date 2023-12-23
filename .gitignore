@@ -1,5 +1,7 @@
 tools/
 screenshot.png
+config.png
+config2.png
 selected_region.png
 test.spec
 jsoneditor.spec
