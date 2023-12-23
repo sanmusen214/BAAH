@@ -15,7 +15,7 @@ def show_GUI(load_jsonname):
 
     ui.label("获取最新版本可以到Github下载，或进群下载")
     
-    ui.label("模拟器分辨率请设置为1280*720，240DPI!").style('color: red; font-size: xxx-large')
+    ui.label("模拟器分辨率请设置为1280*720，240DPI!").style('color: red; font-size: x-large')
     
     config = MyConfigger(load_jsonname)
     # 在GUI里，我们只使用config.configdict这个字典，不用config下的属性
@@ -162,7 +162,7 @@ def show_GUI(load_jsonname):
                                         format="%.0f",
                                         value=line_item[j],
                                         on_change=lambda v,i=i,j=j: datadict[i].__setitem__(j, int(v.value)),
-                                        ).style('width: 100px')
+                                        ).style('width: 60px')
                         elif len(linedesc) == 3:
                             ui.label(f'{linedesc[1]}:')
                             with ui.row():
@@ -179,7 +179,7 @@ def show_GUI(load_jsonname):
                                                     format="%.0f",
                                                     value=line_item[j][k],
                                                     on_change=lambda v,i=i,j=j,k=k: datadict[i][j].__setitem__(k, int(v.value)),
-                                                    ).style('width: 100px')
+                                                    ).style('width: 60px')
                                 
                     with ui.column():
                         ui.button(f"添加{linedesc[1]}", on_click=lambda i=i: add_item_item(i))
@@ -217,8 +217,8 @@ def show_GUI(load_jsonname):
     
     # =============================================
 
-    with ui.row().style('min-width: 800px;'):
-        with ui.column().style('width: 10vw; overflow: auto; position: sticky; top: 20px; min-width: 150px;'):
+    with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
+        with ui.column().style('width: 150px; overflow: auto;flex-grow: 0;position: sticky; top: 20px;'):
             with ui.card():
                 ui.link('模拟器配置', '#EMULATOR')
                 ui.link('服务器配置', '#SERVER')
@@ -235,7 +235,7 @@ def show_GUI(load_jsonname):
                 ui.link('其他设置', '#TOOL_PATH')
 
 
-        with ui.column().style('width: 80vw; overflow: auto; min-width: 450px;'):
+        with ui.column().style('flex-grow: 4;'):
             with ui.row():
                 ui.link_target("EMULATOR")
                 ui.label('模拟器配置').style('font-size: x-large')
@@ -411,7 +411,7 @@ def show_GUI(load_jsonname):
                     ui.notify("开始执行")
                     # 打开同目录中的BAAH.exe，传入当前config的json文件名
                     os.system(f"start BAAH{MyConfigger.NOWVERSION}.exe {load_jsonname}")
-                ui.button(f'保存并执行{load_jsonname}', on_click=save_and_alert_and_run)
+                ui.button('保存并执行', on_click=save_and_alert_and_run)
             
             # 加载完毕保存一下config，让新建的config文件有默认值
             config.save_config(load_jsonname)
