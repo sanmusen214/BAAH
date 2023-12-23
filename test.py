@@ -91,6 +91,67 @@ class GUISupport(logging.Handler):
         msg = self.format(record)
         self.textbox.print(msg)
 
+import os
+import time
+
+def send_event(device, type, code, value):
+    cmd = f"adb shell sendevent {device} {type} {code} {value}"
+    os.system(cmd)
+
+def touch_move(device, x, y):
+    send_event(device, 3, 53, x)  # ABS_MT_POSITION_X
+    send_event(device, 3, 54, y)  # ABS_MT_POSITION_Y
+    send_event(device, 0, 2, 0)   # SYN_MT_REPORT
+    send_event(device, 0, 0, 0)   # SYN_REPORT
+
+def touch_down(device, x, y):
+    send_event(device, 3, 57, 1)  # ABS_MT_TRACKING_ID, start of a contact
+    touch_move(device, x, y)
+
+def touch_up(device):
+    send_event(device, 3, 57, -1) # ABS_MT_TRACKING_ID, end of a contact
+    send_event(device, 0, 2, 0)   # SYN_MT_REPORT
+    send_event(device, 0, 0, 0)   # SYN_REPORT
+
+def pinch_zoom(device, x1_start, y1_start, x2_start, y2_start, x1_end, y1_end, x2_end, y2_end, steps=10):
+    """
+    Perform a pinch zoom gesture.
+    
+    :param device: Device path (e.g., '/dev/input/event1')
+    :param x1_start, y1_start: Starting coordinates for the first touch point
+    :param x2_start, y2_start: Starting coordinates for the second touch point
+    :param x1_end, y1_end: Ending coordinates for the first touch point
+    :param x2_end, y2_end: Ending coordinates for the second touch point
+    :param steps: Number of steps for the zoom gesture
+    """
+    # Touch down both points
+    touch_down(device, x1_start, y1_start)
+    touch_down(device, x2_start, y2_start)
+    time.sleep(0.1)
+
+    # Perform the zoom gesture
+    x1_step = (x1_end - x1_start) / steps
+    y1_step = (y1_end - y1_start) / steps
+    x2_step = (x2_end - x2_start) / steps
+    y2_step = (y2_end - y2_start) / steps
+
+    for _ in range(steps):
+        x1_start += x1_step
+        y1_start += y1_step
+        x2_start += x2_step
+        y2_start += y2_step
+        touch_move(device, x1_start, y1_start)
+        touch_move(device, x2_start, y2_start)
+        time.sleep(0.1)
+
+    # Touch up both points
+    touch_up(device)
+    touch_up(device)
+
+# 使用示例
+# device = "/dev/input/event1"
+# pinch_zoom(device, 100, 400, 200, 400, 50, 400, 250, 400)
+
 
 if __name__=="__main__":
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
@@ -125,7 +186,7 @@ if __name__=="__main__":
     # res1 = match_pattern("./screenshot.png", './assets_cn/PAGE/PAGE_WANTED_SUB.png',  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
-    main()
+    # main()
     # offset = 40
     
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
