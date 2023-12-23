@@ -2,8 +2,17 @@
 import threading
 import requests
 import cv2
-from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
+import sys
+import os
+import time
+configname = "config.json"
 from modules.utils.MyConfig import config
+print("读取默认config文件: "+configname)
+if len(sys.argv) > 1:
+    configname = sys.argv[1]
+    config.parse_config(configname)
+    print("重新读取指定的config文件: "+configname)
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.InCafe.TouchHead import TouchHead
@@ -91,8 +100,6 @@ class GUISupport(logging.Handler):
         msg = self.format(record)
         self.textbox.print(msg)
 
-import os
-import time
 
 def send_event(device, type, code, value):
     cmd = f"adb shell sendevent {device} {type} {code} {value}"
@@ -183,7 +190,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", './assets_cn/PAGE/PAGE_WANTED_SUB.png',  show_result=True, auto_rotate_if_trans=True)
+    res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=True)
     
     # 比划点
     # main()

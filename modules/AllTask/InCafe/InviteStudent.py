@@ -38,12 +38,12 @@ class InviteStudent(Task):
         # 邀请
         self.run_until(
             lambda: click(click_pos),
-            lambda: match(popup_pic(PopupName.POPUP_NOTICE))
+            lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB))
         )
-        # 确认，直到看不见通知弹窗
+        # 确认，直到看不见通知确认按钮
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
-            lambda: not match(popup_pic(PopupName.POPUP_NOTICE))
+            lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB))
         )
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)

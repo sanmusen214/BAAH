@@ -44,6 +44,7 @@ class InCafe(Task):
             CollectPower().run()
         if self.touch:
             # 摸第一个咖啡厅头
+            TouchHead().run()
             InviteStudent(0).run()
             TouchHead().run()
         # 检测是否有第二个咖啡厅
@@ -54,6 +55,7 @@ class InCafe(Task):
             click((247, 165))
             if self.touch:
                 # 摸第二个咖啡厅头
+                TouchHead().run()
                 InviteStudent(1).run()
                 TouchHead().run()
         # 返回主页

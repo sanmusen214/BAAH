@@ -22,6 +22,8 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ve
 
 QQ: 441069156
 
+[BAAH使用以及常见问题.docx](https://docs.qq.com/doc/DR1RPaURleGF0ZWFS)
+
 ## 致谢
 
 感谢群友 [LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
@@ -72,6 +74,8 @@ QQ: 441069156
 # 如何运行
 
 Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
+
+[BAAH使用以及常见问题.docx](https://docs.qq.com/doc/DR1RPaURleGF0ZWFS)
 
 ## 运行前请确保
 
