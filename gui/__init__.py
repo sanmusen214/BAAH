@@ -58,14 +58,14 @@ def show_GUI(load_jsonname):
         "server2activity": {
             "日服":"com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
             "国际服":"com.nexon.bluearchive/.MxUnityPlayerActivity",
-            "国服官服":"com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
-            "国服B服":"com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity"
+            "国服官服":"com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity",
+            "国服B服":"com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
         },
         "activity2server": {
             "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity":"日服",
             "com.nexon.bluearchive/.MxUnityPlayerActivity":"国际服",
-            "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":"国服官服",
-            "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":"国服B服"
+            "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity":"国服官服",
+            "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity":"国服B服"
         },
         "server2respond": {
             "日服":40,
@@ -75,6 +75,14 @@ def show_GUI(load_jsonname):
         }
     }
     
+    # 替换config中国服的俩旧config里的ActivityPath为真实的新版本的ActivityPath
+    if "ACTIVITY_PATH" in config.configdict:
+        old_activity_path = config.configdict["ACTIVITY_PATH"]
+        if old_activity_path == "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":
+            config.configdict["ACTIVITY_PATH"] = "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity"
+        elif old_activity_path == "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":
+            config.configdict["ACTIVITY_PATH"] = "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
+
     # 不在configdict中的key，添加默认值
     for key in all_list_key_names:
         if key not in config.configdict:
@@ -235,7 +243,7 @@ def show_GUI(load_jsonname):
                         ).bind_value(config.configdict, 'TARGET_PORT', forward=lambda v: int(v)).style('width: 400px')
             with ui.row():    
                 ui.input('模拟器路径'
-                         ).bind_value(config.configdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+                         ).bind_value(config.configdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')
 
             with ui.row():
                 ui.link_target("SERVER")
