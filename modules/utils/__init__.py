@@ -183,7 +183,15 @@ def check_connect():
         # 检查文件大小
         if os.path.getsize(f"./{config.SCREENSHOT_NAME}") !=0: # 不为0
             logging.info("adb与模拟器连接正常")
-            return True
+            # 检查图片长和宽
+            img = cv2.imread(f"./{config.SCREENSHOT_NAME}")
+            # 第一维度是高，第二维度是宽
+            if img.shape[0] == 720 and img.shape[1] == 1280:
+                logging.info("图片分辨率为1280*720")
+                return True
+            else:
+                logging.error("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
+                raise Exception("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
     logging.error("adb与模拟器连接失败")
     logging.info("请检查adb与模拟器连接端口号是否正确")
     return False
