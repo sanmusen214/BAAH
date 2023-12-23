@@ -82,6 +82,10 @@ def show_GUI(load_jsonname):
             config.configdict["ACTIVITY_PATH"] = "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity"
         elif old_activity_path == "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":
             config.configdict["ACTIVITY_PATH"] = "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
+    
+    # 强制设置截图名称为此config.json的文件名
+    if "SCREENSHOT_NAME" in config.configdict:
+        config.configdict["SCREENSHOT_NAME"] = load_jsonname.replace(".json", ".png")
 
     # 不在configdict中的key，添加默认值
     for key in all_list_key_names:
@@ -95,7 +99,7 @@ def show_GUI(load_jsonname):
             if key == "ADB_PATH":
                 config.configdict[key] = "./tools/adb/adb.exe"
             elif key == "SCREENSHOT_NAME":
-                config.configdict[key] = "screenshot.png"
+                config.configdict[key] = load_jsonname.replace(".json", ".png")
             elif key == "PIC_PATH":
                 server = server_map["activity2server"][config.configdict['ACTIVITY_PATH']]
                 config.configdict[key] = server_map["server2pic"][server]
@@ -301,7 +305,7 @@ def show_GUI(load_jsonname):
                 ui.label('后续配置文件').style('font-size: x-large')
             
             ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config_global.json是登录的国际服，那么你可以把config_global.json复制一份重命名为config_jp.json。在config_jp.json里将区服改为日服").style('color: red')
-            ui.label("如果你只想运行config.json一个配置文件的话此项直接不填").style('color: red')
+            ui.label("如果你只想运行此配置文件的话此项直接不填").style('color: red')
             
                 
             ui.input('执行完此配置文件过后，继续执行配置文件').bind_value(config.configdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
@@ -393,7 +397,7 @@ def show_GUI(load_jsonname):
                 ui.input('ADB.exe路径').bind_value(config.configdict, 'ADB_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
             
             with ui.row():
-                ui.input('截图名称').bind_value(config.configdict, 'SCREENSHOT_NAME',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+                ui.input('截图名称').bind_value(config.configdict, 'SCREENSHOT_NAME',forward=lambda v: v.replace("\\", "/")).style('width: 400px').set_enabled(False)
                 
             with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
                 def save_and_alert():

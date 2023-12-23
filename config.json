@@ -111,7 +111,7 @@
     "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
-    "SCREENSHOT_NAME": "screenshot.png",
+    "SCREENSHOT_NAME": "config.png",
     "RESPOND_Y": 40,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",
