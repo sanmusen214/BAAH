@@ -300,7 +300,7 @@ def show_GUI(load_jsonname):
                 ui.link_target("NEXT_CONFIG")
                 ui.label('后续配置文件').style('font-size: x-large')
             
-            ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config.json是登录的国际服，那么你可以把config.json复制一份重命名为config2.json。在config2.json里将区服改为日服").style('color: red')
+            ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config_global.json是登录的国际服，那么你可以把config_global.json复制一份重命名为config_jp.json。在config_jp.json里将区服改为日服").style('color: red')
             ui.label("如果你只想运行config.json一个配置文件的话此项直接不填").style('color: red')
             
                 
@@ -405,9 +405,9 @@ def show_GUI(load_jsonname):
                     config.save_config(load_jsonname)
                     ui.notify("保存成功")
                     ui.notify("开始执行")
-                    # 打开同目录中的BAAH.exe
-                    os.system(f"start BAAH{MyConfigger.NOWVERSION}.exe")
-                ui.button('保存配置并执行', on_click=save_and_alert_and_run)
+                    # 打开同目录中的BAAH.exe，传入当前config的json文件名
+                    os.system(f"start BAAH{MyConfigger.NOWVERSION}.exe {load_jsonname}")
+                ui.button(f'保存并执行{load_jsonname}', on_click=save_and_alert_and_run)
             
             # 加载完毕保存一下config，让新建的config文件有默认值
             config.save_config(load_jsonname)

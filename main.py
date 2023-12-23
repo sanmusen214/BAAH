@@ -10,9 +10,16 @@ if __name__ in ["__main__", "__mp_main__"]:
         # config logging before all imports
         import logging
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+        # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
+        configname = "config.json"
+        from modules.utils.MyConfig import config
+        logging.info("读取默认config文件: "+configname)
+        if len(sys.argv) > 1:
+            configname = sys.argv[1]
+            config.parse_config(configname)
+            logging.info("重新读取指定的config文件: "+configname)
         import base64
         import traceback
-        from modules.utils.MyConfig import config
         from BAAH import BAAH_main
         from assets.Aris import aris_base64
         from modules.AllTask.myAllTask import my_AllTask
@@ -31,7 +38,7 @@ if __name__ in ["__main__", "__mp_main__"]:
 
         # 不带GUI运行
         # config历史列表
-        config_history = ["config.json"]
+        config_history = [configname]
         while True:
             logging.debug("config历史列表: "+ ",".join(config_history))
             BAAH_main()
