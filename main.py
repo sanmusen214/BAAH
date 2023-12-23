@@ -18,6 +18,9 @@ if __name__ in ["__main__", "__mp_main__"]:
             configname = sys.argv[1]
             config.parse_config(configname)
             logging.info("重新读取指定的config文件: "+configname)
+        logging.info(f"模拟器:{config.configdict['TARGET_EMULATOR_PATH']}")
+        logging.info(f"端口:{config.configdict['TARGET_PORT']}")
+
         import base64
         import traceback
         from BAAH import BAAH_main
