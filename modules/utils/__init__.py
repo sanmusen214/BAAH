@@ -133,7 +133,7 @@ def match_pixel(xy, color):
         axis is in image form
     """
     # TODO
-    return match_pixel_color("./screenshot.png", xy[0], xy[1], color[0], color[1])
+    return match_pixel_color(f"./{config.SCREENSHOT_NAME}", xy[0], xy[1], color[0], color[1])
 
 def page_pic(picname):
     """
