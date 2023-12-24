@@ -9,7 +9,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel, screenshot
 
 class InMomotalk(Task):
     def __init__(self, name="InMomotalk") -> None:
@@ -24,30 +24,84 @@ class InMomotalk(Task):
         检测第一条对话旁边是否有红色标记，
         中途会试图点击重新排序，最多尝试三次
         """
+        if not match(popup_pic(PopupName.POPUP_MOMOTALK)):
+            logging.info("未检测到momotalk弹窗")
+            return False
+        if match_pixel((638, 242), Page.COLOR_RED):
+            # logging.info(f"检测到红色标记")
+            return True
+        # 一开始没检测到，考虑重新排序
         click(self.momo_title_pos)
         for i in range(3):
             # 点击momotalk标题位置，尝试去除弹窗
             click(self.momo_title_pos)
             # 点击重新排序
+            logging.info("重新排序")
             click((623, 177))
-            # 检测红标记
-            if match_pixel((639, 240), Page.COLOR_RED):
-                logging.info(f"检测到红色标记")
+            # 检测红标记，手动截图！
+            screenshot()
+            if match_pixel((638, 242), Page.COLOR_RED):
+                # logging.info(f"检测到红色标记")
                 return True
         return False
      
-    def click_first_second_first(self) -> None:
+    def click_reply(self) -> None:
         """
-        点击第一条对话，然后点击第二条对话，然后点击第一条对话，点击对话框位置
+        点击第一条对话，点击对话框位置或者羁绊按钮，然后点击第二条对话，然后点击第一条对话，
+        可能羁绊剧情过后会有一点点新的对话，所以在click_reply内部也要检测第一消息是否有红点，防止过多等待
+        
+        一般是 回复-》（粉色羁绊-》蓝色进入羁绊剧情）
         """
         # 第一条
-        click((263, 253), sleeptime=1)
-        # 第二条
-        click((262, 330), sleeptime=1)
-        # 第一条
-        click((263, 253), sleeptime=1)
-        # 回复框
-        click((1110, 577))
+        click((263, 253))
+        # 如果反复排序后第一条右边还没有红点，说明已经处理完毕，直接return
+        if not self.whether_has_red_icon():
+            logging.warn("第一条右边没有红点了，跳过此任务")
+            # 点击魔法点关闭momotalk弹窗
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: not match(popup_pic(PopupName.POPUP_MOMOTALK))
+            )
+            return
+        # 手动截图！
+        screenshot()
+        # 回复按钮 +40
+        reply_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), returnpos=True)
+        if reply_button[0]:
+            logging.info("检测到回复按钮")
+            self.run_until(
+                lambda: click((reply_button[1][0], reply_button[1][1]+40)),
+                lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY))
+            )
+        # 羁绊按钮 +40
+        partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), returnpos=True)
+        if partner_button[0]:
+            logging.info("检测到羁绊按钮")
+            self.run_until(
+                lambda: click((partner_button[1][0], partner_button[1][1]+40)),
+                lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER))
+            )
+            # 羁绊按钮后面必定有羁绊剧情按钮，等待一秒
+            sleep(1.5)
+        # 前往羁绊剧情按钮
+        goto_partner_button = match(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY), returnpos=True)
+        if goto_partner_button[0]:
+            logging.info("检测到前往羁绊剧情按钮")
+            self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY)),
+                lambda: not match(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY))
+            )
+            sleep(2)
+        # 如果右侧啥按钮都没有，点左侧第二个，然后点左侧第一个，然后右侧往下滚动
+        if not reply_button[0] and not partner_button[0] and not goto_partner_button[0]:
+            # 如果进入到剧情里面，这边也就点点左侧中间，无影响
+            # 第二条
+            click((262, 330))
+            # 第一条
+            click((263, 253))
+            # 右侧往下滚动
+            self.scroll_right_down(times = 2)
+        
         
      
     def on_run(self) -> None:
@@ -60,17 +114,11 @@ class InMomotalk(Task):
             logging.info(f"未检测到momotalk弹窗，跳过此任务")
             self.back_to_home()
             return
-        # 记住momotalk位置
+        # 记住momotalk标题位置
         self.momo_title_pos = match(popup_pic(PopupName.POPUP_MOMOTALK), returnpos=True)[1]
         # 切换到对话界面
-        gotalk = self.run_until(
-            lambda: click((170, 299)),
-            lambda: match(page_pic(PageName.PAGE_MOMOTALK))
-        )
-        if not gotalk:
-            logging.info(f"未检测到对话界面，跳过此任务")
-            self.back_to_home()
-            return
+        click((170, 299))
+        click((170, 299))
         # 按照未读的momotalk筛选
         click((507, 176), 1.3)
         click((555, 293), 0.5)
@@ -88,15 +136,19 @@ class InMomotalk(Task):
                 logging.info("处理第一条momotalk")
                 # 按回复框直到蹦出剧情右上角的按钮
                 self.run_until(
-                    lambda: self.click_first_second_first(),
-                    lambda: match(button_pic(ButtonName.BUTTON_STORY_MENU)),
-                    times=10
+                    lambda: self.click_reply(),
+                    lambda: match(button_pic(ButtonName.BUTTON_STORY_MENU)) or not match(popup_pic(PopupName.POPUP_MOMOTALK)),
+                    times=9
                 )
                 # 跳过剧情
                 SkipStory().run()
                 # 关闭弹窗, 继续检测第一条消息右侧是不是红色
                 matchred = self.whether_has_red_icon()
         logging.info("momotalk处理完毕，返回主页")
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: not match(popup_pic(PopupName.POPUP_MOMOTALK))
+        )
         self.back_to_home()
      
     def post_condition(self) -> bool:

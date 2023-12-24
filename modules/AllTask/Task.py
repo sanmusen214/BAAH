@@ -136,42 +136,38 @@ class Task:
         return False
 
     @staticmethod
-    def scroll_right_up(scrollx=928):
+    def scroll_right_up(scrollx=928, times=3):
         """
         scroll to top
         """
-        swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
-        swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
-        swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
+        for i in range(times):
+            swipe((scrollx, 226), (scrollx, 561), sleeptime=0.2)
         sleep(0.5)
     
     @staticmethod
-    def scroll_right_down():
+    def scroll_right_down(times=3):
         """
         scroll to bottom
         """
-        swipe((942, 561), (928, 226), sleeptime=0.2)
-        swipe((942, 561), (928, 226), sleeptime=0.2)
-        swipe((942, 561), (928, 226), sleeptime=0.2)
+        for i in range(times):
+            swipe((928, 561), (928, 226), sleeptime=0.2)
         sleep(0.5)
         
     @staticmethod
-    def scroll_left_up():
+    def scroll_left_up(times=3):
         """
         scroll to top
         """
-        swipe((265, 254), (264, 558), sleeptime=0.2)
-        swipe((265, 254), (264, 558), sleeptime=0.2)
-        swipe((265, 254), (264, 558), sleeptime=0.2)
+        for i in range(times):
+            swipe((265, 254), (264, 558), sleeptime=0.2)
         sleep(0.5)
     
     @staticmethod
-    def scroll_left_down():
+    def scroll_left_down(times=3):
         """
         scroll to bottom
         """
-        swipe((264, 558), (265, 254), sleeptime=0.2)
-        swipe((264, 558), (265, 254), sleeptime=0.2)
-        swipe((264, 558), (265, 254), sleeptime=0.2)
+        for i in range(times):
+            swipe((264, 558), (265, 254), sleeptime=0.2)
         sleep(0.5)
         
