@@ -56,12 +56,14 @@ class LocationSelect(Task):
                 # 如果3x3界面没有打开或被遮蔽
                 # 尝试点掉遮蔽界面
                 logging.info("尝试到全体课程表弹窗页面")
+                # 点右下固定点
                 self.run_until(
-                    lambda: click((1162, 664), sleeptime=1),
+                    lambda: click(Page.MAGICPOINT) and click((1162, 664)),
                     lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
-                    times = 6
+                    times = 10
                 )
                 # 尝试点进九宫格选取页面
+                # 点右下按钮
                 self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_ALL_TIMETABLE)),
                     lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_ALL))
@@ -108,7 +110,7 @@ class LocationSelect(Task):
         logging.info("返回到课程表页面")
         # 清除弹窗
         self.run_until(
-            lambda: click(Page.TOPLEFTBACK) and click(Page.MAGICPOINT),
+            lambda: click(Page.MAGICPOINT) and click(Page.TOPLEFTBACK),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
             times = 10,
             sleeptime=1.5
