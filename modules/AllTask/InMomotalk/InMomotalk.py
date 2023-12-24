@@ -96,11 +96,11 @@ class InMomotalk(Task):
         if not reply_button[0] and not partner_button[0] and not goto_partner_button[0]:
             # 如果进入到剧情里面，这边也就点点左侧中间，无影响
             # 第二条
-            click((262, 330))
+            click((262, 330), sleeptime=1)
             # 第一条
             click((263, 253))
             # 右侧往下滚动
-            self.scroll_right_down(times = 2)
+            self.scroll_right_down(times = 1)
         
         
      
@@ -138,7 +138,7 @@ class InMomotalk(Task):
                 self.run_until(
                     lambda: self.click_reply(),
                     lambda: match(button_pic(ButtonName.BUTTON_STORY_MENU)) or not match(popup_pic(PopupName.POPUP_MOMOTALK)),
-                    times=9
+                    times=10
                 )
                 # 跳过剧情
                 SkipStory().run()

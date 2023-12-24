@@ -29,7 +29,12 @@ class SkipStory(Task):
         for i in range(5):
             screenshot()
             # 记住MENU的位置
-            menupos = match(button_pic(ButtonName.BUTTON_STORY_MENU), returnpos=True)[1]
+            menures = match(button_pic(ButtonName.BUTTON_STORY_MENU), returnpos=True)
+            if not menures[0]:
+                logging.info("跳过剧情被打断，重试")
+                click(Page.MAGICPOINT, sleeptime=1.2)
+                continue
+            menupos = menures[1]
             # 按MENU直到MENU变深色匹配不出来
             clickmenu = self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=1.5),
@@ -52,8 +57,7 @@ class SkipStory(Task):
                 return
             else:
                 logging.info("跳过剧情被打断，重试")
-        else:
-            raise Exception("跳过剧情失败，可能是剧情按钮的图片变化了，请反馈")
+        raise Exception("跳过剧情失败，可能是剧情按钮的图片变化了，请反馈")
      
     def post_condition(self) -> bool:
         return not match(button_pic(ButtonName.BUTTON_CONFIRMB))
