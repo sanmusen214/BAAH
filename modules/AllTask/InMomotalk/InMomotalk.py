@@ -94,6 +94,7 @@ class InMomotalk(Task):
             sleep(2)
         # 如果右侧啥按钮都没有，点左侧第二个，然后点左侧第一个，然后右侧往下滚动
         if not reply_button[0] and not partner_button[0] and not goto_partner_button[0]:
+            logging.info("回复{}，羁绊{}，前往羁绊{}".format(reply_button[2], partner_button[2], goto_partner_button[2]))
             # 如果进入到剧情里面，这边也就点点左侧中间，无影响
             # 第二条
             click((262, 330), sleeptime=1)
