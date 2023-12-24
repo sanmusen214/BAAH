@@ -13,10 +13,12 @@ try:
 except FileNotFoundError as e:
     print("dist文件夹不存在!跳过删除")
 
-# 打包BAAH
+# 打包main.py，名字为BAAH
 baahcmd = [
     'pyinstaller',
-    'main.spec'
+    'main.py',
+    '-n', 'BAAH',
+    '--icon', 'assets/favicon.ico',
 ]
 subprocess.call(baahcmd)
 
@@ -25,7 +27,8 @@ guicmd = [
     'pyinstaller',
     'jsoneditor.py',
     # '--windowed', # prevent console appearing, only use with ui.run(native=True, ...)
-    '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui'
+    '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui',
+    '--icon', 'assets/favicon.ico',
 ]
 subprocess.call(guicmd)
 
@@ -134,7 +137,9 @@ startdir = f"./dist/BAAH{config.NOWVERSION}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
-        
+
+print(f"完成，压缩包./dist/BAAH{config.NOWVERSION}.zip已生成")
+
 # 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}_update.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config.NOWVERSION}"
@@ -143,6 +148,8 @@ for dirpath, dirnames, filenames in os.walk(startdir):
     if "_internal" in dirpath or "tools" in dirpath:
         continue
     for filename in filenames:
+        if "重启adb服务" in filename:
+            continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
-print(f"完成，压缩包已生成")
+print(f"完成，压缩包./dist/BAAH{config.NOWVERSION}_update.zip已生成")
