@@ -1,5 +1,10 @@
 # Blue_Archive_ArisHelper碧蓝档案爱丽丝助手(BAAH)
 
+<div style="display:flex;justify-content:space-around"><img src="./assets/aris.png" style="width:45%"/><img src="./assets/kei.png" style="width:45%"/></div>
+
+
+---
+
 BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服/日服/国服官服/国服B服）里的 **每日任务**.
 
 BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ver.) in Android Emulator.
@@ -16,7 +21,7 @@ BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ve
 
 1. [opencv-python](https://github.com/opencv/opencv): 用于模板匹配
 2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
-3. [nicegui](https://github.com/zauberzeug/nicegui): 用于未来的GUI功能
+3. [nicegui](https://github.com/zauberzeug/nicegui): 用于GUI功能
 
 ## 交流群
 
@@ -26,7 +31,9 @@ QQ: 441069156
 
 ## 致谢
 
-感谢群友 [LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
+图标来自[@dada008](https://space.bilibili.com/23726244)
+
+感谢群友 [@LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
 
 ## 打算开发/已开发完成的自动化任务:
 

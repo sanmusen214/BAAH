@@ -18,7 +18,7 @@ baahcmd = [
     'pyinstaller',
     'main.py',
     '-n', 'BAAH',
-    '--icon', 'assets/favicon.ico',
+    '--icon', 'assets/kei.ico',
 ]
 subprocess.call(baahcmd)
 
@@ -28,7 +28,7 @@ guicmd = [
     'jsoneditor.py',
     # '--windowed', # prevent console appearing, only use with ui.run(native=True, ...)
     '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui',
-    '--icon', 'assets/favicon.ico',
+    '--icon', 'assets/aris.ico',
 ]
 subprocess.call(guicmd)
 
