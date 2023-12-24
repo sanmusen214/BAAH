@@ -68,7 +68,7 @@ class InMomotalk(Task):
         # 回复按钮 +40
         reply_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), returnpos=True)
         if reply_button[0]:
-            logging.info("检测到回复按钮")
+            logging.info("检测到回复按钮{:.2f}".format(reply_button[2]))
             self.run_until(
                 lambda: click((reply_button[1][0], reply_button[1][1]+40)),
                 lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY))
@@ -76,7 +76,7 @@ class InMomotalk(Task):
         # 羁绊按钮 +40
         partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), returnpos=True)
         if partner_button[0]:
-            logging.info("检测到羁绊按钮")
+            logging.info("检测到羁绊按钮{:.2f}".format(partner_button[2]))
             self.run_until(
                 lambda: click((partner_button[1][0], partner_button[1][1]+40)),
                 lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER))
@@ -86,7 +86,7 @@ class InMomotalk(Task):
         # 前往羁绊剧情按钮
         goto_partner_button = match(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY), returnpos=True)
         if goto_partner_button[0]:
-            logging.info("检测到前往羁绊剧情按钮")
+            logging.info("检测到前往羁绊剧情按钮{:.2f}".format(goto_partner_button[2]))
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY)),
                 lambda: not match(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY))
@@ -94,14 +94,14 @@ class InMomotalk(Task):
             sleep(2)
         # 如果右侧啥按钮都没有，点左侧第二个，然后点左侧第一个，然后右侧往下滚动
         if not reply_button[0] and not partner_button[0] and not goto_partner_button[0]:
-            logging.info("回复{}，羁绊{}，前往羁绊{}".format(reply_button[2], partner_button[2], goto_partner_button[2]))
-            # 如果进入到剧情里面，这边也就点点左侧中间，无影响
-            # 第二条
-            click((262, 330), sleeptime=1)
-            # 第一条
-            click((263, 253))
-            # 右侧往下滚动
-            self.scroll_right_down(times = 1)
+            logging.info("回复{:.2f}，羁绊{:.2f}，前往羁绊{:.2f}".format(reply_button[2], partner_button[2], goto_partner_button[2]))
+        # 如果进入到剧情里面，这边也就点点左侧中间，无影响
+        # 第二条
+        click((262, 330), sleeptime=1)
+        # 第一条
+        click((263, 253))
+        # 无论有没有检测到按钮，右侧往下滚动
+        self.scroll_right_down(times = 1)
         
         
      
@@ -118,13 +118,13 @@ class InMomotalk(Task):
         # 记住momotalk标题位置
         self.momo_title_pos = match(popup_pic(PopupName.POPUP_MOMOTALK), returnpos=True)[1]
         # 切换到对话界面
-        click((170, 299))
-        click((170, 299))
+        click((170, 299), 1)
+        click((170, 299), 1)
         # 按照未读的momotalk筛选
-        click((507, 176), 1.3)
-        click((508, 293), 0.5)
-        click((450, 266), 0.5) # 国
-        click((450, 421), 0.5) # 日
+        click((507, 176), 1)
+        click((508, 293))
+        click((450, 366)) # 国
+        click((450, 421)) # 日
         # 尝试切换排序，多次后还没检测到红标记就放弃
         self.scroll_left_up()
         matchred = self.whether_has_red_icon()
@@ -137,13 +137,14 @@ class InMomotalk(Task):
                 # 处理第一个momotalk
                 logging.info("处理第一条momotalk")
                 # 按回复框直到蹦出剧情右上角的按钮
-                self.run_until(
+                hasstory = self.run_until(
                     lambda: self.click_reply(),
                     lambda: match(button_pic(ButtonName.BUTTON_STORY_MENU)) or not match(popup_pic(PopupName.POPUP_MOMOTALK)),
                     times=10
                 )
-                # 跳过剧情
-                SkipStory().run()
+                if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
+                    # 跳过剧情
+                    SkipStory().run()
                 # 关闭弹窗, 继续检测第一条消息右侧是不是红色
                 matchred = self.whether_has_red_icon()
         logging.info("momotalk处理完毕，返回主页")

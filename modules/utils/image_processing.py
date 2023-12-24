@@ -85,7 +85,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
     if(max_val >= threshold):
         logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
         return (True, (center_x, center_y), max_val)
-    return (False, (0, 0), 0)
+    return (False, (0, 0), max_val)
 
 def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     """
