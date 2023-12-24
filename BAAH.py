@@ -20,7 +20,7 @@ def BAAH_main():
             subprocess_run(config.TARGET_EMULATOR_PATH.split(" "), isasync=True)
             for i in range(3):
                 logging.info("等待{}...".format(i+1))
-                sleep(2)
+                sleep(3)
         except Exception as e:
             logging.error("启动模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
             logging.warn("检查是否能够建立与模拟器的连接...")
