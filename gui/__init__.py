@@ -79,6 +79,26 @@ def show_GUI(load_jsonname):
         }
     }
     
+    # myAllTask里面的key与GUI显示的key的映射
+    real_taskname_to_show_taskname = {
+        "登录游戏":"登录游戏",
+        "咖啡馆":"咖啡馆",
+        "咖啡馆只摸头":"咖啡馆只摸头",
+        "课程表":"课程表/日程",
+        "社团":"社团",
+        "商店":"商店",
+        "悬赏通缉":"悬赏通缉/指名手配",
+        "特殊任务":"特殊任务/委托/依赖",
+        "学园交流会":"学园交流会",
+        "战术大赛":"战术大赛/竞技场",
+        "困难关卡":"困难关卡",
+        "活动关卡":"活动关卡",
+        "每日任务":"每日任务",
+        "邮件":"邮件",
+        "普通关卡":"普通关卡",
+    }
+    show_task_name_to_real_task_name = {v:k for k,v in real_taskname_to_show_taskname.items()}
+    
     # 替换config中国服的俩旧config里的ActivityPath为真实的新版本的ActivityPath
     if "ACTIVITY_PATH" in config.configdict:
         old_activity_path = config.configdict["ACTIVITY_PATH"]
@@ -225,7 +245,7 @@ def show_GUI(load_jsonname):
     # =============================================
 
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
-        with ui.column().style('width: 150px; overflow: auto;flex-grow: 0;position: sticky; top: 20px;'):
+        with ui.column().style('width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 20px;'):
             with ui.card():
                 ui.link('模拟器配置', '#EMULATOR')
                 ui.link('服务器配置', '#SERVER')
@@ -233,8 +253,8 @@ def show_GUI(load_jsonname):
                 ui.link('后续配置文件', '#NEXT_CONFIG')
                 ui.link('课程表/日程', '#COURSE_TABLE')
                 ui.link('商店', '#SHOP_NORMAL')
-                ui.link('悬赏通缉', '#WANTED')
-                ui.link('特殊任务/特别委托', '#SPECIAL_TASK')
+                ui.link('悬赏通缉/指名手配', '#WANTED')
+                ui.link('特殊任务/委托/依赖', '#SPECIAL_TASK')
                 ui.link('学园交流会', '#EXCHANGE')
                 ui.link('活动关卡', '#ACTIVITY')
                 ui.link('困难关卡', '#HARD')
@@ -278,13 +298,27 @@ def show_GUI(load_jsonname):
             with ui.row():
                 ui.link_target("TASK_ORDER")
                 ui.label('任务执行顺序').style('font-size: x-large')
-                
+            
+            
+            def select_clear_all_and_refresh_task_order(type="select"):
+                if type == "select":
+                    for i in range(1, len(config.configdict["TASK_ACTIVATE"])):
+                        config.configdict["TASK_ACTIVATE"][i] = True
+                else:
+                    for i in range(1, len(config.configdict["TASK_ACTIVATE"])):
+                        config.configdict["TASK_ACTIVATE"][i] = False
+                task_order.refresh()
+            
+            with ui.row():
+                ui.button("全选", on_click=lambda: select_clear_all_and_refresh_task_order("select"))
+                ui.button("全不选", on_click=lambda: select_clear_all_and_refresh_task_order("unselect"))
+            
             @ui.refreshable
             def task_order():
                 for i in range(len(config.configdict["TASK_ORDER"])):
                     with ui.row():
                         ui.label(f'第{i+1}个任务:')
-                        atask = ui.select(all_task_names,
+                        atask = ui.select(real_taskname_to_show_taskname,
                                   value=config.configdict["TASK_ORDER"][i],
                                   on_change=lambda v,i=i: config.configdict["TASK_ORDER"].__setitem__(i, v.value),
                                   )
