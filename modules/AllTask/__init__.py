@@ -1,6 +1,7 @@
 from .Task import Task
 
 from .EnterGame.EnterGame import EnterGame
+from .InMomotalk.InMomotalk import InMomotalk
 from .InCafe.InCafe import InCafe
 from .InTimeTable.InTimeTable import InTimeTable
 from .InClub.InClub import InClub

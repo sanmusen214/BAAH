@@ -191,11 +191,14 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern("./screenshot.png", button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=True)
-    
+    # res1 = match_pattern(config.SCREENSHOT_NAME, button_pic(ButtonName.BUTTON_STORY_MENU),  show_result=True, auto_rotate_if_trans=True)
+
     # 比划点
-    # main()
+    main()
     # offset = 40
+    
+    # matchres = match_pixel((639, 240), Page.COLOR_RED)
+    # print(matchres)
     
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
@@ -221,7 +224,7 @@ if __name__=="__main__":
     # special
     # ScrollSelect(11, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
     # InEvent().run()
-    RaidQuest(1).run()
+    # RaidQuest(1).run()
     
     
     # 测透明图片的旋转

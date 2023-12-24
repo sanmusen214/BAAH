@@ -21,6 +21,7 @@ class Page:
     """
 
     COLOR_WHITE = ((250, 249, 246), (252, 251, 249))
+    COLOR_RED = ((24, 70, 250), (26, 72, 252))
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

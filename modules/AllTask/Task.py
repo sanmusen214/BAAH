@@ -71,6 +71,7 @@ class Task:
         """
         logging.info("尝试返回主页")
         click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
         if Task.run_until(lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)), lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True
@@ -154,5 +155,23 @@ class Task:
         swipe((942, 561), (928, 226), sleeptime=0.2)
         sleep(0.5)
         
-        
+    @staticmethod
+    def scroll_left_up():
+        """
+        scroll to top
+        """
+        swipe((265, 254), (264, 558), sleeptime=0.2)
+        swipe((265, 254), (264, 558), sleeptime=0.2)
+        swipe((265, 254), (264, 558), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_left_down():
+        """
+        scroll to bottom
+        """
+        swipe((264, 558), (265, 254), sleeptime=0.2)
+        swipe((264, 558), (265, 254), sleeptime=0.2)
+        swipe((264, 558), (265, 254), sleeptime=0.2)
+        sleep(0.5)
         
