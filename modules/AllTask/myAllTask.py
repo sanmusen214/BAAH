@@ -9,6 +9,7 @@ from modules.utils.MyConfig import config
     
 task_dict= {
     "登录游戏":[EnterGame,{}],
+    "清除momotalk":[InMomotalk,{}],
     "咖啡馆":[InCafe,{}],
     "咖啡馆只摸头":[InCafe,{'collect':False}],
     "课程表":[InTimeTable,{}],

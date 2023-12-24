@@ -82,6 +82,7 @@ def show_GUI(load_jsonname):
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
         "登录游戏":"登录游戏",
+        "清除momotalk":"清除momotalk",
         "咖啡馆":"咖啡馆",
         "咖啡馆只摸头":"咖啡馆只摸头",
         "课程表":"课程表/日程",
