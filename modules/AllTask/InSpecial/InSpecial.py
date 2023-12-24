@@ -52,8 +52,8 @@ class InSpecial(Task):
         )
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
-            # 国服的话区域会大一些
-            if config.PIC_PATH == "./assets_cn":
+            # 使用PageName.PAGE_SPECIAL的坐标判断是国服还是其他服
+            if match(page_pic(PageName.PAGE_SPECIAL), returnpos=True)[1][1]>133:
                 points = np.linspace(276, 415, 2)
             else:
                 # 可点击的一列点

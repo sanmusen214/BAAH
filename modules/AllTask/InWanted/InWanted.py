@@ -57,8 +57,10 @@ class InWanted(Task):
             if ocr_area_0((72, 85), (322, 114)):
                 logging.warn("没有悬赏通缉券了")
             else:
-                # 如果国服，区域会大一些：
-                if config.PIC_PATH == "./assets_cn":
+                # 使用PageName.PAGE_WANTED的坐标判断是国服还是其他服
+                if match(page_pic(PageName.PAGE_WANTED), returnpos=True)[1][1]>133:
+                    # 如果右侧Title较低，说明是老版本的国服
+                    logging.info("点击较低的三个定位点")
                     points = np.linspace(271, 557, 3)
                 else:
                     # 可点击的一列点

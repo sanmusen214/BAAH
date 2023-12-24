@@ -57,8 +57,14 @@ class InExchange(Task):
             if ocr_area_0((72, 85), (322, 114)):
                 logging.warn("没有学院交流会券")
             else:
-                # 可点击的一列点
-                points = np.linspace(208, 421, 3)
+                # 使用PageName.PAGE_EXCHANGE的坐标判断是国服还是其他服
+                if match(page_pic(PageName.PAGE_EXCHANGE), returnpos=True)[1][1]>133:
+                    # 如果右侧Title较低，说明是老版本的国服
+                    logging.info("点击较低的三个定位点")
+                    points = np.linspace(271, 557, 3)
+                else:
+                    # 可点击的一列点
+                    points = np.linspace(206, 422, 3)
                 # 点击location
                 self.run_until(
                     lambda: click((963, points[each_target[0]])),
