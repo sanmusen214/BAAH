@@ -143,8 +143,7 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 项目下新建tools文件夹，放入压缩包中的adb，nicegui，pponnxcr文件夹
 
-1. `pyinstaller main.spec`
-2. `python package.py`
+1. `python package.py`
 
 
 # 碎碎念

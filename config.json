@@ -153,5 +153,6 @@
         false,
         true,
         false
-    ]
+    ],
+    "LOCK_SERVER_TO_RESPOND_Y": true
 }

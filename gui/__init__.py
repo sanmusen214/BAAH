@@ -48,6 +48,10 @@ def show_GUI(load_jsonname):
         "RESPOND_Y",
     ]
     
+    all_bool_key_names =[
+        "LOCK_SERVER_TO_RESPOND_Y"
+    ]
+    
     server_map = {
         "server2pic": {
             "日服":"./assets_jp",
@@ -117,6 +121,9 @@ def show_GUI(load_jsonname):
                 config.configdict[key] = 0.7
             else:
                 config.configdict[key] = 1
+    for key in all_bool_key_names:
+        if key not in config.configdict:
+            config.configdict[key] = True
     # 判断TASK_ACTIVATE长度与TASK_ORDER长度是否一致
     if len(config.configdict["TASK_ACTIVATE"]) != len(config.configdict["TASK_ORDER"]):
         # 给TASK_ACTIVATE添加len(TASK_ORDER)的True
@@ -258,7 +265,8 @@ def show_GUI(load_jsonname):
             def set_server_info(server):
                 config.configdict["PIC_PATH"] = server_map["server2pic"][server]
                 config.configdict["ACTIVITY_PATH"] = server_map["server2activity"][server]
-                config.configdict["RESPOND_Y"] = server_map["server2respond"][server]
+                if config.configdict["LOCK_SERVER_TO_RESPOND_Y"]:
+                    config.configdict["RESPOND_Y"] = server_map["server2respond"][server]
                 
             
             # with ui.row():
@@ -388,7 +396,8 @@ def show_GUI(load_jsonname):
                 ui.number("滑动触发距离",
                           step=1,
                           min=1,
-                          precision=0).bind_value(config.configdict, 'RESPOND_Y').set_enabled(False)
+                          precision=0).bind_value(config.configdict, 'RESPOND_Y', forward=lambda x:int(x), backward=lambda x:int(x)).bind_enabled(config.configdict, 'LOCK_SERVER_TO_RESPOND_Y', forward=lambda v: not v, backward=lambda v: not v)
+                ui.checkbox("与区服绑定(国服官服60，其他40)").bind_value(config.configdict, 'LOCK_SERVER_TO_RESPOND_Y')
                 
             with ui.row():
                 ui.input("模拟器监听IP地址（此项不包含端口号）").bind_value(config.configdict, 'TARGET_IP_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
@@ -411,7 +420,7 @@ def show_GUI(load_jsonname):
                     ui.notify("开始执行")
                     # 打开同目录中的BAAH.exe，传入当前config的json文件名
                     os.system(f"start BAAH{MyConfigger.NOWVERSION}.exe {load_jsonname}")
-                ui.button('保存并执行', on_click=save_and_alert_and_run)
+                ui.button('保存并执行此配置', on_click=save_and_alert_and_run)
             
             # 加载完毕保存一下config，让新建的config文件有默认值
             config.save_config(load_jsonname)
