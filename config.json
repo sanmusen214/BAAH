@@ -107,8 +107,8 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./assets_cn",
-    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
+    "PIC_PATH": "./assets",
+    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "config.png",

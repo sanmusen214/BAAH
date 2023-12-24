@@ -122,8 +122,9 @@ class InMomotalk(Task):
         click((170, 299))
         # 按照未读的momotalk筛选
         click((507, 176), 1.3)
-        click((555, 293), 0.5)
-        click((450, 421), 0.5)
+        click((508, 293), 0.5)
+        click((450, 266), 0.5) # 国
+        click((450, 421), 0.5) # 日
         # 尝试切换排序，多次后还没检测到红标记就放弃
         self.scroll_left_up()
         matchred = self.whether_has_red_icon()
