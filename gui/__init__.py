@@ -391,7 +391,8 @@ def show_GUI(load_jsonname):
                           suffix="s",
                           step=0.1,
                           precision=1).bind_value(config.configdict, 'TIME_AFTER_CLICK')
-                
+            
+            ui.label("滑动过头此项调小60->40，滑动距离不够此项调大40->60")
             with ui.row():
                 ui.number("滑动触发距离",
                           step=1,
