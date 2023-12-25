@@ -63,6 +63,12 @@ if __name__ in ["__main__", "__mp_main__"]:
     except Exception as e:
         # 打印完整的错误信息
         traceback.print_exc()
+    try:
+        # 如果截图文件存在，删除截图文件
+        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
+            os.remove(f"./{config.SCREENSHOT_NAME}")
+    except:
+        pass
     print("程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
     print("https://github.com/sanmusen214/BAAH")
     input("按回车键退出BAAH:")
