@@ -75,7 +75,13 @@ def check_app_running(activity_path:str) -> bool:
         logging.error("activity_path格式错误")
         return False
     # 使用adb获取当前运行的app
-    output = subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'activity', 'activities']).stdout
+    output = subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'window']).stdout
+    # adb shell "dumpsys window | grep mCurrentFocus"
+    for sentence in output.split("\n"):
+        if "mCurrentFocus" in sentence:
+            output = sentence
+            logging.info("当前运行的app为：{}".format(output))
+            break
     if app_name in output:
         return True
     else:
@@ -85,6 +91,7 @@ def open_app(activity_path:str):
     """
     使用adb打开app
     """
-    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path])
+    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path], isasync=True)
+    time.sleep(2)
     appname = activity_path.split("/")[0]
-    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'])
+    subprocess_run([config.ADB_PATH, "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)

@@ -38,8 +38,8 @@ def BAAH_main():
             for i in range(5):
                 # 打开游戏
                 open_app(config.ACTIVITY_PATH)
+                logging.info("打开游戏...")
                 sleep(3)
-                # TODO: 不在视野内在后台也会被识别？？？
                 if not check_app_running(config.ACTIVITY_PATH):
                     if i>=2:
                         yorn = input("连接后多次打开失败，是否重启adb服务或跳过？(y/n/k):")
@@ -50,11 +50,11 @@ def BAAH_main():
                         if yorn == "k" or yorn == "K":
                             logging.warn("跳过打开游戏")
                             break
-                    logging.info("尝试打开游戏...")
+                    logging.info("检测到游戏未打开，尝试打开游戏...")
                     open_app(config.ACTIVITY_PATH)
                     sleep(3)
                 else:
-                    logging.info("打开游戏")
+                    logging.info("成功打开游戏")
                     break
             # 运行任务
             logging.info("运行任务")
