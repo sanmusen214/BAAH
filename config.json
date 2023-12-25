@@ -107,12 +107,12 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./assets",
-    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
+    "PIC_PATH": "./assets_cn",
+    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
-    "SCREENSHOT_NAME": "25460919.png",
-    "RESPOND_Y": 40,
+    "SCREENSHOT_NAME": "c5fd3201.png",
+    "RESPOND_Y": 60,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",
     "SHOP_NORMAL": [
@@ -136,8 +136,6 @@
     "TASK_ACTIVATE": [
         true,
         false,
-        false,
-        false,
         true,
         false,
         false,
@@ -151,8 +149,11 @@
         false,
         false,
         false,
-        true,
+        false,
+        false,
+        false,
         false
     ],
-    "LOCK_SERVER_TO_RESPOND_Y": true
+    "LOCK_SERVER_TO_RESPOND_Y": true,
+    "CAFE_CAMERA_FULL": false
 }

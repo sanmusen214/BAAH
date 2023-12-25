@@ -3,6 +3,7 @@ import os
 import json
 from modules.utils.MyConfig import MyConfigger
 from modules.AllTask.myAllTask import task_dict
+import hashlib
 
 @ui.refreshable
 def show_GUI(load_jsonname):
@@ -49,7 +50,8 @@ def show_GUI(load_jsonname):
     ]
     
     all_bool_key_names =[
-        "LOCK_SERVER_TO_RESPOND_Y"
+        "LOCK_SERVER_TO_RESPOND_Y",
+        "CAFE_CAMERA_FULL"
     ]
     
     server_map = {
@@ -112,7 +114,7 @@ def show_GUI(load_jsonname):
     if "SCREENSHOT_NAME" in config.configdict:
         # screenshotfilename = load_jsonname.replace(".json", ".png")
         # 获得字符串的哈希值
-        screenshotfilehash = str(abs(hash(load_jsonname)))
+        screenshotfilehash = hashlib.sha1(load_jsonname.encode('utf-8')).hexdigest()
         # 如果长度大于8，截取前8位
         if len(screenshotfilehash) > 8:
             screenshotfilehash = screenshotfilehash[:8]
@@ -261,6 +263,7 @@ def show_GUI(load_jsonname):
                 ui.link('服务器配置', '#SERVER')
                 ui.link('任务执行顺序', '#TASK_ORDER')
                 ui.link('后续配置文件', '#NEXT_CONFIG')
+                ui.link('咖啡馆', '#CAFE')
                 ui.link('课程表/日程', '#COURSE_TABLE')
                 ui.link('商店', '#SHOP_NORMAL')
                 ui.link('悬赏通缉/指名手配', '#WANTED')
@@ -361,6 +364,16 @@ def show_GUI(load_jsonname):
             
                 
             ui.input('执行完此配置文件过后，继续执行配置文件').bind_value(config.configdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+            
+            with ui.row():
+                ui.link_target("CAFE")
+                ui.label('咖啡馆').style('font-size: x-large')
+            
+            ui.label("国服目前咖啡馆的视角无法继承，请取消勾选以下这项").style('color: red')
+            ui.label("国际服/日服咖啡馆请将视角拉到最高，保持勾选以下这项")
+            
+            with ui.row():
+                ui.checkbox("进入咖啡馆时视角是最高").bind_value(config.configdict, "CAFE_CAMERA_FULL")
             
             with ui.row():
                 ui.link_target("COURSE_TABLE")

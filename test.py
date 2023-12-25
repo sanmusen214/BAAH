@@ -191,10 +191,10 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.SCREENSHOT_NAME, button_pic(ButtonName.BUTTON_STORY_MENU),  show_result=True, auto_rotate_if_trans=True)
+    res1 = match_pattern(config.SCREENSHOT_NAME, button_pic(ButtonName.BUTTON_STU_NOTICE),  show_result=True, auto_rotate_if_trans=True)
 
     # 比划点
-    main()
+    # main()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
