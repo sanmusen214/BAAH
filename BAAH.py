@@ -42,11 +42,14 @@ def BAAH_main():
                 # TODO: 不在视野内在后台也会被识别？？？
                 if not check_app_running(config.ACTIVITY_PATH):
                     if i>=2:
-                        yorn = input("连接后多次打开失败，是否重启adb服务？(y/n):")
+                        yorn = input("连接后多次打开失败，是否重启adb服务或跳过？(y/n/k):")
                         if yorn == "y" or yorn == "Y":
                             logging.warn("重启adb服务")
                             kill_adb_server()
                             raise Exception("由于重启了adb服务，请重新运行脚本")
+                        if yorn == "k" or yorn == "K":
+                            logging.warn("跳过打开游戏")
+                            break
                     logging.info("尝试打开游戏...")
                     open_app(config.ACTIVITY_PATH)
                     sleep(3)
@@ -59,7 +62,20 @@ def BAAH_main():
             logging.info("所有任务结束")
             break
         else:
-            if i == 2:
+            if i==0 or i==1:
+                logging.warn("连接失败，重试...")
+                sleep(3+3*i)
+            if i==2:
+                port = input("未能连接至模拟器，请输入模拟器端口号并修改config.json(留空以继续使用配置文件)：")
+                if port=="":
+                    continue
+                else:
+                    try:
+                        port = int(port)
+                        config.TARGET_PORT = port
+                    except:
+                        logging.error("端口号输入错误")
+            if i == 3:
                 yorn = input("多次连接失败，是否重启adb服务？(y/n):")
                 if yorn == "y" or yorn == "Y":
                     logging.warn("重启adb服务")
@@ -68,15 +84,7 @@ def BAAH_main():
             if i == max_try-1:
                 logging.error("达到最大尝试次数，连接失败")
                 break
-            port = input("未能连接至模拟器，请输入模拟器端口号并修改config.json(留空以继续使用配置文件)：")
-            if port=="":
-                continue
-            else:
-                try:
-                    port = int(port)
-                    config.TARGET_PORT = port
-                except:
-                    logging.error("端口号输入错误")
+            
 
 
 if __name__ in ["__main__", "__mp_main__"]:
