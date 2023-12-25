@@ -24,7 +24,11 @@ class InMomotalk(Task):
         检测第一条对话旁边是否有红色标记，
         中途会试图点击重新排序，最多尝试三次
         """
-        screenshot()
+        hasmomotalk_popup = self.run_until(
+            lambda: click(self.momo_title_pos),
+            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)),
+            times=3
+        )
         if not match(popup_pic(PopupName.POPUP_MOMOTALK)):
             logging.info("未检测到momotalk弹窗")
             return False
@@ -32,7 +36,6 @@ class InMomotalk(Task):
             # logging.info(f"检测到红色标记")
             return True
         # 一开始没检测到，考虑重新排序
-        click(self.momo_title_pos)
         for i in range(3):
             # 点击momotalk标题位置，尝试去除弹窗
             click(self.momo_title_pos)
@@ -57,7 +60,7 @@ class InMomotalk(Task):
         click((263, 253))
         # 如果反复排序后第一条右边还没有红点，说明已经处理完毕，直接return
         if not self.whether_has_red_icon():
-            logging.warn("第一条右边没有红点了，跳过此任务")
+            logging.warn("第一条右边没有红点了，跳过此任务，关闭momotalk弹窗")
             # 点击魔法点关闭momotalk弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
