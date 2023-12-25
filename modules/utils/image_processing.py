@@ -109,8 +109,8 @@ def match_pixel_color(imageurl, x, y, low_range, high_range):
     match whether the color at that location is between the range
     
     x, y: the location of the pixel in the cv image
-    low_range: (120, 120, 120) rgb of a color
-    high_range: (125, 125, 125) rgb of a color
+    low_range: (120, 120, 120) bgr of a color
+    high_range: (125, 125, 125) bgr of a color
     
     return True if the color is between the range
     """

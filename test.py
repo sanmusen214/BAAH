@@ -34,17 +34,17 @@ def main():
 
     # 读取透明度层
     screenshot = cv2.imread("./{}".format(config.SCREENSHOT_NAME))
-    # 平均最大最小rgb
-    rgb_result = [[],[],[]]
+    # 平均最大最小bgr
+    bgr_result = [[],[],[]]
     def mouse_callback_s(event, x, y, flags, param):
         # 截图
         global start_x, start_y, drawing
         if event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
-            print(f"点击位置: ({x}, {y})", f"RGB 数组: {screenshot[y, x]}")
-            rgb_result[0].append(screenshot[y, x][0])
-            rgb_result[1].append(screenshot[y, x][1])
-            rgb_result[2].append(screenshot[y, x][2])
-            print("min max avg rgb: ", np.min(rgb_result, axis=1), np.max(rgb_result, axis=1), np.mean(rgb_result, axis=1))
+            print(f"点击位置: ({x}, {y})", f"BGR 数组: {screenshot[y, x]}")
+            bgr_result[0].append(screenshot[y, x][0])
+            bgr_result[1].append(screenshot[y, x][1])
+            bgr_result[2].append(screenshot[y, x][2])
+            print("min max avg bgr: ", np.min(bgr_result, axis=1), np.max(bgr_result, axis=1), np.mean(bgr_result, axis=1))
             
         if event == cv2.EVENT_LBUTTONDOWN:  # 检查是否是鼠标左键按下事件
             drawing = True
