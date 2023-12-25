@@ -16,8 +16,8 @@ def getNewestSeialNumber():
         return "127.0.0.1:5555"
 
 # 判断是否有TARGET_PORT这个配置项
-def disconnect_all_devices():
-    """Disconnect all devices."""
+def disconnect_this_device():
+    """Disconnect this device."""
     subprocess_run([config.ADB_PATH, "disconnect", getNewestSeialNumber()])
     
 def kill_adb_server():

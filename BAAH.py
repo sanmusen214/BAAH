@@ -27,7 +27,7 @@ def BAAH_main():
     else:
         logging.info("未配置模拟器路径")
     # 检查adb连接
-    disconnect_all_devices()
+    disconnect_this_device()
     max_try = 5
     for i in range(max_try):
         logging.info(f"检查连接{i+1}/{max_try}...")
