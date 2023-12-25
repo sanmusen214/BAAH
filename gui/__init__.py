@@ -110,7 +110,16 @@ def show_GUI(load_jsonname):
     
     # 强制设置截图名称为此config.json的文件名
     if "SCREENSHOT_NAME" in config.configdict:
-        config.configdict["SCREENSHOT_NAME"] = load_jsonname.replace(".json", ".png")
+        # screenshotfilename = load_jsonname.replace(".json", ".png")
+        # 获得字符串的哈希值
+        screenshotfilehash = str(abs(hash(load_jsonname)))
+        # 如果长度大于8，截取前8位
+        if len(screenshotfilehash) > 8:
+            screenshotfilehash = screenshotfilehash[:8]
+        # 如果长度小于8，补0
+        elif len(screenshotfilehash) < 8:
+            screenshotfilehash = screenshotfilehash.zfill(8)
+        config.configdict["SCREENSHOT_NAME"] = screenshotfilehash + ".png"
 
     # 不在configdict中的key，添加默认值
     for key in all_list_key_names:
