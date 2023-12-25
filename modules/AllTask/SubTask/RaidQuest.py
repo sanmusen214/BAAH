@@ -8,7 +8,7 @@ from assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, ocr_area_0, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, ocr_area_0, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
 
 class RaidQuest(Task):
     """
@@ -32,6 +32,18 @@ class RaidQuest(Task):
         # 判断默认的次数不是0才能进入
         return match(popup_pic(PopupName.POPUP_TASK_INFO)) and not ocr_area_0((906, 284),(970, 318))
     
+    def check_has_max(self) -> bool:
+        """
+        通过检查数字是否变化来判断是否可以通过max times来扫荡
+        """
+        screenshot()
+        now_num = ocr_area((906, 284),(970, 318))[0]
+        # 点一下max
+        click((1084, 299))
+        next_num = ocr_area((906, 284),(970, 318))[0]
+        if now_num == next_num:
+            return False
+        return True
     
     def on_run(self) -> None:
         # 全局变量存储当前这次任务是否可继续扫荡的信息
@@ -40,8 +52,16 @@ class RaidQuest(Task):
         repeat_times = self.raidtimes
         # 弹出任务咨询页面后选择次数
         if repeat_times < 0:
-            # max times
-            click((1084, 299))
+            # 检测能够通过max times来扫荡
+            if self.check_has_max():
+                # max times
+                click((1084, 299))
+            else:
+                # 点加号多次然后长按
+                click((1017, 300), sleeptime=0.1)
+                click((1017, 300), sleeptime=0.1)
+                swipe((1017, 300), (1017, 300), durationtime=6)
+            # max后反向减少次数
             if repeat_times < -1:
                 # max times - Math.abs(repeat_times)
                 # 按减号

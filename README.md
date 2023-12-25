@@ -160,4 +160,4 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 日常任务还缺个制造
 
-未来可以丢弃的按类代码：国服悬赏通缉选地区
+未来可以丢弃的按类判别代码：国服悬赏通缉选地区，RaidQuest max次判断

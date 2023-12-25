@@ -107,12 +107,12 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./assets_cn",
-    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity",
+    "PIC_PATH": "./assets",
+    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c5fd3201.png",
-    "RESPOND_Y": 60,
+    "RESPOND_Y": 40,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",
     "SHOP_NORMAL": [

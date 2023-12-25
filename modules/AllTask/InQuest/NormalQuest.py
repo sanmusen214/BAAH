@@ -42,7 +42,7 @@ class NormalQuest(Task):
             if not jumpres:
                 logging.error("go to page {} failed, ignore this quest".format(to_page_num))
                 continue
-            
+            click(Page.MAGICPOINT)
             ScrollSelect(level_ind, 190, 288, 628, 1115, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             # 扫荡
             RaidQuest(repeat_times).run()

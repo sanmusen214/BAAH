@@ -191,7 +191,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    res1 = match_pattern(config.SCREENSHOT_NAME, button_pic(ButtonName.BUTTON_STU_NOTICE),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern(config.SCREENSHOT_NAME, button_pic(ButtonName.BUTTON_STU_NOTICE),  show_result=True, auto_rotate_if_trans=True)
 
     # 比划点
     # main()
@@ -224,7 +224,7 @@ if __name__=="__main__":
     # special
     # ScrollSelect(11, 130, 230, 680, 1119, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
     # InEvent().run()
-    # RaidQuest(1).run()
+    RaidQuest(-2).run()
     
     
     # 测透明图片的旋转
