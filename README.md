@@ -42,8 +42,8 @@ QQ: 441069156
   - [x] 从PV页面登录
   - [x] 关闭社群弹窗
 
-- [ ] momotalk
-  - [ ] 清momotalk里的好感对话
+- [x] momotalk
+  - [x] 清momotalk里的好感对话
 
 - [x] 咖啡馆
   - [x] 领取体力
