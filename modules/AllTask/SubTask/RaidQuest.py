@@ -40,6 +40,7 @@ class RaidQuest(Task):
         now_num = ocr_area((906, 284),(970, 318))[0]
         # 点一下max
         click((1084, 299))
+        screenshot()
         next_num = ocr_area((906, 284),(970, 318))[0]
         if now_num == next_num:
             return False
