@@ -22,8 +22,7 @@ class SkipStory(Task):
 
      
     def pre_condition(self) -> bool:
-        click(Page.MAGICPOINT)
-        logging.info("检测是否有MENU按钮")
+        # 这里不能点击MAGICPOINT，因为有可能关闭momotalk弹窗
         return match(button_pic(ButtonName.BUTTON_STORY_MENU))
     
      

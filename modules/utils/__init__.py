@@ -7,7 +7,7 @@ import logging
 import time
 from modules.utils.MyConfig import config
 
-def click(item:Union[str, Tuple[float, float]], sleeptime = -1) -> bool:
+def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -> bool:
     """
     Task: click the position (x, y) or the center of a picture (given by a str)
     
@@ -15,7 +15,7 @@ def click(item:Union[str, Tuple[float, float]], sleeptime = -1) -> bool:
     """
     # check if the item is a str
     if isinstance(item, str):
-        matchRes = match(item, returnpos=True)
+        matchRes = match(item, returnpos=True, threshold=threshold)
         if matchRes[0]:
             click_on_screen(matchRes[1][0], matchRes[1][1])
             time.sleep(config.TIME_AFTER_CLICK)
