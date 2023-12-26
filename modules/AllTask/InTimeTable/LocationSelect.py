@@ -60,9 +60,10 @@ class LocationSelect(Task):
                 self.run_until(
                     lambda: click(Page.MAGICPOINT) and click((1162, 664)),
                     lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
-                    times = 10
+                    times = 15
                 )
                 # 尝试点进九宫格选取页面
+                logging.info("打开九宫格选取页面")
                 # 点右下按钮
                 self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_ALL_TIMETABLE)),
