@@ -1,6 +1,6 @@
 # Blue_Archive_ArisHelper碧蓝档案爱丽丝助手(BAAH)
 
-<div style="display:flex;justify-content:space-around"><img src="./assets/aris.png" style="width:45%"/><img src="./assets/kei.png" style="width:45%"/></div>
+<div style="display:flex;justify-content:space-around"><img src="./assets/aris.png" style="width:48%"/><img src="./assets/kei.png" style="width:48%"/></div>
 
 
 ---
@@ -153,7 +153,7 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 # 打包
 
-项目下新建tools文件夹，放入压缩包中的adb，nicegui，pponnxcr文件夹
+项目下新建tools文件夹，放入压缩包中的tools/adb，_internal/nicegui，_internal/pponnxcr文件夹
 
 1. `python package.py`
 

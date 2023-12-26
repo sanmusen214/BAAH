@@ -106,14 +106,14 @@ class LocationSelect(Task):
                 self.run_until(
                     lambda: click(Page.MAGICPOINT),
                     lambda: not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)) and Page.is_page(PageName.PAGE_TIMETABLE_SEL),
-                    times=4
+                    times=8
                 )
         logging.info("返回到课程表页面")
         # 清除弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT) and click(Page.TOPLEFTBACK),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
-            times = 10,
+            times = 15,
             sleeptime=2
         )
         
