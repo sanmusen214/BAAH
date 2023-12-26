@@ -35,6 +35,8 @@ QQ: 441069156
 
 感谢群友 [@LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
 
+感谢群友 [@子墨](https://space.bilibili.com/11179370)整理的国服界面元素的截图
+
 ## 打算开发/已开发完成的自动化任务:
 
 - [x] 登录游戏
@@ -100,8 +102,7 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 ### 通过exe运行
 
 1. 解压压缩包
-2. 修改config.json
-3. 双击BAAH.exe运行
+2. 双击GUI.exe运行
 
 ### 通过本地的python环境运行
 
@@ -110,8 +111,8 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 3. 在命令行中执行`git clone https://github.com/sanmusen214/BAAH.git`
 4. 执行`cd BAAH` 进入项目目录
 5. 执行`pip install -r requirements.txt` 安装所需依赖
-6. 修改config.py
-7. 执行`python main.py` 运行BAAH
+6. 执行`python jsoneditor.py` 运行GUI
+7. 执行`python main.py config.json`按照config.json配置开始执行BAAH
 
 # 每日任务配置项目
 
@@ -119,7 +120,8 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 # 服务器（国际服/日服/国服官服/国服B服）配置
 
-打开GUI后选择区服即可。如果选择区服后报错，则修改config.json的下方内容
+打开GUI后选择区服即可。
+如果选择区服后报错，则修改config.json的下方内容
 
 ## 日服
 
@@ -160,4 +162,4 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 日常任务还缺个制造
 
-未来可以丢弃的按类判别代码：国服悬赏通缉选地区，RaidQuest max次判断
+未来可以丢弃的按类判别代码：国服悬赏通缉那三个功能选地区，RaidQuest max次判断
