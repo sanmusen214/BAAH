@@ -148,9 +148,8 @@ class InMomotalk(Task):
                     lambda: match(button_pic(ButtonName.BUTTON_STORY_MENU)) or not match(popup_pic(PopupName.POPUP_MOMOTALK)),
                     times=10
                 )
-                if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
-                    # 跳过剧情
-                    SkipStory().run()
+                # 不管是看到了右上MENU，还是无法匹配到MOMOTALK标题，都尝试跳过剧情
+                SkipStory().run()
                 # 关闭弹窗, 继续检测第一条消息右侧是不是红色
                 matchred = self.whether_has_red_icon()
         logging.info("momotalk处理完毕，返回主页")
