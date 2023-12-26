@@ -114,7 +114,7 @@ class LocationSelect(Task):
             lambda: click(Page.MAGICPOINT) and click(Page.TOPLEFTBACK),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
             times = 10,
-            sleeptime=1.5
+            sleeptime=2
         )
         
                     
