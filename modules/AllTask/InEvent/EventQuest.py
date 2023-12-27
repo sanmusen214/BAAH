@@ -34,11 +34,16 @@ class EventQuest(Task):
             # 判断底部是否有进度条
             if match(button_pic(ButtonName.BUTTON_EVENT_BOTTOM_BAR)):
                 logging.info("底部有进度条")
-                ScrollSelect(level_ind, 140, 238, 583, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run() # 活动页面延迟响应要大一点
+                logging.error("暂无适配，请等待版本更新，跳过")
+                break
             else:
-                # 没有进度条可滑动区域会更靠下
+                # 国服活动关扫荡，偏下
                 logging.info("底部没有进度条")
-                ScrollSelect(level_ind, 148, 262, 694, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+                if config.configdict['PIC_PATH']=="./assets_cn":
+                    ScrollSelect(level_ind, 148, 262, 694, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+                else:
+                    # 国际服活动关扫荡，偏上
+                    ScrollSelect(level_ind, 135, 250, 705, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
             RaidQuest(repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")
@@ -46,6 +51,10 @@ class EventQuest(Task):
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
+        Task.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
         
 
      

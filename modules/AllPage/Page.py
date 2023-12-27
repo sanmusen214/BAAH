@@ -20,7 +20,7 @@ class Page:
     The circle back icon on the top left corner
     """
 
-    COLOR_WHITE = ((250, 249, 246), (252, 251, 249))
+    COLOR_WHITE = ((248, 247, 243), (252, 251, 247))
     COLOR_RED = ((24, 70, 250), (26, 72, 252))
     # 父类
     def __init__(self, pagename) -> None:

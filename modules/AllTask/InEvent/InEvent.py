@@ -13,12 +13,13 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InEvent.EventQuest import EventQuest
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
         super().__init__(name)
         self.try_enter_times = 5
+        self.next_sleep_time = 0.1
 
      
     def pre_condition(self) -> bool:
@@ -38,11 +39,18 @@ class InEvent(Task):
         #         return False
         return Page.is_page(PageName.PAGE_HOME)
     
-    def goto_or_back(self):
+    def try_goto_event(self):
         """
-        点击滚动栏，前往活动页面，否则返回上一级
+        点击滚动栏，前往活动页面
         """
-        if not Page.is_page(PageName.PAGE_FIGHT_CENTER) and not Page.is_page(PageName.PAGE_EVENT):
+        if Page.is_page(PageName.PAGE_FIGHT_CENTER):
+            # 尝试前往活动页面
+            logging.info("尝试前往活动页面")
+            self.run_until(
+                lambda: click((105, 162), sleeptime=1.5),
+                lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
+            )
+        else:
             # 如果不在Fight Center页面，返回主页然后来到Fight Center页面
             logging.warn("页面发生未知偏移，尝试修正")
             self.back_to_home()
@@ -50,51 +58,82 @@ class InEvent(Task):
                 lambda: click((1196, 567)),
                 lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
             )
-        # 尝试前往活动页面
-        logging.info("尝试前往活动页面")
-        self.run_until(
-            lambda: click((105, 162), sleeptime=1.5),
-            lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
-        )
-        # 如果不是活动页面，返回上一级
-        if not Page.is_page(PageName.PAGE_EVENT):
-            logging.info("不是活动页面，返回上一级")
-            click(Page.TOPLEFTBACK, sleeptime=random.random()*6)
-        else:
-            return
+            # 睡眠一段时间
+            sleep(self.next_sleep_time)
+            self.next_sleep_time += 2
+            logging.info("尝试前往活动页面")
+            self.run_until(
+                lambda: click((105, 162), sleeptime=1.5),
+                lambda: not Page.is_page(PageName.PAGE_FIGHT_CENTER)
+            )
             
-     
+    
+    def judge_whether_available_event(self):
+        """
+        判断页面是否是一个有效的活动页面
+        """
+        # 判断左上角标题
+        if not Page.is_page(PageName.PAGE_EVENT):
+            return False
+        # 判断这个活动是否有Quest
+        res = ocr_area((901, 88), (989, 123))
+        print("Tab栏识别结果: ", res)
+        if res[0] != "Quest" and res[0] != "任务":
+            logging.warn("此页面不存在活动Quest")
+            return False
+        # 判断左下角时间
+        time_res = ocr_area((175, 566), (552, 593))
+        # '2023-12-2603:00~2024-01-0902:59'
+        logging.info(f"检测到活动时间: {time_res}")
+        # 分割出结束时间
+        time_split = time_res[0].split("~")
+        if len(time_res)==0 or len(time_split) == 1:
+            return False
+        # 判断活动是否已结束
+        end_time = time_split[1]
+        if len(end_time) != 15:
+            return False
+        # 将这个时间转成时间对象
+        end_time_struct = time.strptime(end_time, "%Y-%m-%d%H:%M")
+        logging.info(f'结束时间: {time.strftime("%Y-%m-%d %H:%M:%S", end_time_struct)}')
+        # 获取本地时间
+        local_time_struct = time.localtime()
+        # 输出字符串
+        logging.info(f'本地时间: {time.strftime("%Y-%m-%d %H:%M:%S", local_time_struct)}')
+        # 检测local_time_struct是否在end_time_struct之前
+        if local_time_struct > end_time_struct:
+            logging.info("此活动已结束")
+            return False
+        return True
+
+    
     def on_run(self) -> None:
         # 进入Fight Center
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
         )
-        # 进入Event
-        self.run_until(
-            lambda: self.goto_or_back(),
-            lambda: Page.is_page(PageName.PAGE_EVENT),
+        # 狂点活动标
+        for i in range(10):
+            click((35, 110), sleeptime=0.2)
+        click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
+        # 尝试进入Event
+        enter_event = self.run_until(
+            lambda: self.try_goto_event(),
+            lambda: self.judge_whether_available_event(),
             times=self.try_enter_times
         )
         
-        if not Page.is_page(PageName.PAGE_EVENT):
+        if not enter_event:
             logging.warn("未能成功进入活动Event页面")
             return
         else:
-            logging.info("进入Event页面")
+            logging.info("成功进入Event页面")
         today = time.localtime().tm_mday
-        # 判断这个活动是否有Quest
-        res = ocr_area((901, 88), (989, 123))
-        print("识别结果: ", res)
-        if res[0] == "Quest" or res[0] == "任务":
-            logging.info("存在活动Quest")
-        else:
-            logging.warn("不存在活动Quest, 退出活动扫荡任务")
-            return
         # 跳到Quest标签
         click((965, 98))
         click((965, 98))
-        
         
         if hasattr(config, "EVENT_QUEST_LEVEL") and len(config.EVENT_QUEST_LEVEL) != 0:
             # 可选任务队列不为空时
