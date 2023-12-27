@@ -17,12 +17,37 @@ class NormalItems(Task):
 
      
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_SHOP) and hasattr(config, "SHOP_NORMAL")
+        return Page.is_page(PageName.PAGE_SHOP) and hasattr(config, "SHOP_NORMAL") and len(config.configdict["SHOP_NORMAL"]) > 0
     
      
     def on_run(self) -> None:
         logging.info("开始普通商店购买")
         BuyItems(config.SHOP_NORMAL).run()
+        for i in range(config.configdict["SHOP_NORMAL_REFRESH_TIME"]):
+            # 点击刷新按钮
+            showconfirm = self.run_until(
+                lambda: click((1161, 662)),
+                lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+                times=3
+            )
+            if not showconfirm:
+                logging.error("刷新按钮无反应，可能刷新次数用光了")
+                click(Page.MAGICPOINT)
+                return
+            else:
+                clickconfirm = self.run_until(
+                    lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)),
+                    lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+                    times=3
+                )
+                # 成功刷新
+                if clickconfirm:
+                    logging.info("刷新成功")
+                    BuyItems(config.SHOP_NORMAL).run()
+                else:
+                    logging.error("刷新失败")
+                    click(Page.MAGICPOINT)
+                    return
 
      
     def post_condition(self) -> bool:

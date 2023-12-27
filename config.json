@@ -107,8 +107,8 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./assets_jp",
-    "ACTIVITY_PATH": "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
+    "PIC_PATH": "./assets",
+    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c5fd3201.png",
@@ -155,5 +155,7 @@
         false
     ],
     "LOCK_SERVER_TO_RESPOND_Y": true,
-    "CAFE_CAMERA_FULL": false
+    "CAFE_CAMERA_FULL": false,
+    "SHOP_NORMAL_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 0
 }
