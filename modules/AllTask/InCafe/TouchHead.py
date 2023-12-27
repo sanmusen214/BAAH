@@ -28,6 +28,10 @@ class TouchHead(Task):
         if(canmatchRes[0]):
             logging.info("匹配到注意力符号，点击头部")
             click((min(canmatchRes[1][0]+50, 1280),canmatchRes[1][1]), sleeptime=1.5)
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: Page.is_page(PageName.PAGE_CAFE),
+        )
 
             
     def swipeRight(self):

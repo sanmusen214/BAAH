@@ -54,8 +54,8 @@ class InMomotalk(Task):
         
         一般是 回复-》（粉色羁绊-》蓝色进入羁绊剧情）
         """
-        # 右侧往下滑动
-        self.scroll_right_down(times = 1)
+        # 右侧往下滑动, 在头像框的位置滑
+        swipe((727, 460), (727, 243), sleeptime=0.2)
         sleep(2)
         # 手动截图！
         screenshot()
