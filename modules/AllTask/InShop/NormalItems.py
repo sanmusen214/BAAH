@@ -24,9 +24,10 @@ class NormalItems(Task):
         logging.info("开始普通商店购买")
         BuyItems(config.SHOP_NORMAL).run()
         for i in range(config.configdict["SHOP_NORMAL_REFRESH_TIME"]):
+            logging.info("刷新")
             # 点击刷新按钮
             showconfirm = self.run_until(
-                lambda: click((1161, 662)),
+                lambda: click(button_pic(ButtonName.BUTTON_SHOP_REFRESH)),
                 lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
                 times=3
             )

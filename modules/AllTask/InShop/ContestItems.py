@@ -24,9 +24,10 @@ class ContestItems(Task):
         logging.info("开始竞技场商店购买")
         BuyItems(config.SHOP_CONTEST).run()
         for i in range(config.configdict["SHOP_CONTEST_REFRESH_TIME"]):
+            logging.info("刷新")
             # 点击刷新按钮
             showconfirm = self.run_until(
-                lambda: click((1161, 662)),
+                lambda: click(button_pic(ButtonName.BUTTON_SHOP_REFRESH)),
                 lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
                 times=3
             )
