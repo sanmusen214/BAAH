@@ -56,6 +56,9 @@ class CollectPower(Task):
             logging.warn("领取失败")
         # 不管成功失败，点击魔法点来关闭一次弹窗，让收益情况弹窗出现
         click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
+        
         # 点魔法点去收益情况弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),

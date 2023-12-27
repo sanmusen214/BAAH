@@ -77,6 +77,11 @@ class TouchHead(Task):
                 # 这个画面里有多少次没有匹配到注意力符号
                 times_not_match = 0
                 for tt in range(8):
+                    # 清除可能的好感度弹窗
+                    self.run_until(
+                        lambda: click(Page.MAGICPOINT),
+                        lambda: Page.is_page(PageName.PAGE_CAFE),
+                    )
                     screenshot()
                     if (match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95, rotate_trans=True)):
                         self.click_head_and_magic()
@@ -85,6 +90,11 @@ class TouchHead(Task):
                         times_not_match += 1
                         if times_not_match == 3:
                             break
+                # 变换视角前再次确认关闭弹窗回到咖啡厅页面
+                self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: Page.is_page(PageName.PAGE_CAFE),
+                )
                 logging.info("变换视角")
                 for func in movefuncs:
                     func()
