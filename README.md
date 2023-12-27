@@ -162,4 +162,6 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 日常任务还缺个制造
 
+未来需要丢弃的按类别判别代码：国服活动扫荡
+
 未来可以丢弃的按类判别代码：国服悬赏通缉那三个功能选地区，RaidQuest max次判断

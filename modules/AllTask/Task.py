@@ -113,7 +113,7 @@ class Task:
             sleep(sleeptime)
     
     @staticmethod
-    def run_until(func1, func2, times=7, sleeptime = 1.5) -> bool:
+    def run_until(func1, func2, times=6, sleeptime = 1.5) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
