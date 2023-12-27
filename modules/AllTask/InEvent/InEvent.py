@@ -94,7 +94,10 @@ class InEvent(Task):
         if len(end_time) != 15:
             return False
         # 将这个时间转成时间对象
-        end_time_struct = time.strptime(end_time, "%Y-%m-%d%H:%M")
+        try:
+            end_time_struct = time.strptime(end_time, "%Y-%m-%d%H:%M")
+        except ValueError:
+            end_time_struct = time.strptime(end_time, "%Y.%m.%d%H:%M")
         logging.info(f'结束时间: {time.strftime("%Y-%m-%d %H:%M:%S", end_time_struct)}')
         # 获取本地时间
         local_time_struct = time.localtime()

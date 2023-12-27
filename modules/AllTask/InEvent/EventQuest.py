@@ -28,22 +28,17 @@ class EventQuest(Task):
     def on_run(self) -> None:
         # 按level执行
         for level in self.level_list:
+            click(Page.MAGICPOINT)
             click((944, 98))
             level_ind = level[0]
             repeat_times = level[1]
-            # 判断底部是否有进度条
-            if match(button_pic(ButtonName.BUTTON_EVENT_BOTTOM_BAR)):
-                logging.info("底部有进度条")
-                logging.error("暂无适配，请等待版本更新，跳过")
-                break
-            else:
-                # 国服活动关扫荡，偏下
-                logging.info("底部没有进度条")
-                if config.configdict['PIC_PATH']=="./assets_cn":
-                    ScrollSelect(level_ind, 148, 262, 694, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
-                else:
-                    # 国际服活动关扫荡，偏上
-                    ScrollSelect(level_ind, 135, 250, 705, 1130, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+            self.scroll_right_up()
+            # 点击第一个level
+            click((1130, 200), sleeptime=2)
+            logging.info(f"尝试跳转到第{level_ind+1}个level")
+            # 向右挪到第level_ind个level
+            for i in range(level_ind):
+                click((1171, 359), sleeptime=1)
             RaidQuest(repeat_times).run()
             # 关闭任务咨询弹窗
             logging.info("关闭任务咨询弹窗")
