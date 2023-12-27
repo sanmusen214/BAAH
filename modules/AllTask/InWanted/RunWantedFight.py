@@ -36,10 +36,10 @@ class RunWantedFight(Task):
         # 扫荡
         RaidQuest(self.runtimes).run()
         
-        # 关闭弹窗，回到WANTED_SUB页面
+        # 关闭弹窗，回到WANTED_SUB页面或者WANTED页面
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_WANTED_SUB)
+            lambda: Page.is_page(PageName.PAGE_WANTED_SUB) or Page.is_page(PageName.PAGE_WANTED)
         )
         
         
@@ -47,4 +47,4 @@ class RunWantedFight(Task):
     
      
     def post_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_WANTED_SUB)
+        return Page.is_page(PageName.PAGE_WANTED_SUB) or Page.is_page(PageName.PAGE_WANTED)
