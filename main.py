@@ -24,7 +24,6 @@ if __name__ in ["__main__", "__mp_main__"]:
         import base64
         import traceback
         from BAAH import BAAH_main
-        from assets.Aris import aris_base64
         from modules.AllTask.myAllTask import my_AllTask
         
         # 打印BAAH信息
@@ -35,8 +34,6 @@ if __name__ in ["__main__", "__mp_main__"]:
         print("||" + "QQ群: 441069156".center(80, " ") + "||")
         print("||"+"".center(80, " ")+"||")
         print("+"+"".center(80, "=")+"+")
-        # base64解码
-        print(base64.b64decode(aris_base64).decode("utf-8"))
     
 
         # 不带GUI运行
