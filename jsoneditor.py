@@ -1,6 +1,7 @@
 if __name__ in {"__main__", "__mp_main__"}:
     try:
         import os
+        import requests
         # 获取到当前文件夹下以json为后缀的文件
         def get_json_list():
             return [i for i in os.listdir() if i.endswith(".json")]
@@ -13,7 +14,19 @@ if __name__ in {"__main__", "__mp_main__"}:
         now_json_name = {"name":"config.json"}
 
         from gui import show_GUI, MyConfigger
-        from nicegui import native, ui
+        from nicegui import native, ui, run
+
+        # 检查更新
+        async def check_newest_version():
+            try:
+                r = await run.io_bound(requests.get, "https://api.github.com/repos/sanmusen214/BAAH/releases/latest", timeout=10)
+                if r.status_code == 200:
+                    data = r.json()
+                    ui.notify(f"目前发布的最新版本：{data['tag_name']}")
+                else:
+                    ui.notify("检查更新失败")
+            except:
+                ui.notify("检查更新失败")
         
         @ui.refreshable
         def draw_upper_right_selectlist(jsonfile_list):
@@ -25,6 +38,7 @@ if __name__ in {"__main__", "__mp_main__"}:
                 # now_json_name主要是初始值有用
                 # 不在select里设置value，只有后面的bind_value的话，渲染时会触发一次on_change事件
                 ui.select(jsonfile_list, value=now_json_name["name"], on_change=lambda:show_GUI.refresh(now_json_name['name'])).bind_value(now_json_name, 'name')
+                ui.button("检查更新", on_click=check_newest_version)
         
         show_GUI("config.json")
         alljson_list = get_json_list()
