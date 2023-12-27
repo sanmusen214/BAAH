@@ -19,7 +19,7 @@ class Task:
         """
         执行任务前的判断，只判断现有情况，不要进行有效操作(截图或点击)
 
-        确认页面，是否需要做此任务，任务是否已经完成
+        确认页面，是否需要做此任务，任务是否已经完成，这同时会试图点击魔法点重置页面状态到Page级别
         
         返回true表示可以执行任务，false表示不能执行任务
         """
@@ -37,7 +37,7 @@ class Task:
         """
         执行任务后的判断，只判断现有情况，不要进行有效操作(截图或点击)
 
-        看任务是否回到它该在的页面
+        看任务是否回到它该在的页面，这同时会试图点击魔法点重置页面状态到Page级别
         
         返回true表示回到它该在的页面成功，false表示回到它该在的页面失败
         """
@@ -113,7 +113,7 @@ class Task:
             sleep(sleeptime)
     
     @staticmethod
-    def run_until(func1, func2, times=5, sleeptime = 1.5) -> bool:
+    def run_until(func1, func2, times=7, sleeptime = 1.5) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
