@@ -158,6 +158,13 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 1. `python package.py`
 
 
+# 免责声明
+
+该项目与 Nexon、NEXON Games Co., Ltd. 及其任何附属机构无关。
+
+项目中使用的与 Blue Archive (碧蓝档案) 相关的任何游戏资产和资源均属于相应作者的财产和版权。
+
+
 # 碎碎念
 
 日常任务还缺个制造
