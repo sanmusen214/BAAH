@@ -28,7 +28,7 @@ def BAAH_main():
         logging.info("未配置模拟器路径")
     # 检查adb连接
     disconnect_this_device()
-    max_try = 5
+    max_try = 7
     for i in range(max_try):
         logging.info(f"检查连接{i+1}/{max_try}...")
         if check_connect():
@@ -62,10 +62,10 @@ def BAAH_main():
             logging.info("所有任务结束")
             break
         else:
-            if i==0 or i==1:
+            if i<max_try-3:
                 logging.warn("连接失败，重试...")
                 sleep(3+3*i)
-            if i==2:
+            if i==max_try-3:
                 port = input("未能连接至模拟器，请输入模拟器端口号并修改config.json(留空以继续使用配置文件)：")
                 if port=="":
                     continue
@@ -75,7 +75,7 @@ def BAAH_main():
                         config.TARGET_PORT = port
                     except:
                         logging.error("端口号输入错误")
-            if i == 3:
+            if i == max_try-2:
                 yorn = input("多次连接失败，是否重启adb服务？(y/n):")
                 if yorn == "y" or yorn == "Y":
                     logging.warn("重启adb服务")
