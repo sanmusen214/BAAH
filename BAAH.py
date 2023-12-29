@@ -13,7 +13,7 @@ from modules.AllTask.myAllTask import my_AllTask
 
 def BAAH_main():
     # 启动模拟器
-    if hasattr(config, "TARGET_EMULATOR_PATH") and config.TARGET_EMULATOR_PATH != "":
+    if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "":
         logging.info("启动模拟器")
         try:
             # 以列表形式传命令行参数

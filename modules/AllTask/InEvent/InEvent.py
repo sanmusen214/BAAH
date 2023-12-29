@@ -138,7 +138,7 @@ class InEvent(Task):
         click((965, 98))
         click((965, 98))
         
-        if hasattr(config, "EVENT_QUEST_LEVEL") and len(config.EVENT_QUEST_LEVEL) != 0:
+        if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.EVENT_QUEST_LEVEL)
             # 得到要执行的QUEST LIST

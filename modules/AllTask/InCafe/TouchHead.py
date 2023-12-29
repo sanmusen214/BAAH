@@ -48,7 +48,7 @@ class TouchHead(Task):
     
      
     def on_run(self) -> None:
-        if config.configdict["CAFE_CAMERA_FULL"]:
+        if config.userconfigdict["CAFE_CAMERA_FULL"]:
             # 视角最高直接点
             totalruns = 3
             times_in_run = 3

@@ -18,8 +18,8 @@ if __name__ in ["__main__", "__mp_main__"]:
             configname = sys.argv[1]
             config.parse_config(configname)
             logging.info("重新读取指定的config文件: "+configname)
-        logging.info(f"模拟器:{config.configdict['TARGET_EMULATOR_PATH']}")
-        logging.info(f"端口:{config.configdict['TARGET_PORT']}")
+        logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
+        logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
 
         import base64
         import traceback
@@ -43,7 +43,7 @@ if __name__ in ["__main__", "__mp_main__"]:
             logging.debug("config历史列表: "+ ",".join(config_history))
             BAAH_main()
             # 判断config里是否有next_config文件
-            if hasattr(config, 'NEXT_CONFIG') and len(config.NEXT_CONFIG) > 0:
+            if config.userconfigdict['NEXT_CONFIG'] and len(config.userconfigdict['NEXT_CONFIG']) > 0:
                 # 有的话，更新配置项目
                 logging.debug("检测到next_config文件: "+config.NEXT_CONFIG)
                 if config.NEXT_CONFIG in config_history:

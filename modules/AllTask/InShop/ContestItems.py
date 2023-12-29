@@ -17,13 +17,13 @@ class ContestItems(Task):
 
      
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_SHOP) and hasattr(config, "SHOP_CONTEST") and len(config.configdict["SHOP_CONTEST"]) > 0
+        return Page.is_page(PageName.PAGE_SHOP) and config.userconfigdict["SHOP_CONTEST"] and len(config.userconfigdict["SHOP_CONTEST"]) > 0
     
     
     def on_run(self) -> None:
         logging.info("开始竞技场商店购买")
         BuyItems(config.SHOP_CONTEST).run()
-        for i in range(config.configdict["SHOP_CONTEST_REFRESH_TIME"]):
+        for i in range(config.userconfigdict["SHOP_CONTEST_REFRESH_TIME"]):
             logging.info("刷新")
             # 点击刷新按钮
             showconfirm = self.run_until(

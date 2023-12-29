@@ -1,4 +1,4 @@
-from configs.settingMaps import *
+from modules.configs.settingMaps import *
 
 # 用户的脚本config里的默认值以及可选值
 # 如果用户的config里没有某个值，先看能否用settingMaps里映射出来，如果不能，就用这个值代替
@@ -22,7 +22,14 @@ defaultUserDict = {
     "SHOP_CONTEST": {"d":[]},
     "TASK_ACTIVATE": {"d":[True]},
     # new config in 1.2.x
-    "SERVER_TYPE":{"d":"GLOBAL", "s":["GLOBAL", "JP", "CN", "CN_BILI"]},
+    "SERVER_TYPE":{
+        "d":"GLOBAL",
+        "s":["GLOBAL", "JP", "CN", "CN_BILI"],
+        "m": {
+            "from": "ACTIVITY_PATH",
+            "map": lambda x: activity2server[x]
+        }
+    },
     "TARGET_EMULATOR_PATH":{"d":""},
     "PIC_PATH":{
         "d":"./assets",
@@ -49,7 +56,7 @@ defaultUserDict = {
             "map": lambda x: server2activity[x],
         }
     },
-        
+    "NEXT_CONFIG" : {"d":""},
     "ADB_PATH":{"d":"./tools/adb/adb.exe"},
     "SCREENSHOT_NAME":{
         "d":"screenshot.png"

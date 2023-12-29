@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import time
-from configs.defaultSettings import defaultUserDict, defaultSoftwareDict
+from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict
 
 class MyConfigger:
     """

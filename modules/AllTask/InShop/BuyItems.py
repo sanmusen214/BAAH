@@ -23,7 +23,7 @@ class BuyItems(Task):
     
     
     def on_run(self) -> None:
-        if hasattr(config, "RESPOND_Y"):
+        if config.userconfigdict["RESPOND_Y"]:
             responsey = config.RESPOND_Y
         else:
             responsey = 40
