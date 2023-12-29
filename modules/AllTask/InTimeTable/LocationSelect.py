@@ -80,7 +80,7 @@ class LocationSelect(Task):
             havepopup = self.run_until(
                 lambda: click(targetloc),
                 lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_INFO)),
-                times=2
+                times=3
             )
             if not havepopup:
                 logging.info(f"教室{classroom+1}不存在或已经被点过了")
@@ -90,7 +90,7 @@ class LocationSelect(Task):
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_TIMETABLE_START)),
                 lambda: not match(button_pic(ButtonName.BUTTON_TIMETABLE_START)),
-                times=2
+                times=3
             )
             # 如果点完开始发现购买弹窗
             if(match(popup_pic(PopupName.POPUP_TOTAL_PRICE))):

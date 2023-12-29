@@ -118,8 +118,7 @@ class InMomotalk(Task):
             # 剧情过完可能会有个得到回忆大厅的弹窗
             self.run_until(
                 lambda: click(self.momo_title_pos),
-                lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)),
-                times=3
+                lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
             )
         logging.info("momotalk处理完毕，返回主页")
         self.run_until(

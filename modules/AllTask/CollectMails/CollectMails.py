@@ -27,8 +27,7 @@ class CollectMails(Task):
         click(Page.MAGICPOINT)
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_ONE_COLLECT)),
-            lambda: not match(button_pic(ButtonName.BUTTON_ONE_COLLECT), threshold=0.95),
-            times=2
+            lambda: not match(button_pic(ButtonName.BUTTON_ONE_COLLECT), threshold=0.95)
         )
         self.back_to_home()
 
