@@ -3,7 +3,7 @@
 from assets.PageName import PageName
 from assets.ButtonName import ButtonName
 from assets.PopupName import PopupName
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 import logging

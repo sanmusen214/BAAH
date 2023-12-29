@@ -1,6 +1,6 @@
 import sys
 configname = "config.json"
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 print("读取默认config文件: "+configname)
 if len(sys.argv) > 1:
     configname = sys.argv[1]

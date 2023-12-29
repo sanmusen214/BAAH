@@ -1,7 +1,7 @@
 from nicegui import ui
 import os
 import json
-from modules.utils.MyConfig import MyConfigger
+from modules.configs.MyConfig import MyConfigger
 from modules.AllTask.myAllTask import task_dict
 import hashlib
 
@@ -20,69 +20,7 @@ def show_GUI(load_jsonname):
     
     config = MyConfigger(load_jsonname)
     # 在GUI里，我们只使用config.configdict这个字典，不用config下的属性
-    all_list_key_names = [
-        "TIMETABLE_TASK",
-        "WANTED_HIGHEST_LEVEL",
-        "SPECIAL_HIGHTEST_LEVEL",
-        "EXCHANGE_HIGHEST_LEVEL",
-        "EVENT_QUEST_LEVEL",
-        "HARD",
-        "NORMAL",
-        "TASK_ORDER",
-        "SHOP_NORMAL",
-        "SHOP_CONTEST",
-        "TASK_ACTIVATE"
-    ]
-    
-    all_str_key_names = [
-        "TARGET_EMULATOR_PATH",
-        "PIC_PATH",
-        "ACTIVITY_PATH",
-        "ADB_PATH",
-        "SCREENSHOT_NAME",
-        "TARGET_IP_PATH",
-    ]
-    
-    all_num_key_names = [
-        "TARGET_PORT",
-        "TIME_AFTER_CLICK",
-        "RESPOND_Y",
-        "SHOP_NORMAL_REFRESH_TIME",
-        "SHOP_CONTEST_REFRESH_TIME",
-    ]
-    
-    all_bool_key_names =[
-        "LOCK_SERVER_TO_RESPOND_Y",
-        "CAFE_CAMERA_FULL"
-    ]
-    
-    server_map = {
-        "server2pic": {
-            "日服":"./assets_jp",
-            "国际服":"./assets",
-            "国服官服":"./assets_cn",
-            "国服B服":"./assets_cn"
-        },
-        "server2activity": {
-            "日服":"com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
-            "国际服":"com.nexon.bluearchive/.MxUnityPlayerActivity",
-            "国服官服":"com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity",
-            "国服B服":"com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
-        },
-        "activity2server": {
-            "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity":"日服",
-            "com.nexon.bluearchive/.MxUnityPlayerActivity":"国际服",
-            "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity":"国服官服",
-            "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity":"国服B服"
-        },
-        "server2respond": {
-            "日服":40,
-            "国际服":40,
-            "国服官服":60,
-            "国服B服":40
-        }
-    }
-    
+
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
         "登录游戏":"登录游戏",
@@ -102,80 +40,7 @@ def show_GUI(load_jsonname):
         "邮件":"邮件",
         "普通关卡":"普通关卡",
     }
-    show_task_name_to_real_task_name = {v:k for k,v in real_taskname_to_show_taskname.items()}
-    
-    # 替换config中国服的俩旧config里的ActivityPath为真实的新版本的ActivityPath
-    if "ACTIVITY_PATH" in config.configdict:
-        old_activity_path = config.configdict["ACTIVITY_PATH"]
-        if old_activity_path == "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":
-            config.configdict["ACTIVITY_PATH"] = "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity"
-        elif old_activity_path == "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity":
-            config.configdict["ACTIVITY_PATH"] = "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
-    
-    # 强制设置截图名称为此config.json的文件名
-    if "SCREENSHOT_NAME" in config.configdict:
-        # screenshotfilename = load_jsonname.replace(".json", ".png")
-        # 获得字符串的哈希值
-        screenshotfilehash = hashlib.sha1(load_jsonname.encode('utf-8')).hexdigest()
-        # 如果长度大于8，截取前8位
-        if len(screenshotfilehash) > 8:
-            screenshotfilehash = screenshotfilehash[:8]
-        # 如果长度小于8，补0
-        elif len(screenshotfilehash) < 8:
-            screenshotfilehash = screenshotfilehash.zfill(8)
-        config.configdict["SCREENSHOT_NAME"] = screenshotfilehash + ".png"
 
-    # 不在configdict中的key，添加默认值
-    for key in all_list_key_names:
-        if key not in config.configdict:
-            if key == "TASK_ORDER":
-                config.configdict[key] = ["登录游戏"]
-            else:
-                config.configdict[key] = []
-    for key in all_str_key_names:
-        if key not in config.configdict:
-            if key == "ADB_PATH":
-                config.configdict[key] = "./tools/adb/adb.exe"
-            elif key == "SCREENSHOT_NAME":
-                config.configdict[key] = load_jsonname.replace(".json", ".png")
-            elif key == "PIC_PATH":
-                server = server_map["activity2server"][config.configdict['ACTIVITY_PATH']]
-                config.configdict[key] = server_map["server2pic"][server]
-            elif key == "TARGET_IP_PATH":
-                config.configdict[key] = "127.0.0.1"
-            else:
-                config.configdict[key] = ""
-    for key in all_num_key_names:
-        if key not in config.configdict:
-            if key == "TARGET_PORT":
-                config.configdict[key] = 5555
-            elif key == "RESPOND_Y":
-                config.configdict[key] = 40
-            elif key == "TIME_AFTER_CLICK":
-                config.configdict[key] = 0.7
-            elif key == "SHOP_NORMAL_REFRESH_TIME":
-                config.configdict[key] = 0
-            elif key == "SHOP_CONTEST_REFRESH_TIME":
-                config.configdict[key] = 0
-            else:
-                config.configdict[key] = 1
-    for key in all_bool_key_names:
-        if key not in config.configdict:
-            config.configdict[key] = True
-    # 判断TASK_ACTIVATE长度与TASK_ORDER长度是否一致
-    if len(config.configdict["TASK_ACTIVATE"]) != len(config.configdict["TASK_ORDER"]):
-        # 给TASK_ACTIVATE添加len(TASK_ORDER)的True
-        for i in range(len(config.configdict["TASK_ORDER"])):
-            config.configdict["TASK_ACTIVATE"].append(True)
-        # 截取TASK_ACTIVATE前len(TASK_ORDER)个
-        config.configdict["TASK_ACTIVATE"] = config.configdict["TASK_ACTIVATE"][:len(config.configdict["TASK_ORDER"])]
-    
-    
-    
-    all_task_names = list(task_dict.keys())
-    
-    
-    
     # =============================================
     
     def list_edit_area(datadict, linedesc, blockdesc=""):

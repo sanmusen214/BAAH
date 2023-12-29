@@ -4,7 +4,7 @@ from assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0
 import logging

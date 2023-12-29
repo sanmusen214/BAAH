@@ -1,7 +1,7 @@
 import cv2
 import logging
 import math
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 import numpy as np
 from typing import Tuple
 from pponnxcr import TextSystem

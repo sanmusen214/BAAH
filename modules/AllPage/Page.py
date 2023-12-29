@@ -1,6 +1,6 @@
 from modules.utils import match, page_pic
 
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 
 class Page:
     CENTER = (1280/2, 720/2)

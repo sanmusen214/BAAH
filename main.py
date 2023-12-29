@@ -12,7 +12,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
         configname = "config.json"
-        from modules.utils.MyConfig import config
+        from modules.configs.MyConfig import config
         logging.info("读取默认config文件: "+configname)
         if len(sys.argv) > 1:
             configname = sys.argv[1]

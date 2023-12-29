@@ -12,7 +12,7 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 from .HardQuest import HardQuest
 from .NormalQuest import NormalQuest
 import time
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 
 class InQuest(Task):
     def __init__(self, types=["normal", "hard"], name="InQuest") -> None:

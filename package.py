@@ -1,7 +1,7 @@
 import zipfile
 import shutil
 import os
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 import subprocess
 from pathlib import Path
 import nicegui

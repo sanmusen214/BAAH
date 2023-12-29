@@ -5,7 +5,7 @@ from .subprocess_helper import *
 
 import logging
 import time
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 
 def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -> bool:
     """
@@ -132,7 +132,6 @@ def match_pixel(xy, color):
         color: Page.COLOR_*
         axis is in image form
     """
-    # TODO
     return match_pixel_color(f"./{config.SCREENSHOT_NAME}", xy[0], xy[1], color[0], color[1])
 
 def page_pic(picname):

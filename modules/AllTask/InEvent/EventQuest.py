@@ -3,7 +3,7 @@ import logging
 import time
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 import numpy as np
 
 from assets.PageName import PageName
