@@ -90,10 +90,6 @@ class MyConfigger:
             if shouldKey not in self.userconfigdict:
                 self._fill_by_map_or_default(defaultUserDict, self.userconfigdict, shouldKey)
 
-    def update_config(self, key, value):
-        self.__dict__[key] = value
-        self.userconfigdict[key] = value
-
     def save_config(self, file_path):
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.userconfigdict, f, indent=4, ensure_ascii=False)

@@ -33,7 +33,7 @@ def main():
     # screen_shot_to_file()
 
     # 读取透明度层
-    screenshot = cv2.imread("./{}".format(config.SCREENSHOT_NAME))
+    screenshot = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
     # 平均最大最小bgr
     bgr_result = [[],[],[]]
     def mouse_callback_s(event, x, y, flags, param):

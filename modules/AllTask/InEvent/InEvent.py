@@ -140,10 +140,10 @@ class InEvent(Task):
         
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
-            quest_loc = today%len(config.EVENT_QUEST_LEVEL)
+            quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])
             # 得到要执行的QUEST LIST
             # [[10, -1],[11, -1]]
-            quest_list = config.EVENT_QUEST_LEVEL[quest_loc]
+            quest_list = config.userconfigdict['EVENT_QUEST_LEVEL'][quest_loc]
             # 序号转下标
             quest_list_2 = [[x[0]-1,x[1]] for x in quest_list]
             # do Event QUEST

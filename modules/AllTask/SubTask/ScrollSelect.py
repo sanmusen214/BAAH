@@ -47,7 +47,7 @@ class ScrollSelect(Task):
         self.hasexpectimage = hasexpectimage
         self.swipeoffsetx = swipeoffsetx
         if config.userconfigdict["RESPOND_Y"]:
-            self.responsey = config.RESPOND_Y
+            self.responsey = config.userconfigdict['RESPOND_Y']
         else:
             logging.warn("未设置滑动触发距离RESPOND_Y，使用默认值40")
             self.responsey = 40

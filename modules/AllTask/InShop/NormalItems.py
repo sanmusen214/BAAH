@@ -22,7 +22,7 @@ class NormalItems(Task):
      
     def on_run(self) -> None:
         logging.info("开始普通商店购买")
-        BuyItems(config.SHOP_NORMAL).run()
+        BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
         for i in range(config.userconfigdict["SHOP_NORMAL_REFRESH_TIME"]):
             logging.info("刷新")
             # 点击刷新按钮
@@ -44,7 +44,7 @@ class NormalItems(Task):
                 # 成功刷新
                 if clickconfirm:
                     logging.info("刷新成功")
-                    BuyItems(config.SHOP_NORMAL).run()
+                    BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
                 else:
                     logging.error("刷新失败")
                     click(Page.MAGICPOINT)

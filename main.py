@@ -28,7 +28,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         
         # 打印BAAH信息
         print("+"+"BAAH".center(80, "="), "+")
-        print("||"+f"Version: {config.NOWVERSION}".center(80, " ")+"||")
+        print("||"+f"Version: {config.userconfigdict['NOWVERSION']}".center(80, " ")+"||")
         print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
         print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
         print("||" + "QQ群: 441069156".center(80, " ") + "||")
@@ -45,13 +45,13 @@ if __name__ in ["__main__", "__mp_main__"]:
             # 判断config里是否有next_config文件
             if config.userconfigdict['NEXT_CONFIG'] and len(config.userconfigdict['NEXT_CONFIG']) > 0:
                 # 有的话，更新配置项目
-                logging.debug("检测到next_config文件: "+config.NEXT_CONFIG)
-                if config.NEXT_CONFIG in config_history:
+                logging.debug("检测到next_config文件: "+config.userconfigdict['NEXT_CONFIG'])
+                if config.userconfigdict['NEXT_CONFIG'] in config_history:
                     raise Exception("检测到循环运行，请避免config死循环嵌套")
                 # 将新的config文件加入config_history, 防止死循环
-                config_history.append(config.NEXT_CONFIG)
+                config_history.append(config.userconfigdict['NEXT_CONFIG'])
                 # 清空config实例,读取next_config文件，再次运行BAAH_main()
-                config.parse_config(config.NEXT_CONFIG)
+                config.parse_config(config.userconfigdict['NEXT_CONFIG'])
                 # 清空my_AllTask实例，通过新的config构造新的my_AllTask
                 my_AllTask.parse_task()
 
@@ -62,8 +62,8 @@ if __name__ in ["__main__", "__mp_main__"]:
         traceback.print_exc()
     try:
         # 如果截图文件存在，删除截图文件
-        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-            os.remove(f"./{config.SCREENSHOT_NAME}")
+        if os.path.exists(f"./{config.userconfigdict['SCREENSHOT_NAME']}"):
+            os.remove(f"./{config.userconfigdict['SCREENSHOT_NAME']}")
     except:
         pass
     print("程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")

@@ -17,7 +17,7 @@ def BAAH_main():
         logging.info("启动模拟器")
         try:
             # 以列表形式传命令行参数
-            subprocess_run(config.TARGET_EMULATOR_PATH.split(" "), isasync=True)
+            subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
             for i in range(3):
                 logging.info("等待{}...".format(i+1))
                 sleep(3)
@@ -37,10 +37,10 @@ def BAAH_main():
             # 检查这个app是否在运行
             for i in range(5):
                 # 打开游戏
-                open_app(config.ACTIVITY_PATH)
+                open_app(config.userconfigdict['ACTIVITY_PATH'])
                 logging.info("打开游戏...")
                 sleep(3)
-                if not check_app_running(config.ACTIVITY_PATH):
+                if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                     if i>=2:
                         yorn = input("连接后多次打开失败，是否重启adb服务或跳过？(y/n/k):")
                         if yorn == "y" or yorn == "Y":
@@ -51,7 +51,7 @@ def BAAH_main():
                             logging.warn("跳过打开游戏")
                             break
                     logging.info("检测到游戏未打开，尝试打开游戏...")
-                    open_app(config.ACTIVITY_PATH)
+                    open_app(config.userconfigdict['ACTIVITY_PATH'])
                     sleep(3)
                 else:
                     logging.info("成功打开游戏")
@@ -72,7 +72,7 @@ def BAAH_main():
                 else:
                     try:
                         port = int(port)
-                        config.TARGET_PORT = port
+                        config.userconfigdict['TARGET_PORT'] = port
                     except:
                         logging.error("端口号输入错误")
             if i == max_try-2:

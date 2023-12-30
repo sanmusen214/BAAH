@@ -42,24 +42,24 @@ class InQuest(Task):
         today = time.localtime().tm_mday
         if "hard" in self.types:
             # 选择一个HARD QUEST List的下标
-            if len(config.HARD) != 0:
+            if len(config.userconfigdict['HARD']) != 0:
                 # 可选任务队列不为空时
-                hard_loc = today%len(config.HARD)
+                hard_loc = today%len(config.userconfigdict['HARD'])
                 # 得到要执行的HARD QUEST LIST
                 # [[13,2,3],[19,2,3]]
-                hard_list = config.HARD[hard_loc]
+                hard_list = config.userconfigdict['HARD'][hard_loc]
                 # 序号转下标
                 hard_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in hard_list]
                 # do HARD QUEST
                 HardQuest(hard_list_2).run()
         if "normal" in self.types:
             # 选择一个NORMAL QUEST List的下标
-            if len(config.NORMAL) != 0:
+            if len(config.userconfigdict['NORMAL']) != 0:
                 # 可选任务队列不为空时
-                normal_loc = today%len(config.NORMAL)
+                normal_loc = today%len(config.userconfigdict['NORMAL'])
                 # 得到要执行的NORMAL QUEST LIST
                 # [[13,2,3],[19,2,3]]
-                normal_list = config.NORMAL[normal_loc]
+                normal_list = config.userconfigdict['NORMAL'][normal_loc]
                 # do NORMAL QUEST
                 # 序号转下标
                 normal_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in normal_list]

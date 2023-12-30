@@ -22,7 +22,7 @@ class InExchange(Task):
 
      
     def pre_condition(self) -> bool:
-        if not config.EXCHANGE_HIGHEST_LEVEL or len(config.EXCHANGE_HIGHEST_LEVEL) == 0:
+        if not config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'] or len(config.userconfigdict['EXCHANGE_HIGHEST_LEVEL']) == 0:
             logging.warn("没有配置学院交流会的level")
             return False
         return Page.is_page(PageName.PAGE_HOME)
@@ -32,8 +32,8 @@ class InExchange(Task):
         # 得到今天是几号
         today = time.localtime().tm_mday
         # 选择一个location的下标
-        target_loc = today%len(config.EXCHANGE_HIGHEST_LEVEL)
-        target_info = config.EXCHANGE_HIGHEST_LEVEL[target_loc]
+        target_loc = today%len(config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'])
+        target_info = config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'][target_loc]
         # 判断这一天是否设置有交流会关卡
         if len(target_info) == 0:
             logging.warn("今天轮次中无学院交流会关卡，跳过")

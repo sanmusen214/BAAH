@@ -24,7 +24,7 @@ class BuyItems(Task):
     
     def on_run(self) -> None:
         if config.userconfigdict["RESPOND_Y"]:
-            responsey = config.RESPOND_Y
+            responsey = config.userconfigdict['RESPOND_Y']
         else:
             responsey = 40
         # 横着的四个物品的中心点

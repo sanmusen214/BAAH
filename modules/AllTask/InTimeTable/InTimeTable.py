@@ -25,16 +25,16 @@ class InTimeTable(Task):
             lambda: Page.is_page(PageName.PAGE_TIMETABLE)
         )
         # for each TIMETABLE_TASK, determine whether need to click in
-        for i in range(len(config.TIMETABLE_TASK)):
+        for i in range(len(config.userconfigdict['TIMETABLE_TASK'])):
             # determine tickets left
             nolefttickets:bool = ocr_area_0((72, 85), (322, 114))
             if nolefttickets:
                 logging.warn("没有课程表票卷了，开始返回主页")
                 break
             # 如果这一location没有任务，就不点进去
-            if len(config.TIMETABLE_TASK[i]) == 0:
+            if len(config.userconfigdict['TIMETABLE_TASK'][i]) == 0:
                 continue
-            LocationSelect(location=i, classrooms=config.TIMETABLE_TASK[i]).run()
+            LocationSelect(location=i, classrooms=userconfigdict['TIMETABLE_TASK'][i]).run()
         self.back_to_home()
 
      

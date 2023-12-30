@@ -13,6 +13,8 @@ try:
 except FileNotFoundError as e:
     print("dist文件夹不存在!跳过删除")
 
+config_version = config.userconfigdict["NOWVERSION"]
+
 # 打包main.py，名字为BAAH
 baahcmd = [
     'pyinstaller',
@@ -106,16 +108,16 @@ except FileExistsError as e:
     print("jsoneditor.exe已存在!")
 
 try:
-    # 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config.NOWVERSION}.exe
-    os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config.NOWVERSION}.exe'))
+    # 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config_version}.exe
+    os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config_version}.exe'))
 except Exception as e:
-    print(f"BAAH{config.NOWVERSION}.exe已存在!")
+    print(f"BAAH{config_version}.exe已存在!")
 
 try:
-    # 重命名./dist/BAAH/jsoneditor.exe为./dist/BAAH/配置修改GUI{config.NOWVERSION}.exe
-    os.rename(os.path.join('./dist', 'BAAH', 'jsoneditor.exe'), os.path.join('./dist', 'BAAH', f'配置修改GUI{config.NOWVERSION}.exe'))
+    # 重命名./dist/BAAH/jsoneditor.exe为./dist/BAAH/配置修改GUI{config_version}.exe
+    os.rename(os.path.join('./dist', 'BAAH', 'jsoneditor.exe'), os.path.join('./dist', 'BAAH', f'配置修改GUI{config_version}.exe'))
 except Exception as e:
-    print(f"配置修改GUI{config.NOWVERSION}.exe已存在!")
+    print(f"配置修改GUI{config_version}.exe已存在!")
 
 try:
     # 重命名./dist/BAAH/config.json为./dist/BAAH/config_example.json
@@ -124,25 +126,25 @@ except Exception as e:
     print("config_example.json已存在!")
     
 try:
-    # 重命名./dist/BAAH文件夹为./dist/BAAH{config.NOWVERSION}
-    os.rename(os.path.join('./dist', 'BAAH'), os.path.join('./dist', f'BAAH{config.NOWVERSION}'))
+    # 重命名./dist/BAAH文件夹为./dist/BAAH{config_version}
+    os.rename(os.path.join('./dist', 'BAAH'), os.path.join('./dist', f'BAAH{config_version}'))
 except Exception as e:
-    print(f'BAAH{config.NOWVERSION}已存在!')
+    print(f'BAAH{config_version}已存在!')
 
 print("重命名成功")
 
 # 压缩./dist/BAAH文件夹为BAAH.zip
-z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}.zip', 'w', zipfile.ZIP_DEFLATED)
-startdir = f"./dist/BAAH{config.NOWVERSION}"
+z = zipfile.ZipFile(f'./dist/BAAH{config_version}.zip', 'w', zipfile.ZIP_DEFLATED)
+startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
-print(f"完成，压缩包./dist/BAAH{config.NOWVERSION}.zip已生成")
+print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
 
 # 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
-z = zipfile.ZipFile(f'./dist/BAAH{config.NOWVERSION}_update.zip', 'w', zipfile.ZIP_DEFLATED)
-startdir = f"./dist/BAAH{config.NOWVERSION}"
+z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
+startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     # 去除./dist/BAAH/_internal, tools
     if "_internal" in dirpath or "tools" in dirpath:
@@ -152,4 +154,4 @@ for dirpath, dirnames, filenames in os.walk(startdir):
             continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
-print(f"完成，压缩包./dist/BAAH{config.NOWVERSION}_update.zip已生成")
+print(f"完成，压缩包./dist/BAAH{config_version}_update.zip已生成")

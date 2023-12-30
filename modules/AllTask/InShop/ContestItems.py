@@ -22,7 +22,7 @@ class ContestItems(Task):
     
     def on_run(self) -> None:
         logging.info("开始竞技场商店购买")
-        BuyItems(config.SHOP_CONTEST).run()
+        BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
         for i in range(config.userconfigdict["SHOP_CONTEST_REFRESH_TIME"]):
             logging.info("刷新")
             # 点击刷新按钮
@@ -44,7 +44,7 @@ class ContestItems(Task):
                 # 成功刷新
                 if clickconfirm:
                     logging.info("刷新成功")
-                    BuyItems(config.SHOP_CONTEST).run()
+                    BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
                 else:
                     logging.error("刷新失败")
                     click(Page.MAGICPOINT)

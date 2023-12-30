@@ -20,7 +20,7 @@ class InSpecial(Task):
 
 
     def pre_condition(self) -> bool:
-        if not config.SPECIAL_HIGHTEST_LEVEL or len(config.SPECIAL_HIGHTEST_LEVEL)==0:
+        if not config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'] or len(config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'])==0:
             logging.warn("未配置特殊关卡")
             return False
         return Page.is_page(PageName.PAGE_HOME)
@@ -30,8 +30,8 @@ class InSpecial(Task):
         # 得到今天是几号
         today = time.localtime().tm_mday
         # 选择一个location的下标
-        target_loc = today%len(config.SPECIAL_HIGHTEST_LEVEL)
-        target_info = config.SPECIAL_HIGHTEST_LEVEL[target_loc]
+        target_loc = today%len(config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'])
+        target_info = config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'][target_loc]
         # 判断这一天是否设置有特殊关卡
         if len(target_info) == 0:
             logging.warn("今天轮次中无特殊关卡，跳过")
