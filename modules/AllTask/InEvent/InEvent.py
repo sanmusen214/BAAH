@@ -77,21 +77,37 @@ class InEvent(Task):
             return False
         # 判断这个活动是否有Quest
         res = ocr_area((901, 88), (989, 123))
-        print("Tab栏识别结果: ", res)
-        if res[0] != "Quest" and res[0] != "任务":
+        logging.info(f"Tab栏识别结果: {res}, {'Quest' in res[0] or '任' in res[0]}")
+        # 图片匹配深色的QUEST标签
+        matchres = self.run_until(
+            lambda: click((965, 98)),
+            lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
+            times=2
+        )
+        logging.info(f"QUEST按钮匹配结果: {matchres}")
+        if res[0] != "Quest" and "任" not in res[0] and not matchres:
             logging.warn("此页面不存在活动Quest")
             return False
         # 判断左下角时间
         time_res = ocr_area((175, 566), (552, 593))
-        # '2023-12-2603:00~2024-01-0902:59'
-        logging.info(f"检测到活动时间: {time_res}")
-        # 分割出结束时间
-        time_split = time_res[0].split("~")
-        if len(time_res)==0 or len(time_split) == 1:
+        if len(time_res[0])==0:
             return False
+        # '2023-12-2603:00~2024-01-0902:59'
+        logging.info(f"识别活动时间: {time_res}")
+        # 分割出结束时间
+        if "~" in time_res[0]:
+            time_split = time_res[0].split("~")
+        else:
+            # 如果没有识别出~分隔符，就直接取最后15个字符
+            if len(time_res[0]) < 15:
+                logging.error("活动时间字符串长度不足15")
+                return False
+            time_split = [time_res[0][-15:]]
+
         # 判断活动是否已结束
-        end_time = time_split[1]
+        end_time = time_split[-1]
         if len(end_time) != 15:
+            logging.error("活动时间字符串长度不足15")
             return False
         # 将这个时间转成时间对象
         try:
