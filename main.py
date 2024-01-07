@@ -16,7 +16,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         logging.info("读取默认config文件: "+configname)
         if len(sys.argv) > 1:
             configname = sys.argv[1]
-            config.parse_config(configname)
+            config.parse_user_config(configname)
             logging.info("重新读取指定的config文件: "+configname)
         logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
         logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
@@ -28,7 +28,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         
         # 打印BAAH信息
         print("+"+"BAAH".center(80, "="), "+")
-        print("||"+f"Version: {config.userconfigdict['NOWVERSION']}".center(80, " ")+"||")
+        print("||"+f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ")+"||")
         print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
         print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
         print("||" + "QQ群: 441069156".center(80, " ") + "||")

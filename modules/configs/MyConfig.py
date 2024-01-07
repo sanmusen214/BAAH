@@ -11,7 +11,8 @@ class MyConfigger:
     file_path: config.json的路径，包含后缀不含路径
     """
     NOWVERSION="1.1.13"
-    USER_CONFIG_FOLDER="./"
+    USER_CONFIG_FOLDER="./BAAH_CONFIGS"
+    SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     # 读取config这个py里面的配置
     def __init__(self, file_name=""):
         # 软件的config
@@ -23,7 +24,7 @@ class MyConfigger:
         # 读取用户的config
         if file_name != "":
             self.parse_user_config(file_name)
-        # TODO: 读取软件的config
+        self.parse_software_config("software_config.json")
 
     def parse_user_config(self, file_name):
         """
@@ -36,9 +37,22 @@ class MyConfigger:
         self.userconfigdict = self._read_config_file(file_path)
         self.sessiondict = {}
         
-        logging.debug("config字典内容: "+ ",".join([k for k in self.userconfigdict]))
+        logging.debug("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
         # 检查缺失的配置
         self._check_user_config()
+    
+    def parse_software_config(self, file_name):
+        """
+        读取config文件并解析
+        """
+        # 绝对路径
+        current_dir = os.getcwd()
+        file_path = os.path.join(current_dir, self.SOFTWARE_CONFIG_FOLDER, file_name)
+        # 字典新值
+        self.softwareconfigdict = self._read_config_file(file_path)
+        logging.debug("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
+        # 检查缺失的配置
+        self._check_software_config()
 
     def _read_config_file(self, file_path):
         """
@@ -89,6 +103,17 @@ class MyConfigger:
             # 如果用户的config里没有这个值
             if shouldKey not in self.userconfigdict:
                 self._fill_by_map_or_default(defaultUserDict, self.userconfigdict, shouldKey)
+
+    def _check_software_config(self):
+        """
+        检查软件的config内的值是否有缺少，如果有，按照对应关系查找，如果没有，就用默认值
+        """
+        # 处理VERSION
+        self.softwareconfigdict["NOWVERSION"] = self.NOWVERSION
+        for shouldKey in defaultSoftwareDict:
+            # 如果用户的config里没有这个值
+            if shouldKey not in self.softwareconfigdict:
+                self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
 
     def save_config(self, file_path):
         with open(file_path, 'w', encoding="utf8") as f:
