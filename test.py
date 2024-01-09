@@ -1,11 +1,9 @@
 import sys
-configname = "config.json"
 from modules.configs.MyConfig import config
-print("读取默认config文件: "+configname)
 if len(sys.argv) > 1:
     configname = sys.argv[1]
     config = config.parse_user_config(configname)
-    print("重新读取指定的config文件: "+configname)
+    print("读取指定的config文件: "+configname)
 # 图片截取&标注
 import threading
 import requests

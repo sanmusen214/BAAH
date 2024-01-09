@@ -11,18 +11,20 @@ if __name__ in ["__main__", "__mp_main__"]:
         import logging
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
-        configname = "config.json"
         from modules.configs.MyConfig import config
-        logging.info("读取默认config文件: "+configname)
         if len(sys.argv) > 1:
             configname = sys.argv[1]
+            logging.info("读取指定的config文件: "+configname)
             config.parse_user_config(configname)
-            logging.info("重新读取指定的config文件: "+configname)
+        else:
+            configname = "config.json"
+            logging.info("读取默认config文件: "+configname)
+            config.parse_user_config(configname)
+        # 打印config信息
         logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
         logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
+        logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
 
-        import base64
-        import traceback
         from BAAH import BAAH_main
         from modules.AllTask.myAllTask import my_AllTask
         
@@ -51,21 +53,21 @@ if __name__ in ["__main__", "__mp_main__"]:
                 # 将新的config文件加入config_history, 防止死循环
                 config_history.append(config.userconfigdict['NEXT_CONFIG'])
                 # 清空config实例,读取next_config文件，再次运行BAAH_main()
-                config.parse_config(config.userconfigdict['NEXT_CONFIG'])
+                config.parse_user_config(config.userconfigdict['NEXT_CONFIG'])
                 # 清空my_AllTask实例，通过新的config构造新的my_AllTask
                 my_AllTask.parse_task()
-
             else:
                 break
     except Exception as e:
         # 打印完整的错误信息
+        import traceback
         traceback.print_exc()
     try:
-        # 如果截图文件存在，删除截图文件
-        if os.path.exists(f"./{config.userconfigdict['SCREENSHOT_NAME']}"):
-            os.remove(f"./{config.userconfigdict['SCREENSHOT_NAME']}")
-    except:
-        pass
-    print("程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
+        # 运行结束后如果截图文件存在，删除截图文件
+        if os.path.exists(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}"):
+            os.remove(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}")
+    except Exception as e:
+        logging.error("删除截图文件失败")
+    print("\n程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
     print("https://github.com/sanmusen214/BAAH")
     input("按回车键退出BAAH:")

@@ -118,39 +118,6 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 [首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
 
-# 服务器（国际服/日服/国服官服/国服B服）配置
-
-打开GUI后选择区服即可。
-如果选择区服后报错，则修改config.json的下方内容
-
-## 日服
-
-```
-"PIC_PATH" : "./assets_jp",
-"ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
-```
-
-## 国际服（繁中）
-
-```
-"PIC_PATH" : "./assets",
-"ACTIVITY_PATH" : "com.nexon.bluearchive/.MxUnityPlayerActivity",
-```
-
-## 国服官服
-
-```
-"PIC_PATH" : "./assets_cn",
-"ACTIVITY_PATH" : "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
-```
-
-## 国服B服
-
-```
-"PIC_PATH" : "./assets_cn",
-"ACTIVITY_PATH" : "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
-```
-
 # 打包
 
 项目下新建tools文件夹，放入压缩包中的tools/adb，_internal/nicegui，_internal/pponnxcr文件夹

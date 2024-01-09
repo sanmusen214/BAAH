@@ -45,16 +45,15 @@ def BAAH_open_target_app():
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
         logging.info("检测到游戏已经在运行")
         return True
-    open_app(config.userconfigdict['ACTIVITY_PATH'])
-    sleep(5)
-    if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
-        logging.error("未检测到游戏打开，请检查区服设置")
-    else:
-        return True
-    sleep(5)
-    if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
-        logging.error("未检测到游戏打开，请检查区服设置")
-        raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
+    for i in range(5):
+        logging.info("打开游戏")
+        open_app(config.userconfigdict['ACTIVITY_PATH'])
+        sleep(3)
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+            logging.error("未检测到游戏打开，请检查区服设置")
+        else:
+            return True
+    raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
 def BAAH_main():
     BAAH_start_emulator()

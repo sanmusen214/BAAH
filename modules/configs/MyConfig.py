@@ -7,14 +7,12 @@ from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict
 class MyConfigger:
     """
     维护一个config字典，同时将config.json的配置项作为实例属性
-    
-    file_path: config.json的路径，包含后缀不含路径
     """
     NOWVERSION="1.1.13"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     # 读取config这个py里面的配置
-    def __init__(self, file_name=""):
+    def __init__(self):
         # 软件的config
         self.softwareconfigdict = {}
         # 软件的语言包
@@ -23,9 +21,7 @@ class MyConfigger:
         self.userconfigdict = {}
         # 一次区服任务运行的session
         self.sessiondict = {}
-        # 读取用户的config
-        if file_name != "":
-            self.parse_user_config(file_name)
+        # 读取软件的config
         self.parse_software_config("software_config.json")
 
     def parse_user_config(self, file_name):
@@ -126,4 +122,7 @@ class MyConfigger:
 
 
 
-config=MyConfigger('config.json')
+config=MyConfigger()
+"""
+单例，导入后使用parse_user_config方法解析某个config
+"""
