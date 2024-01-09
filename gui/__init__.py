@@ -22,6 +22,16 @@ def show_GUI(load_jsonname, config):
     with ui.row():
         ui.label("Blue Archive Aris Helper").style('font-size: xx-large')
     
+    def select_language(value):
+        config.softwareconfigdict["LANGUAGE"] = value
+        config.save_software_config()
+        if value == "zh_CN":
+            ui.notify("语言已切换为中文，重启生效")
+        else:
+            ui.notify("Language has been changed to English, restart to take effect")
+    
+    ui.toggle({"zh_CN":"中文", "en_US":"English"}, value=config.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value))
+    
     ui.label(config.get_text("BAAH_desc"))
 
     ui.label(config.get_text("BAAH_get_version"))
