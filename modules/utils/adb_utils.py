@@ -82,8 +82,11 @@ def check_app_running(activity_path:str) -> bool:
     # adb shell "dumpsys window | grep mCurrentFocus"
     for sentence in output.split("\n"):
         if "mCurrentFocus" in sentence:
+            # 找到当前运行的app那行
             output = sentence
             logging.info("当前运行的app为：{}".format(output))
+            if "null" in output:
+                logging.warn("MUMU模拟器需要设置里关闭保活！")
             break
     if app_name in output:
         return True

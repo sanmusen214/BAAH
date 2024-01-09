@@ -6,6 +6,31 @@ import subprocess
 from pathlib import Path
 import nicegui
 
+def package_copyfolder(src, dst):
+    try:
+        # 拷贝文件夹
+        shutil.copytree(src, dst)
+        print(f"{dst}文件夹已拷贝")
+    except FileExistsError as e:
+        print(f"{dst}文件夹已存在!")
+
+def package_copyfile(src, dst):
+    try:
+        shutil.copyfile(src, dst)
+        print("f{dst}已拷贝")
+    except FileExistsError as e:
+        print("f{dst}已存在!")
+
+def package_rename(src, dst):
+    try:
+        os.rename(src, dst)
+    except Exception as e:
+        print(f"{dst}已存在!")
+        
+
+
+
+# ====================开始====================
 # 清空dist文件夹
 try:
     shutil.rmtree('./dist')
@@ -64,74 +89,20 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor',
     # 走一层就终止
     break
 print("_internal文件夹已拷贝")
-try:
-    # 拷贝./tools/pponnxcr文件夹到./dist/BAAH/_internal/pponnxcr
-    shutil.copytree('./tools/pponnxcr', os.path.join('./dist','BAAH','_internal','pponnxcr'))
-    print("pponnxcr文件夹已拷贝")
-except FileExistsError as e:
-    print("pponnxcr文件夹已存在!")
-try:
-    # 拷贝./config.json到./dist/BAAH/config.json
-    shutil.copyfile('./config.json', os.path.join('./dist', 'BAAH', 'config.json'))
-    print("config.json已拷贝")
-except FileExistsError as e:
-    print("config.json已存在!")
-try:
-    # 拷贝./重启adb服务.bat到./dist/BAAH/重启adb服务.bat
-    shutil.copyfile('./重启adb服务.bat', os.path.join('./dist', 'BAAH', '重启adb服务.bat'))
-    print("重启adb服务.bat已拷贝")
-except FileExistsError as e:
-    print("重启adb服务.bat已存在!")
-try:
-    # 拷贝assets文件夹到./dist/BAAH/assets
-    shutil.copytree('./assets', os.path.join('./dist', 'BAAH', 'assets'))
-    print("assets文件夹已拷贝")
-except FileExistsError as e:
-    print("assets文件夹已存在!")
-try:
-    # 拷贝assets_jp文件夹到./dist/BAAH/assets_jp
-    shutil.copytree('./assets_jp', os.path.join('./dist', 'BAAH', 'assets_jp'))
-    print("assets_jp文件夹已拷贝")
-except FileExistsError as e:
-    print("assets_jp文件夹已存在!")
-try:
-    # 拷贝assets_cn文件夹到./dist/BAAH/assets_cn
-    shutil.copytree('./assets_cn', os.path.join('./dist', 'BAAH', 'assets_cn'))
-    print("assets_cn文件夹已拷贝")
-except FileExistsError as e:
-    print("assets_cn文件夹已存在!")
-try:
-    # 拷贝./dist/jsoneditor/jsoneditor.exe到./dist/BAAH/jsoneditor.exe
-    shutil.copyfile(os.path.join('./dist', 'jsoneditor', 'jsoneditor.exe'), os.path.join('./dist', 'BAAH', 'jsoneditor.exe'))
-    print("jsoneditor.exe已拷贝")
-except FileExistsError as e:
-    print("jsoneditor.exe已存在!")
 
-try:
-    # 重命名./dist/BAAH/BAAH.exe为./dist/BAAH/BAAH{config_version}.exe
-    os.rename(os.path.join('./dist', 'BAAH', 'BAAH.exe'), os.path.join('./dist', 'BAAH', f'BAAH{config_version}.exe'))
-except Exception as e:
-    print(f"BAAH{config_version}.exe已存在!")
+package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
+package_copyfolder("./DATA", "./dist/BAAH/DATA")
+package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+package_copyfolder("./assets", "./dist/BAAH/assets")
+package_copyfolder("./assets_jp", "./dist/BAAH/assets_jp")
+package_copyfolder("./assets_cn", "./dist/BAAH/assets_cn")
+package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
 
-try:
-    # 重命名./dist/BAAH/jsoneditor.exe为./dist/BAAH/配置修改GUI{config_version}.exe
-    os.rename(os.path.join('./dist', 'BAAH', 'jsoneditor.exe'), os.path.join('./dist', 'BAAH', f'配置修改GUI{config_version}.exe'))
-except Exception as e:
-    print(f"配置修改GUI{config_version}.exe已存在!")
+package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
+package_rename("./dist/BAAH/jsoneditor.exe", f"./dist/BAAH/BAAH GUI{config_version}.exe")
+package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
-try:
-    # 重命名./dist/BAAH/config.json为./dist/BAAH/config_example.json
-    os.rename(os.path.join('./dist', 'BAAH', 'config.json'), os.path.join('./dist', 'BAAH', 'config_example.json'))
-except Exception as e:
-    print("config_example.json已存在!")
-    
-try:
-    # 重命名./dist/BAAH文件夹为./dist/BAAH{config_version}
-    os.rename(os.path.join('./dist', 'BAAH'), os.path.join('./dist', f'BAAH{config_version}'))
-except Exception as e:
-    print(f'BAAH{config_version}已存在!')
-
-print("重命名成功")
+print("开始压缩")
 
 # 压缩./dist/BAAH文件夹为BAAH.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}.zip', 'w', zipfile.ZIP_DEFLATED)
@@ -142,12 +113,12 @@ for dirpath, dirnames, filenames in os.walk(startdir):
 
 print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
 
-# 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
+# 压缩./dist/BAAH文件夹(除了_internal, tools, BAAH_CONFIGS)为BAAH_update.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
-    # 去除./dist/BAAH/_internal, tools
-    if "_internal" in dirpath or "tools" in dirpath:
+    # 去除./dist/BAAH/_internal, tools, BAAH_CONFIGS
+    if "_internal" in dirpath or "tools" in dirpath or "BAAH_CONFIGS" in dirpath:
         continue
     for filename in filenames:
         if "重启adb服务" in filename:

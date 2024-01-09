@@ -17,9 +17,11 @@ class MyConfigger:
     def __init__(self, file_name=""):
         # 软件的config
         self.softwareconfigdict = {}
-        # 一个区服/模拟器任务的config
+        # 软件的语言包
+        self.languageconfigdict = {}
+        # 一次区服任务的config
         self.userconfigdict = {}
-        # 一次config运行的session
+        # 一次区服任务运行的session
         self.sessiondict = {}
         # 读取用户的config
         if file_name != "":
@@ -29,6 +31,7 @@ class MyConfigger:
     def parse_user_config(self, file_name):
         """
         读取config文件并解析
+        同时会清空sessiondict
         """
         # 绝对路径
         current_dir = os.getcwd()
@@ -43,7 +46,8 @@ class MyConfigger:
     
     def parse_software_config(self, file_name):
         """
-        读取config文件并解析
+        读取config文件并解析，
+        同时加载语言包
         """
         # 绝对路径
         current_dir = os.getcwd()
@@ -53,6 +57,7 @@ class MyConfigger:
         logging.debug("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
         # 检查缺失的配置
         self._check_software_config()
+        # 加载语言包
 
     def _read_config_file(self, file_path):
         """

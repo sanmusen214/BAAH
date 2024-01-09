@@ -10,80 +10,60 @@ from modules.configs.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
 
-
-def BAAH_main():
-    # 启动模拟器
+def BAAH_start_emulator():
+    """
+    启动模拟器
+    """
     if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "":
-        logging.info("启动模拟器")
         try:
             # 以列表形式传命令行参数
             subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
-            for i in range(3):
-                logging.info("等待{}...".format(i+1))
-                sleep(3)
         except Exception as e:
             logging.error("启动模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
-            logging.warn("检查是否能够建立与模拟器的连接...")
     else:
-        logging.info("未配置模拟器路径")
+        logging.info("未配置模拟器路径，跳过启动模拟器")
+
+def BAAH_check_adb_connect():
+    """
+    检查adb连接
+    """
     # 检查adb连接
     disconnect_this_device()
-    max_try = 7
-    for i in range(max_try):
-        logging.info(f"检查连接{i+1}/{max_try}...")
+    for i in range(1, 10):
+        sleep(i)
         if check_connect():
-            # 连接成功
-            # 使用adb打开包名为com.nexon.bluearchive的app
-            # 检查这个app是否在运行
-            for i in range(5):
-                # 打开游戏
-                open_app(config.userconfigdict['ACTIVITY_PATH'])
-                logging.info("打开游戏...")
-                sleep(3)
-                if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
-                    if i>=2:
-                        yorn = input("连接后多次打开失败，是否重启adb服务或跳过？(y/n/k):")
-                        if yorn == "y" or yorn == "Y":
-                            logging.warn("重启adb服务")
-                            kill_adb_server()
-                            raise Exception("由于重启了adb服务，请重新运行脚本")
-                        if yorn == "k" or yorn == "K":
-                            logging.warn("跳过打开游戏")
-                            break
-                    logging.info("检测到游戏未打开，尝试打开游戏...")
-                    open_app(config.userconfigdict['ACTIVITY_PATH'])
-                    sleep(3)
-                else:
-                    logging.info("成功打开游戏")
-                    break
-            # 运行任务
-            logging.info("运行任务")
-            my_AllTask.run()
-            logging.info("所有任务结束")
-            break
+            logging.info("adb连接成功")
+            return True
         else:
-            if i<max_try-3:
-                logging.warn("连接失败，重试...")
-                sleep(3+3*i)
-            if i==max_try-3:
-                port = input("未能连接至模拟器，请输入模拟器端口号并修改config.json(留空以继续使用配置文件)：")
-                if port=="":
-                    continue
-                else:
-                    try:
-                        port = int(port)
-                        config.userconfigdict['TARGET_PORT'] = port
-                    except:
-                        logging.error("端口号输入错误")
-            if i == max_try-2:
-                yorn = input("多次连接失败，是否重启adb服务？(y/n):")
-                if yorn == "y" or yorn == "Y":
-                    logging.warn("重启adb服务")
-                    kill_adb_server()
-                    continue
-            if i == max_try-1:
-                logging.error("达到最大尝试次数，连接失败")
-                break
+            logging.info("未检测到设备连接, 重试...")
+    raise Exception("adb连接失败, 请检查配置里的adb端口")
+
+def BAAH_open_target_app():
+    """
+    打开游戏
+    """
+    if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        logging.info("检测到游戏已经在运行")
+        return True
+    open_app(config.userconfigdict['ACTIVITY_PATH'])
+    sleep(5)
+    if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        logging.error("未检测到游戏打开，请检查区服设置")
+    else:
+        return True
+    sleep(5)
+    if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        logging.error("未检测到游戏打开，请检查区服设置")
+        raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
+
+def BAAH_main():
+    BAAH_start_emulator()
+    BAAH_check_adb_connect()
+    BAAH_open_target_app()
+    # 运行任务
+    logging.info("运行任务")
+    my_AllTask.run()
+    logging.info("所有任务结束")
             
 
 
