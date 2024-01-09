@@ -23,7 +23,7 @@ def set_task_order(config, real_taskname_to_show_taskname):
     def task_order():
         for i in range(len(config.userconfigdict["TASK_ORDER"])):
             with ui.row():
-                ui.label(f'{config.get_text("config_task")}{i+1}:')
+                ui.label(f'{config.get_text("config_task")} {i+1}:')
                 atask = ui.select(real_taskname_to_show_taskname,
                             value=config.userconfigdict["TASK_ORDER"][i],
                             on_change=lambda v,i=i: config.userconfigdict["TASK_ORDER"].__setitem__(i, v.value),
@@ -32,9 +32,9 @@ def set_task_order(config, real_taskname_to_show_taskname):
                 if i==0:
                     atask.set_enabled(False)
                     acheck.set_enabled(False)
-                ui.button(f'{config.get_text("button_add")}{config.get_text("config_task")}', on_click=lambda i=i+1: add_task(i))
+                ui.button(f'{config.get_text("button_add")} {config.get_text("config_task")}', on_click=lambda i=i+1: add_task(i))
                 if len(config.userconfigdict["TASK_ORDER"]) > 0 and i > 0:
-                    ui.button(f'{config.get_text("button_delete")}{config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
+                    ui.button(f'{config.get_text("button_delete")} {config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
 
     def add_task(i):
         config.userconfigdict["TASK_ORDER"].insert(i, "邮件")

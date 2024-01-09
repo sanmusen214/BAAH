@@ -18,7 +18,7 @@ def list_edit_area(datadict, linedesc, blockdesc=""):
             ui.label(f'{blocklinedesc}')
         for i in range(len(datadict)):
             line_item = datadict[i]
-            ui.label(f'{config.get_text("config_nth")}{i+1}{linedesc[0]}: ')
+            ui.label(f'{config.get_text("config_nth")} {i+1} {linedesc[0]}: ')
             with ui.row():
                 for j in range(len(line_item)):
                     if len(linedesc) == 2:
@@ -50,13 +50,13 @@ def list_edit_area(datadict, linedesc, blockdesc=""):
                                                 ).style('width: 60px')
                             
                 with ui.column():
-                    ui.button(f"{config.get_text('button_add')}{linedesc[1]}", on_click=lambda i=i: add_item_item(i))
+                    ui.button(f"{config.get_text('button_add')} {linedesc[1]}", on_click=lambda i=i: add_item_item(i))
                     if len(datadict[i]) > 0:
-                        ui.button(f"{config.get_text('button_delete')}{linedesc[1]}", on_click=lambda i=i: del_item_item(i), color="red")
+                        ui.button(f"{config.get_text('button_delete')} {linedesc[1]}", on_click=lambda i=i: del_item_item(i), color="red")
         with ui.row():
-            ui.button(f"{config.get_text('button_add')}{linedesc[0]}", on_click=add_item)
+            ui.button(f"{config.get_text('button_add')} {linedesc[0]}", on_click=add_item)
             if len(datadict) > 0:
-                ui.button(f"{config.get_text('button_delete')}{linedesc[0]}", on_click=del_item, color="red")
+                ui.button(f"{config.get_text('button_delete')} {linedesc[0]}", on_click=del_item, color="red")
     
     def add_item():
         datadict.append([])

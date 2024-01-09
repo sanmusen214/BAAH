@@ -7,7 +7,7 @@ from modules.configs.settingMaps import *
 # s: selective value
 # m: map value
 
-# selective值主要作为检查用户输入的值是否合法，如果用户输入的值不在selective里，就会报错
+# selective值作为备用提醒存在，主要的map应当在settingMaps里
 
 defaultUserDict = {
     "TIMETABLE_TASK": {"d":[]},

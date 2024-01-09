@@ -8,7 +8,7 @@ def set_shop(config):
     
     
     ui.number(
-            f'{config.get_text("config_shop_normal")}{config.get_text("config_refresh")}{config.get_text("config_times")}',
+            f'{config.get_text("config_shop_normal")} {config.get_text("config_refresh")} {config.get_text("config_times")}',
             step=1,
             precision=0,
             min=0,
@@ -22,7 +22,7 @@ def set_shop(config):
         ui.label(config.get_text("config_shop_contest")).style('font-size: x-large')
         
     ui.number(
-            f'{config.get_text("config_shop_contest")}{config.get_text("config_refresh")}{config.get_text("config_times")}',
+            f'{config.get_text("config_shop_contest")} {config.get_text("config_refresh")} {config.get_text("config_times")}',
             step=1,
             precision=0,
             min=0,
