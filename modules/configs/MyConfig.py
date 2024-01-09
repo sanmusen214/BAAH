@@ -13,6 +13,7 @@ class MyConfigger:
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
+    SOFTWARE_CONFIG_NAME="software_config.json"
     # 读取config这个py里面的配置
     def __init__(self):
         self.current_dir = os.getcwd()
@@ -25,7 +26,7 @@ class MyConfigger:
         # 一次区服任务运行的session
         self.sessiondict = {}
         # 读取软件的config
-        self.parse_software_config("software_config.json")
+        self.parse_software_config(self.SOFTWARE_CONFIG_NAME)
 
     def parse_user_config(self, file_name):
         """
@@ -53,6 +54,9 @@ class MyConfigger:
         self.softwareconfigdict = self._read_config_file(file_path)
         # 检查缺失的配置
         self._check_software_config()
+        # 强制设定VERSION
+        self.softwareconfigdict["NOWVERSION"] = self.NOWVERSION
+        # 输出
         logging.debug("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
         # 加载语言包
         self.parse_language_package(self.softwareconfigdict["LANGUAGE"]+".json")
@@ -73,7 +77,7 @@ class MyConfigger:
         try:
             with open(file_path, 'r', encoding="utf8") as f:
                 dictconfig = json.load(f)
-                print("读取{}文件成功, 读取了{}个配置".format(file_path, len(dictconfig)))
+                logging.debug("读取{}文件成功, 读取了{}个配置".format(file_path, len(dictconfig)))
                 return dictconfig
         except Exception as e:
             raise Exception(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)}')
@@ -123,8 +127,6 @@ class MyConfigger:
         """
         检查软件的config内的值是否有缺少，如果有，按照对应关系查找，如果没有，就用默认值
         """
-        # 处理VERSION
-        self.softwareconfigdict["NOWVERSION"] = self.NOWVERSION
         for shouldKey in defaultSoftwareDict:
             # 如果用户的config里没有这个值
             if shouldKey not in self.softwareconfigdict:
@@ -138,8 +140,8 @@ class MyConfigger:
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.userconfigdict, f, indent=4, ensure_ascii=False)
     
-    def save_software_config(self, file_name):
-        file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, file_name)
+    def save_software_config(self):
+        file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, self.SOFTWARE_CONFIG_NAME)
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.softwareconfigdict, f, indent=4, ensure_ascii=False)
 

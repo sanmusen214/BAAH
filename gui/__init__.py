@@ -114,11 +114,13 @@ def show_GUI(load_jsonname, config):
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             def save_and_alert():
                 config.save_user_config(load_jsonname)
+                config.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
             ui.button(config.get_text("button_save"), on_click=save_and_alert)
 
             def save_and_alert_and_run():
                 config.save_user_config(load_jsonname)
+                config.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
                 ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
@@ -127,3 +129,4 @@ def show_GUI(load_jsonname, config):
         
     # 加载完毕保存一下config，让新建的config文件有默认值
     config.save_user_config(load_jsonname)
+    config.save_software_config()
