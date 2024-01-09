@@ -1,11 +1,33 @@
 {
-    "SERVER_TYPE": "CN_BILI",
+    "SERVER_TYPE": "GLOBAL",
     "TIMETABLE_TASK": [],
     "WANTED_HIGHEST_LEVEL": [],
     "SPECIAL_HIGHTEST_LEVEL": [],
-    "EXCHANGE_HIGHEST_LEVEL": [],
+    "EXCHANGE_HIGHEST_LEVEL": [
+        [
+            [
+                1,
+                1,
+                1
+            ]
+        ]
+    ],
     "EVENT_QUEST_LEVEL": [],
-    "HARD": [],
+    "HARD": [
+        [
+            [
+                1,
+                1,
+                1
+            ],
+            [
+                1,
+                1,
+                1
+            ]
+        ],
+        []
+    ],
     "NORMAL": [],
     "TASK_ORDER": [
         "登录游戏"
@@ -16,11 +38,11 @@
         true
     ],
     "TARGET_EMULATOR_PATH": "",
-    "PIC_PATH": "./assets_cn",
-    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
+    "PIC_PATH": "./assets",
+    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "NEXT_CONFIG": "",
     "ADB_PATH": "./tools/adb/adb.exe",
-    "SCREENSHOT_NAME": "screenshot.png",
+    "SCREENSHOT_NAME": "c5fd3201.png",
     "TARGET_IP_PATH": "127.0.0.1",
     "TARGET_PORT": 5555,
     "TIME_AFTER_CLICK": 0.7,

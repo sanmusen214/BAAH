@@ -3,7 +3,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         import os
         import requests
         import sys
-        from modules.configs.MyConfig import MyConfigger
+        from modules.configs.MyConfig import MyConfigger, config
         # 是否以网页形式运行
         isweb=False
         if len(sys.argv) > 1:
@@ -28,11 +28,11 @@ if __name__ in {"__main__", "__mp_main__"}:
                 r = await run.io_bound(requests.get, "https://api.github.com/repos/sanmusen214/BAAH/releases/latest", timeout=10)
                 if r.status_code == 200:
                     data = r.json()
-                    ui.notify(f"目前发布的最新版本：{data['tag_name']}")
+                    ui.notify(f'{config.get_text("notice_get_new_version")}: {data["tag_name"]}')
                 else:
-                    ui.notify("检查更新失败")
+                    ui.notify(config.get_text("notice_fail"))
             except:
-                ui.notify("检查更新失败")
+                ui.notify(config.get_text("notice_fail"))
         
         @ui.refreshable
         def draw_upper_right_selectlist(jsonfile_list):
@@ -43,17 +43,17 @@ if __name__ in {"__main__", "__mp_main__"}:
             with ui.column().style('width: 10vw; overflow: auto; position: fixed; top: 20px; right: 20px;min-width: 150px;'):
                 # now_json_name主要是初始值有用
                 # 不在select里设置value，只有后面的bind_value的话，渲染时会触发一次on_change事件
-                ui.select(jsonfile_list, value=now_json_name["name"], on_change=lambda:show_GUI.refresh(now_json_name['name'])).bind_value(now_json_name, 'name')
-                ui.button("检查更新", on_click=check_newest_version)
+                ui.select(jsonfile_list, value=now_json_name["name"], on_change=lambda:show_GUI.refresh(now_json_name['name'], config)).bind_value(now_json_name, 'name')
+                ui.button(config.get_text("button_check_version"), on_click=check_newest_version)
         
-        show_GUI("config.json")
+        show_GUI("config.json", config)
         alljson_list = get_json_list()
         draw_upper_right_selectlist(alljson_list)
         # 对每个get_json_list()里的文件，show_GUI一下
         for i in range(len(alljson_list)):
-            show_GUI.refresh(alljson_list[i])
+            show_GUI.refresh(alljson_list[i], config)
         # 回到config.json
-        show_GUI.refresh("config.json")
+        show_GUI.refresh("config.json", config)
         
         ui.timer(30.0, lambda: draw_upper_right_selectlist.refresh(get_json_list()))
         if not isweb:
@@ -61,11 +61,11 @@ if __name__ in {"__main__", "__mp_main__"}:
                 ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
             except:
                 # 如果GUI出错，自动使用网页端
-                print("窗口端GUI出错，自动使用网页端")
+                print("窗口端GUI出错，自动使用网页端/Window GUI error, automatically use web GUI")
                 ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
         else:
             ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
-            
+
     except Exception as e:
         import traceback
         traceback.print_exc()

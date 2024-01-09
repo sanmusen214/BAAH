@@ -3,6 +3,7 @@ import logging
 import os
 import time
 from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict
+from modules.configs.settingMaps import configname2screenshotname
 
 class MyConfigger:
     """
@@ -37,6 +38,9 @@ class MyConfigger:
         self.sessiondict = {}
         # 检查缺失的配置
         self._check_user_config()
+        # 强制设置截图文件名为配置名
+        self.userconfigdict["SCREENSHOT_NAME"] = configname2screenshotname(file_name)
+        # 输出
         logging.debug("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
     
     def parse_software_config(self, file_name):
@@ -126,10 +130,18 @@ class MyConfigger:
             if shouldKey not in self.softwareconfigdict:
                 self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
 
+    def get_text(self, text_id):
+        return self.languagepackagedict.get(text_id, f"%{text_id}%")
+    
     def save_user_config(self, file_name):
         file_path = os.path.join(self.current_dir, self.USER_CONFIG_FOLDER, file_name)
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.userconfigdict, f, indent=4, ensure_ascii=False)
+    
+    def save_software_config(self, file_name):
+        file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, file_name)
+        with open(file_path, 'w', encoding="utf8") as f:
+            json.dump(self.softwareconfigdict, f, indent=4, ensure_ascii=False)
 
 
 

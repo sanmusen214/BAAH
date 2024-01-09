@@ -3,7 +3,7 @@ from nicegui import ui
 def set_task_order(config, real_taskname_to_show_taskname):
     with ui.row():
         ui.link_target("TASK_ORDER")
-        ui.label('任务执行顺序').style('font-size: x-large')
+        ui.label(config.get_text("setting_task_order")).style('font-size: x-large')
     
     
     def select_clear_all_and_refresh_task_order(type="select"):
@@ -16,25 +16,25 @@ def set_task_order(config, real_taskname_to_show_taskname):
         task_order.refresh()
     
     with ui.row():
-        ui.button("全选", on_click=lambda: select_clear_all_and_refresh_task_order("select"))
-        ui.button("全不选", on_click=lambda: select_clear_all_and_refresh_task_order("unselect"))
+        ui.button(config.get_text("button_select_all"), on_click=lambda: select_clear_all_and_refresh_task_order("select"))
+        ui.button(config.get_text("button_select_none"), on_click=lambda: select_clear_all_and_refresh_task_order("unselect"))
     
     @ui.refreshable
     def task_order():
         for i in range(len(config.userconfigdict["TASK_ORDER"])):
             with ui.row():
-                ui.label(f'第{i+1}个任务:')
+                ui.label(f'{config.get_text("config_task")}{i+1}:')
                 atask = ui.select(real_taskname_to_show_taskname,
                             value=config.userconfigdict["TASK_ORDER"][i],
                             on_change=lambda v,i=i: config.userconfigdict["TASK_ORDER"].__setitem__(i, v.value),
                             )
-                acheck = ui.checkbox('启用', value=config.userconfigdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.userconfigdict["TASK_ACTIVATE"].__setitem__(i, v.value))
+                acheck = ui.checkbox(config.get_text("button_enable"), value=config.userconfigdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.userconfigdict["TASK_ACTIVATE"].__setitem__(i, v.value))
                 if i==0:
                     atask.set_enabled(False)
                     acheck.set_enabled(False)
-                ui.button("添加任务", on_click=lambda i=i+1: add_task(i))
+                ui.button(f'{config.get_text("button_add")}{config.get_text("config_task")}', on_click=lambda i=i+1: add_task(i))
                 if len(config.userconfigdict["TASK_ORDER"]) > 0 and i > 0:
-                    ui.button("删除任务", on_click=lambda i=i: del_task(i), color="red")
+                    ui.button(f'{config.get_text("button_delete")}{config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
 
     def add_task(i):
         config.userconfigdict["TASK_ORDER"].insert(i, "邮件")
@@ -50,10 +50,8 @@ def set_task_order(config, real_taskname_to_show_taskname):
     
     with ui.row():
         ui.link_target("NEXT_CONFIG")
-        ui.label('后续配置文件').style('font-size: x-large')
+        ui.label(config.get_text("setting_next_config")).style('font-size: x-large')
     
-    ui.label("注意：此项配置文件会在当前配置文件执行完毕后继续执行，比如config_global.json是登录的国际服，那么你可以把config_global.json复制一份重命名为config_jp.json。在config_jp.json里将区服改为日服").style('color: red')
-    ui.label("如果你只想运行此配置文件的话此项直接不填").style('color: red')
-    
+    ui.label(config.get_text("config_desc_next_config")).style('color: red')
         
-    ui.input('执行完此配置文件过后，继续执行配置文件').bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+    ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')

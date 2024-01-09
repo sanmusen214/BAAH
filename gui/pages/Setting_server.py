@@ -4,9 +4,13 @@ from modules.configs.settingMaps import server2pic, server2activity, server2resp
 def set_server(config):
     with ui.row():
         ui.link_target("SERVER")
-        ui.label('服务器配置').style('font-size: x-large')
+        ui.label(config.get_text("setting_server")).style('font-size: x-large')
     
-    server = ui.radio({"JP":"日服", "GLOBAL":"国际服", "CN":"国服官服","CN_BILI":"国服B服"},
+    server = ui.radio({
+        "JP":config.get_text("config_server_jp"), 
+        "GLOBAL":config.get_text("config_server_global"), 
+        "CN":config.get_text("config_server_cn"),
+        "CN_BILI":config.get_text("config_server_cn_b")},
                       value=config.userconfigdict['SERVER_TYPE'], on_change=lambda a:set_server_info(a.value)).props('inline')
     
     def set_server_info(servername):

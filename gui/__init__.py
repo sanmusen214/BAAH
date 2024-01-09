@@ -13,42 +13,39 @@ from gui.pages.Setting_special import set_special
 from gui.pages.Setting_task_order import set_task_order
 from gui.pages.Setting_timetable import set_timetable
 from gui.pages.Setting_wanted import set_wanted
-from modules.configs.MyConfig import MyConfigger
 
 @ui.refreshable
-def show_GUI(load_jsonname):
+def show_GUI(load_jsonname, config):
         
-    config = MyConfigger()
     config.parse_user_config(load_jsonname)
     
     with ui.row():
         ui.label("Blue Archive Aris Helper").style('font-size: xx-large')
     
-    ui.label("BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务")
-    ui.label("QQ群：441069156")
+    ui.label(config.get_text("BAAH_desc"))
 
-    ui.label("获取最新版本可以到Github下载，或进群下载")
+    ui.label(config.get_text("BAAH_get_version"))
     
-    ui.label("模拟器分辨率请设置为1280*720，240DPI!").style('color: red; font-size: x-large')
+    ui.label(config.get_text("BAAH_attention")).style('color: red; font-size: x-large')
 
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
-        "登录游戏":"登录游戏",
-        "清momotalk":"清momotalk",
-        "咖啡馆":"咖啡馆",
-        "咖啡馆只摸头":"咖啡馆只摸头",
-        "课程表":"课程表/日程",
-        "社团":"社团",
-        "商店":"商店",
-        "悬赏通缉":"悬赏通缉/指名手配",
-        "特殊任务":"特殊任务/委托/依赖",
-        "学园交流会":"学园交流会",
-        "战术大赛":"战术大赛/竞技场",
-        "困难关卡":"困难关卡",
-        "活动关卡":"活动关卡",
-        "每日任务":"每日任务",
-        "邮件":"邮件",
-        "普通关卡":"普通关卡",
+        "登录游戏":config.get_text("task_login_game"),
+        "清momotalk":config.get_text("task_clear_momotalk"),
+        "咖啡馆":config.get_text("task_cafe"),
+        "咖啡馆只摸头":config.get_text("task_cafe_only_touch"),
+        "课程表":config.get_text("task_timetable"),
+        "社团":config.get_text("task_club"),
+        "商店":config.get_text("task_shop"),
+        "悬赏通缉":config.get_text("task_wanted"),
+        "特殊任务":config.get_text("task_special"),
+        "学园交流会":config.get_text("task_exchange"),
+        "战术大赛":config.get_text("task_contest"),
+        "困难关卡":config.get_text("task_hard"),
+        "活动关卡":config.get_text("task_event"),
+        "每日任务":config.get_text("task_daily"),
+        "邮件":config.get_text("task_mail"),
+        "普通关卡":config.get_text("task_normal"),
     }
 
     # =============================================
@@ -58,20 +55,20 @@ def show_GUI(load_jsonname):
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
         with ui.column().style('width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 20px;'):
             with ui.card():
-                ui.link('模拟器配置', '#EMULATOR')
-                ui.link('服务器配置', '#SERVER')
-                ui.link('任务执行顺序', '#TASK_ORDER')
-                ui.link('后续配置文件', '#NEXT_CONFIG')
-                ui.link('咖啡馆', '#CAFE')
-                ui.link('课程表/日程', '#COURSE_TABLE')
-                ui.link('商店', '#SHOP_NORMAL')
-                ui.link('悬赏通缉/指名手配', '#WANTED')
-                ui.link('特殊任务/委托/依赖', '#SPECIAL_TASK')
-                ui.link('学园交流会', '#EXCHANGE')
-                ui.link('活动关卡', '#ACTIVITY')
-                ui.link('困难关卡', '#HARD')
-                ui.link('普通关卡', '#NORMAL')
-                ui.link('其他设置', '#TOOL_PATH')
+                ui.link(config.get_text("setting_emulator"), '#EMULATOR')
+                ui.link(config.get_text("setting_server"), '#SERVER')
+                ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
+                ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
+                ui.link(config.get_text("task_cafe"), '#CAFE')
+                ui.link(config.get_text("task_timetable"), '#TIME_TABLE')
+                ui.link(config.get_text("task_shop"), '#SHOP_NORMAL')
+                ui.link(config.get_text("task_wanted"), '#WANTED')
+                ui.link(config.get_text("task_special"), '#SPECIAL_TASK')
+                ui.link(config.get_text("task_exchange"), '#EXCHANGE')
+                ui.link(config.get_text("task_event"), '#ACTIVITY')
+                ui.link(config.get_text("task_hard"), '#HARD')
+                ui.link(config.get_text("task_normal"), '#NORMAL')
+                ui.link(config.get_text("setting_other"), '#TOOL_PATH')
 
 
         with ui.column().style('flex-grow: 4;'):
@@ -117,16 +114,16 @@ def show_GUI(load_jsonname):
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             def save_and_alert():
                 config.save_user_config(load_jsonname)
-                ui.notify("保存成功")
-            ui.button('保存配置', on_click=save_and_alert)
+                ui.notify(config.get_text("notice_save_success"))
+            ui.button(config.get_text("button_save"), on_click=save_and_alert)
 
             def save_and_alert_and_run():
                 config.save_user_config(load_jsonname)
-                ui.notify("保存成功")
-                ui.notify("开始执行")
+                ui.notify(config.get_text("notice_save_success"))
+                ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
-                os.system(f"start BAAH{MyConfigger.NOWVERSION}.exe {load_jsonname}")
-            ui.button('保存并执行此配置', on_click=save_and_alert_and_run)
+                os.system(f"start BAAH{config.NOWVERSION}.exe {load_jsonname}")
+            ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run)
         
     # 加载完毕保存一下config，让新建的config文件有默认值
     config.save_user_config(load_jsonname)
