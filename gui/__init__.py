@@ -1,5 +1,8 @@
-from nicegui import ui
+from nicegui import ui, run
+import requests
+
 import os
+from gui.pages.Setting_BAAH import set_BAAH
 from gui.pages.Setting_cafe import set_cafe
 from gui.pages.Setting_emulator import set_emulator
 from gui.pages.Setting_event import set_event
@@ -18,25 +21,6 @@ from gui.pages.Setting_wanted import set_wanted
 def show_GUI(load_jsonname, config):
         
     config.parse_user_config(load_jsonname)
-    
-    with ui.row():
-        ui.label("Blue Archive Aris Helper").style('font-size: xx-large')
-    
-    def select_language(value):
-        config.softwareconfigdict["LANGUAGE"] = value
-        config.save_software_config()
-        if value == "zh_CN":
-            ui.notify("语言已切换为中文，重启生效")
-        else:
-            ui.notify("Language has been changed to English, restart to take effect")
-    
-    ui.toggle({"zh_CN":"中文", "en_US":"English"}, value=config.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value))
-    
-    ui.label(config.get_text("BAAH_desc"))
-
-    ui.label(config.get_text("BAAH_get_version"))
-    
-    ui.label(config.get_text("BAAH_attention")).style('color: red; font-size: x-large')
 
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
@@ -63,8 +47,9 @@ def show_GUI(load_jsonname, config):
     # =============================================
 
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
-        with ui.column().style('width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 20px;'):
+        with ui.column().style('min-width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 0px;'):
             with ui.card():
+                ui.link("BAAH", '#BAAH')
                 ui.link(config.get_text("setting_emulator"), '#EMULATOR')
                 ui.link(config.get_text("setting_server"), '#SERVER')
                 ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
@@ -82,6 +67,9 @@ def show_GUI(load_jsonname, config):
 
 
         with ui.column().style('flex-grow: 4;'):
+            
+            set_BAAH(config)
+            
             # 模拟器配置
             set_emulator(config)
             
@@ -120,8 +108,9 @@ def show_GUI(load_jsonname, config):
             
             # 其他设置
             set_other(config)
-            
+        
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
+            
             def save_and_alert():
                 config.save_user_config(load_jsonname)
                 config.save_software_config()

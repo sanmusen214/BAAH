@@ -2,27 +2,27 @@
     "task_login_game": "Login Game",
     "task_clear_momotalk": "Clear Momotalk",
     "task_cafe": "Cafe",
-    "task_cafe_only_touch": "Cafe Head Pat Only",
-    "task_timetable": "Timetable / Schedule",
+    "task_cafe_only_touch": "Cafe Head Touch Only",
+    "task_timetable": "Lesson",
     "task_club": "Club",
     "task_shop": "Shop",
-    "task_wanted": "Wanted / Wanted Notice",
-    "task_special": "Special Task / Commission / Dependence",
-    "task_exchange": "School Exchange Meeting",
-    "task_contest": "Tactical Contest / Arena",
-    "task_hard": "Hard Level",
-    "task_event": "Event Level",
-    "task_normal": "Normal Level",
+    "task_wanted": "Bounty",
+    "task_special": "Commissions",
+    "task_exchange": "Scrimm",
+    "task_contest": "Tactical Challenge/pvp",
+    "task_hard": "Hard Stage",
+    "task_event": "Event Stage",
+    "task_normal": "Normal Stage",
     "task_daily": "Claim Daily Task",
     "task_mail": "Claim Mail",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",
     "setting_task_order": "Task Execution Order",
-    "setting_next_config": "Subsequent Configuration File",
+    "setting_next_config": "Next Configuration File",
     "setting_other": "Other Settings",
 
-    "BAAH_desc": "BAAH can help you complete the daily tasks of Blue Archive / Azure Archive in the Japanese server, International server, Chinese official server, Chinese B server. QQ group: 441069156",
+    "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. QQ group: 441069156",
     "BAAH_get_version": "To get the latest version, download from Github or join the group to download",
     "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI!",
 
@@ -41,42 +41,55 @@
     "button_add": "Add",
     "button_delete": "Delete",
 
-    "config_cafe_attention": "In the Chinese server, the cafe's perspective cannot be inherited, please uncheck the following item; for the International/Japanese server, please zoom the camera to the highest and keep the following item checked",
+    "config_cafe_attention": "In CN server, the cafe's perspective cannot be inherited, please uncheck the following item; for the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
     "config_emulator_path": "Emulator Path",
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",
     "config_nth": "The",
     "config_day": "Day",
-    "config_level": "Level",
+    "config_level": "Stage",
     "config_times": "Times",
-    "config_desc_list_edit": "There are 30 days in a month. If you define what to brush each day for 30 days, then different things will be brushed every day. If defined for 3 days, then every three days will cycle according to this. If only 1 day is defined, then every day will brush according to that.",
+    "config_desc_list_edit": "There are 30 days in a month. If you set what to do each day for 30 days, then different combinations will be raid every day. If set for 3 days, then the cycle will be every three days according to the plan. If only 1 day is set, then do the same raid everyday according to that.",
     "config_academy": "Academy",
     "config_location": "Location",
     "config_room": "Room",
-    "config_desc_timetable": "The 'Location' refers to the different tabs on the right side of the Timetable/Schedule (e.g., Shalay Office, Shalay Residential Area, etc.). The 'Room' refers to the rooms in each academy in the Timetable/Schedule, counted from left to right and top to bottom, numbered from 1 to 9. If a room is not set to be clicked in a certain area, that area will be skipped.",
+    "config_desc_timetable": "The 'Location' refers to the different tabs on the right side of the Lesson (e.g., Schale Office, Schale Residence Hall, etc.). The 'Room' refers to the rooms in each academy in the Lesson, counted from left to right and top to bottom, numbered from 1 to 9. If a room is not set to be clicked in a certain area, that area will be skipped.",
     "config_shop_normal": "Normal Shop",
-    "config_shop_contest": "Arena Shop",
+    "config_shop_contest": "Tacticial Challenge Shop",
     "config_refresh": "Refresh",
     "config_row": "Row",
     "config_column": "Column",
     "config_desc_shop_edit": "The row number refers to the row of the right-hand side items in the normal shop, and the column refers to the four items from left to right in that row. If you don't want to buy items in a certain row, just leave that row empty.",
     "config_task": "Task",
     "config_desc_next_config": "If you want to execute other configuration files after completing the current one, you can add them here. If not needed, it can be left blank",
-    "config_next_config": "Subsequent Configuration File",
-    "config_warn_change": "Note: The following settings are not recommended to change unless you know what you are doing",
-    "config_wait_time_after_click": "Wait Time After Clicking",
+    "config_next_config": "Next Configuration File",
+    "config_warn_change": "Note: The following settings are NOT recommended to change unless you know what you are doing",
+    "config_wait_time_after_click": "Waiting Time After Clicking",
     "config_desc_response_y": "If sliding too far, adjust this item smaller 60->40, if not far enough adjust larger 40->60",
     "config_response_y": "Sliding Trigger Distance",
-    "config_bind_response_to_server": "Bind to Server Region (Chinese official server 60, others 40)",
+    "config_bind_response_to_server": "Bind to Server Region (CN official server 60, others 40)",
     "config_ip_root": "Emulator Listening IP Address (This item does not include the port number)",
     "config_adb_path": "ADB Path",
     "config_screenshot_name": "Screenshot File Name",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
-    "config_server_cn_b": "Chinese B Server",
-    "config_server_global": "International Server",
+    "config_server_cn_b": "Chinese Bilibili Server",
+    "config_server_global": "Global Server",
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     "status_finish": "All Tasks Completed"
 }
