@@ -1,4 +1,6 @@
 import sys
+import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]
@@ -27,9 +29,6 @@ from modules.AllPage.Page import Page
 drawing = False  # 检查是否正在绘制
 start_x, start_y = -1, -1
 def main():
-    # connect_to_device()
-    # screen_shot_to_file()
-
     # 读取透明度层
     screenshot = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
     # 平均最大最小bgr
@@ -63,104 +62,15 @@ def main():
             cv2.imwrite("./selected_region.png", selected_region)
             print("选定区域已被保存为 'selected_region.png'")
 
-    # cv2.circle(screenshot, (643, 518), 10, (0, 0, 255), -1)
-
     cv2.imshow('Matched Screenshot', screenshot)
     cv2.setMouseCallback("Matched Screenshot", mouse_callback_s)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    # match_pattern("./screenshot.png", "./selected_region.png", show_result=True)
-
-def multi_match(patternurl):
-    """
-    连续匹配
-    """
-    matchhis=[]
-    for i in range(10):
-        screen_shot_to_file()
-        res = match_pattern("./screenshot.png", patternurl, show_result=True)
-        matchhis.append(res)
-    times = [each[0] for each in matchhis]
-    print("匹配成功次数: ", times.count(True), "匹配失败次数: ", times.count(False))
-    thresholds = [each[2] for each in matchhis]
-    print("平均可信度: ", np.mean(thresholds))
-    print("最大可信度: ", np.max(thresholds))
-    print("最小可信度: ", np.min(thresholds))
-
-# 创建一个自定义的 logging.Handler
-class GUISupport(logging.Handler):
-    def __init__(self, textbox):
-        logging.Handler.__init__(self)
-        self.textbox = textbox
-
-    def emit(self, record):
-        msg = self.format(record)
-        self.textbox.print(msg)
-
-
-def send_event(device, type, code, value):
-    cmd = f"adb shell sendevent {device} {type} {code} {value}"
-    os.system(cmd)
-
-def touch_move(device, x, y):
-    send_event(device, 3, 53, x)  # ABS_MT_POSITION_X
-    send_event(device, 3, 54, y)  # ABS_MT_POSITION_Y
-    send_event(device, 0, 2, 0)   # SYN_MT_REPORT
-    send_event(device, 0, 0, 0)   # SYN_REPORT
-
-def touch_down(device, x, y):
-    send_event(device, 3, 57, 1)  # ABS_MT_TRACKING_ID, start of a contact
-    touch_move(device, x, y)
-
-def touch_up(device):
-    send_event(device, 3, 57, -1) # ABS_MT_TRACKING_ID, end of a contact
-    send_event(device, 0, 2, 0)   # SYN_MT_REPORT
-    send_event(device, 0, 0, 0)   # SYN_REPORT
-
-def pinch_zoom(device, x1_start, y1_start, x2_start, y2_start, x1_end, y1_end, x2_end, y2_end, steps=10):
-    """
-    Perform a pinch zoom gesture.
-    
-    :param device: Device path (e.g., '/dev/input/event1')
-    :param x1_start, y1_start: Starting coordinates for the first touch point
-    :param x2_start, y2_start: Starting coordinates for the second touch point
-    :param x1_end, y1_end: Ending coordinates for the first touch point
-    :param x2_end, y2_end: Ending coordinates for the second touch point
-    :param steps: Number of steps for the zoom gesture
-    """
-    # Touch down both points
-    touch_down(device, x1_start, y1_start)
-    touch_down(device, x2_start, y2_start)
-    time.sleep(0.1)
-
-    # Perform the zoom gesture
-    x1_step = (x1_end - x1_start) / steps
-    y1_step = (y1_end - y1_start) / steps
-    x2_step = (x2_end - x2_start) / steps
-    y2_step = (y2_end - y2_start) / steps
-
-    for _ in range(steps):
-        x1_start += x1_step
-        y1_start += y1_step
-        x2_start += x2_step
-        y2_start += y2_step
-        touch_move(device, x1_start, y1_start)
-        touch_move(device, x2_start, y2_start)
-        time.sleep(0.1)
-
-    # Touch up both points
-    touch_up(device)
-    touch_up(device)
-
-# 使用示例
-# device = "/dev/input/event1"
-# pinch_zoom(device, 100, 400, 200, 400, 50, 400, 250, 400)
-
-
 if __name__=="__main__":
-    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+    print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
+    
     # try:
     #     if not check_connect():
     #         print("请手动打开模拟器，adb连接失败，可能config.json端口配置有误")
@@ -182,14 +92,14 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     connect_to_device()
-    screenshot()
+    # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_WANTED_SUB),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_WANTED_SUB),  show_result=True, auto_rotate_if_trans=True)
 
     # 比划点
     # main()

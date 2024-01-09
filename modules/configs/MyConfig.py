@@ -8,15 +8,17 @@ class MyConfigger:
     """
     维护一个config字典，同时将config.json的配置项作为实例属性
     """
-    NOWVERSION="1.1.13"
+    NOWVERSION="1.2.0"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
+    LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
     # 读取config这个py里面的配置
     def __init__(self):
+        self.current_dir = os.getcwd()
         # 软件的config
         self.softwareconfigdict = {}
         # 软件的语言包
-        self.languageconfigdict = {}
+        self.languagepackagedict = {}
         # 一次区服任务的config
         self.userconfigdict = {}
         # 一次区服任务运行的session
@@ -29,31 +31,36 @@ class MyConfigger:
         读取config文件并解析
         同时会清空sessiondict
         """
-        # 绝对路径
-        current_dir = os.getcwd()
-        file_path = os.path.join(current_dir, self.USER_CONFIG_FOLDER, file_name)
+        file_path = os.path.join(self.current_dir, self.USER_CONFIG_FOLDER, file_name)
         # 字典新值
         self.userconfigdict = self._read_config_file(file_path)
         self.sessiondict = {}
-        
-        logging.debug("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
         # 检查缺失的配置
         self._check_user_config()
+        logging.debug("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
     
     def parse_software_config(self, file_name):
         """
         读取config文件并解析，
         同时加载语言包
         """
-        # 绝对路径
-        current_dir = os.getcwd()
-        file_path = os.path.join(current_dir, self.SOFTWARE_CONFIG_FOLDER, file_name)
+        file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, file_name)
         # 字典新值
         self.softwareconfigdict = self._read_config_file(file_path)
-        logging.debug("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
         # 检查缺失的配置
         self._check_software_config()
+        logging.debug("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
         # 加载语言包
+        self.parse_language_package(self.softwareconfigdict["LANGUAGE"]+".json")
+    
+    def parse_language_package(self, file_name):
+        """
+        读取语言包文件并解析
+        """
+        file_path = os.path.join(self.current_dir, self.LANGUAGE_PACKAGE_FOLDER, file_name)
+        # 字典新值
+        self.languagepackagedict = self._read_config_file(file_path)
+        logging.debug("language package字典内容: "+ ",".join([k for k in self.languagepackagedict]))
 
     def _read_config_file(self, file_path):
         """
@@ -79,11 +86,14 @@ class MyConfigger:
             if fromkey in selfmap:
                 # 能用对应关系就用对应关系
                 selfmap[key] = mapfunc(selfmap[fromkey])
+                logging.warn("缺少{}配置，根据{}配置自动填充为{}".format(key, fromkey, selfmap[key]))
             else:
                 # 对应关系的键不在，那就只能用默认值
+                logging.warn("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
                 selfmap[key] = defaultmap[key]["d"]
         else:
             # 没有对应关系就只能默认值
+            logging.warn("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
             selfmap[key] = defaultmap[key]["d"]
 
     def _check_user_config(self):
@@ -116,7 +126,8 @@ class MyConfigger:
             if shouldKey not in self.softwareconfigdict:
                 self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
 
-    def save_config(self, file_path):
+    def save_user_config(self, file_name):
+        file_path = os.path.join(self.current_dir, self.USER_CONFIG_FOLDER, file_name)
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.userconfigdict, f, indent=4, ensure_ascii=False)
 

@@ -3,22 +3,23 @@ if __name__ in {"__main__", "__mp_main__"}:
         import os
         import requests
         import sys
+        from modules.configs.MyConfig import MyConfigger
         # 是否以网页形式运行
         isweb=False
         if len(sys.argv) > 1:
             isweb = sys.argv[1] == "web"
-        # 获取到当前文件夹下以json为后缀的文件
+        # 获取到user config文件夹下以json为后缀的文件
         def get_json_list():
-            return [i for i in os.listdir() if i.endswith(".json")]
+            return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
 
         # 如果没有config.json文件，则创建一个
-        if not os.path.exists("config.json"):
-            with open("config.json", "w") as f:
+        if not os.path.exists(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json")):
+            with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json"), "w") as f:
                 f.write("{}")
         # 维护当前正在看的json文件名字
         now_json_name = {"name":"config.json"}
 
-        from gui import show_GUI, MyConfigger
+        from gui import show_GUI
         from nicegui import native, ui, run
 
         # 检查更新

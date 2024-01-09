@@ -1,0 +1,24 @@
+{
+    "task_login_game":"登录游戏",
+    "task_clear momotalk":"清momotalk",
+    "task_cafe":"咖啡馆",
+    "task_cafe_only_touch":"咖啡馆只摸头",
+    "task_timetable":"课程表/日程",
+    "task_club":"社团",
+    "task_shop":"商店",
+    "task_wanted":"悬赏通缉/指名手配",
+    "task_special":"特殊任务/委托/依赖",
+    "task_exchange":"学园交流会",
+    "task_contest":"战术大赛/竞技场",
+    "task_hard":"困难关卡",
+    "task_event":"活动关卡",
+    "task_normal":"普通关卡",
+    "task_daily":"领取每日任务",
+    "task_mail":"领取邮件",
+
+    "setting_emulator":"模拟器配置",
+    "setting_server":"服务器配置",
+    "setting_task_order":"任务执行顺序",
+    "setting_next_config":"后续配置文件",
+    "setting_other":"其他设置"
+}
