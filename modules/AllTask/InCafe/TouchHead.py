@@ -7,7 +7,7 @@ from modules.configs.MyConfig import config
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, match_pixel
 
 class TouchHead(Task):
     def __init__(self, name="TouchHead") -> None:
@@ -22,7 +22,7 @@ class TouchHead(Task):
         click(Page.MAGICPOINT)
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_CAFE),
+            lambda: Page.is_page(PageName.PAGE_CAFE) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
         )
         canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True, rotate_trans=True)
         if(canmatchRes[0]):
@@ -80,7 +80,7 @@ class TouchHead(Task):
                     # 清除可能的好感度弹窗
                     self.run_until(
                         lambda: click(Page.MAGICPOINT),
-                        lambda: Page.is_page(PageName.PAGE_CAFE),
+                        lambda: Page.is_page(PageName.PAGE_CAFE) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
                     )
                     screenshot()
                     if (match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95, rotate_trans=True)):
@@ -93,7 +93,7 @@ class TouchHead(Task):
                 # 变换视角前再次确认关闭弹窗回到咖啡厅页面
                 self.run_until(
                     lambda: click(Page.MAGICPOINT),
-                    lambda: Page.is_page(PageName.PAGE_CAFE),
+                    lambda: Page.is_page(PageName.PAGE_CAFE) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
                 )
                 logging.info("变换视角")
                 for func in movefuncs:

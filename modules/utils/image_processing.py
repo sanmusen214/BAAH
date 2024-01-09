@@ -104,7 +104,7 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     threshold = resstring[1]
     return [string_word, threshold]
     
-def match_pixel_color(imageurl, x, y, low_range, high_range):
+def match_pixel_color_range(imageurl, x, y, low_range, high_range):
     """
     match whether the color at that location is between the range
     

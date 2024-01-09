@@ -141,7 +141,7 @@ def match_pixel(xy, color):
         color: Page.COLOR_*
         axis is in image form
     """
-    return match_pixel_color(f"./{get_config_screenshot_name()}", xy[0], xy[1], color[0], color[1])
+    return match_pixel_color_range(f"./{get_config_screenshot_name()}", xy[0], xy[1], color[0], color[1])
 
 def page_pic(picname):
     """
