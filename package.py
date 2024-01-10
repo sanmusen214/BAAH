@@ -33,17 +33,19 @@ def package_create_folder(path):
     except Exception as e:
         print(f"{path}创建时出错!")
 
+def package_remove_file(path):
+    try:
+        os.remove(path)
+    except Exception as e:
+        print(f"{path}删除时出错!")
 
 
 # ====================开始====================
-# 清空dist文件夹
-try:
-    shutil.rmtree('./dist')
-    print("dist文件夹已删除")
-except FileNotFoundError as e:
-    print("dist文件夹不存在!跳过删除")
 
 config_version = config.NOWVERSION
+
+package_remove_file(f"./dist/BAAH{config_version}.zip")
+package_remove_file(f"./dist/BAAH{config_version}_update.zip")
 
 # 打包main.py，名字为BAAH
 baahcmd = [
@@ -51,6 +53,7 @@ baahcmd = [
     'main.py',
     '-n', 'BAAH',
     '--icon', 'assets/kei.ico',
+    '-y'
 ]
 subprocess.call(baahcmd)
 
@@ -61,6 +64,7 @@ guicmd = [
     # '--windowed', # prevent console appearing, only use with ui.run(native=True, ...)
     '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui',
     '--icon', 'assets/aris.ico',
+    '-y'
 ]
 subprocess.call(guicmd)
 
@@ -83,7 +87,7 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor',
 
 package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
 package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
-package_copyfolder("./DATA/i8n", "./dist/BAAH/DATA/i18n")
+package_copyfolder("./DATA/i18n", "./dist/BAAH/DATA/i18n")
 package_create_folder("./dist/BAAH/DATA/CONFIGS")
 package_create_folder("./dist/BAAH/BAAH_CONFIGS")
 package_copyfolder("./assets", "./dist/BAAH/assets")

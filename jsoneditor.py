@@ -16,13 +16,10 @@ if __name__ in {"__main__", "__mp_main__"}:
         if not os.path.exists(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json")):
             with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json"), "w") as f:
                 f.write("{}")
-        # 维护当前正在看的json文件名字
-        now_json_name = {"name":"config.json"}
 
         from gui import show_GUI
         from nicegui import native, ui, run
 
-        
         alljson_list = get_json_list()
         alljson_tab_list = [None for i in alljson_list]
         
