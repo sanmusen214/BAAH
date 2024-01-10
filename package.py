@@ -118,6 +118,8 @@ z = zipfile.ZipFile(f'./dist/BAAH{config_version}.zip', 'w', zipfile.ZIP_DEFLATE
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
+        if "config.json" in filename:
+            continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
 print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
@@ -129,7 +131,7 @@ for dirpath, dirnames, filenames in os.walk(startdir):
     if "_internal" in dirpath or "tools" in dirpath:
         continue
     for filename in filenames:
-        if "重启adb服务" in filename:
+        if "config.json" in filename:
             continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
