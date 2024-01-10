@@ -113,12 +113,11 @@ for dirpath, dirnames, filenames in os.walk(startdir):
 
 print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
 
-# 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
+# 压缩./dist/BAAH文件夹(除了_internal, tools, BAAH_CONFIGS)为BAAH_update.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
-    # 去除./dist/BAAH/_internal, tools
-    if "_internal" in dirpath or "tools" in dirpath:
+    if "_internal" in dirpath or "tools" in dirpath or "BAAH_CONFIGS" in dirpath:
         continue
     for filename in filenames:
         if "重启adb服务" in filename:
