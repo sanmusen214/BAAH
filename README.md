@@ -1,7 +1,6 @@
-# Blue_Archive_ArisHelper碧蓝档案爱丽丝助手(BAAH)
+# 碧蓝档案爱丽丝助手(BAAH)
 
 <div style="display:flex;justify-content:space-around"><img src="./assets/aris.png" style="width:48%"/><img src="./assets/kei.png" style="width:48%"/></div>
-
 
 ---
 
@@ -9,7 +8,7 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 
 BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ver.) in Android Emulator.
 
-[English Document is on the way, but it is a complex work to turn displayed text and suit language in BA to English. For those sensei who use English as their main language may need to wait Christmas holiday]
+[English Document is done](./docs/README_en.md)
 
 灵感来自以下项目:
 
@@ -113,10 +112,6 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 5. 执行`pip install -r requirements.txt` 安装所需依赖
 6. 执行`python jsoneditor.py` 运行GUI
 7. 执行`python main.py config.json`按照config.json配置开始执行BAAH
-
-# 每日任务配置项目
-
-[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
 
 # 打包
 
