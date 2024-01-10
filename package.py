@@ -96,6 +96,7 @@ package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
 package_copyfolder("./assets", "./dist/BAAH/assets")
 package_copyfolder("./assets_jp", "./dist/BAAH/assets_jp")
 package_copyfolder("./assets_cn", "./dist/BAAH/assets_cn")
+package_copyfolder("./assets_global_en", "./dist/BAAH/assets_global_en")
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
 
 package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")

@@ -23,7 +23,7 @@ class InClub(Task):
         self.run_until(
             lambda: click((563, 665)),
             lambda: Page.is_page(PageName.PAGE_CLUB),
-            sleeptime=4
+            sleeptime=2
         )
         self.run_until(
             lambda: self.back_to_home(),

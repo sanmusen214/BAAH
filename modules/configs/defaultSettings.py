@@ -24,7 +24,7 @@ defaultUserDict = {
     # new config in 1.2.x
     "SERVER_TYPE":{
         "d":"GLOBAL",
-        "s":["GLOBAL", "JP", "CN", "CN_BILI"],
+        "s":["GLOBAL", "GLOBAL_EN", "JP", "CN", "CN_BILI"],
         "m": {
             "from": "ACTIVITY_PATH",
             "map": lambda x: activity2server[x]

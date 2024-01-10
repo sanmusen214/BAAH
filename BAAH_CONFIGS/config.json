@@ -1,5 +1,5 @@
 {
-    "SERVER_TYPE": "GLOBAL",
+    "SERVER_TYPE": "GLOBAL_EN",
     "TIMETABLE_TASK": [],
     "WANTED_HIGHEST_LEVEL": [],
     "SPECIAL_HIGHTEST_LEVEL": [],
@@ -38,7 +38,7 @@
         true
     ],
     "TARGET_EMULATOR_PATH": "",
-    "PIC_PATH": "./assets",
+    "PIC_PATH": "./assets_global_en",
     "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "NEXT_CONFIG": "",
     "ADB_PATH": "./tools/adb/adb.exe",

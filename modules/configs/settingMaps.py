@@ -5,12 +5,14 @@ import hashlib
 server2pic = {
     "JP":"./assets_jp",
     "GLOBAL":"./assets",
+    "GLOBAL_EN":"./assets_global_en",
     "CN":"./assets_cn",
     "CN_BILI":"./assets_cn"
 }
 
 server2activity = {
     "JP":"com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
+    "GLOBAL_EN":"com.nexon.bluearchive/.MxUnityPlayerActivity",
     "GLOBAL":"com.nexon.bluearchive/.MxUnityPlayerActivity",
     "CN":"com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity",
     "CN_BILI":"com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
@@ -22,6 +24,7 @@ activity2server = {v:k for k,v in server2activity.items()}
 server2respond = {
     "JP":40,
     "GLOBAL":40,
+    "GLOBAL_EN":40,
     "CN":60,
     "CN_BILI":40
 }

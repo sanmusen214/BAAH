@@ -9,6 +9,7 @@ def set_server(config):
     server = ui.radio({
         "JP":config.get_text("config_server_jp"), 
         "GLOBAL":config.get_text("config_server_global"), 
+        "GLOBAL_EN":config.get_text("config_server_global_en"),
         "CN":config.get_text("config_server_cn"),
         "CN_BILI":config.get_text("config_server_cn_b")},
                       value=config.userconfigdict['SERVER_TYPE'], on_change=lambda a:set_server_info(a.value)).props('inline')

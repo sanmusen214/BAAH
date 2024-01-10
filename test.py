@@ -69,7 +69,7 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__=="__main__":
-    print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
+    # print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
     
     # try:
     #     if not check_connect():
@@ -91,7 +91,7 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    connect_to_device()
+    # connect_to_device()
     # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
@@ -99,7 +99,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_WANTED_SUB),  show_result=True, auto_rotate_if_trans=True)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./assets_global_en/POPUP/POPUP_TASK_INFO.png",  show_result=True, auto_rotate_if_trans=False)
 
     # 比划点
     # main()

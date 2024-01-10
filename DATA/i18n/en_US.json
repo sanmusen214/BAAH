@@ -76,7 +76,8 @@
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
     "config_server_cn_b": "Chinese Bilibili Server",
-    "config_server_global": "Global Server",
+    "config_server_global": "Global Server(Chinese)",
+    "config_server_global_en" : "Global Server (English)",
 
 
 
