@@ -37,7 +37,8 @@ defaultUserDict = {
         "s":[
             "./DATA/assets",
             "./DATA/assets_cn",
-            "./DATA/assets_jp"
+            "./DATA/assets_jp",
+            "./DATA/assets_global_en"
         ],
         "m":{
             "from" : "SERVER_TYPE",
