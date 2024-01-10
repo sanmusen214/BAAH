@@ -22,9 +22,9 @@ import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.InCafe.TouchHead import TouchHead
 from modules.utils import *
-from assets.ButtonName import ButtonName
-from assets.PageName import PageName
-from assets.PopupName import PopupName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PageName import PageName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllTask import *
 from modules.AllTask.InCafe.CollectPower import CollectPower
@@ -112,7 +112,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./assets_global_en/POPUP/POPUP_TASK_INFO.png",  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/POPUP/POPUP_TASK_INFO.png",  show_result=True, auto_rotate_if_trans=False)
 
     # 比划点
     # main()

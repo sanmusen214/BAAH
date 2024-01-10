@@ -191,11 +191,11 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./assets",
+    "PIC_PATH": "./DATA/assets",
     "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
-    "SCREENSHOT_NAME": "3724dc05.png",
+    "SCREENSHOT_NAME": "e2419474.png",
     "RESPOND_Y": 40,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",

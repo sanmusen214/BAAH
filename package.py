@@ -58,7 +58,7 @@ baahcmd = [
     'pyinstaller',
     'main.py',
     '-n', 'BAAH',
-    '--icon', 'assets/kei.ico',
+    '--icon', './DATA/assets/kei.ico',
     '-y'
 ]
 subprocess.call(baahcmd)
@@ -69,7 +69,7 @@ guicmd = [
     'jsoneditor.py',
     # '--windowed', # prevent console appearing, only use with ui.run(native=True, ...)
     '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui',
-    '--icon', 'assets/aris.ico',
+    '--icon', './DATA/assets/aris.ico',
     '-y'
 ]
 subprocess.call(guicmd)
@@ -101,10 +101,10 @@ package_copyfile("./LICENSE", "./dist/BAAH/DATA/CONFIGS/LICENSE")
 
 package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
 
-package_copyfolder("./assets", "./dist/BAAH/assets")
-package_copyfolder("./assets_jp", "./dist/BAAH/assets_jp")
-package_copyfolder("./assets_cn", "./dist/BAAH/assets_cn")
-package_copyfolder("./assets_global_en", "./dist/BAAH/assets_global_en")
+package_copyfolder("./DATA/assets", "./dist/BAAH/DATA/assets")
+package_copyfolder("./DATA/assets_jp", "./dist/BAAH/DATA/assets_jp")
+package_copyfolder("./DATA/assets_cn", "./dist/BAAH/DATA/assets_cn")
+package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en")
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
 
 # package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")

@@ -1,0 +1,33 @@
+{
+    "SERVER_TYPE": "GLOBAL",
+    "TIMETABLE_TASK": [],
+    "WANTED_HIGHEST_LEVEL": [],
+    "SPECIAL_HIGHTEST_LEVEL": [],
+    "EXCHANGE_HIGHEST_LEVEL": [],
+    "EVENT_QUEST_LEVEL": [],
+    "HARD": [],
+    "NORMAL": [],
+    "TASK_ORDER": [
+        "登录游戏"
+    ],
+    "SHOP_NORMAL": [],
+    "SHOP_CONTEST": [],
+    "TASK_ACTIVATE": [
+        true
+    ],
+    "TARGET_EMULATOR_PATH": "",
+    "CLOSE_EMULATOR": false,
+    "PIC_PATH": "./DATA/assets",
+    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
+    "NEXT_CONFIG": "",
+    "ADB_PATH": "./tools/adb/adb.exe",
+    "SCREENSHOT_NAME": "c5fd3201.png",
+    "TARGET_IP_PATH": "127.0.0.1",
+    "TARGET_PORT": 5555,
+    "TIME_AFTER_CLICK": 0.7,
+    "RESPOND_Y": 40,
+    "SHOP_NORMAL_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 0,
+    "LOCK_SERVER_TO_RESPOND_Y": true,
+    "CAFE_CAMERA_FULL": true
+}

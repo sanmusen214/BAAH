@@ -33,11 +33,11 @@ defaultUserDict = {
     "TARGET_EMULATOR_PATH":{"d":""},
     "CLOSE_EMULATOR":{"d":False},
     "PIC_PATH":{
-        "d":"./assets",
+        "d":"./DATA/assets",
         "s":[
-            "./assets",
-            "./assets_cn",
-            "./assets_jp"
+            "./DATA/assets",
+            "./DATA/assets_cn",
+            "./DATA/assets_jp"
         ],
         "m":{
             "from" : "SERVER_TYPE",

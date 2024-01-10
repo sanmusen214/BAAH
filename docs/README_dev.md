@@ -18,7 +18,7 @@ Task will do the jobs of daily tasks.
 
 A Page is an Activity which means a big background change between two Pages (from MainPage to Cafe, etc), while Popup is the pop up windows in front of these Pages. Button is any clickable buttons (Confirm, Cancel, etc). 
 
-All Page, Popup and Button has their own identity pattern, which is kept in `./assets` folders. Each of this pattern needs to be registered in `./assets/PageName.py`, `./assets/PopupName.py` and `./assets/ButtonName.py`.
+All Page, Popup and Button has their own identity pattern, which is kept in `./DATA/assets` folders. Each of this pattern needs to be registered in `./DATA/assets/PageName.py`, `./DATA/assets/PopupName.py` and `./DATA/assets/ButtonName.py`.
 
 So that we can get the url path of any pattern picture like `urlpath = button_pic(ButtonName.BUTTON_CANCEL)`, this also works for Page and Popup.
 

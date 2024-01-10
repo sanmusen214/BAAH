@@ -2,9 +2,9 @@
 import logging
 import time
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.InSpecial.RunSpecialFight import RunSpecialFight

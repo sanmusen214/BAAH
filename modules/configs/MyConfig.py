@@ -41,6 +41,11 @@ class MyConfigger:
         self._check_user_config()
         # 强制设置截图文件名为配置名
         self.userconfigdict["SCREENSHOT_NAME"] = configname2screenshotname(file_name)
+        # 检查截图文件夹路径里是否有DATA, 如果没有DATA，说明是1.1.x版本的配置，需要转换
+        if "DATA" not in self.userconfigdict["PIC_PATH"]:
+            fromkey = defaultUserDict["PIC_PATH"]["m"]["from"]
+            mapfunc = defaultUserDict["PIC_PATH"]["m"]["map"]
+            self.userconfigdict["PIC_PATH"] = mapfunc(self.userconfigdict[fromkey])
         # 输出
         logging.debug("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
     

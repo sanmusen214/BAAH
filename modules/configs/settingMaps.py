@@ -3,11 +3,11 @@
 import hashlib
 
 server2pic = {
-    "JP":"./assets_jp",
-    "GLOBAL":"./assets",
-    "GLOBAL_EN":"./assets_global_en",
-    "CN":"./assets_cn",
-    "CN_BILI":"./assets_cn"
+    "JP":"./DATA/assets_jp",
+    "GLOBAL":"./DATA/assets",
+    "GLOBAL_EN":"./DATA/assets_global_en",
+    "CN":"./DATA/assets_cn",
+    "CN_BILI":"./DATA/assets_cn"
 }
 
 server2activity = {
