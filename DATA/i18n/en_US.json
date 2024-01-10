@@ -45,6 +45,7 @@
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
     "config_emulator_path": "Emulator Path",
+    "config_close_emulator": "Close Emulator After Execution",
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",
     "config_nth": "The",
     "config_day": "Day",

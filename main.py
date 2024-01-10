@@ -1,9 +1,23 @@
 import sys
 import os
+from time import sleep
 
 # 将当前脚本所在目录添加到模块搜索路径
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
+
+def print_BAAH_start():
+    print("+"+"BAAH".center(80, "="), "+")
+    print("||"+f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ")+"||")
+    print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
+    print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
+    print("||" + "QQ群: 441069156".center(80, " ") + "||")
+    print("||"+"".center(80, " ")+"||")
+    print("+"+"".center(80, "=")+"+")
+
+def print_BAAH_finish():
+    print("\n程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
+    print("https://github.com/sanmusen214/BAAH")
 
 if __name__ in ["__main__", "__mp_main__"]:
     try:
@@ -20,23 +34,17 @@ if __name__ in ["__main__", "__mp_main__"]:
             configname = "config.json"
             logging.info("读取默认config文件: "+configname)
             config.parse_user_config(configname)
+        
+        
         # 打印config信息
         logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
         logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
         logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
 
-        from BAAH import BAAH_main
-        from modules.AllTask.myAllTask import my_AllTask
+        from BAAH import BAAH_main, my_AllTask
         
         # 打印BAAH信息
-        print("+"+"BAAH".center(80, "="), "+")
-        print("||"+f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ")+"||")
-        print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
-        print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
-        print("||" + "QQ群: 441069156".center(80, " ") + "||")
-        print("||"+"".center(80, " ")+"||")
-        print("+"+"".center(80, "=")+"+")
-    
+        print_BAAH_start()
 
         # 不带GUI运行
         # config历史列表
@@ -62,12 +70,13 @@ if __name__ in ["__main__", "__mp_main__"]:
         # 打印完整的错误信息
         import traceback
         traceback.print_exc()
+        input("按回车键继续:")
     try:
         # 运行结束后如果截图文件存在，删除截图文件
         if os.path.exists(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}"):
             os.remove(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}")
     except Exception as e:
         logging.error("删除截图文件失败")
-    print("\n程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
-    print("https://github.com/sanmusen214/BAAH")
-    input("按回车键退出BAAH:")
+    print_BAAH_finish()
+    print("10秒后自动退出BAAH")
+    sleep(10)

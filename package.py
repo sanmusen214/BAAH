@@ -27,6 +27,11 @@ def package_rename(src, dst):
     except Exception as e:
         print(f"{dst}已存在!")
         
+def package_create_folder(path):
+    try:
+        os.mkdir(path)
+    except Exception as e:
+        print(f"{path}创建时出错!")
 
 
 
@@ -66,33 +71,21 @@ workdir = os.getcwd()
 
 print("开始封装")
 
-try:
-    # 拷贝./tools/adb文件夹到./dist/BAAH/tools/adb
-    shutil.copytree('./tools/adb', os.path.join('./dist','BAAH','tools','adb'))
-    print("adb文件夹已拷贝")
-except FileExistsError as e:
-    print("adb文件夹已存在!")
-# 遍历./dist/jsoneditor/_internal里的所有文件夹和文件，将它们拷贝到./dist/BAAH/_internal
+
+# 遍历./dist/jsoneditor/_internal里的所有文件夹和文件，将它们拷贝到./dist/BAAH/_internal，如果已存在则跳过
 for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor', '_internal')):
     for filename in filenames:
-        try:
-            shutil.copyfile(os.path.join(dirpath, filename), os.path.join('./dist', 'BAAH', '_internal', filename))
-            print(f"{filename}已拷贝")
-        except FileExistsError as e:
-            continue
+        package_copyfile(os.path.join(dirpath, filename), os.path.join('./dist/BAAH/_internal', filename))
     for dirname in dirnames:
-        try:
-            shutil.copytree(os.path.join(dirpath, dirname), os.path.join('./dist', 'BAAH', '_internal', dirname))
-            print(f"{dirname}文件夹已拷贝")
-        except FileExistsError as e:
-            continue
+        package_copyfolder(os.path.join(dirpath, dirname), os.path.join('./dist/BAAH/_internal', dirname))
     # 走一层就终止
     break
-print("_internal文件夹已拷贝")
 
+package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
 package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
-package_copyfolder("./DATA", "./dist/BAAH/DATA")
-package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+package_copyfolder("./DATA/i8n", "./dist/BAAH/DATA/i18n")
+package_create_folder("./dist/BAAH/DATA/CONFIGS")
+package_create_folder("./dist/BAAH/BAAH_CONFIGS")
 package_copyfolder("./assets", "./dist/BAAH/assets")
 package_copyfolder("./assets_jp", "./dist/BAAH/assets_jp")
 package_copyfolder("./assets_cn", "./dist/BAAH/assets_cn")
@@ -114,11 +107,11 @@ for dirpath, dirnames, filenames in os.walk(startdir):
 
 print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
 
-# 压缩./dist/BAAH文件夹(除了_internal, tools, BAAH_CONFIGS)为BAAH_update.zip
+# 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
-    if "_internal" in dirpath or "tools" in dirpath or "BAAH_CONFIGS" in dirpath:
+    if "_internal" in dirpath or "tools" in dirpath:
         continue
     for filename in filenames:
         if "重启adb服务" in filename:

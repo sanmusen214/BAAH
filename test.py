@@ -6,6 +6,10 @@ if len(sys.argv) > 1:
     configname = sys.argv[1]
     config = config.parse_user_config(configname)
     print("读取指定的config文件: "+configname)
+else:
+    configname = "config.json"
+    config = config.parse_user_config(configname)
+    print("读取默认config文件: "+configname)
 # 图片截取&标注
 import threading
 import requests
@@ -70,7 +74,16 @@ def main():
 
 if __name__=="__main__":
     # print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
-    
+    print(os.path.basename(config.userconfigdict['TARGET_EMULATOR_PATH']+" --instance pie"))
+    # emulator_instance = subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
+    # print("等待模拟器启动")
+    # for i in range(10):
+    #     time.sleep(1)
+    #     print(".")
+    # print("\n关闭模拟器")
+    # # 关闭模拟器
+    # subprocess_run(["taskkill", "/F", "/IM", "HD-Player.exe"], encoding="gbk")
+    # print("成功关闭")
     # try:
     #     if not check_connect():
     #         print("请手动打开模拟器，adb连接失败，可能config.json端口配置有误")
