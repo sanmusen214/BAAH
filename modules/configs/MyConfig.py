@@ -79,6 +79,11 @@ class MyConfigger:
                 dictconfig = json.load(f)
                 logging.debug("读取{}文件成功, 读取了{}个配置".format(file_path, len(dictconfig)))
                 return dictconfig
+        except FileNotFoundError as e:
+            logging.error(f'文件不存在： {file_path}, 以默认值创建')
+            with open(file_path, 'w', encoding="utf8") as f:
+                json.dump({}, f, indent=4, ensure_ascii=False)
+            return {}
         except Exception as e:
             raise Exception(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)}')
 
