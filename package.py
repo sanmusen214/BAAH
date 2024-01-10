@@ -39,6 +39,11 @@ def package_remove_file(path):
     except Exception as e:
         print(f"{path}删除时出错!")
 
+def package_remove_folder(path):
+    try:
+        shutil.rmtree(path)
+    except Exception as e:
+        print(f"{path}删除时出错!")
 
 # ====================开始====================
 
@@ -46,6 +51,7 @@ config_version = config.NOWVERSION
 
 package_remove_file(f"./dist/BAAH{config_version}.zip")
 package_remove_file(f"./dist/BAAH{config_version}_update.zip")
+package_rename(f"./dist/BAAH{config_version}", f"./dist/BAAH")
 
 # 打包main.py，名字为BAAH
 baahcmd = [
@@ -89,14 +95,16 @@ package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
 package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
 package_copyfolder("./DATA/i18n", "./dist/BAAH/DATA/i18n")
 package_create_folder("./dist/BAAH/DATA/CONFIGS")
-package_create_folder("./dist/BAAH/BAAH_CONFIGS")
+# 将LICENSE挪进去占位, 不放software.config, 防止覆盖掉用户的
+package_copyfile("./LICENSE", "./dist/BAAH/DATA/CONFIGS/LICENSE")
+package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
 package_copyfolder("./assets", "./dist/BAAH/assets")
 package_copyfolder("./assets_jp", "./dist/BAAH/assets_jp")
 package_copyfolder("./assets_cn", "./dist/BAAH/assets_cn")
 package_copyfolder("./assets_global_en", "./dist/BAAH/assets_global_en")
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
 
-package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
+# package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
 package_rename("./dist/BAAH/jsoneditor.exe", f"./dist/BAAH/BAAH GUI{config_version}.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
