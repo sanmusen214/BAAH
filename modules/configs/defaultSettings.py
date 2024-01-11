@@ -1,13 +1,16 @@
 from modules.configs.settingMaps import *
 
 # 用户的脚本config里的默认值以及可选值
-# 如果用户的config里没有某个值，先看能否用settingMaps里映射出来，如果不能，就用这个值代替
+# 如果用户的config里没有某个值，先看能否用settingMaps里映射出来，如果不能，就用默认值代替
+# 注意引用链
 
 # d: default value
 # s: selective value
 # m: map value
+# from: map value的来源key
+# map: map value的映射函数
 
-# selective值作为备用提醒存在，主要的map应当在settingMaps里
+# selective value作为提醒值存在，主要的map映射值应当在settingMaps里
 
 defaultUserDict = {
     "TIMETABLE_TASK": {"d":[]},
@@ -42,12 +45,12 @@ defaultUserDict = {
         ],
         "m":{
             "from" : "SERVER_TYPE",
-             "map" : lambda x: server2pic[x]
+             "map" : lambda x: server2pic[x] if x in server2pic else "./DATA/assets"
         }
     },
     "FANHEXIE":{"d":False},
     "ACTIVITY_PATH":{
-        "d":"",
+        "d":"com.nexon.bluearchive/.MxUnityPlayerActivity",
         "s":[
             "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
             "com.nexon.bluearchive/.MxUnityPlayerActivity",
@@ -56,7 +59,7 @@ defaultUserDict = {
         ],
         "m":{
             "from": "SERVER_TYPE",
-            "map": lambda x: server2activity[x],
+            "map": lambda x: server2activity[x] if x in server2activity else "com.nexon.bluearchive/.MxUnityPlayerActivity",
         }
     },
     "NEXT_CONFIG" : {"d":""},
@@ -71,7 +74,7 @@ defaultUserDict = {
         "d": 40,
         "m":{
             "from": "SERVER_TYPE",
-            "map": lambda x: server2respond[x]
+            "map": lambda x: server2respond[x] if x in server2respond else 40
         }
     },
     "SHOP_NORMAL_REFRESH_TIME":{"d": 0},
