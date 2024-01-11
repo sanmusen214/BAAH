@@ -74,7 +74,9 @@ def main():
 
 if __name__=="__main__":
     # print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
-    print(os.path.basename(config.userconfigdict['TARGET_EMULATOR_PATH']+" --instance pie"))
+    
+    # print(os.path.basename(config.userconfigdict['TARGET_EMULATOR_PATH']+" --instance pie"))
+    
     # emulator_instance = subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
     # print("等待模拟器启动")
     # for i in range(10):
@@ -104,18 +106,18 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    # connect_to_device()
-    # screenshot()
+    connect_to_device()
+    screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/POPUP/POPUP_TASK_INFO.png",  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./selected_region.png",  show_result=True, auto_rotate_if_trans=False)
 
     # 比划点
-    # main()
+    main()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
