@@ -8,19 +8,10 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 
 BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ver.) in Android Emulator.
 
-[English Document is done](./docs/README_en.md)
 
-灵感来自以下项目:
+[[English Document]](./docs/README_en.md) | [中文文档]
 
-1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): 碧蓝档案国际服自动脚本
-2. [MBA](https://github.com/MaaAssistantArknights/MBA): MAA架构的碧蓝档案助手
-3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script): 蔚蓝档案简中服脚本
-
-本项目使用了以下库: 
-
-1. [opencv-python](https://github.com/opencv/opencv): 用于模板匹配
-2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
-3. [nicegui](https://github.com/zauberzeug/nicegui): 用于GUI功能
+---
 
 ## 交流群
 
@@ -35,6 +26,12 @@ QQ: 441069156
 感谢群友 [@LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
 
 感谢群友 [@子墨](https://space.bilibili.com/11179370)整理的国服界面元素的截图
+
+本项目使用了以下库: 
+
+1. [opencv-python](https://github.com/opencv/opencv): 用于模板匹配
+2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
+3. [nicegui](https://github.com/zauberzeug/nicegui): 用于GUI功能
 
 ## 打算开发/已开发完成的自动化任务:
 
@@ -100,7 +97,7 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 ### 通过exe运行
 
-1. 解压压缩包
+1. 下载后解压压缩包
 2. 双击GUI.exe运行
 
 ### 通过本地的python环境运行
@@ -126,6 +123,11 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 项目中使用的与 Blue Archive (碧蓝档案) 相关的任何游戏资产和资源均属于相应作者的财产和版权。
 
+# 类似项目:
+
+1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): 碧蓝档案国际服自动脚本
+2. [MBA](https://github.com/MaaAssistantArknights/MBA): MAA架构的碧蓝档案助手
+3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script): 蔚蓝档案简中服脚本
 
 # 碎碎念
 

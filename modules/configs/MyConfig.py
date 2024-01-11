@@ -5,9 +5,12 @@ import time
 from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict
 from modules.configs.settingMaps import configname2screenshotname
 
+# 程序入口应当先import这个类，然后调用parse_user_config方法解析该config实例
+# 然后程序入口再import其他模块，在其他模块中import这个类，就可以直接使用这个类的实例了
+
 class MyConfigger:
     """
-    维护一个config字典，同时将config.json的配置项作为实例属性
+    维护config字典，包含软件config，用户任务config，语言包
     """
     NOWVERSION="1.2.0"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
@@ -36,6 +39,7 @@ class MyConfigger:
         file_path = os.path.join(self.current_dir, self.USER_CONFIG_FOLDER, file_name)
         # 字典新值
         self.userconfigdict = self._read_config_file(file_path)
+        # 清空sessiondict
         self.sessiondict = {}
         # 检查缺失的配置
         self._check_user_config()
@@ -143,6 +147,9 @@ class MyConfigger:
                 self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
 
     def get_text(self, text_id):
+        """
+        获取语言包对应id的字符串
+        """
         return self.languagepackagedict.get(text_id, f"%{text_id}%")
     
     def save_user_config(self, file_name):

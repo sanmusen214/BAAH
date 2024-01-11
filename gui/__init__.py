@@ -1,3 +1,4 @@
+# 一个用户config的GUI显示
 from nicegui import ui, run
 import requests
 
@@ -126,6 +127,6 @@ def show_GUI(load_jsonname, config):
                 os.system(f"start BAAH.exe {load_jsonname}")
             ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run)
         
-    # 加载完毕保存一下config，让新建的config文件有默认值
+    # 加载完毕保存一下config，应用最新的对config的更改
     config.save_user_config(load_jsonname)
     config.save_software_config()
