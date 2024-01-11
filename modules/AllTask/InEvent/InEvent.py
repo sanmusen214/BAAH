@@ -76,11 +76,14 @@ class InEvent(Task):
         if not Page.is_page(PageName.PAGE_EVENT):
             return False
         # 图片匹配深色的QUEST标签
-        matchres = self.run_until(
+        matchpic = self.run_until(
             lambda: click((965, 98)),
             lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
             times=2
         )
+        # 判断这个活动是否有Quest字样
+        ocrres_str = ocr_area((901, 88), (989, 123))[0]
+        matchres = "quest" in ocrres_str.lower() or "任" in ocrres_str or "务" in ocrres_str or matchpic
         logging.info(f"QUEST按钮匹配结果: {matchres}")
         if not matchres:
             logging.warn("此页面不存在活动Quest")
