@@ -12,21 +12,24 @@ if __name__ in {"__main__", "__mp_main__"}:
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
 
-        # 如果没有config.json文件，则创建一个
-        if not os.path.exists(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json")):
-            with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json"), "w") as f:
-                f.write("{}")
-
         from gui import show_GUI
         from nicegui import native, ui, run
 
         alljson_list = get_json_list()
         alljson_tab_list = [None for i in alljson_list]
         
+        # 如果没有config.json文件且alljson_list长度为0，则创建一个
+        if len(alljson_list)==0 and not os.path.exists(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json")):
+            with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json"), "w") as f:
+                f.write("{}")
+            # 重新构造alljson_list和alljson_tab_list
+            alljson_list = get_json_list()
+            alljson_tab_list = [None for i in alljson_list]
+        
         with ui.tabs().classes('w-full') as tabs:
             for i,jsonname in enumerate(alljson_list):
                 alljson_tab_list[i] = ui.tab(jsonname)
-        with ui.tab_panels(tabs, value="config.json").classes('w-full'):
+        with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
             for i,tab_panel in enumerate(alljson_tab_list):
                 with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
                     show_GUI(alljson_list[i], MyConfigger())
