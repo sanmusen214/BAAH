@@ -45,6 +45,7 @@ defaultUserDict = {
              "map" : lambda x: server2pic[x]
         }
     },
+    "FANHEXIE":{"d":False},
     "ACTIVITY_PATH":{
         "d":"",
         "s":[

@@ -191,7 +191,7 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./DATA/assets",
+    "PIC_PATH": "./DATA/assets_global_en",
     "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
@@ -230,6 +230,7 @@
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "LOCK_SERVER_TO_RESPOND_Y": true,
     "CAFE_CAMERA_FULL": true,
-    "SERVER_TYPE": "GLOBAL",
-    "CLOSE_EMULATOR_BAAH": false
+    "SERVER_TYPE": "GLOBAL_EN",
+    "CLOSE_EMULATOR_BAAH": true,
+    "FANHEXIE": false
 }
