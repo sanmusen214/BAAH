@@ -81,9 +81,13 @@ if __name__ in ["__main__", "__mp_main__"]:
     except Exception as e:
         logging.error("删除截图文件失败")
     
+    print_BAAH_finish()
     # 结束运行，如果用户没有勾选关闭模拟器，等待用户按回车键
     if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
-        print_BAAH_finish()
         input()
+    else:
+        print("10秒后自动关闭")
+        sleep(10)
+        
         
 
