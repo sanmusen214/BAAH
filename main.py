@@ -66,10 +66,6 @@ if __name__ in ["__main__", "__mp_main__"]:
                 my_AllTask.parse_task()
             else:
                 break
-        # 整体运行结束
-        print_BAAH_finish()
-        print("10秒后自动退出BAAH")
-        sleep(10)
     except Exception as e:
         # 打印完整的错误信息
         import traceback
@@ -84,4 +80,10 @@ if __name__ in ["__main__", "__mp_main__"]:
             os.remove(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}")
     except Exception as e:
         logging.error("删除截图文件失败")
+    
+    # 结束运行，如果用户没有勾选关闭模拟器，等待用户按回车键
+    if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+        print_BAAH_finish()
+        input()
+        
 

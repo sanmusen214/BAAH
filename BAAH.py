@@ -56,7 +56,7 @@ def BAAH_open_target_app():
     raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
 def BAAH_kill_emulator():
-    if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR"]:
+    if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
         try:
             # 以列表形式传命令行参数
             full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
@@ -66,7 +66,7 @@ def BAAH_kill_emulator():
         except Exception as e:
             logging.error("关闭模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
     else:
-        logging.info("未配置模拟器路径，跳过关闭模拟器")
+        logging.info("跳过关闭模拟器")
     
 
 def BAAH_main():

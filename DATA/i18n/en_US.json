@@ -22,7 +22,7 @@
     "setting_next_config": "Next Configuration File",
     "setting_other": "Other Settings",
 
-    "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. QQ group: 441069156",
+    "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. All config files are in the BAAH_CONFIGS folder. QQ group: 441069156",
     "BAAH_get_version": "To get the latest version, download from Github or join the group to download",
     "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI!",
 
@@ -45,7 +45,7 @@
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
     "config_emulator_path": "Emulator Path",
-    "config_close_emulator": "Close Emulator After Execution",
+    "config_close_emulator_and_baah": "Close Emulator and BAAH After Execution",
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",
     "config_nth": "The",
     "config_day": "Day",

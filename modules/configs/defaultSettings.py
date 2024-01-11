@@ -31,7 +31,7 @@ defaultUserDict = {
         }
     },
     "TARGET_EMULATOR_PATH":{"d":""},
-    "CLOSE_EMULATOR":{"d":False},
+    "CLOSE_EMULATOR_BAAH":{"d":False},
     "PIC_PATH":{
         "d":"./DATA/assets",
         "s":[

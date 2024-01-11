@@ -22,7 +22,7 @@
     "setting_next_config":"后续配置文件",
     "setting_other":"其他设置",
 
-    "BAAH_desc":"BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务，QQ群：441069156",
+    "BAAH_desc":"BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务。配置文件存放于BAAH_CONFIGS文件夹内。QQ群：441069156",
     "BAAH_get_version":"获取最新版本可以到Github下载，或进群下载",
     "BAAH_attention":"模拟器分辨率请设置为1280*720，240DPI!",
 
@@ -45,7 +45,7 @@
     "config_camera_full":"进入咖啡馆时视角为最高",
     "config_emulator_port":"模拟器端口",
     "config_emulator_path":"模拟器路径",
-    "config_close_emulator": "运行结束后关闭模拟器",
+    "config_close_emulator_and_baah": "运行结束后关闭模拟器和BAAH",
     "config_desc_times":"关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次，-2次即为扫荡max-2次。",
     "config_nth":"第",
     "config_day":"天",

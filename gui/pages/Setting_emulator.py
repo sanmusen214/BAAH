@@ -14,4 +14,4 @@ def set_emulator(config):
         ui.input(config.get_text("config_emulator_path"),
                     ).bind_value(config.userconfigdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')
     
-    ui.checkbox(config.get_text("config_close_emulator")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR')
+    ui.checkbox(config.get_text("config_close_emulator_and_baah")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_BAAH')
