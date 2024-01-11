@@ -27,7 +27,7 @@ defaultUserDict = {
         "s":["GLOBAL", "GLOBAL_EN", "JP", "CN", "CN_BILI"],
         "m": {
             "from": "ACTIVITY_PATH",
-            "map": lambda x: activity2server[x]
+            "map": lambda x: activity2server[x] if x in activity2server else "GLOBAL"
         }
     },
     "TARGET_EMULATOR_PATH":{"d":""},
