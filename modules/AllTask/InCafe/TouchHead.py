@@ -10,6 +10,11 @@ import logging
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, match_pixel
 
 class TouchHead(Task):
+    # 安全的可点击边界，排除了下方按钮区域
+    SAFE_X_LEFT = 1
+    SAFE_X_RIGHT = 1279
+    SAFE_Y_TOP = 74
+    SAFE_Y_BOTTOM = 598
     def __init__(self, name="TouchHead") -> None:
         super().__init__(name)
 
@@ -27,12 +32,26 @@ class TouchHead(Task):
         canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True, rotate_trans=True)
         if(canmatchRes[0]):
             logging.info("匹配到注意力符号，点击头部")
-            click((min(canmatchRes[1][0]+50, 1280),canmatchRes[1][1]), sleeptime=1.5)
+            # 中心点
+            self.safe_click((canmatchRes[1][0]+50, canmatchRes[1][1]+30), sleeptime=0.1)
+            # 四个角
+            for offsetx in [-20, 20]:
+                for offsety in [-30, 30]:
+                    self.safe_click((canmatchRes[1][0]+50+offsetx, canmatchRes[1][1]+30+offsety), sleeptime=0.1)
+            # 等待羁绊弹窗
+            sleep(1)
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: Page.is_page(PageName.PAGE_CAFE),
         )
 
+    def safe_click(self, pos, sleeptime=1):
+        x=pos[0]
+        y=pos[1]
+        if x<self.SAFE_X_LEFT or x>self.SAFE_X_RIGHT or y<self.SAFE_Y_TOP or y>self.SAFE_Y_BOTTOM:
+            logging.warn("点击坐标不在安全范围内，不点击")
+        else:
+            click(pos, sleeptime=sleeptime)
             
     def swipeRight(self):
         swipe((1116, 129), (431, 129), 0.3)
