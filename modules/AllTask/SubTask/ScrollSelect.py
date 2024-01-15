@@ -91,10 +91,11 @@ class ScrollSelect(Task):
         if self.targetind < itemcount:
             # 目标元素高度中心点
             target_center_y = start_center_y + self.itemheight * self.targetind
-            self.run_until(
-                lambda: click((self.clickx, target_center_y)),
-                lambda: self.hasexpectimage(),
-            )
+            if self.finalclick:
+                self.run_until(
+                    lambda: click((self.clickx, target_center_y)),
+                    lambda: self.hasexpectimage(),
+                )
         else:
             # 从关卡中间的空隙开始滑
             scroll_start_from_y = self.window_endy - self.itemheight // 2
