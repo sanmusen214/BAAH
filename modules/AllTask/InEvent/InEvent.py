@@ -3,6 +3,7 @@ import logging
 import random
 import time
 import requests
+from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.configs.MyConfig import config
 
 from DATA.assets.PageName import PageName
@@ -72,6 +73,9 @@ class InEvent(Task):
         """
         判断页面是否是一个有效的活动页面
         """
+        if not Page.is_page(PageName.PAGE_EVENT):
+            # 可能首次进入活动，有活动剧情
+            SkipStory(pre_times=5).run()
         # 判断左上角标题
         if not Page.is_page(PageName.PAGE_EVENT):
             return False

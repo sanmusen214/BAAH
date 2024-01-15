@@ -72,12 +72,15 @@ class Task:
         logging.info("尝试返回主页")
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
-        if Task.run_until(lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)), lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
+        if Task.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)), 
+            lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True
         else:
             logging.error("返回主页失败")
             return False
+        
     
     @staticmethod
     def close_any_select_popup(yn: bool = False) -> bool:
