@@ -44,6 +44,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
     have_alpha=False
     if(pattern.shape[2] == 4 and auto_rotate_if_trans):
+        # 有透明度通道且开启了旋转匹配
         have_alpha = True
         best_max_val = -1
         best_max_loc = (0, 0)
@@ -64,7 +65,18 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
                 best_max_loc = max_loc
         min_val, max_val, min_loc, max_loc = 0, best_max_val, 0, best_max_loc
     else:
-        result = cv2.matchTemplate(screenshot, pattern[:,:,:3], cv2.TM_CCOEFF_NORMED)
+        # 无旋转匹配
+        # https://pyimagesearch.com/2021/03/29/multi-template-matching-with-opencv/
+        if pattern.shape[2] == 4:
+            # 有透明度通道
+            # 以透明部分作为mask
+            pattern_mask = pattern[:, :, 3]  # 透明通道
+            pattern_mask[pattern_mask>0] = 255
+            pattern = pattern[:, :, :3] # 去除透明通道
+            result = cv2.matchTemplate(screenshot, pattern, cv2.TM_CCOEFF_NORMED, mask=pattern_mask)
+        else:
+            # 无透明度通道
+            result = cv2.matchTemplate(screenshot, pattern[:,:,:3], cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
     
     h, w, _ = pattern.shape
