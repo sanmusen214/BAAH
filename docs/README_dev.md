@@ -64,3 +64,4 @@ post_condition是任务的后置判断，主要判断此任务结束时的位置
 5. 在modules/AllTask/myAllTask.py的task_dict里添加 用户配置项目文件内的任务名 与 此新任务的 实例间映射关系
 6. 在gui/__init__的real_taskname_to_show_taskname里添加 用户配置项目文件内的任务名 与 gui里显示的文本间的对应关系
 7. 在DATA/i18n里添加对应文本
+8. 如要添加配置项，在modules/configs/defaultSettings.py里添加配置默认值以及映射函数，在modules/configs/settingMaps定义映射关系即可。

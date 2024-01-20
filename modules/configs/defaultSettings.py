@@ -69,6 +69,7 @@ defaultUserDict = {
     },
     "TARGET_IP_PATH":{"d":"127.0.0.1"},
     "TARGET_PORT":{"d":5555},
+    "KILL_PORT_IF_EXIST":{"d":False},
     "TIME_AFTER_CLICK":{"d": 0.7},
     "RESPOND_Y":{
         "d": 40,
@@ -87,4 +88,9 @@ defaultUserDict = {
 
 defaultSoftwareDict = {
     "LANGUAGE":{"d":"zh_CN", "s":["zh_CN", "en_US"]}
+}
+
+# sessiondict是一个dict，存储了一次任务的运行时信息
+defaultSessionDict = {
+    "PORT_IS_USED":{"d":False},
 }

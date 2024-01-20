@@ -10,6 +10,10 @@ def set_emulator(config):
                 step=1,
                 precision=0,
                 ).bind_value(config.userconfigdict, 'TARGET_PORT', forward=lambda v: int(v)).style('width: 400px')
+    
+    with ui.row():
+        ui.checkbox(config.get_text("config_kill_port")).bind_value(config.userconfigdict, "KILL_PORT_IF_EXIST")
+    
     with ui.row():    
         ui.input(config.get_text("config_emulator_path"),
                     ).bind_value(config.userconfigdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')

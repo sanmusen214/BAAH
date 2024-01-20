@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import time
-from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict
+from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict, defaultSessionDict
 from modules.configs.settingMaps import configname2screenshotname
 
 # 程序入口应当先import这个类，然后调用parse_user_config方法解析该config实例
@@ -28,6 +28,7 @@ class MyConfigger:
         self.userconfigdict = {}
         # 一次区服任务运行的session
         self.sessiondict = {}
+        self._check_session_config()
         # 读取软件的config
         self.parse_software_config(self.SOFTWARE_CONFIG_NAME)
 
@@ -41,6 +42,7 @@ class MyConfigger:
         self.userconfigdict = self._read_config_file(file_path)
         # 清空sessiondict
         self.sessiondict = {}
+        self._check_session_config()
         # 检查缺失的配置
         self._check_user_config()
         # 强制设置截图文件名为配置名
@@ -151,6 +153,15 @@ class MyConfigger:
             # 如果用户的config里没有这个值
             if shouldKey not in self.softwareconfigdict:
                 self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
+    
+    def _check_session_config(self):
+        """
+        session内的值设置默认值，sessiondict的值会在运行时被修改
+        """
+        for shouldKey in defaultSessionDict:
+            # 如果没有这个值
+            if shouldKey not in self.sessiondict:
+                self.sessiondict[shouldKey] = self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
 
     def get_text(self, text_id):
         """

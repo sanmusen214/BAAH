@@ -44,6 +44,7 @@
     "config_cafe_attention": "In CN server, the cafe's perspective cannot be inherited, please uncheck the following item; for the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
+    "config_kill_port": "Whether force to kill the port before starting emulator",
     "config_emulator_path": "Emulator Path",
     "config_close_emulator_and_baah": "Close Emulator and BAAH After Execution",
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",
