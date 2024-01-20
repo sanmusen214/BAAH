@@ -111,6 +111,9 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     resstring = ZHT.ocr_single_line(rawImage)
     string_word = resstring[0].strip()
     # 替换一些错误字符
+    string_word = string_word.replace("白", "6")
+    string_word = string_word.replace("力", "7")
+    string_word = string_word.replace("刀", "7")
     string_word = string_word.replace("呂", "8")
     string_word = string_word.replace("９", "9")
     threshold = resstring[1]
