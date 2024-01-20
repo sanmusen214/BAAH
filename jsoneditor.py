@@ -5,9 +5,10 @@ if __name__ in {"__main__", "__mp_main__"}:
         import sys
         from modules.configs.MyConfig import MyConfigger, config
         # 是否以网页形式运行
-        isweb=False
+        isweb=True
         if len(sys.argv) > 1:
-            isweb = sys.argv[1] == "web"
+            if sys.argv[1] == "window":
+                isweb=False
         # 获取到user config文件夹下以json为后缀的文件
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
