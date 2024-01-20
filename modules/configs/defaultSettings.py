@@ -93,4 +93,5 @@ defaultSoftwareDict = {
 # sessiondict是一个dict，存储了一次任务的运行时信息
 defaultSessionDict = {
     "PORT_IS_USED":{"d":False},
+    "EMULATOR_PROCESS_PID":{"d":None},
 }

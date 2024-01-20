@@ -194,7 +194,7 @@ def check_connect():
     screenshot()
     time.sleep(2)
     if os.path.exists(f"./{get_config_screenshot_name()}"):
-        print("截图文件大小为", os.path.getsize(f"./{get_config_screenshot_name()}")/1024, "KB")
+        logging.info(f"截图文件大小为{os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB")
         # 检查文件大小
         if os.path.getsize(f"./{get_config_screenshot_name()}") !=0: # 不为0
             logging.info("adb与模拟器连接正常")

@@ -28,8 +28,24 @@ def BAAH_release_adb_port(justDoIt=False):
                     config.sessiondict["PORT_IS_USED"]=True
                     break
         except Exception as e:
-            logging.error("释放端口失败")
+            logging.error("释放端口失败，请关闭模拟器后重试")
             logging.error(e)
+def _check_process_exist(pid):
+    """
+    检查进程是否存在
+    """
+    try:
+        tasks = subprocess_run(["tasklist"], encoding="gbk").stdout
+        tasklist = tasks.split("\n")
+        for task in tasklist:
+            wordlist = task.strip().split()
+            if len(wordlist) > 1 and wordlist[1] == str(pid):
+                logging.info(" | ".join(wordlist))
+                return True
+        return False
+    except Exception as e:
+        logging.error(e)
+        return False
 
 def BAAH_start_emulator():
     """
@@ -39,7 +55,15 @@ def BAAH_start_emulator():
         try:
             # 以列表形式传命令行参数
             logging.info("启动模拟器")
-            subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
+            emulator_process = subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
+            logging.info("模拟器pid: "+str(emulator_process.pid))
+            time.sleep(5)
+            # 检查pid是否存在
+            if not _check_process_exist(emulator_process.pid):
+                logging.warn("模拟器启动进程已结束，可能是启动失败，或者是模拟器已经在运行")
+            else:
+                # 存进session，这样最后根据需要按照这个pid杀掉模拟器
+                config.sessiondict["EMULATOR_PROCESS_PID"]=emulator_process.pid
         except Exception as e:
             logging.error("启动模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
             logging.error(e)
@@ -88,11 +112,13 @@ def BAAH_kill_emulator():
     """
     if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
         try:
-            # 以列表形式传命令行参数
-            full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
+            if not config.sessiondict["EMULATOR_PROCESS_PID"]:
+                logging.error("未能获取到模拟器进程，跳过关闭模拟器")
+                return
             # 提取出模拟器的exe名字
+            full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
             emulator_exe=os.path.basename(full_path).split(".exe")[0]+".exe"
-            subprocess_run(["taskkill", "/T", "/F", "/IM", emulator_exe], encoding="gbk")
+            subprocess_run(["taskkill", "/T", "/F", "/PID", str(config.sessiondict["EMULATOR_PROCESS_PID"])], encoding="gbk")
             # 杀掉模拟器可见窗口进程后，可能残留后台进程，这里根据adb端口再杀一次
             BAAH_release_adb_port(justDoIt=True)
         except Exception as e:
