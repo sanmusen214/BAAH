@@ -40,7 +40,7 @@ class RunExchangeFight(Task):
         # 关闭弹窗，回到EXCHANGE_SUB页面
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB)
+            lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB) or Page.is_page(PageName.PAGE_EXCHANGE)
         )
         
         
@@ -48,4 +48,4 @@ class RunExchangeFight(Task):
     
      
     def post_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_EXCHANGE_SUB)
+        return Page.is_page(PageName.PAGE_EXCHANGE_SUB) or Page.is_page(PageName.PAGE_EXCHANGE)

@@ -72,7 +72,7 @@ class InExchange(Task):
                 )
                 # 扫荡对应的level
                 RunExchangeFight(levelnum = each_target[1], runtimes = each_target[2]).run()
-                # 回到SUB界面之后，点击一下返回
+                # 如果是回到SUB界面之后，点击一下返回，如果是回到EXCHANGE界面，就不用点击了
                 self.run_until(
                     lambda: click(Page.TOPLEFTBACK),
                     lambda: not Page.is_page(PageName.PAGE_EXCHANGE_SUB),
