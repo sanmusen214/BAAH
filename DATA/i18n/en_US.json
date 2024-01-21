@@ -31,10 +31,12 @@
     "notice_save_success": "Save Successful",
     "notice_start_run": "Start Execution",
     "notice_get_new_version": "Latest Version Released",
+    "notice_no_new_version":"No New Version",
+    "notice_download_version":"Download Version",
 
     "button_save": "Save",
     "button_save_and_run": "Save and Execute",
-    "button_check_version": "Check for Updates",
+    "button_check_version": "Check for Updates and Download(Make sure BAAH is not running)",
     "button_select_all": "Select All",
     "button_select_none": "Deselect All",
     "button_enable": "Enable",

@@ -31,10 +31,12 @@
     "notice_save_success":"保存成功",
     "notice_start_run":"开始执行",
     "notice_get_new_version":"目前发布的最新版本",
+    "notice_no_new_version":"目前没有新版本",
+    "notice_download_version":"正在下载版本",
 
     "button_save":"保存",
     "button_save_and_run":"保存并执行",
-    "button_check_version":"检查更新",
+    "button_check_version":"检查更新并下载（确保BAAH不在运行）",
     "button_select_all":"全选",
     "button_select_none":"全不选",
     "button_enable":"启用",

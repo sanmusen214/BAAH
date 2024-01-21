@@ -37,12 +37,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         
         # 运行GUI
         if not isweb:
-            try:
-                ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
-            except:
-                # 如果GUI出错，自动使用网页端
-                print("窗口端GUI出错，自动使用网页端/Window GUI error, automatically use web GUI")
-                ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
+            ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
         else:
             ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
 

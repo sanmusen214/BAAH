@@ -12,7 +12,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.2.2"
+    NOWVERSION="1.2.3"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -178,6 +178,25 @@ class MyConfigger:
         file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, self.SOFTWARE_CONFIG_NAME)
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.softwareconfigdict, f, indent=4, ensure_ascii=False)
+    
+    def get_one_version_num(self, versionstr="nothing"):
+        """
+        将版本号字符串转换成数字
+        """
+        if versionstr == "nothing":
+            versionstr = self.NOWVERSION
+        versionlist = versionstr.split(".")
+        if len(versionlist) != 3:
+            return -1
+        return int(versionlist[0])*10000+int(versionlist[1])*100+int(versionlist[2])
+
+    def get_version_str(self, versionnum=-1):
+        """
+        将版本号数字转换成字符串
+        """
+        if versionnum == -1:
+            versionnum = self.get_one_version_num()
+        return f"{int(versionnum/10000)}.{int(versionnum%10000/100)}.{versionnum%100}"
 
 
 
