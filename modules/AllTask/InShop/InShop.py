@@ -26,10 +26,17 @@ class InShop(Task):
      
     def on_run(self) -> None:
         # 进入商店
-        self.run_until(
-            lambda: click((795, 667)),
-            lambda: Page.is_page(PageName.PAGE_SHOP),
-        )
+        if config.userconfigdict["SERVER_TYPE"]=="JP":
+            # 适配日服新界面
+            self.run_until(
+                lambda: click((775, 677)),
+                lambda: Page.is_page(PageName.PAGE_SHOP),
+            )
+        else:
+            self.run_until(
+                lambda: click((795, 667)),
+                lambda: Page.is_page(PageName.PAGE_SHOP),
+            )
         NormalItems().run()
         switchres = self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
