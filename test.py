@@ -32,7 +32,7 @@ from modules.AllPage.Page import Page
 
 drawing = False  # 检查是否正在绘制
 start_x, start_y = -1, -1
-def main():
+def screencut_tool():
     # 读取透明度层
     screenshot = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
     # 平均最大最小bgr
@@ -63,8 +63,10 @@ def main():
 
             # 保存截取的区域到当前目录
             selected_region = screenshot[min(start_y,end_y):max(start_y,end_y), min(start_x,end_x):max(start_x,end_x)]
-            cv2.imwrite("./selected_region.png", selected_region)
-            print("选定区域已被保存为 'selected_region.png'")
+            nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
+            filename = "selected_"+nowstr+".png"
+            cv2.imwrite(filename, selected_region)
+            print(f"选定区域已被保存为/Saved as {filename}")
 
     cv2.imshow('Matched Screenshot', screenshot)
     cv2.setMouseCallback("Matched Screenshot", mouse_callback_s)
@@ -118,7 +120,7 @@ if __name__=="__main__":
     
 
     # 比划点
-    main()
+    screencut_tool()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
@@ -170,3 +172,14 @@ if __name__=="__main__":
     # cv2.imshow("newpic", mypic)
     # cv2.waitKey(0)
     
+    
+    # # 截图小工具 screencut.exe
+    # print("请手动打开模拟器...\nKeep emulator open")
+    # sleep(2)
+    # check_connect()
+    # while 1:
+    #     input(f"按回车键截图\nPress Enter to screencut:")
+    #     print("左键拖动区域截图，右键点击获取坐标点信息\nTry left mouse drag or right mouse click")
+    #     screenshot()
+    #     screencut_tool()
+    #     print("==========")

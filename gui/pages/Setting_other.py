@@ -1,7 +1,8 @@
 from nicegui import ui
 from gui.components.list_edit_area import list_edit_area
+import os
 
-def set_other(config):
+def set_other(config, load_jsonname):
     with ui.row():
         ui.link_target("TOOL_PATH")
         ui.label(config.get_text("setting_other")).style('font-size: x-large')
@@ -30,3 +31,10 @@ def set_other(config):
     
     with ui.row():
         ui.input(config.get_text("config_screenshot_name")).bind_value(config.userconfigdict, 'SCREENSHOT_NAME',forward=lambda v: v.replace("\\", "/")).style('width: 400px').set_enabled(False)
+    
+    # 测试/开发使用
+    # 检查当前文件夹下有没有screencut.exe文件
+    whethercut = os.path.exists("./screencut.exe")
+    if whethercut:
+        with ui.row():
+            ui.button("测试截图/screencut test", on_click=lambda: os.system(f'start screencut.exe "{load_jsonname}"'))

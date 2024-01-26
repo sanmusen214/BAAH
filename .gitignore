@@ -8,11 +8,9 @@ jsoneditor.spec
 config2.json
 compact_log.txt
 BAAH.spec
-e63ac7fe.png
-c5fd3201.png
-131f7752.png
-e2419474.png
+*.png
 *.zip
+*.exe
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -108,7 +108,7 @@ def show_GUI(load_jsonname, config):
             set_normal(config)
             
             # 其他设置
-            set_other(config)
+            set_other(config, load_jsonname)
         
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             
