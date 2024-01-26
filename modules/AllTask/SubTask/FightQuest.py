@@ -9,31 +9,37 @@ from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot
 
 class FightQuest(Task):
     """
-    从编辑部队页面开始，进入到游戏内战斗，然后到战斗结束，离开战斗结算页面
+    进行一次游戏场景内战斗，一般可以从点击任务资讯里的黄色开始战斗按钮后接管
+    
+    从编辑部队页面（或剧情播放页面->编辑部队页面）开始，进入到游戏内战斗，然后到战斗结束，离开战斗结算页面
     
     backtopic: 最后领完奖励回到的页面的匹配图片
     """
     def __init__(self, backtopic, name="FightQuest") -> None:
         super().__init__(name)
         self.backtopic=backtopic
+        self.click_magic_when_run = False
 
     
     def pre_condition(self) -> bool:
-        click(Page.MAGICPOINT)
         click(Page.MAGICPOINT, 1)
+        click(Page.MAGICPOINT, 1)
+        screenshot()
         if Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM):
             return True
         # 可能有剧情
-        SkipStory(pre_times=1).run()
+        SkipStory(pre_times=2).run()
+        sleep(2)
         return Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM)
     
     
     def on_run(self) -> None:
-        # 点击出击按钮
+        # 点击出击按钮位置
+        # 用竞技场的匹配按钮精度不够，点击固定位置即可
         self.run_until(
             lambda: click((1106, 657)) and click(Page.MAGICPOINT),
             lambda: not Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM),
@@ -44,12 +50,13 @@ class FightQuest(Task):
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(button_pic(ButtonName.BUTTON_CONFIRMY)),
-            times = 75,
+            times = 90,
             sleeptime = 2
         )
         # 结束时如果是黄色确认，那么战斗失败
         if match(button_pic(ButtonName.BUTTON_CONFIRMY)):
             logging.info("战斗失败")
+            logging.warn("请检查自动AUTO是否开启!")
         else:
             # 战斗结算页面
             # 四人界面 右下确认蓝色

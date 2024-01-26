@@ -12,6 +12,7 @@ from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.InEvent.EventQuest import EventQuest
+from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
@@ -160,10 +161,9 @@ class InEvent(Task):
         else:
             logging.info("成功进入Event页面")
         today = time.localtime().tm_mday
-        # 跳到Quest标签
-        click((965, 98))
-        click((965, 98))
         
+        # 检测并跳过剧情
+        EventStory().run()
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])
