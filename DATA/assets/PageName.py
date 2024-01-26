@@ -27,8 +27,10 @@ class PageName:
     PAGE_EXCHANGE_SUB = "PAGE_EXCHANGE_SUB"
     
     PAGE_CONTEST = "PAGE_CONTEST"
-    
+    # 竞技场队伍编辑
     PAGE_EDIT_TEAM = "PAGE_EDIT_TEAM"
+    # 推图队伍编辑
+    PAGE_EDIT_QUEST_TEAM = "PAGE_EDIT_QUEST_TEAM"
     
     PAGE_TASK_CENTER = "PAGE_TASK_CENTER"
     

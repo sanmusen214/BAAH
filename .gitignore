@@ -1,16 +1,9 @@
 tools/
-screenshot.png
-config.png
-config2.png
-selected_region.png
 test.spec
 jsoneditor.spec
-config2.json
-compact_log.txt
 BAAH.spec
-*.png
-*.zip
-*.exe
+compact_log.txt
+/*.png
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

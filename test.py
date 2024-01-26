@@ -1,6 +1,6 @@
 import sys
 import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]
@@ -20,6 +20,7 @@ from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
+from modules.AllTask.SubTask.FightQuest import FightQuest
 from modules.AllTask.InCafe.TouchHead import TouchHead
 from modules.utils import *
 from DATA.assets.ButtonName import ButtonName
@@ -116,7 +117,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_FIGHT_CENTER),  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CONFIRMY),  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
@@ -128,6 +129,8 @@ if __name__=="__main__":
     
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
+    
+    # FightQuest(backtopic=page_pic(PageName.PAGE_EDIT_QUEST_TEAM)).run()
     
     # 扫荡关卡识别地区数字
     # for i in range(20):
