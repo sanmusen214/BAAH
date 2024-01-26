@@ -121,7 +121,7 @@ if __name__=="__main__":
     
 
     # 比划点
-    screencut_tool()
+    # screencut_tool()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
@@ -130,7 +130,7 @@ if __name__=="__main__":
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
-    # FightQuest(backtopic=page_pic(PageName.PAGE_EDIT_QUEST_TEAM)).run()
+    FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
     
     # 扫荡关卡识别地区数字
     # for i in range(20):
