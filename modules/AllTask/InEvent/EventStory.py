@@ -68,14 +68,14 @@ class EventStory(Task):
      
     def on_run(self) -> None:
         logging.info("检查活动剧情是否推完")
-        click(Page.MAGICPOINT)
-        click(Page.MAGICPOINT)
-        # 点击Story标签
-        click((766, 98))
         while 1:
             # 点击第一个level，第一个level永远不会弹不出来蒙版
             sleep(3)
-            # 视角会自动滚动到顶部，等3秒再滑
+            # 视角会自动滚动到顶部，等3秒
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            # 点击Story标签
+            click((766, 98))
             self.scroll_right_up()
             click((1130, 200), sleeptime=2)
             # 往右切换，主要是靠break，循环次数只要大于9就行

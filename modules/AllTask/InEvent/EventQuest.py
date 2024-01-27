@@ -54,15 +54,15 @@ class EventQuest(Task):
     def on_run(self) -> None:
         # 按level执行
         for level in self.level_list:
-            click(Page.MAGICPOINT)
-            # 点击Quest标签
-            click((965, 98))
             level_ind = level[0]
             repeat_times = level[1]
             while(1):
                 # 可能触发推图任务，触发推图的话就重新滑到顶部再往右选
                 sleep(3)
-                # 视角会自动滚动到顶部，等3秒再滑
+                # 视角会自动滚动到顶部，等3秒
+                click(Page.MAGICPOINT)
+                # 点击Quest标签
+                click((965, 98))
                 self.scroll_right_up()
                 # 点击第一个level
                 click((1130, 200), sleeptime=2)
@@ -99,6 +99,7 @@ class EventQuest(Task):
                 if hasfight_newlevel:
                     # 继续从头滑动
                     continue
+                # 结束自动推图，或不用推图：扫荡
                 RaidQuest(repeat_times).run()
                 # 关闭任务咨询弹窗
                 logging.info("关闭任务咨询弹窗")
