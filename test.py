@@ -117,7 +117,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CONFIRMY),  show_result=True, auto_rotate_if_trans=False)
+    res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], popup_pic(PopupName.POPUP_TASK_INFO),  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
@@ -130,7 +130,7 @@ if __name__=="__main__":
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
-    FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
+    # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
     
     # 扫荡关卡识别地区数字
     # for i in range(20):
@@ -186,3 +186,108 @@ if __name__=="__main__":
     #     screenshot()
     #     screencut_tool()
     #     print("==========")
+    
+    # 走图识别start格子小工具
+    # def get_kmeans(img, n, max_iter=5):
+    #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #     # 将img看成二维数组
+    #     # 非0的像素点就是数据点
+    #     # 为0的像素点就是背景
+    #     # 随机n类，每类的中心点（x,y坐标）是随机的
+    #     initial_centers = []
+    #     for i in range(n):
+    #         x = np.random.randint(0, img.shape[0])
+    #         y = np.random.randint(0, img.shape[1])
+    #         initial_centers.append([x, y])
+    #     print("initial_centers", initial_centers)
+        
+    #     centers = initial_centers
+    #     # 每次迭代，每个类的中心点都会更新
+        
+    #     # 将图像数组展平
+    #     all_points = img.reshape((-1, 1))
+    #     # 在axis=1的方向上，添加两列，range
+    #     all_points = np.hstack((all_points, np.arange(all_points.shape[0]).reshape((-1, 1))))
+    #     all_points = np.hstack((all_points, np.arange(all_points.shape[0]).reshape((-1, 1))))
+        
+    #     # 处理第2列数据除以图像宽度得到整数，处理第3列数据除以图像宽度得到余数
+    #     all_points[:, 1] = all_points[:, 1] // img.shape[1]
+    #     all_points[:, 2] = all_points[:, 2] % img.shape[1]
+    #     # 在axis=1的方向上，添加一列，初始值为0，为每个像素点的类别
+    #     all_points = np.hstack((all_points, np.zeros((all_points.shape[0], 1))))
+    #     # 后续只考虑非0的像素点 np.any(img[i] != 0)
+    #     # 去除第一列为0的像素点
+    #     all_points = all_points[all_points[:, 0] != 0]
+    #     print("all_points.shape", all_points.shape) # (n, 4)
+        
+    #     if all_points.shape[0] == 0:
+    #         print("黄色过滤失败")
+    #         return centers
+        
+    #     for i in range(max_iter):
+    #         # 每次迭代，计算每个像素点到每个类的距离，取最小的那个类下标赋值给第4列
+    #         for j in range(all_points.shape[0]):
+    #             distances = []
+    #             for k in range(len(centers)):
+    #                 distances.append(np.linalg.norm(all_points[j, 1:3] - centers[k]))
+    #             all_points[j, 3] = np.argmin(distances)
+    #         # 每次迭代，计算每个类的中心点
+    #         for j in range(len(centers)):
+    #             # 取出第4列等于j的所有像素点
+    #             points = all_points[all_points[:, 3] == j]
+    #             # 计算平均值，如果没有像素点（空簇问题），就在其他簇内的点随机挑一个设为这个的中心点
+    #             if points.shape[0] != 0:
+    #                 centers[j] = np.mean(points[:, 1:3], axis=0)
+    #             else:
+    #                 centers[j] = all_points[np.random.randint(0, all_points.shape[0]), 1:3]
+    #         print("iter centers", centers)
+    #     return centers
+        
+
+
+    # # 画出k-means的结果
+    # def draw_kmeans(img, centers):
+    #     for center in centers:
+    #         cv2.circle(img, (int(center[1]), int(center[0])), 15, (0, 0, 255), -1)
+    #     return img
+
+    # def show(img):
+    #     # 左键点击获取BGRA值
+    #     def on_mouse(event, x, y, flags, param):
+    #         if event == cv2.EVENT_LBUTTONDOWN:
+    #             print("BGR", img[y, x])
+            
+    #     cv2.namedWindow('image')
+    #     cv2.setMouseCallback('image', on_mouse)
+    #     cv2.imshow('image', img)
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
+
+    # import numpy as np
+    # print("请手动打开模拟器...\nKeep emulator open")
+    # sleep(2)
+    # check_connect()
+    # while 1:
+    #     numstr = input(f"输入黄色的开始格子数量\nInput number of start block:")
+    #     try:
+    #         num = int(numstr)
+    #         assert num >= 1 and num <= 5
+    #     except:
+    #         print("输入有误，请重新输入\nInvalid input, try again")
+    #         continue
+    #     screenshot()
+    #     # 读取
+    #     img = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
+    #     # 黄色蒙版
+    #     lower = np.array([125, 250, 250])
+    #     upper = np.array([132, 255, 255])
+    #     mask = cv2.inRange(img, lower, upper)
+    #     # 转成灰度图
+    #     mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+    #     # 腐蚀
+    #     kernel = np.ones((3, 3), np.uint8)
+    #     masker2 = cv2.erode(mask, kernel)
+    #     # k-means，维度是图片的xy坐标，将坐标相近的像素聚类
+    #     centers = get_kmeans(masker2, n=num, max_iter=5)
+    #     kmeans = draw_kmeans(img.copy(), centers)
+    #     show(kmeans)
