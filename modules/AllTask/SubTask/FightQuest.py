@@ -17,7 +17,7 @@ class FightQuest(Task):
     
     从编辑部队页面（或剧情播放页面->编辑部队页面）开始，进入到游戏内战斗，然后到战斗结束，离开战斗结算页面
     
-    backtopic: 最后领完奖励回到的页面的匹配图片
+    backtopic: 最后领完奖励回到的页面的匹配逻辑，回调函数
     """
     def __init__(self, backtopic, name="FightQuest") -> None:
         super().__init__(name)
@@ -82,10 +82,10 @@ class FightQuest(Task):
         logging.info("点击确认...")
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)) and click(Page.MAGICPOINT),
-            lambda: match(self.backtopic),
+            self.backtopic,
             times=7,
             sleeptime=1
         )
      
     def post_condition(self) -> bool:
-        return match(self.backtopic)
+        return self.backtopic

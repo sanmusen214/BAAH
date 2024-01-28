@@ -60,7 +60,7 @@ class EventStory(Task):
                 logging.warn("体力不够，结束")
                 return "noap"
             # 剧情这边应该只会有单次战斗
-            FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
+            FightQuest(backtopic=match(page_pic(PageName.PAGE_EVENT))).run()
             # 更新上次自动推剧情的关卡下标
             self.last_fight_level_ind = this_level_ind
             return "yes"
