@@ -1,3 +1,4 @@
+import json
 from typing import Tuple, Union
 from .adb_utils import *
 from .image_processing import *
@@ -167,6 +168,14 @@ def popup_pic(popupname):
     if config.userconfigdict["FANHEXIE"] and popupname == "POPUP_MOMOTALK":
         popupname = "POPUP_MOMOTALK_FANHEXIE"
     return get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
+
+def get_grid_solution_json(location, level, ishard=False):
+    # 读取DATA/grid_config/quest/里的文件
+    ishardstr = "h" if ishard else ""
+    filename = f"./DATA/grid_solution/quest/{ishardstr}{location}-{level}.json"
+    # 读取并解析json返回
+    with open(filename, encoding="utf-8") as f:
+        return json.load(f)
 
 def sleep(seconds:float):
     """
