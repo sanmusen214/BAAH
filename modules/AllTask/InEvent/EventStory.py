@@ -41,7 +41,7 @@ class EventStory(Task):
             logging.info(f"触发推剧情任务，关卡{this_level_ind}")
             # 判断推图是否刚才打了一次，但是没三星或打不过去
             if this_level_ind == self.last_fight_level_ind:
-                raise Exception(f"活动剧情推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
+                logging.warn(f"活动剧情推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
             # 这里弹窗已经关了，重新跑到下标为this_level_ind-1的关卡
             self.scroll_right_up()
             click((1130, 200), sleeptime=2)
@@ -49,8 +49,8 @@ class EventStory(Task):
                 # 点右边的箭头
                 click((1171, 359), sleeptime=1)
             self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
-                lambda: not match(button_pic(ButtonName.BUTTON_TASK_START)),
+                lambda: click(button_pic(ButtonName.BUTTON_TASK_START)) or click(button_pic(ButtonName.BUTTON_ENTER_CHAPTER)),
+                lambda: not match(button_pic(ButtonName.BUTTON_TASK_START)) and not match(button_pic(ButtonName.BUTTON_ENTER_CHAPTER)),
                 times = 3, 
                 sleeptime=2
             )
@@ -60,7 +60,7 @@ class EventStory(Task):
                 logging.warn("体力不够，结束")
                 return "noap"
             # 剧情这边应该只会有单次战斗
-            FightQuest(backtopic=match(page_pic(PageName.PAGE_EVENT))).run()
+            FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()
             # 更新上次自动推剧情的关卡下标
             self.last_fight_level_ind = this_level_ind
             return "yes"

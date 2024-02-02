@@ -45,7 +45,7 @@ class EventQuest(Task):
                 logging.warn("体力不够，结束")
                 return "noap"
             # 单次战斗
-            FightQuest(backtopic=match(page_pic(PageName.PAGE_EVENT))).run()
+            FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()
             # 更新上次自动推图的关卡下标
             self.last_fight_level_ind = this_level_ind
             return "yes"
