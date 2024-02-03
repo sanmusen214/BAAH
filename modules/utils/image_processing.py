@@ -66,7 +66,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         min_val, max_val, min_loc, max_loc = 0, best_max_val, 0, best_max_loc
     else:
         # 无旋转匹配
-        # https://pyimagesearch.com/2021/03/29/multi-template-matching-with-opencv/
+        # TODO： 多点匹配：https://pyimagesearch.com/2021/03/29/multi-template-matching-with-opencv/
         if pattern.shape[2] == 4:
             # 有透明度通道
             # 以透明部分作为mask
@@ -101,13 +101,13 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
 
 def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
     """
-    get the number in the image
+    get the string in the image area
     
     axis in image is x: from left to right, y: from top to bottom
     """
     rawImage = cv2.imread(imageurl)
     if rawImage is None:
-        return [None,None]
+        return ["",0]
     else:
         rawImage = rawImage[fromy:toy, fromx:tox]
         # 图像识别
