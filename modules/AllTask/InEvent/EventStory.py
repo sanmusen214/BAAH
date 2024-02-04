@@ -76,6 +76,8 @@ class EventStory(Task):
         -1表示没有找到
         """
         self.scroll_right_down()
+        sleep(1)
+        screenshot()
         reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
         temp_max = -1
         logging.info("ocr结果："+str(reslist))
@@ -96,7 +98,7 @@ class EventStory(Task):
         if max_level == -1:
             logging.warn("无法获取最大关卡数，结束")
             return
-        logging.info("检查活动剧情是否推完,最大关卡数为"+str(max_level), "最后一关请手动推")
+        logging.info("检查活动剧情是否推完,最大关卡数为"+str(max_level)+", 最后一关请手动推")
         while 1:
             sleep(3)
             # 视角会自动滚动到顶部，等3秒
