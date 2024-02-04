@@ -21,6 +21,8 @@ class EventStory(Task):
     def __init__(self, name="EventStory") -> None:
         super().__init__(name)
         self.last_fight_level_ind = -1
+        # 最大关卡数，这里不是下标，是关卡序号
+        self.max_level = 9
 
      
     def pre_condition(self) -> bool:
@@ -51,7 +53,7 @@ class EventStory(Task):
                 click((1171, 359), sleeptime=1)
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_TASK_START)) or click((633, 496)),
-                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE)),
                 times = 3, 
                 sleeptime=2
             )
@@ -66,11 +68,36 @@ class EventStory(Task):
             self.last_fight_level_ind = this_level_ind
             return "yes"
         return "no"
-     
+    
+    def get_biggest_level(self):
+        """
+        通过下滑到底ocr获取最大关卡数
+        
+        -1表示没有找到
+        """
+        self.scroll_right_down()
+        reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+        temp_max = -1
+        logging.info("ocr结果："+str(reslist))
+        # 将每一个字母尝试转换成数字，如果是数字就比较目前最大
+        for res in reslist:
+            try:
+                # 最大不过12
+                temp_max = min(max(temp_max, int(res[0])), 12)
+            except:
+                pass
+        self.max_level = temp_max
+        return temp_max
+
     def on_run(self) -> None:
-        logging.info("检查活动剧情是否推完")
+        # 点击Story标签
+        click((766, 98))
+        max_level = self.get_biggest_level()
+        if max_level == -1:
+            logging.warn("无法获取最大关卡数，结束")
+            return
+        logging.info("检查活动剧情是否推完,最大关卡数为"+str(max_level), "最后一关请手动推")
         while 1:
-            # 点击第一个level，第一个level永远不会弹不出来蒙版
             sleep(3)
             # 视角会自动滚动到顶部，等3秒
             click(Page.MAGICPOINT)
@@ -78,11 +105,12 @@ class EventStory(Task):
             # 点击Story标签
             click((766, 98))
             self.scroll_right_up()
+            # 点击第一个level，第一个level永远不会弹不出来蒙版
             click((1130, 200), sleeptime=2)
             # 往右切换，主要是靠break，循环次数只要大于9就行
             has_do_view = False
             # 稍微设置大一点，让重复打关触发来判定结束
-            for i in range(8):
+            for i in range(max_level-1):
                 # 点右边的箭头
                 click((1171, 359), sleeptime=1)
                 # 往右切换后判断是否需要推剧情

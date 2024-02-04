@@ -92,7 +92,7 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     else:
         return match_pattern(f"./{get_config_screenshot_name()}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
-def ocr_area(frompixel, topixel) -> Tuple[str, float]:
+def ocr_area(frompixel, topixel, multi_lines = False) -> Tuple[str, float]:
     """
     OCR the area in the given rectangle area of screenshot
     
@@ -103,10 +103,8 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    ocr_result = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
-    word = ocr_result[0].strip()
-    threshold = ocr_result[1]
-    return (word, threshold)
+    ocr_result = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1], multi_lines=multi_lines)
+    return ocr_result
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """

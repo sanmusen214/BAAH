@@ -6,7 +6,7 @@ import numpy as np
 from typing import Tuple
 from pponnxcr import TextSystem
 
-ZHT = TextSystem('zht')
+ZHT = TextSystem('en')
 
 def rotate_image_with_transparency(image_mat, angle):
     """
@@ -99,28 +99,37 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         return (True, (center_x, center_y), max_val)
     return (False, (0, 0), max_val)
 
-def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
+def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
     """
     get the string in the image area
     
     axis in image is x: from left to right, y: from top to bottom
+    
     """
+    def replace_mis(ocr_text):
+        """
+        替换容易识别错误的字符
+        """
+        ocr_text = ocr_text.strip()
+        ocr_text = ocr_text.replace("９", "9")
+        return ocr_text
+
     rawImage = cv2.imread(imageurl)
     if rawImage is None:
-        return ["",0]
+        if not multi_lines:
+            return ["",0]
+        else:
+            return [["",0]]
     else:
         rawImage = rawImage[fromy:toy, fromx:tox]
-        # 图像识别
-        resstring = ZHT.ocr_single_line(rawImage)
-        string_word = resstring[0].strip()
-        # 替换一些错误字符
-        string_word = string_word.replace("白", "6")
-        string_word = string_word.replace("力", "7")
-        string_word = string_word.replace("刀", "7")
-        string_word = string_word.replace("呂", "8")
-        string_word = string_word.replace("９", "9")
-        threshold = resstring[1]
-        return [string_word, threshold]
+        if not multi_lines:
+            # 图像识别单行
+            resstring = ZHT.ocr_single_line(rawImage)
+            return [replace_mis(resstring[0]), resstring[1]]
+        else:
+            # 图像识别多行
+            resstring_list = ZHT.detect_and_ocr(rawImage)
+            return [[replace_mis(res.ocr_text), res.score] for res in resstring_list]
     
 def match_pixel_color_range(imageurl, x, y, low_range, high_range):
     """
