@@ -86,14 +86,19 @@ class InEvent(Task):
             lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
             times=2
         )
-        # 判断这个活动是否有Quest字样
-        ocrres_str = ocr_area((901, 88), (989, 123))[0]
-        matchres = "quest" in ocrres_str.lower() or "任" in ocrres_str or "务" in ocrres_str or matchpic
-        logging.info(f"QUEST按钮匹配结果: {matchres}")
-        if not matchres:
+        logging.info(f"QUEST按钮匹配结果: {matchpic}")
+        if not matchpic:
             logging.warn("此页面不存在活动Quest")
             return False
-        # TODO: 通过QUEST页面下有无 按钮 判断活动是否已结束
+        # 通过数字识别关卡数字，判断活动是否已结束
+        screenshot()
+        reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+        for res in reslist:
+            try:
+                res_num = int(res[0])
+                return True
+            except:
+                continue
         # # 判断左下角时间
         # time_res = ocr_area((175, 566), (552, 593))
         # if len(time_res[0])==0:
@@ -134,7 +139,8 @@ class InEvent(Task):
         # if local_time_struct > end_time_struct:
         #     logging.info("此活动已结束")
         #     return False
-        return True
+        logging.error("未能识别有效活动关卡，判断此活动已结束")
+        return False
 
     
     def on_run(self) -> None:

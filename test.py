@@ -146,6 +146,8 @@ if __name__=="__main__":
     # print(res)
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
+    # reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+    # print(reslist)
     
     # 测task
     # Event
