@@ -49,8 +49,8 @@ class EventStory(Task):
                 # 点右边的箭头
                 click((1171, 359), sleeptime=1)
             self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_TASK_START)) or click(button_pic(ButtonName.BUTTON_ENTER_CHAPTER)),
-                lambda: not match(button_pic(ButtonName.BUTTON_TASK_START)) and not match(button_pic(ButtonName.BUTTON_ENTER_CHAPTER)),
+                lambda: click(button_pic(ButtonName.BUTTON_TASK_START)) or click((633, 496)),
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
                 times = 3, 
                 sleeptime=2
             )

@@ -117,7 +117,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], popup_pic(PopupName.POPUP_TASK_INFO),  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./BUTTON_FIGHT_RESULT_CONFIRMB.png",  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
