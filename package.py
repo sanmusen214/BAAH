@@ -108,7 +108,7 @@ package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
 
 # package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
-package_rename("./dist/BAAH/jsoneditor.exe", f"./dist/BAAH/BAAH GUI{config_version}.exe")
+package_rename("./dist/BAAH/jsoneditor.exe", f"./dist/BAAH/BAAH_GUI{config_version}.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
 print("开始压缩")
