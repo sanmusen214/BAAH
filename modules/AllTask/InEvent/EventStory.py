@@ -41,7 +41,8 @@ class EventStory(Task):
             logging.info(f"触发推剧情任务，关卡{this_level_ind}")
             # 判断推图是否刚才打了一次，但是没三星或打不过去
             if this_level_ind == self.last_fight_level_ind:
-                logging.warn(f"活动剧情推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
+                logging.warn(f"活动剧情推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置。或已经是最后一关了")
+                return "repeatfight"
             # 这里弹窗已经关了，重新跑到下标为this_level_ind-1的关卡
             self.scroll_right_up()
             click((1130, 200), sleeptime=2)
@@ -79,8 +80,8 @@ class EventStory(Task):
             self.scroll_right_up()
             click((1130, 200), sleeptime=2)
             # 往右切换，主要是靠break，循环次数只要大于9就行
-            # 这里假设活动剧情关卡总数为9，那么按八次往右切换就能看完所有剧情
             has_do_view = False
+            # 稍微设置大一点，让重复打关触发来判定结束
             for i in range(8):
                 # 点右边的箭头
                 click((1171, 359), sleeptime=1)
@@ -95,6 +96,9 @@ class EventStory(Task):
                         lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
                     )
                     logging.info("返回到根页面")
+                    return
+                elif res=="repeatfight":
+                    logging.warn("重复打关卡，结束")
                     return
             # 观看了剧情，那么再尝试继续看后面的关卡剧情
             if has_do_view:
