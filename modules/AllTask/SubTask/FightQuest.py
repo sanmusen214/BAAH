@@ -9,7 +9,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot
+from modules.utils import click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot
 
 class FightQuest(Task):
     """
@@ -23,6 +23,7 @@ class FightQuest(Task):
         super().__init__(name)
         self.backtopic=backtopic
         self.click_magic_when_run = False
+        self.pre_times = 1
 
     
     def pre_condition(self) -> bool:
@@ -31,6 +32,9 @@ class FightQuest(Task):
         screenshot()
         if Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM):
             return True
+        if self.backtopic():
+            # 如果已经在战斗结束应当返回的页面，那么直接返回
+            return False
         # 可能有剧情
         SkipStory(pre_times=2).run()
         sleep(2)
@@ -47,6 +51,23 @@ class FightQuest(Task):
         )
         # 战斗中
         logging.info("战斗中...")
+        # 等到右上角白色UI出来
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE),
+            times=10,
+            sleeptime = 2
+        )
+        # 切换AUTO
+        logging.info("切换AUTO...")
+        self.run_until(
+            lambda: click((1208, 658)),
+            lambda: not match_pixel((1208, 658), Page.COLOR_BUTTON_GRAY) and match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE), # 直到右上角白色UI出来后右下角按钮也不是灰色时
+            times=10,
+            sleeptime = 2
+        )
+        logging.info("等待战斗结束...")
+        # 点魔法点直到战斗结束
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(button_pic(ButtonName.BUTTON_CONFIRMY)),
@@ -56,7 +77,7 @@ class FightQuest(Task):
         # 结束时如果是黄色确认，那么战斗失败
         if match(button_pic(ButtonName.BUTTON_CONFIRMY)):
             logging.info("战斗失败")
-            logging.warn("请检查自动AUTO是否开启!")
+            logging.warn("请检查自动AUTO是否开启，提升队伍练度")
         else:
             # 战斗结算页面
             # 四人界面 右下确认蓝色

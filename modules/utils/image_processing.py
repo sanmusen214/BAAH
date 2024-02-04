@@ -143,6 +143,7 @@ def match_pixel_color_range(imageurl, x, y, low_range, high_range):
     """
     img = cv2.imread(imageurl)
     pixel = img[y, x][:3]
+    # logging.info(f"Pixel color at ({x}, {y}): {pixel}")
     if (pixel[0] >= low_range[0] and pixel[0] <= high_range[0] and pixel[1] >= low_range[1] and pixel[1] <= high_range[1] and pixel[2] >= low_range[2] and pixel[2] <= high_range[2]):
         return True
     return False

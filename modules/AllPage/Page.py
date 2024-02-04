@@ -22,6 +22,8 @@ class Page:
 
     COLOR_WHITE = ((240, 240, 240), (255, 255, 255))
     COLOR_RED = ((24, 70, 250), (26, 72, 252))
+    COLOR_BUTTON_WHITE = ((230, 230, 230), (255, 255, 255))
+    COLOR_BUTTON_GRAY = ((200, 200, 200), (230, 230, 230))
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

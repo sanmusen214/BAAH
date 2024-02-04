@@ -43,7 +43,7 @@ class EventStory(Task):
             logging.info(f"触发推剧情任务，关卡{this_level_ind}")
             # 判断推图是否刚才打了一次，但是没三星或打不过去
             if this_level_ind == self.last_fight_level_ind:
-                logging.warn(f"活动剧情推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置。或已经是最后一关了")
+                logging.warn(f"活动剧情推图第{this_level_ind}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置。或已经是最后一关了")
                 return "repeatfight"
             # 这里弹窗已经关了，重新跑到下标为this_level_ind-1的关卡
             self.scroll_right_up()

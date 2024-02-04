@@ -20,7 +20,7 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
         super().__init__(name)
-        self.try_enter_times = 4
+        self.try_enter_times = 3
         self.next_sleep_time = 0.1
 
      
