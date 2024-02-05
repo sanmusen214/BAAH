@@ -169,7 +169,8 @@ class InEvent(Task):
         today = time.localtime().tm_mday
         
         # 检测并跳过剧情
-        EventStory().run()
+        if config.userconfigdict["AUTO_EVENT_STORY_PUSH"]:
+            EventStory().run()
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])

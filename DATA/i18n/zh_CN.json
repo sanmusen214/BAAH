@@ -76,6 +76,7 @@
     "config_ip_root":"模拟器监听IP地址（此项不包含端口号）",
     "config_adb_path":"ADB路径",
     "config_screenshot_name":"截图文件名",
+    "config_auto_event_story":"自动推活动剧情",
 
 
     "config_server_jp":"日服",

@@ -76,6 +76,7 @@
     "config_ip_root": "Emulator Listening IP Address (This item does not include the port number)",
     "config_adb_path": "ADB Path",
     "config_screenshot_name": "Screenshot File Name",
+    "config_auto_event_story":"Auto View Event Story",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

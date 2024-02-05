@@ -194,5 +194,6 @@
     "SERVER_TYPE": "JP",
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
-    "KILL_PORT_IF_EXIST": false
+    "KILL_PORT_IF_EXIST": false,
+    "AUTO_EVENT_STORY_PUSH": false
 }
