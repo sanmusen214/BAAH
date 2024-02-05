@@ -22,6 +22,8 @@ class InEvent(Task):
         super().__init__(name)
         self.try_enter_times = 3
         self.next_sleep_time = 0.1
+        # 是否有活动但是已经结束
+        self.has_event_but_closed = False
 
      
     def pre_condition(self) -> bool:
@@ -140,6 +142,7 @@ class InEvent(Task):
         #     logging.info("此活动已结束")
         #     return False
         logging.error("未能识别有效活动关卡，判断此活动已结束")
+        self.has_event_but_closed = True
         return False
 
     
@@ -157,15 +160,16 @@ class InEvent(Task):
         # 尝试进入Event
         enter_event = self.run_until(
             lambda: self.try_goto_event(),
-            lambda: self.judge_whether_available_event(),
+            lambda: self.judge_whether_available_event() or self.has_event_but_closed,
             times=self.try_enter_times
         )
-        
+        if self.has_event_but_closed:
+            logging.warn("存在活动但是已经结束")
+            return
         if not enter_event:
             logging.warn("未能成功进入活动Event页面")
             return
-        else:
-            logging.info("成功进入Event页面")
+        logging.info("成功进入Event页面")
         today = time.localtime().tm_mday
         
         # 检测并跳过剧情
