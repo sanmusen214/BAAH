@@ -5,11 +5,10 @@ if __name__ in {"__main__", "__mp_main__"}:
         import sys
         from modules.configs.MyConfig import MyConfigger, config
         # 是否以网页形式运行
-        isweb=True
         print("参数：", sys.argv)
         if len(sys.argv) > 1:
             if sys.argv[1] == "window":
-                isweb=False
+                config.sessiondict["GUI_OPEN_IN_WEB"] = False
         # 获取到user config文件夹下以json为后缀的文件
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
@@ -37,8 +36,7 @@ if __name__ in {"__main__", "__mp_main__"}:
                     show_GUI(alljson_list[i], MyConfigger())
         
         # 运行GUI
-        print("打开形式："+("网页" if isweb else "窗口"))
-        if not isweb:
+        if not config.sessiondict["GUI_OPEN_IN_WEB"]:
             ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
         else:
             ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())

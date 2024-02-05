@@ -95,4 +95,5 @@ defaultSoftwareDict = {
 defaultSessionDict = {
     "PORT_IS_USED":{"d":False},
     "EMULATOR_PROCESS_PID":{"d":None},
+    "GUI_OPEN_IN_WEB":{"d":True}
 }
