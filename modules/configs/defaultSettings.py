@@ -48,6 +48,9 @@ defaultUserDict = {
              "map" : lambda x: server2pic[x] if x in server2pic else "./DATA/assets"
         }
     },
+    "GRID_SOL_PATH":{
+      "d":"./DATA/grid_solution"  
+    },
     "FANHEXIE":{"d":False},
     "ACTIVITY_PATH":{
         "d":"com.nexon.bluearchive/.MxUnityPlayerActivity",

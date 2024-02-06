@@ -42,4 +42,4 @@ class PageName:
 
     PAGE_SHOP = "PAGE_SHOP"
 
-    
+    PAGE_GRID_FIGHT = "PAGE_GRID_FIGHT"

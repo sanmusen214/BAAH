@@ -3,6 +3,7 @@ from typing import Tuple, Union
 from .adb_utils import *
 from .image_processing import *
 from .subprocess_helper import *
+from .grid_analyze import *
 
 import logging
 import time
@@ -16,6 +17,18 @@ def get_config_screenshot_name():
 
 def get_config_pic_path():
     return config.userconfigdict['PIC_PATH']
+
+def get_pic_data(image_url):
+    """
+    通过url获取图像的内容
+    """
+    return cv2.imread(image_url)
+
+def get_screenshot_cv_data():
+    """
+    获取截图的内容数据
+    """
+    return get_pic_data(get_config_screenshot_name())
 
 def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -> bool:
     """

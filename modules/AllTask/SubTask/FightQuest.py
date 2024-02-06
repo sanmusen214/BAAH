@@ -19,14 +19,21 @@ class FightQuest(Task):
     
     backtopic: 最后领完奖励回到的页面的匹配逻辑，回调函数
     """
-    def __init__(self, backtopic, name="FightQuest") -> None:
+    def __init__(self, backtopic, start_from_editpage=True, name="FightQuest") -> None:
         super().__init__(name)
         self.backtopic=backtopic
+        # 是否从编辑部队页面开始，或者直接就是游戏内战斗画面
+        self.start_from_editpage = start_from_editpage
         self.click_magic_when_run = False
         self.pre_times = 1
 
     
     def pre_condition(self) -> bool:
+        if not self.start_from_editpage:
+            """
+            如果是从游戏内战斗画面开始，那么直接判断True
+            """
+            return True
         click(Page.MAGICPOINT, 1)
         click(Page.MAGICPOINT, 1)
         screenshot()
@@ -42,13 +49,14 @@ class FightQuest(Task):
     
     
     def on_run(self) -> None:
-        # 点击出击按钮位置
-        # 用竞技场的匹配按钮精度不够，点击固定位置即可
-        self.run_until(
-            lambda: click((1106, 657)) and click(Page.MAGICPOINT),
-            lambda: not Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM),
-            sleeptime = 2
-        )
+        if self.start_from_editpage:
+            # 点击出击按钮位置
+            # 用竞技场的匹配按钮精度不够，点击固定位置即可
+            self.run_until(
+                lambda: click((1106, 657)) and click(Page.MAGICPOINT),
+                lambda: not Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM),
+                sleeptime = 2
+            )
         # 战斗中
         logging.info("战斗中...")
         # 等到右上角白色UI出来
@@ -93,8 +101,19 @@ class FightQuest(Task):
         hasconfirmy = self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
-            times = 3
+            times = 2
         )
+        if not hasconfirmy:
+            """
+            走格子打完boss后的结算的黄色按钮和普通黄色按钮不一样，识别不到，这里如果识别不到普通黄色按钮，就手动点一些那个特殊的黄色按钮位置，然后再判断一次
+            """
+            click((1010, 666))
+            hasconfirmy = self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+                times = 3,
+                sleeptime = 2
+            )
 
         if not hasconfirmy:
             SkipStory(pre_times=5).run()

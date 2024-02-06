@@ -17,6 +17,7 @@ import cv2
 import os
 import time
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
+from modules.AllTask.SubTask.GridQuest import GridQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 import numpy as np
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
@@ -117,11 +118,11 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./BUTTON_FIGHT_RESULT_CONFIRMB.png",  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CONFIRMY),  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
-    screencut_tool()
+    # screencut_tool()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
@@ -131,6 +132,8 @@ if __name__=="__main__":
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
+    ga = GridAnalyzer("quest","h20-1.json")
+    GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
     
     # 扫荡关卡识别地区数字
     # for i in range(20):
@@ -146,7 +149,7 @@ if __name__=="__main__":
     # print(res)
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
-    # reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+    # reslist = ocr_area((72, 544), (91, 569), multi_lines=False)
     # print(reslist)
     
     # 测task
