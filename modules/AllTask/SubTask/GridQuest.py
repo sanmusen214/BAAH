@@ -59,21 +59,46 @@ class GridQuest(Task):
         SkipStory(pre_times=2).run()
         return Page.is_page(PageName.PAGE_GRID_FIGHT)
     
-    def wait_end(self):
+    def whether_contain_number(self, string:str):
+        """
+        判断字符串是否包含数字
+        """
+        for i in string:
+            if i.isdigit():
+                return True
+        return False
+    
+    def wait_end(self, possible_fight = False):
         """
         点击右下任务资讯，等待战斗结束可以弹出弹窗，然后点击魔法点关掉弹窗
         """
         # 如果返回到了self.backtopic()指定的页面，那么直接返回
         if self.backtopic():
             return True
+        if possible_fight:
+            # 判断是否进了局内战斗
+            sleep(5)
+            screenshot()
+            # 如果匹配不上左上角页面标题，那么就是局内战斗,局内战斗完应该是直接返回到上级界面
+            # 所以局内战斗的话就不进入else分支了
+            if not match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+                FightQuest(self.backtopic, start_from_editpage=False).run()
+                return
+        # 清弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
+        # 出弹窗
         self.run_until(
             lambda: click(self.BUTTON_TASK_INFO),
             lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
-            times=15,
+            times=18,
             sleeptime=1.5
         )
+        # 清弹窗
         self.run_until(
-            lambda: click(Page.MAGICPOINT, 1),
+            lambda: click(Page.MAGICPOINT),
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
     
@@ -87,7 +112,11 @@ class GridQuest(Task):
         )
         # 识别左下角切换队伍的按钮文字
         now_team_str, loss = ocr_area((72, 544), (91, 569), multi_lines=False)
-        nowteam_ind = int(now_team_str)-1
+        try:
+            nowteam_ind = int(now_team_str)-1
+        except ValueError as e:
+            logging.error("识别左下角切换队伍的按钮文字失败")
+            raise Exception("识别左下角切换队伍的按钮文字失败")
         self.now_focus_on_team = nowteam_ind
         return nowteam_ind
         
@@ -141,10 +170,22 @@ class GridQuest(Task):
                 # 点击使其移动
                 logging.info(f'点击{need_click_position}')
                 click(need_click_position, sleeptime=1)
+                # 默认是move事件，此外还有portal，exchange需要特殊处理
+                if action["action"]=="exchange":
+                    sleep(2)
+                    self.run_until(
+                            lambda: click(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM)),
+                            lambda: not match(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM))
+                        )
+                elif action["action"]=="portal":
+                    sleep(2)
+                    self.run_until(
+                        lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
+                        lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+                    )
                 if action_ind==len(actions)-1 and step_ind==self.grider.get_num_of_steps(self.require_type)-1:
-                    # 打boss咯，必须局内
-                    sleep(5)
-                    FightQuest(self.backtopic, start_from_editpage=False).run()
+                    # 可能局内战斗，自己去碰boss
+                    self.wait_end(possible_fight=True)
                 else:
                     # 可能触发打斗
                     self.wait_end()
@@ -155,8 +196,11 @@ class GridQuest(Task):
                 lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
-            # 一个回合结束，等敌方行动结束
-            self.wait_end()
+            if step_ind==self.grider.get_num_of_steps(self.require_type)-1:
+                # 一个回合结束，等敌方行动结束，可能是回合结束boss凑过来
+                self.wait_end(possible_fight=True)
+            else:
+                self.wait_end()
         
         
      

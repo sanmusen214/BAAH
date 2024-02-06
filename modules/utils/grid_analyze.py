@@ -4,6 +4,9 @@ import os
 import json
 from modules.utils import config
 
+# move: "left", "right", "left-up", "left-down", "right-up", "right-down", "stay"
+# exhange： 同上，必定交换。不交换的话用move
+# portal: 同上，必定传送。不传送的话用move
 
 class GridAnalyzer:
     """
@@ -45,7 +48,8 @@ class GridAnalyzer:
         "left-up":(-80, -60),
         "left-down":(80, -60),
         "right-up":(-80, 60),
-        "right-down":(80, 60)
+        "right-down":(80, 60),
+        "stay":(0, 0)
     }
     
     def __init__(self, sol_type, jsonfilename) -> None:

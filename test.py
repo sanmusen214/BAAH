@@ -118,7 +118,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CONFIRMY),  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
@@ -132,7 +132,7 @@ if __name__=="__main__":
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
-    ga = GridAnalyzer("quest","h20-1.json")
+    ga = GridAnalyzer("quest","15-4.json")
     GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
     
     # 扫荡关卡识别地区数字
