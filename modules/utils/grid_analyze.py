@@ -179,9 +179,9 @@ class GridAnalyzer:
 
     def get_direction(self, angles, direction_list):
         """
-        计算每个角度，与哪一个标准方位的角度最接近，注意靠近360度的角度，要特殊处理
+        计算angles每个角度，与哪一个direction_list里标准方位的角度最接近，注意靠近360度的角度，要特殊处理
         
-        angles: 屏幕上已知的聚类中心点
+        angles: 屏幕上已知的聚类中心点相对角
         direction_list: 攻略说明的队伍初始位置
         """
         # print(direction_list)

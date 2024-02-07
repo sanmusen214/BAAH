@@ -37,6 +37,13 @@ class GridQuest(Task):
     BUTTON_TASK_INFO = (996, 665)
     BUTTON_SEE_OTHER_TEAM = (82, 554)
     
+    TEAM_TYPE_NAME = {
+        "red":"爆发",
+        "blue":"神秘",
+        "yellow":"贯穿",
+        "purple":"振动"
+    }
+    
     def __init__(self, grider:GridAnalyzer, backtopic, require_type="3star", name="GridQuest") -> None:
         super().__init__(name)
         self.backtopic=backtopic
@@ -134,9 +141,75 @@ class GridQuest(Task):
             return False
         # 设置队伍数量
         self.team_names = [item["name"] for item in self.grider.get_initialteams(self.require_type)]
-        # TODO: 配队
-        
+        # ========== 配队 ============
+        last_team_set_list = config.sessiondict["LAST_TEAM_SET"]
+        now_need_team_set_list = [item["type"] for item in self.grider.get_initialteams(self.require_type)]
+        need_user_set_teams = False
+        # 判断能否直接用上次的队伍
+        for ind in range(len(now_need_team_set_list)):
+            if len(last_team_set_list)<=ind or last_team_set_list[ind]!=now_need_team_set_list[ind]:
+                # 让用户去配队！
+                need_user_set_teams = True
+                break
+        if need_user_set_teams:
+            # 需要用户配队
+            logging.info("未保存适合的配置，请按照以下队伍要求配队")
+            for ind in range(len(now_need_team_set_list)):
+                logging.info(f"    编辑部队-> {ind+1}部队: {now_need_team_set_list[ind]} {self.TEAM_TYPE_NAME[now_need_team_set_list[ind]]}")
+            logging.info("同时，请确保你的SKIP战斗设置为开启，PHASE自动结束为关闭")
+            input("配队结束后请直接返回至走格子界面，不用点击出击。输入回车继续：")
+            # 更新队伍信息
+            config.sessiondict["LAST_TEAM_SET"] = now_need_team_set_list
+            logging.info("配队信息已更新")
+        screenshot()
+        if match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)):
+            click(Page.TOPLEFTBACK, 1)
+        # 选择队伍START
+        # 尚未配队的队伍的相对文字化角度描述
+        tobe_setted_team_poses = [item["position"] for item in self.grider.get_initialteams(self.require_type)]
+        for focus_team_ind in range(len(self.team_names)):
+            logging.info(f"配置队伍{self.team_names[focus_team_ind]}")
+            screenshot()
+            if not match(page_pic(PageName.PAGE_GRID_FIGHT)):
+                logging.error("未识别到走格子界面")
+                raise Exception("未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍")
+            # 得到初始中心
+            center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
+            # 得到相应偏角
+            angles = self.grider.get_angle(center_poses, global_center)
+            # 得到初始中心对应的文字化角度描述
+            directions = self.grider.get_direction(angles, tobe_setted_team_poses)
+            # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
+            # 现在要处理的队伍的文字化角度描述
+            now_team_pos = tobe_setted_team_poses[focus_team_ind]
+            # 找到这个角度描述是derections里的第几个
+            now_team_pos_ind = directions.index(now_team_pos)
+            # 点击这个中心
+            target_click_team_center = center_poses[now_team_pos_ind]
+            target_click_team_center = [int(target_click_team_center[1]), int(target_click_team_center[0])]
+            click(target_click_team_center, 1)
+            edit_page_result = self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
+            )
+            if not edit_page_result:
+                raise Exception("未识别到配队界面，请确保当前界面是配队界面且你未手动出击任何队伍")
+            # 点击确定
+            logging.info("点击出击")
+            self.run_until(
+                lambda: click(self.BUTTON_TASK_START),
+                lambda: not match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)),
+                sleeptime=3
+            )
+            
+            # 等待回到走格子界面
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match(page_pic(PageName.PAGE_GRID_FIGHT))
+            )
         # ==========开打！============
+        sleep(1.5)
+        logging.info("开始战斗！")
         # 点击任务开始
         click(self.BUTTON_TASK_START, sleeptime=1)
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
@@ -197,7 +270,7 @@ class GridQuest(Task):
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
             if step_ind==self.grider.get_num_of_steps(self.require_type)-1:
-                # 一个回合结束，等敌方行动结束，可能是回合结束boss凑过来
+                # 等敌方行动结束，可能是回合结束boss凑过来
                 self.wait_end(possible_fight=True)
             else:
                 self.wait_end()

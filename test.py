@@ -4,11 +4,11 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]
-    config = config.parse_user_config(configname)
+    config.parse_user_config(configname)
     print("读取指定的config文件: "+configname)
 else:
     configname = "config.json"
-    config = config.parse_user_config(configname)
+    config.parse_user_config(configname)
     print("读取默认config文件: "+configname)
 # 图片截取&标注
 import threading
@@ -122,7 +122,7 @@ if __name__=="__main__":
     
 
     # 比划点
-    # screencut_tool()
+    screencut_tool()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
@@ -132,8 +132,8 @@ if __name__=="__main__":
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
-    ga = GridAnalyzer("quest","15-4.json")
-    GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
+    # ga = GridAnalyzer("quest","15-4.json")
+    # GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
     
     # 扫荡关卡识别地区数字
     # for i in range(20):
