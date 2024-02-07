@@ -161,7 +161,7 @@ class MyConfigger:
         for shouldKey in defaultSessionDict:
             # 如果没有这个值
             if shouldKey not in self.sessiondict:
-                self.sessiondict[shouldKey] = self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
+                self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
 
     def get_text(self, text_id):
         """
