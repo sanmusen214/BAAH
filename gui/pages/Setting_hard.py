@@ -6,6 +6,8 @@ def set_hard(config):
         ui.link_target("HARD")
         ui.label(config.get_text("task_hard")).style('font-size: x-large')
     
+    ui.number(config.get_text("config_push_hard_desc"), min=0, precision=0, step=1).bind_value(config.userconfigdict, "PUSH_HARD_QUEST", forward=lambda x: int(x)).style("width: 300px")
+    
     ui.label(config.get_text("config_desc_times"))
     
     list_edit_area(

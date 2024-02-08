@@ -1,4 +1,4 @@
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 from modules.AllTask.Task import Task
 from modules.AllPage.Page import Page
 import logging
@@ -45,3 +45,16 @@ def close_popup_until_see(picurl) -> None:
         lambda: click(Page.MAGICPOINT),
         lambda: match(picurl)
     )
+    
+def judge_whether_3star():
+    """
+    判断弹窗内是否已经三星
+    """
+    gray_star = ((195, 195, 195), (205, 205, 205))
+    star_positions = ((168, 372), (168, 406), (168, 439))
+    has_star_count = 0
+    for pos in star_positions:
+        if not match_pixel(pos, gray_star):
+            has_star_count += 1
+    return has_star_count == 3
+    

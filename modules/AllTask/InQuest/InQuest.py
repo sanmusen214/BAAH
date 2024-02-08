@@ -11,10 +11,14 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 from .HardQuest import HardQuest
 from .NormalQuest import NormalQuest
+from .PushQuest import PushQuest
 import time
 from modules.configs.MyConfig import config
 
 class InQuest(Task):
+    """
+    进入 普通关卡/困难关卡， types=["normal", "hard", "push-normal", "push-hard"]
+    """
     def __init__(self, types=["normal", "hard"], name="InQuest") -> None:
         super().__init__(name)
         self.types = types
@@ -38,6 +42,22 @@ class InQuest(Task):
             lambda: click((816, 259)),
             lambda: Page.is_page(PageName.PAGE_QUEST_SEL),
         )
+        if "push-normal" in self.types:
+            # 判断配置里的PUSH_NORMAL_QUEST长度是否为0
+            if config.userconfigdict['PUSH_NORMAL_QUEST'] != 0:
+                # do PUSH NORMAL QUEST
+                logging.info("设置了推普通图任务，开始推图")
+                # 序号转下标 章节号
+                push_normal_ind = config.userconfigdict['PUSH_NORMAL_QUEST']-1
+                PushQuest("normal", push_normal_ind).run()
+        if "push-hard" in self.types:
+            # 判断配置里的PUSH_HARD_QUEST长度是否为0
+            if config.userconfigdict['PUSH_HARD_QUEST'] != 0:
+                # do PUSH HARD QUEST
+                logging.info("设置了推困难图任务，开始推图")
+                # 序号转下标，章节号
+                push_hard_ind = config.userconfigdict['PUSH_HARD_QUEST'] - 1
+                PushQuest("hard", push_hard_ind).run()
         # 当天日期
         today = time.localtime().tm_mday
         if "hard" in self.types:

@@ -77,6 +77,8 @@
     "config_adb_path": "ADB Path",
     "config_screenshot_name": "Screenshot File Name",
     "config_auto_event_story":"Auto View Event Story",
+    "config_push_normal_desc":"push normal stage start chapter, 0 means not push",
+    "config_push_hard_desc":"push hard stage start chapter, 0 means not push",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

@@ -65,6 +65,7 @@ class GridAnalyzer:
                 self.level_data = json.load(f)
         except Exception as e:
             print(e)
+            raise Exception("读取关卡json文件失败")
 
     
 

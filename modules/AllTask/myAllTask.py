@@ -19,11 +19,11 @@ task_dict= {
     "特殊任务":[InSpecial,{}],
     "学园交流会":[InExchange,{}],
     "战术大赛":[InContest, {'collect':False}],
-    "困难关卡":[InQuest, {'types':["hard"]}],
+    "困难关卡":[InQuest, {'types':["hard", "push-hard"]}],
     "活动关卡":[InEvent,{}],
     "每日任务":[CollectDailyRewards,{}],
     "邮件":[CollectMails,{}],
-    "普通关卡":[InQuest, {'types':["normal"]}],
+    "普通关卡":[InQuest, {'types':["normal", "push-normal"]}]
 }
 
 class AllTask:

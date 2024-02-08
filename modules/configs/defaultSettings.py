@@ -23,6 +23,8 @@ defaultUserDict = {
     "TASK_ORDER": {"d":["登录游戏"]},
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
+    "PUSH_NORMAL_QUEST": {"d":0},
+    "PUSH_HARD_QUEST": {"d":0},
     "TASK_ACTIVATE": {"d":[True]},
     # new config in 1.2.x
     "SERVER_TYPE":{

@@ -178,13 +178,13 @@
         false,
         false,
         false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false
     ],
     "SHOP_NORMAL_REFRESH_TIME": 0,
@@ -196,5 +196,7 @@
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": false,
     "AUTO_EVENT_STORY_PUSH": false,
-    "GRID_SOL_PATH": "./DATA/grid_solution"
+    "GRID_SOL_PATH": "./DATA/grid_solution",
+    "PUSH_NORMAL_QUEST": 0,
+    "PUSH_HARD_QUEST": 10
 }

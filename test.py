@@ -145,7 +145,7 @@ if __name__=="__main__":
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
-    # res = ocr_area((901, 88), (989, 123))
+    # res = ocr_area((327, 257), (353, 288))
     # print(res)
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
