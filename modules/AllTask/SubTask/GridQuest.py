@@ -41,7 +41,8 @@ class GridQuest(Task):
         "red":"爆发",
         "blue":"神秘",
         "yellow":"贯穿",
-        "purple":"振动"
+        "purple":"振动",
+        "any":"任意"
     }
     
     def __init__(self, grider:GridAnalyzer, backtopic, require_type="3star", name="GridQuest") -> None:
@@ -147,7 +148,7 @@ class GridQuest(Task):
         need_user_set_teams = False
         # 判断能否直接用上次的队伍
         for ind in range(len(now_need_team_set_list)):
-            if len(last_team_set_list)<=ind or last_team_set_list[ind]!=now_need_team_set_list[ind]:
+            if len(last_team_set_list)<=ind or (last_team_set_list[ind]!=now_need_team_set_list[ind] and now_need_team_set_list[ind]!="any"):
                 # 让用户去配队！
                 need_user_set_teams = True
                 break
@@ -175,10 +176,10 @@ class GridQuest(Task):
                 raise Exception("未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍")
             # 得到初始中心
             center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
-            # 得到相应偏角
-            angles = self.grider.get_angle(center_poses, global_center)
+            # 得到相应偏角和距离
+            angles, distances = self.grider.get_angle(center_poses, global_center)
             # 得到初始中心对应的文字化角度描述
-            directions = self.grider.get_direction(angles, tobe_setted_team_poses)
+            directions = self.grider.get_direction(angles, distances, tobe_setted_team_poses)
             # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
             # 现在要处理的队伍的文字化角度描述
             now_team_pos = tobe_setted_team_poses[focus_team_ind]

@@ -4,6 +4,8 @@ import os
 import json
 from modules.utils import config
 
+# 走格子：https://bluearchive.wikiru.jp/?10%E7%AB%A0
+
 # move: "left", "right", "left-up", "left-down", "right-up", "right-down", "stay"
 # exhange： 同上，必定交换。不交换的话用move
 # portal: 同上，必定传送。不传送的话用move
@@ -29,7 +31,7 @@ class GridAnalyzer:
     """
     过程中的待定队伍的格子黄色
     """
-    # 标准起始方位的角度规定
+    # 标准起始方位的角度规定，有个center特殊判断
     START_MAP = {
         '180':"left",
         '0':"right",
@@ -41,7 +43,7 @@ class GridAnalyzer:
         '90':"up",
         '270':"down"
     }
-    # 队伍行走方向的角度判定
+    # 队伍行走方向的距离方位偏差
     WALK_MAP = {
         "left":(0, -115),
         "right":(0, 115),
@@ -167,7 +169,7 @@ class GridAnalyzer:
 
     def get_angle(self, start_centers, start_total_center):
         """
-        求start_centers里每个点到start_total_center的角度，角度计算以图像右侧，逆时针0-360度为标准
+        求start_centers里每个点到start_total_center的角度和距离，角度计算以图像右侧，逆时针0-360度为标准
         """
         angles = []
         for center in start_centers:
@@ -175,9 +177,13 @@ class GridAnalyzer:
             if angle < 0:
                 angle += 360
             angles.append(angle)
-        return angles
+        distances = []
+        for center in start_centers:
+            distance = np.sqrt((center[0] - start_total_center[0]) ** 2 + (center[1] - start_total_center[1]) ** 2)
+            distances.append(distance)
+        return angles, distances
 
-    def get_direction(self, angles, direction_list):
+    def get_direction(self, angles, distances, direction_list):
         """
         计算angles每个角度，与哪一个direction_list里标准方位的角度最接近，注意靠近360度的角度，要特殊处理
         
@@ -191,10 +197,19 @@ class GridAnalyzer:
         for k in self.START_MAP:
             if self.START_MAP[k] in direction_list:
                 start_map_cv[k] = self.START_MAP[k]
-        
+        # 开始处理，不过先筛选出center
+        has_center_ind = -1
+        if "center" in direction_list:
+            # 找到distances里最小的那个下标作为center_ind
+            has_center_ind = distances.index(min(distances))
         # print("start_map_cv", start_map_cv)
         directions = []
-        for angle in angles:
+        for angle_ind in range(len(angles)):
+            angle = angles[angle_ind]
+            # 判断是否是center
+            if angle_ind == has_center_ind:
+                directions.append("center")
+                continue
             min_diff = 360
             min_direction = ""
             for key in start_map_cv:
