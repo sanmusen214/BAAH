@@ -83,7 +83,7 @@ class PushQuest(Task):
             else:
                 # 当前关卡就是这次需要推图的关卡
                 left_up = ocr_area((139, 197), (216, 232))
-                page_level = left_up[0].split("-")
+                page_level = left_up[0].split(" ")[0].replace("|","").strip().split("-")
                 try:
                     # 这一步更新这次推图的实际章节和关卡下标
                     page_num = int(page_level[0])
@@ -92,7 +92,7 @@ class PushQuest(Task):
                     self.level_ind = level_num - 1
                     logging.info("关卡：{}-{}，开始推图".format(page_num, level_num))
                 except:
-                    logging.error("OCR关卡序号识别失败，结束此任务")
+                    logging.error(f"OCR关卡序号识别失败({left_up[0]})，结束此任务")
                     return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
