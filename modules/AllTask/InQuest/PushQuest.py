@@ -122,7 +122,7 @@ class PushQuest(Task):
                     lambda: match(page_pic(PageName.PAGE_GRID_FIGHT))
                 )
                 # 需求列表
-                require_types = grider.get_requires_list()
+                require_types = list(grider.get_requires_list().keys())
                 GridQuest(grider=grider, backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL)), require_type=require_types[self.require_type_ind]).run()
                 # 任务完成后，往后切换需求类型下标，如果超出了需求类型列表，就回到0，且level下标+1
                 self.require_type_ind += 1
