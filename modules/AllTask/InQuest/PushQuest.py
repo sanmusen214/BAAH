@@ -80,20 +80,23 @@ class PushQuest(Task):
             if match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
                 logging.info("关卡弹窗消失，结束此任务")
                 return
-            else:
-                # 当前关卡就是这次需要推图的关卡
-                left_up = ocr_area((139, 197), (216, 232))
-                page_level = left_up[0].split(" ")[0].replace("|","").strip().split("-")
-                try:
-                    # 这一步更新这次推图的实际章节和关卡下标
-                    page_num = int(page_level[0])
+            # 当前关卡就是这次需要推图的关卡
+            left_up = ocr_area((139, 197), (216, 232))
+            page_level = left_up[0].split(" ")[0].replace("|","").strip().split("-")
+            try:
+                # 这一步更新这次推图的实际章节和关卡下标
+                page_num = int(page_level[0])
+                self.page_ind = page_num - 1
+                if page_level[1] == "A" or page_level[1] == "B" or page_level[1] == "C":
+                    # 如果为A/B/C关卡，就直接把level+=1
+                    self.level_ind += 1
+                else:
                     level_num = int(page_level[1])
-                    self.page_ind = page_num - 1
                     self.level_ind = level_num - 1
-                    logging.info("关卡：{}-{}，开始推图".format(page_num, level_num))
-                except:
-                    logging.error(f"OCR关卡序号识别失败({left_up[0]})，结束此任务")
-                    return
+                logging.info("关卡：{}-{}，开始推图".format(page_num, level_num))
+            except:
+                logging.error(f"OCR关卡序号识别失败({left_up[0]})，结束此任务")
+                return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
             ocr_s = ocr_area((327, 257), (353, 288))

@@ -49,7 +49,7 @@ class InQuest(Task):
                 logging.info("设置了推普通图任务，开始推图")
                 # 序号转下标 章节号
                 push_normal_ind = config.userconfigdict['PUSH_NORMAL_QUEST']-1
-                PushQuest("normal", push_normal_ind).run()
+                PushQuest("normal", push_normal_ind, level_ind=config.userconfigdict["PUSH_NORMAL_QUEST_LEVEL"]-1).run()
         if "push-hard" in self.types:
             # 判断配置里的PUSH_HARD_QUEST长度是否为0
             if config.userconfigdict['PUSH_HARD_QUEST'] != 0:
@@ -57,7 +57,7 @@ class InQuest(Task):
                 logging.info("设置了推困难图任务，开始推图")
                 # 序号转下标，章节号
                 push_hard_ind = config.userconfigdict['PUSH_HARD_QUEST'] - 1
-                PushQuest("hard", push_hard_ind).run()
+                PushQuest("hard", push_hard_ind, level_ind=config.userconfigdict["PUSH_HARD_QUEST_LEVEL"]-1).run()
         # 当天日期
         today = time.localtime().tm_mday
         if "hard" in self.types:

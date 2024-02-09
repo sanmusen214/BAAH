@@ -24,7 +24,9 @@ defaultUserDict = {
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
     "PUSH_NORMAL_QUEST": {"d":0},
+    "PUSH_NORMAL_QUEST_LEVEL": {"d":1},
     "PUSH_HARD_QUEST": {"d":0},
+    "PUSH_HARD_QUEST_LEVEL": {"d":1},
     "TASK_ACTIVATE": {"d":[True]},
     # new config in 1.2.x
     "SERVER_TYPE":{
