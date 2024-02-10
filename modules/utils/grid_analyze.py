@@ -6,7 +6,7 @@ from modules.utils import config
 
 # 走格子：https://bluearchive.wikiru.jp/?10%E7%AB%A0
 
-# move: "left", "right", "left-up", "left-down", "right-up", "right-down", "stay"
+# move: "left", "right", "left-up", "left-down", "right-up", "right-down", "center"
 # exhange： 同上，必定交换。不交换的话用move
 # portal: 同上，必定传送。不传送的话用move
 
@@ -29,7 +29,11 @@ class GridAnalyzer:
     """
     PIXEL_MAIN_YELLOW = ((163, 248, 250), (177, 255, 255))
     """
-    过程中的待定队伍的格子黄色
+    过程中的聚焦队伍的格子黄色
+    """
+    PIXEL_HEAD_YELLOW = ((25, 223, 254), (32, 235, 255))
+    """
+    过程中的聚焦队伍的头顶黄色箭头
     """
     # 标准起始方位的角度规定，有个center特殊判断
     START_MAP = {
@@ -51,7 +55,7 @@ class GridAnalyzer:
         "left-down":(80, -60),
         "right-up":(-80, 60),
         "right-down":(80, 60),
-        "stay":(0, 0)
+        "center":(0, 0)
     }
     
     def __init__(self, sol_type, jsonfilename) -> None:
