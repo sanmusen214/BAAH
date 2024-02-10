@@ -81,25 +81,38 @@ class PushQuest(Task):
                 logging.info("关卡弹窗消失，结束此任务")
                 return
             # 当前关卡就是这次需要推图的关卡
-            left_up = ocr_area((139, 197), (216, 232))
-            page_level = left_up[0].split(" ")[0].replace("|","").strip().split("-")
+            # 国服弹窗往右偏移了50
+            offsetx = 0
+            if config.userconfigdict["SERVER_TYPE"] == "CN":
+                offsetx = 50
+            left_up = ocr_area((139+offsetx, 197), (216+offsetx, 232))
+            page_level = left_up[0].split(" ")[0].replace("|","").replace("[","").replace("]","").strip().split("-")
             try:
                 # 这一步更新这次推图的实际章节和关卡下标
                 page_num = int(page_level[0])
                 self.page_ind = page_num - 1
                 if page_level[1] == "A" or page_level[1] == "B" or page_level[1] == "C":
-                    # 如果为A/B/C关卡，就直接把level+=1
-                    self.level_ind += 1
+                    # 如果为A/B/C关卡，就直接把来到这里的这一次的level作为这次的level
+                    # 一般来说关卡号为A的关卡都是一章节的最后一关，且为普通关，打完后不会消失
+                    pass
                 else:
                     level_num = int(page_level[1])
+                    # 否则将识别到的关卡序号-1作为这次的level下标
                     self.level_ind = level_num - 1
                 logging.info("关卡：{}-{}，开始推图".format(page_num, level_num))
             except:
-                logging.error(f"OCR关卡序号识别失败({left_up[0]})，结束此任务")
-                return
+                logging.warn(f"OCR关卡序号识别失败({left_up[0]})")
+                if not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
+                    # 如果匹配到开始任务，说明是支线关卡，打完就会消失
+                    logging.info("判断为支线关卡")
+                    # 这里将level_ind-1，因为支线关卡打完后会消失，让后面打完后的level_ind+1刚好抵消
+                    self.level_ind -= 1
+                else:
+                    logging.error(f"OCR关卡序号识别失败({left_up[0]}), 且未匹配到开始任务按钮，结束此任务")
+                    return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
-            ocr_s = ocr_area((327, 257), (353, 288))
+            ocr_s = ocr_area((327+offsetx, 257), (353+offsetx, 288))
             walk_grid = None
             if ocr_s[0].upper() != "S":
                 logging.info("未识别到S等级，判断为普通战斗")
@@ -108,12 +121,18 @@ class PushQuest(Task):
                 logging.info("识别到S标签，判断为走格子战斗")
                 walk_grid = True
             if not walk_grid:
-                self.run_until(
+                enteredit = self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
                     lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
                 )
+                if not enteredit:
+                    # 支线任务的开始任务按钮在中间
+                    self.run_until(
+                        lambda: click((639, 516)),
+                        lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
+                    )
                 FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
-                # 普通任务完成后，level下标+1
+                # 普通任务完成后，level下标直接+1
                 self.level_ind += 1
             else:
                 jsonname = f"{self.page_ind+1}-{self.level_ind+1}.json"
@@ -132,6 +151,6 @@ class PushQuest(Task):
                 if self.require_type_ind >= len(require_types):
                     self.require_type_ind = 0
                     self.level_ind += 1
-     
+            logging.info(f"一个战斗完成，更新关卡下标为{self.level_ind}")
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_QUEST_SEL)

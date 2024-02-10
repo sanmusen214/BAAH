@@ -91,30 +91,55 @@ class GridQuest(Task):
         # 如果返回到了self.backtopic()指定的页面，那么直接返回
         if self.backtopic():
             return True
+        # 自动打斗中也是打不开弹窗，进了局内战斗也是打不开弹窗
+        # 判断是否进了局内战斗
+        # 如果能点开弹窗且仍然在走格子界面，则必定没有进入局内战斗。
+        # 如果没有开关弹窗这个效果，那么继续讨论
+        #     如果在走格子界面，那么可能会进入局内战斗可能不会
+        #     如果不在走格子界面，上面又已知没有返回backtopic，那么就是进入了局内战斗
+        # 局内战斗完应该是直接返回到上级界面，所以局内战斗的话就直接return就行了
         if possible_fight:
-            # 判断是否进了局内战斗
-            sleep(5)
-            screenshot()
-            # 如果匹配不上左上角页面标题，那么就是局内战斗,局内战斗完应该是直接返回到上级界面
-            # 所以局内战斗的话就不进入else分支了
-            if not match(page_pic(PageName.PAGE_GRID_FIGHTING)):
-                FightQuest(self.backtopic, start_from_editpage=False).run()
-                return
+            for try_time in range(5):
+                # 试试有没有开关弹窗效果
+                pre_close = self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+                )
+                can_open = self.run_until(
+                    lambda: click(self.BUTTON_TASK_INFO_POS, 1.5),
+                    lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+                )
+                can_close = self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+                )
+                if pre_close and can_open and can_close:
+                    # 有开关弹窗效果
+                    logging.info("有开关弹窗效果")
+                    if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+                        # 在走格子界面，铁定没进局内战斗
+                        return
+                else:
+                    # 没有开关弹窗效果
+                    if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+                        # 在走格子界面，可能进局内战斗，可能不进
+                        continue
+                    elif not self.backtopic():
+                        # 不在走格子界面，没有返回backtopic,那么就是进入了局内战斗
+                        FightQuest(self.backtopic, start_from_editpage=False).run()
+                        return
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # 出弹窗
-        has_popup = self.run_until(
+        self.run_until(
             lambda: click(self.BUTTON_TASK_INFO_POS),
             lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             times=18,
             sleeptime=1.5
         )
-        if not has_popup:
-            logging.warn("未识别到弹窗，可能你没有打开跳过战斗？")
-            FightQuest(self.backtopic, start_from_editpage=False).run()
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -130,7 +155,11 @@ class GridQuest(Task):
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # 识别左下角切换队伍的按钮文字
-        now_team_str, loss = ocr_area((72, 544), (91, 569), multi_lines=False)
+        offsetx = 0
+        if config.userconfigdict["SERVER_TYPE"] == "CN":
+            offsetx = 45
+        now_team_str, loss = ocr_area((72+offsetx, 544), (91+offsetx, 569), multi_lines=False)
+        logging.info(f"ocr结果{now_team_str}")
         try:
             nowteam_ind = int(now_team_str)-1
         except ValueError as e:
@@ -238,8 +267,8 @@ class GridQuest(Task):
         # ==========开打！============
         sleep(1.5)
         logging.info("开始战斗！")
-        # 点击任务开始
-        click(self.BUTTON_TASK_START_POS, sleeptime=1)
+        # 点击任务开始，这边多等一会，有的服战斗开始时会强制转到二队视角
+        click(self.BUTTON_TASK_START_POS, sleeptime=4)
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
             # 循环每一个回合
             actions = self.grider.get_action_of_step(self.require_type, step_ind)
@@ -262,6 +291,7 @@ class GridQuest(Task):
                     if knn_positions[0][0]<0 or knn_positions[0][1]<0:
                         mode = "foot"
                         # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
+                        logging.info("三角识别失败，尝试使用砖块识别")
                         knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
                         if knn_positions[0][0]<0 or knn_positions[0][1]<0:
                             # 如果还是失败，那么就是失败了
@@ -317,11 +347,11 @@ class GridQuest(Task):
                 else:
                     # 可能触发打斗
                     self.wait_end()
-                # action处理完
+                # action处理完，保存这次action
                 self.lastaction = action
             # 回合结束，手动点击PHASE结束，有时候有的队伍还可以走，就点击确认按钮
             logging.info("PHASE结束")
-            click(self.BUTTON_TASK_START_POS, sleeptime=1)
+            click(self.BUTTON_TASK_START_POS, sleeptime=2)
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)

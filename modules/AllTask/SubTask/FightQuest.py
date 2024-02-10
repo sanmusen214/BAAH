@@ -39,7 +39,7 @@ class FightQuest(Task):
             return self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE),
-                times=5,
+                times=15,
                 sleeptime = 2
             )
         click(Page.MAGICPOINT, 1)
