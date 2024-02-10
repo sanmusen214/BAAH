@@ -33,9 +33,9 @@ class GridQuest(Task):
             最后领完奖励回到的页面的匹配逻辑，回调函数
     """
     
-    BUTTON_TASK_START = (1171, 668)
-    BUTTON_TASK_INFO = (996, 665)
-    BUTTON_SEE_OTHER_TEAM = (82, 554)
+    BUTTON_TASK_START_POS = (1171, 668)
+    BUTTON_TASK_INFO_POS = (996, 665)
+    BUTTON_SEE_OTHER_TEAM_POS = (82, 554)
     
     TEAM_TYPE_NAME = {
         "red":"爆发",
@@ -45,7 +45,7 @@ class GridQuest(Task):
         "any":"任意"
     }
     
-    def __init__(self, grider:GridAnalyzer, backtopic, require_type="3star", name="GridQuest") -> None:
+    def __init__(self, grider:GridAnalyzer, backtopic, require_type, name="GridQuest") -> None:
         super().__init__(name)
         self.backtopic=backtopic
         self.grider=grider
@@ -56,9 +56,13 @@ class GridQuest(Task):
         # 用于本策略的队伍名字，字母列表，["A","B","C"...]
         self.team_names = []
         # 上一次action
-        self.lastaction = {}
+        self.lastaction = {
+            "team":"",
+            "action":"",
+            "target":""
+        }
         # 上一次为了队伍移动点击的位置
-        self.last_click_position = []
+        self.last_click_position = [-1, -1]
 
     
     def pre_condition(self) -> bool:
@@ -102,12 +106,15 @@ class GridQuest(Task):
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # 出弹窗
-        self.run_until(
-            lambda: click(self.BUTTON_TASK_INFO),
+        has_popup = self.run_until(
+            lambda: click(self.BUTTON_TASK_INFO_POS),
             lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             times=18,
             sleeptime=1.5
         )
+        if not has_popup:
+            logging.warn("未识别到弹窗，可能你没有打开跳过战斗？")
+            FightQuest(self.backtopic, start_from_editpage=False).run()
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -212,13 +219,13 @@ class GridQuest(Task):
                 if edit_page_result:
                     break
                 else:
-                    click(self.BUTTON_SEE_OTHER_TEAM, 1)
+                    click(self.BUTTON_SEE_OTHER_TEAM_POS, 1)
             if not edit_page_result:
                 raise Exception("未识别到配队界面，请确保当前界面是配队界面且你未手动出击任何队伍")
             # 点击确定
             logging.info("点击出击")
             self.run_until(
-                lambda: click(self.BUTTON_TASK_START),
+                lambda: click(self.BUTTON_TASK_START_POS),
                 lambda: not match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)),
                 sleeptime=3
             )
@@ -232,7 +239,7 @@ class GridQuest(Task):
         sleep(1.5)
         logging.info("开始战斗！")
         # 点击任务开始
-        click(self.BUTTON_TASK_START, sleeptime=1)
+        click(self.BUTTON_TASK_START_POS, sleeptime=1)
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
             # 循环每一个回合
             actions = self.grider.get_action_of_step(self.require_type, step_ind)
@@ -242,7 +249,7 @@ class GridQuest(Task):
                 target_team_ind = self.team_names.index(action["team"])
                 # 聚焦到目标队伍，每次都获取最新的当前聚焦队伍
                 while(self.get_now_focus_on_team()!=target_team_ind):
-                    click(self.BUTTON_SEE_OTHER_TEAM, sleeptime=1)
+                    click(self.BUTTON_SEE_OTHER_TEAM_POS, sleeptime=1)
                 logging.info(f'当前聚焦队伍{self.team_names[self.now_focus_on_team]}')
                 logging.info(f'执行step:{step_ind} action:{action_ind} 队伍{action["team"]}->{action["action"]} {action["target"]}')
                 sleep(1.5)
@@ -250,26 +257,36 @@ class GridQuest(Task):
                 screenshot()
                 # 先提取，后knn
                 try:
-                    knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_HEAD_YELLOW), 1)
-                    # print(knn_positions)
-                    target_team_position = [knn_positions[0][0], knn_positions[0][1]+125]
-                    logging.info(f'队伍位置{target_team_position}')
-                    if knn_positions[0]<0 or knn_positions[1]<0:
-                        raise Exception("队伍位置识别失败")
+                    mode = "head"
+                    knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_HEAD_YELLOW, shrink_kernels=[(2, 4), (2,2)]), 1)
+                    if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                        mode = "foot"
+                        # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
+                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
+                        if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                            # 如果还是失败，那么就是失败了
+                            raise Exception("队伍位置识别失败")
+                    # 此处坐标和opencv坐标相反
+                    target_team_position = knn_positions[0]
                     # 根据攻略说明，偏移队伍位置得到点击的位置
                     offset_pos = self.grider.WALK_MAP[action["target"]]
                     # 前后反，将数组下标转为图像坐标
-                    need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0])]
+                    if mode == "head":
+                        # 头部识别三角箭头，需要向下偏移定位到格子
+                        offset_from_cnn_to_real = 135
+                    else:
+                        offset_from_cnn_to_real = 0
+                    need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0]+offset_from_cnn_to_real)] # 纵轴从人物头顶三角箭头往下偏移
                 except Exception as e:
                     print(e)
                     logging.warn("队伍位置识别失败")
                     if action["team"]==self.lastaction["team"] and action["action"]=="portal" and action["target"]=="center":
-                        logging.info("原地传送，尝试点击上次点击位置")
+                        logging.info("动作为原地传送，尝试点击上次点击位置")
                         # 如果队伍与上一次一样，且是传送门，而且是点击队伍脚底下。
                         # 如果队伍上次是移动到传送门上，则此时会没有脚底黄色标
                         need_click_position = self.last_click_position
                     else:
-                        logging.error("队伍位置识别失败，这可能是由于攻略配置文件抓取不正确导致的，请反馈给开发者")
+                        logging.error("队伍位置识别失败，这可能是由于识别参数不正确导致的，请反馈给开发者")
                         raise Exception("队伍位置识别失败")
                 # 点击使其移动
                 logging.info(f'点击{need_click_position}')
@@ -284,7 +301,7 @@ class GridQuest(Task):
                         )
                     if not exchange_res:
                         logging.error(f"{self.grider.jsonfilename}：队伍交换失败")
-                        raise Exception("未识别到交换队伍按钮，这可能是由于你的队伍练度过低已经噶了；或者攻略配置文件不正确导致的，请反馈给开发者（群里或者issue）")
+                        raise Exception("未识别到交换队伍按钮，这可能是由于你的队伍练度过低；或者攻略配置文件不正确导致的，请反馈给开发者（群里或者issue）")
                 elif action["action"]=="portal":
                     sleep(2)
                     portal_result = self.run_until(
@@ -304,7 +321,7 @@ class GridQuest(Task):
                 self.lastaction = action
             # 回合结束，手动点击PHASE结束，有时候有的队伍还可以走，就点击确认按钮
             logging.info("PHASE结束")
-            click(self.BUTTON_TASK_START, sleeptime=1)
+            click(self.BUTTON_TASK_START_POS, sleeptime=1)
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)

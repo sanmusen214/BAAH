@@ -25,15 +25,23 @@ class FightQuest(Task):
         # 是否从编辑部队页面开始，或者直接就是游戏内战斗画面
         self.start_from_editpage = start_from_editpage
         self.click_magic_when_run = False
-        self.pre_times = 1
+        # 编辑页面开始的话，可能有剧情，最多等待2次
+        # 如果是从游戏内战斗画面开始，那么不需要等待剧情，所以可以多检测几次
+        self.pre_times = 1 if start_from_editpage else 2
 
     
     def pre_condition(self) -> bool:
         if not self.start_from_editpage:
             """
-            如果是从游戏内战斗画面开始，那么直接判断True
+            如果是从游戏内战斗画面开始，那么直接判断右上角白色UI出来就行
             """
-            return True
+            # 等到右上角白色UI出来
+            return self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE),
+                times=5,
+                sleeptime = 2
+            )
         click(Page.MAGICPOINT, 1)
         click(Page.MAGICPOINT, 1)
         screenshot()

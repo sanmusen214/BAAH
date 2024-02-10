@@ -131,9 +131,20 @@ if __name__=="__main__":
     # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
     # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
     
+    
+    # 推图那一套
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
-    # ga = GridAnalyzer("quest","15-4.json")
-    # GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
+    # ga = GridAnalyzer("quest","18-5.json")
+    
+    # GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL)), require_type="0").run()
+    
+    # knn_positions, _, _ = ga.multikmeans(ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_MAIN_YELLOW, shrink_kernels=[(3, 3)]), 1)
+    # print(knn_positions[0][1], knn_positions[0][0])
+    # cv2.imshow( "s", ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_MAIN_YELLOW) )
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+    # screencut_tool()
+    
     
     # 扫荡关卡识别地区数字
     # for i in range(20):

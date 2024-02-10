@@ -31,7 +31,7 @@ class GridAnalyzer:
     """
     过程中的聚焦队伍的格子黄色
     """
-    PIXEL_HEAD_YELLOW = ((25, 223, 254), (32, 235, 255))
+    PIXEL_HEAD_YELLOW = ((17, 223, 254), (50, 235, 255))
     """
     过程中的聚焦队伍的头顶黄色箭头
     """
@@ -73,7 +73,7 @@ class GridAnalyzer:
 
     
 
-    def get_mask(self, img, pixel_range):
+    def get_mask(self, img, pixel_range, shrink_kernels=[(3, 3)]):
         """
         提取图片中特定颜色范围的元素，置为白。其他地方置为黑。
         """
@@ -82,10 +82,11 @@ class GridAnalyzer:
         mask = cv2.inRange(img, lower, upper)
         # 转成灰度图
         mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
-        # 对masker进行腐蚀操作，使用nxn的结构元素
-        kernel = np.ones((3, 3), np.uint8)
-        mask2 = cv2.erode(mask, kernel)
-        return mask2
+        for shrink_kernel in shrink_kernels:
+            # 对masker进行腐蚀操作，使用nxn的结构元素
+            kernel = np.ones(shrink_kernel, np.uint8)
+            mask = cv2.erode(mask, kernel)
+        return mask
 
     def get_kmeans(self, img, n, max_iter=5):
         """
