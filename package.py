@@ -94,13 +94,15 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor',
 package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
 package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
 
+# 挪i18n进去创建下DATA文件夹
+package_copyfolder("./DATA/i18n", "./dist/BAAH/DATA/i18n")
+
 package_create_folder("./dist/BAAH/DATA/CONFIGS")
 # 将LICENSE挪进去占位, 不放software.config, 防止覆盖掉用户的
 package_copyfile("./LICENSE", "./dist/BAAH/DATA/CONFIGS/LICENSE")
 
 package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
 
-package_copyfolder("./DATA/i18n", "./dist/BAAH/DATA/i18n")
 package_copyfolder("./DATA/assets", "./dist/BAAH/DATA/assets")
 package_copyfolder("./DATA/assets_jp", "./dist/BAAH/DATA/assets_jp")
 package_copyfolder("./DATA/assets_cn", "./dist/BAAH/DATA/assets_cn")
