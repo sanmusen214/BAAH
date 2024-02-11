@@ -122,7 +122,7 @@ class GridQuest(Task):
                 else:
                     # 没有开关弹窗效果
                     if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
-                        # 在走格子界面，可能进局内战斗，可能不进
+                        # 在走格子界面，可能进局内战斗，可能不进，继续判断
                         continue
                     elif not self.backtopic():
                         # 不在走格子界面，没有返回backtopic,那么就是进入了局内战斗
@@ -155,8 +155,9 @@ class GridQuest(Task):
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # 识别左下角切换队伍的按钮文字
+        # 国服往右偏移45
         offsetx = 0
-        if config.userconfigdict["SERVER_TYPE"] == "CN":
+        if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "JP":
             offsetx = 45
         now_team_str, loss = ocr_area((72+offsetx, 544), (91+offsetx, 569), multi_lines=False)
         logging.info(f"ocr结果{now_team_str}")
