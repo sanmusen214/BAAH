@@ -157,7 +157,7 @@ class GridQuest(Task):
         # 识别左下角切换队伍的按钮文字
         # 国服往右偏移45
         offsetx = 0
-        if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "JP":
+        if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "JP" or config.userconfigdict["SERVER_TYPE"] == "GLOBAL_EN":
             offsetx = 45
         now_team_str, loss = ocr_area((72+offsetx, 544), (91+offsetx, 569), multi_lines=False)
         logging.info(f"ocr结果{now_team_str}")

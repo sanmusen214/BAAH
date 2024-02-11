@@ -125,8 +125,9 @@ class PushQuest(Task):
                     lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
                     lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
                 )
+                # 识别不到大的开始任务按钮，可能是支线任务
                 if not enteredit:
-                    # 支线任务的开始任务按钮在中间
+                    # 支线任务的开始任务按钮在中间，且比较小
                     self.run_until(
                         lambda: click((639, 516)),
                         lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))

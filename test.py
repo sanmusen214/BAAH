@@ -118,7 +118,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CONFIRMB),  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/BUTTON/BUTTON_CONFIRMY.png",  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
@@ -134,13 +134,14 @@ if __name__=="__main__":
     
     # 推图那一套
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
-    # ga = GridAnalyzer("quest","18-5.json")
+    
+    # ga = GridAnalyzer("quest","7-3.json")
     
     # GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL)), require_type="0").run()
     
-    # knn_positions, _, _ = ga.multikmeans(ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_MAIN_YELLOW, shrink_kernels=[(3, 3)]), 1)
+    # knn_positions, _, _ = ga.multikmeans(ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_HEAD_YELLOW, shrink_kernels=[(4, 2), (2, 2)]), 1)
     # print(knn_positions[0][1], knn_positions[0][0])
-    # cv2.imshow( "s", ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_MAIN_YELLOW) )
+    # cv2.imshow( "s", ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_HEAD_YELLOW) )
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     # screencut_tool()

@@ -86,12 +86,12 @@ class FightQuest(Task):
         # 点魔法点直到战斗结束
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+            lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8),
             times = 90,
             sleeptime = 2
         )
         # 结束时如果是黄色确认，那么战斗失败
-        if match(button_pic(ButtonName.BUTTON_CONFIRMY)):
+        if match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8):
             logging.info("战斗失败")
             logging.warn("请检查自动AUTO是否开启，提升队伍练度")
         else:
@@ -108,7 +108,7 @@ class FightQuest(Task):
         # 先看有没有出现黄色结算，有结算那肯定没剧情
         hasconfirmy = self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+            lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8),
             times = 2
         )
         if not hasconfirmy:
@@ -118,7 +118,7 @@ class FightQuest(Task):
             click((1010, 666))
             hasconfirmy = self.run_until(
                 lambda: click(Page.MAGICPOINT),
-                lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+                lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8),
                 times = 3,
                 sleeptime = 2
             )
@@ -129,7 +129,7 @@ class FightQuest(Task):
         # 获得奖励，右下确认黄色（左边返回大厅）
         logging.info("点击确认...")
         self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)) and click(Page.MAGICPOINT),
+            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) and click(Page.MAGICPOINT),
             self.backtopic,
             times=7,
             sleeptime=1
