@@ -194,6 +194,9 @@ class GridQuest(Task):
                 # 让用户去配队！
                 need_user_set_teams = True
                 break
+        # 如果开启了彩虹队配置，则不用配队
+        if config.userconfigdict["EXPLORE_RAINBOW_TEAMS"]:
+            need_user_set_teams = False
         if need_user_set_teams:
             # 需要用户配队
             logging.info("未保存适合的配置，请按照以下队伍要求配队")

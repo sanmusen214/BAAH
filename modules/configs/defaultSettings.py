@@ -89,7 +89,8 @@ defaultUserDict = {
     "SHOP_CONTEST_REFRESH_TIME":{"d": 0},
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},
-    "AUTO_EVENT_STORY_PUSH":{"d":False}
+    "AUTO_EVENT_STORY_PUSH":{"d":False},
+    "EXPLORE_RAINBOW_TEAMS":{"d":False}
 }
 
 # 软件的config里的默认值
