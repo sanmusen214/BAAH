@@ -41,6 +41,8 @@ def show_GUI(load_jsonname, config):
         "每日任务":config.get_text("task_daily"),
         "邮件":config.get_text("task_mail"),
         "普通关卡":config.get_text("task_normal"),
+        "普通推图":config.get_text("push_normal"),
+        "困难推图":config.get_text("push_hard")
     }
 
     # =============================================
