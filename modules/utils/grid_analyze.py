@@ -31,11 +31,9 @@ class GridAnalyzer:
     """
     过程中的聚焦队伍的格子黄色
     """
-    if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
-        # 国服的走格子头顶黄色箭头颜色暗一点
-        PIXEL_HEAD_YELLOW = ((4, 211, 249), (47, 231, 255))
-    else:
-        PIXEL_HEAD_YELLOW = ((17, 223, 254), (50, 235, 255))
+    # 国服的走格子头顶黄色箭头颜色暗一点
+    PIXEL_HEAD_YELLOW_CN_DARKER = ((4, 211, 249), (47, 231, 255))
+    PIXEL_HEAD_YELLOW = ((17, 223, 254), (50, 235, 255))
     """
     过程中的聚焦队伍的头顶黄色箭头
     """
