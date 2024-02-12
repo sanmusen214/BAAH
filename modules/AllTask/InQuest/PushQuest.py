@@ -83,7 +83,7 @@ class PushQuest(Task):
             # 当前关卡就是这次需要推图的关卡
             # 国服弹窗往右偏移了50
             offsetx = 0
-            if config.userconfigdict["SERVER_TYPE"] == "CN":
+            if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
                 offsetx = 50
             left_up = ocr_area((139+offsetx, 197), (216+offsetx, 232))
             page_level = left_up[0].split(" ")[0].replace("|","").replace("[","").replace("]","").strip().split("-")

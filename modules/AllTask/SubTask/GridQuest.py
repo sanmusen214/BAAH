@@ -237,7 +237,10 @@ class GridQuest(Task):
                 # 现在要处理的队伍的文字化角度描述
                 now_team_pos = tobe_setted_team_poses[focus_team_ind]
                 # 找到这个角度描述是derections里的第几个
-                now_team_pos_ind = directions.index(now_team_pos)
+                if now_team_pos is None:# 只有一队的情况 具体在h1-2这样的简单关卡
+                    now_team_pos_ind = 0
+                else:
+                    now_team_pos_ind = directions.index(now_team_pos)
                 # 点击这个中心
                 target_click_team_center = center_poses[now_team_pos_ind]
                 target_click_team_center = [int(target_click_team_center[1]), int(target_click_team_center[0])]
