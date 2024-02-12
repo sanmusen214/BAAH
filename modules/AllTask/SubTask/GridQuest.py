@@ -155,10 +155,10 @@ class GridQuest(Task):
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # 识别左下角切换队伍的按钮文字
-        # 国服往右偏移45
-        offsetx = 0
-        if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "JP" or config.userconfigdict["SERVER_TYPE"] == "GLOBAL_EN":
-            offsetx = 45
+        # 国际服繁中不偏移，其他服往右偏移45
+        offsetx = 45
+        if config.userconfigdict["SERVER_TYPE"] == "GLOBAL":
+            offsetx = 0
         now_team_str, loss = ocr_area((72+offsetx, 544), (91+offsetx, 569), multi_lines=False)
         logging.info(f"ocr结果{now_team_str}")
         try:
