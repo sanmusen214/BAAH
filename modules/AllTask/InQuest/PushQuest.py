@@ -85,30 +85,37 @@ class PushQuest(Task):
             offsetx = 0
             if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
                 offsetx = 50
+            # 识别关卡序号，更新最新的page_ind和level_ind
             left_up = ocr_area((139+offsetx, 197), (216+offsetx, 232))
             page_level = left_up[0].split(" ")[0].replace("|","").replace("[","").replace("]","").strip().split("-")
             try:
+                logging.info(f"分割后的关卡序号：{page_level}")
                 # 这一步更新这次推图的实际章节和关卡下标
                 page_num = int(page_level[0])
                 self.page_ind = page_num - 1
                 if page_level[1] == "A" or page_level[1] == "B" or page_level[1] == "C":
                     # 如果为A/B/C关卡，就直接把来到这里的这一次的level作为这次的level
                     # 一般来说关卡号为A的关卡都是一章节的最后一关，且为普通关，打完后不会消失
-                    pass
+                    # 最后self.level_ind+1，前往下一关
+                    logging.info("战斗关卡 {}-{}，开始推图".format(page_num, page_level[1]))
                 else:
                     level_num = int(page_level[1])
                     # 否则将识别到的关卡序号-1作为这次的level下标
                     self.level_ind = level_num - 1
-                logging.info("关卡：{}-{}，开始推图".format(page_num, level_num))
+                    logging.info("格子关卡：{}-{}，开始推图".format(page_num, level_num))
             except:
                 logging.warn(f"OCR关卡序号识别失败({left_up[0]})")
                 if not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
-                    # 如果匹配到开始任务，说明是支线关卡，打完就会消失
-                    logging.info("判断为支线关卡")
-                    # 这里将level_ind-1，因为支线关卡打完后会消失，让后面打完后的level_ind+1刚好抵消
-                    self.level_ind -= 1
+                    if "A" in left_up[0] or "B" in left_up[0] or "C" in left_up[0]:
+                        # 如果匹配到数字A,B,C，说明是章节末尾关卡，打完后不会消失
+                        logging.info("判断为章节末尾关卡")
+                    else:
+                        # 如果没有匹配A,B,C，说明是支线关卡，打完就会消失
+                        logging.info("判断为支线关卡")
+                        # 这里将level_ind-1，因为支线关卡打完后会消失，后面的关相当于自动往前进一格，让后面打完后的level_ind+1刚好抵消
+                        self.level_ind -= 1
                 else:
-                    logging.error(f"OCR关卡序号识别失败({left_up[0]}), 且未匹配到开始任务按钮，结束此任务")
+                    logging.error(f"OCR关卡序号识别失败({left_up[0]}), 且未匹配到开始任务弹窗，结束此任务")
                     return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
@@ -133,7 +140,7 @@ class PushQuest(Task):
                         lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
                     )
                 FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
-                # 普通任务完成后，level下标直接+1
+                # 普通任务完成后，level下标直接+1。如果是支线关卡，由于之前减过一了，这里直接+1就行
                 self.level_ind += 1
             else:
                 jsonname = f"{self.page_ind+1}-{self.level_ind+1}.json"
