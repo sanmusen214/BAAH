@@ -213,7 +213,7 @@ class GridQuest(Task):
             logging.info(f"使用上次的队伍配置: {display_str}")
         screenshot()
         if match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)):
-            click(Page.TOPLEFTBACK, 1)
+            click(Page.TOPLEFTBACK, 2)
         # 选择队伍START
         # 尚未配队的队伍的相对文字化角度描述
         tobe_setted_team_poses = [item["position"] for item in self.grider.get_initialteams(self.require_type)]
@@ -230,20 +230,27 @@ class GridQuest(Task):
                 if not res_gridpage:
                     logging.error("未识别到走格子界面")
                     raise Exception("未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍")
-                # 得到初始中心
-                center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
-                # 得到相应偏角和距离
-                angles, distances = self.grider.get_angle(center_poses, global_center)
-                # 得到初始中心对应的文字化角度描述
-                directions = self.grider.get_direction(angles, distances, tobe_setted_team_poses)
-                # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
-                # 现在要处理的队伍的文字化角度描述
-                now_team_pos = tobe_setted_team_poses[focus_team_ind]
-                # 找到这个角度描述是derections里的第几个
-                now_team_pos_ind = directions.index(now_team_pos)
-                # 点击这个中心
-                target_click_team_center = center_poses[now_team_pos_ind]
-                target_click_team_center = [int(target_click_team_center[1]), int(target_click_team_center[0])]
+                # 如果队伍配队配置里面有click参数，那么就点击相对应的位置就行了
+                if "click" in list(self.grider.get_initialteams(self.require_type))[focus_team_ind]:
+                    target_click_team_center = list(self.grider.get_initialteams(self.require_type))[focus_team_ind]["click"]
+                    logging.info(f"使用配置文件中的click参数{target_click_team_center}")
+                else:
+                    # 如果没有click参数，那么就用knn识别初始方格
+                    # 得到初始中心
+                    center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
+                    # 得到相应偏角和距离
+                    angles, distances = self.grider.get_angle(center_poses, global_center)
+                    # 得到初始中心对应的文字化角度描述
+                    directions = self.grider.get_direction(angles, distances, tobe_setted_team_poses)
+                    # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
+                    # 现在要处理的队伍的文字化角度描述
+                    now_team_pos = tobe_setted_team_poses[focus_team_ind]
+                    # 找到这个角度描述是derections里的第几个
+                    now_team_pos_ind = directions.index(now_team_pos)
+                    # 点击这个中心
+                    target_click_team_center = center_poses[now_team_pos_ind]
+                    target_click_team_center = [int(target_click_team_center[1]), int(target_click_team_center[0])]
+                # 点击队伍初始位置
                 click(target_click_team_center, 1)
                 edit_page_result = self.run_until(
                     lambda: click(Page.MAGICPOINT),
