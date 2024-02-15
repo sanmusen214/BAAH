@@ -131,9 +131,9 @@ class FightQuest(Task):
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) and click(Page.MAGICPOINT),
             self.backtopic,
-            times=7,
+            times=15,
             sleeptime=1
         )
      
     def post_condition(self) -> bool:
-        return self.backtopic
+        return self.backtopic()
