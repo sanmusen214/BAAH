@@ -88,6 +88,7 @@ class GridQuest(Task):
         """
         点击右下任务资讯，等待战斗结束可以弹出弹窗，然后点击魔法点关掉弹窗
         """
+        logging.info(f"等待阶段，是否可能会进入局内战斗：{possible_fight}")
         # 如果返回到了self.backtopic()指定的页面，那么直接返回
         if self.backtopic():
             return True
@@ -120,12 +121,15 @@ class GridQuest(Task):
                         # 在走格子界面，铁定没进局内战斗
                         return
                 else:
+                    logging.info("没有开关弹窗效果")
                     # 没有开关弹窗效果
                     if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+                        logging.info("在走格子界面，可能进局内战斗，可能不进")
                         # 在走格子界面，可能进局内战斗，可能不进，继续判断
                         continue
                     elif not self.backtopic():
                         # 不在走格子界面，没有返回backtopic,那么就是进入了局内战斗
+                        logging.info("不在走格子界面，判断进入了局内战斗")
                         FightQuest(self.backtopic, start_from_editpage=False).run()
                         return
         # 清弹窗
@@ -133,6 +137,7 @@ class GridQuest(Task):
             lambda: click(Page.MAGICPOINT),
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
+        logging.info("尝试呼出弹窗")
         # 出弹窗
         self.run_until(
             lambda: click(self.BUTTON_TASK_INFO_POS),
@@ -140,6 +145,7 @@ class GridQuest(Task):
             times=18,
             sleeptime=1.5
         )
+        logging.info("尝试清空弹窗")
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -383,7 +389,7 @@ class GridQuest(Task):
                 self.wait_end(possible_fight=True)
             else:
                 self.wait_end()
-        
+        logging.info(f"{self.grider.jsonfilename}执行完毕")
         
      
     def post_condition(self) -> bool:
