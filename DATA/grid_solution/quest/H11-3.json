@@ -1,0 +1,62 @@
+{
+    "task_location": 11,
+    "task_level": 3,
+    "task_type": "hard",
+    "requires": {
+        "0": [
+            "any"
+        ]
+    },
+    "0": {
+        "initial_teams": [
+            {
+                "name": "A",
+                "type": "blue",
+                "position": "left"
+            },
+            {
+                "name": "B",
+                "type": "yellow",
+                "position": "right"
+            }
+        ],
+        "fight_plan": [
+            [
+                {
+                    "team": "A",
+                    "action": "portal",
+                    "target": "left-up"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right-down"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left-down"
+                }
+            ],
+            [
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left-down"
+                },
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right"
+                }
+            ]
+        ]
+    }
+}

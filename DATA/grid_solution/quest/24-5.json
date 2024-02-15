@@ -1,0 +1,103 @@
+{
+    "task_location": 24,
+    "task_level": 5,
+    "task_type": "normal",
+    "requires": {
+        "0": [
+            "any"
+        ]
+    },
+    "0": {
+        "initial_teams": [
+            {
+                "name": "A",
+                "type": "purple",
+                "position": "left-up"
+            },
+            {
+                "name": "B",
+                "type": "red",
+                "position": "right-down"
+            }
+        ],
+        "fight_plan": [
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right-up"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right-up"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "portal",
+                    "target": "left"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right-up"
+                }
+            ],
+            [
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left-down"
+                },
+                {
+                    "team": "A",
+                    "action": "exchange",
+                    "target": "right-up"
+                },
+                {
+                    "team": "A",
+                    "action": "portal",
+                    "target": "center"
+                },
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-down"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-down"
+                }
+            ]
+        ]
+    }
+}

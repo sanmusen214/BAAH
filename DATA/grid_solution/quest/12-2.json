@@ -1,0 +1,52 @@
+{
+    "task_location": 12,
+    "task_level": 2,
+    "task_type": "normal",
+    "requires": {
+        "0": [
+            "any"
+        ]
+    },
+    "0": {
+        "initial_teams": [
+            {
+                "name": "A",
+                "type": "blue",
+                "position": "up"
+            },
+            {
+                "name": "B",
+                "type": "red",
+                "position": "down"
+            }
+        ],
+        "fight_plan": [
+            [
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left"
+                }
+            ],
+            [
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left"
+                },
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right-down"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right-down"
+                }
+            ]
+        ]
+    }
+}

@@ -4,7 +4,6 @@ jsoneditor.spec
 BAAH.spec
 compact_log.txt
 /*.png
-/DATA/grid_solution/quest/*.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

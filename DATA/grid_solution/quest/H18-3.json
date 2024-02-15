@@ -1,0 +1,121 @@
+{
+    "task_location": 18,
+    "task_level": 3,
+    "task_type": "hard",
+    "requires": {
+        "0": [
+            "any"
+        ]
+    },
+    "0": {
+        "initial_teams": [
+            {
+                "name": "A",
+                "type": "blue",
+                "position": "left"
+            },
+            {
+                "name": "B",
+                "type": "blue",
+                "position": "center"
+            },
+            {
+                "name": "C",
+                "type": "red",
+                "position": "right"
+            }
+        ],
+        "fight_plan": [
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right-down"
+                },
+                {
+                    "team": "C",
+                    "action": "move",
+                    "target": "left"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right-down"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right"
+                },
+                {
+                    "team": "C",
+                    "action": "move",
+                    "target": "left"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right-down"
+                },
+                {
+                    "team": "C",
+                    "action": "move",
+                    "target": "left"
+                },
+                {
+                    "team": "B",
+                    "action": "exchange",
+                    "target": "right"
+                },
+                {
+                    "team": "B",
+                    "action": "portal",
+                    "target": "center"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "right-down"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right"
+                },
+                {
+                    "team": "C",
+                    "action": "move",
+                    "target": "right-down"
+                }
+            ],
+            [
+                {
+                    "team": "C",
+                    "action": "move",
+                    "target": "right-down"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right"
+                }
+            ]
+        ]
+    }
+}

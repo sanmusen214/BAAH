@@ -58,10 +58,13 @@ This project uses the following libraries:
 
 - [x] Normal Stages
   - [x] Sweep normal Quests
+  - [x] Explore Normal Levels
 - [x] Hard Stages
   - [x] Sweep hard Quests
+  - [x] Explore Hard Levels
 - [x] Event Stages
   - [x] Sweep event Quests
+  - [x] Explore event levels
 - [x] Bounty/Wanted
   - [x] Sweep bounty missions
 - [x] Special Missions/Special Dependence

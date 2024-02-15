@@ -1,0 +1,119 @@
+{
+    "task_location": 7,
+    "task_level": 1,
+    "task_type": "hard",
+    "requires": {
+        "0": [
+            "any"
+        ],
+        "1": [
+            "any"
+        ]
+    },
+    "0": {
+        "initial_teams": [
+            {
+                "name": "A",
+                "type": "red",
+                "position": "up"
+            },
+            {
+                "name": "B",
+                "type": "any",
+                "position": "down"
+            }
+        ],
+        "fight_plan": [
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-up"
+                },
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left"
+                }
+            ],
+            [
+                {
+                    "team": "B",
+                    "action": "portal",
+                    "target": "left"
+                },
+                {
+                    "team": "A",
+                    "action": "exchange",
+                    "target": "left-down"
+                },
+                {
+                    "team": "A",
+                    "action": "portal",
+                    "target": "center"
+                },
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-up"
+                }
+            ],
+            [
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left"
+                }
+            ],
+            [
+                {
+                    "team": "B",
+                    "action": "move",
+                    "target": "left"
+                },
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-up"
+                }
+            ]
+        ]
+    },
+    "1": {
+        "initial_teams": [
+            {
+                "name": "A",
+                "type": "red",
+                "position": "up"
+            },
+            {
+                "name": "B",
+                "type": "any",
+                "position": "down"
+            }
+        ],
+        "fight_plan": [
+            [
+                {
+                    "team": "A",
+                    "action": "portal",
+                    "target": "left"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-up"
+                }
+            ],
+            [
+                {
+                    "team": "A",
+                    "action": "move",
+                    "target": "left-up"
+                }
+            ]
+        ]
+    }
+}
