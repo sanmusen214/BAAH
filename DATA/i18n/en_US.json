@@ -82,6 +82,7 @@
     "config_push_normal_desc":"push normal stage start chapter, 0 means not push",
     "config_push_hard_desc":"push hard stage start chapter, 0 means not push",
     "config_rainbow_teams_desc":"Whether use rainbow teams to explore, if open this, please prepare 3 rainbow teams before you start the explore task",
+    "config_explore_attention":"Please make sure SKIP is turned on and PHASE is turned off when exploring",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

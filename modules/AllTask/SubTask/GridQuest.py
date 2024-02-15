@@ -297,32 +297,38 @@ class GridQuest(Task):
                 screenshot()
                 # 先提取，后knn
                 try:
-                    mode = "head"
-                    # 需要蒙版的颜色
-                    need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
-                    # 国服的话头顶颜色会深一些
-                    if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
-                        need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
-                    knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4), (2,2)]), 1)
-                    if knn_positions[0][0]<0 or knn_positions[0][1]<0:
-                        mode = "foot"
-                        # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
-                        logging.info("三角识别失败，尝试使用砖块识别")
-                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
-                        if knn_positions[0][0]<0 or knn_positions[0][1]<0:
-                            # 如果还是失败，那么就是失败了
-                            raise Exception("队伍位置识别失败")
-                    # 此处坐标和opencv坐标相反
-                    target_team_position = knn_positions[0]
-                    # 根据攻略说明，偏移队伍位置得到点击的位置
-                    offset_pos = self.grider.WALK_MAP[action["target"]]
-                    # 前后反，将数组下标转为图像坐标
-                    if mode == "head":
-                        # 头部识别三角箭头，需要向下偏移定位到格子
-                        offset_from_cnn_to_real = 135
+                    # 如果有click参数，那么就直接用click参数
+                    if "click" in action:
+                        logging.info(f"使用配置文件中的click参数{action['click']}")
+                        need_click_position = action["click"]
                     else:
-                        offset_from_cnn_to_real = 0
-                    need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0]+offset_from_cnn_to_real)] # 纵轴从人物头顶三角箭头往下偏移
+                        mode = "head"
+                        # 需要蒙版的颜色
+                        need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
+                        # 国服的话头顶颜色会深一些
+                        if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+                            need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
+                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4), (2,2)]), 1)
+                        if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                            mode = "foot"
+                            # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
+                            logging.info("三角识别失败，尝试使用砖块识别")
+                            knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
+                            if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                                # 如果还是失败，那么就是失败了
+                                raise Exception("队伍位置识别失败")
+                        # 此处坐标和opencv坐标相反
+                        target_team_position = knn_positions[0]
+                        # 根据攻略说明，偏移队伍位置得到点击的位置
+                        offset_pos = self.grider.WALK_MAP[action["target"]]
+                        # 前后反，将数组下标转为图像坐标
+                        if mode == "head":
+                            # 头部识别三角箭头，需要向下偏移定位到格子
+                            offset_from_cnn_to_real = 135
+                        else:
+                            offset_from_cnn_to_real = 0
+                        # 此处need_click_position的轴向就和opencv相同了
+                        need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0]+offset_from_cnn_to_real)] # 纵轴从人物头顶三角箭头往下偏移
                 except Exception as e:
                     print(e)
                     logging.warn("队伍位置识别失败")
