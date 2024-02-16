@@ -106,6 +106,7 @@ class GridQuest(Task):
                     lambda: click(Page.MAGICPOINT),
                     lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
                 )
+                # (250, 136), (365, 180)
                 can_open = self.run_until(
                     lambda: click(self.BUTTON_TASK_INFO_POS, 1.5),
                     lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
@@ -314,7 +315,7 @@ class GridQuest(Task):
                         # 国服的话头顶颜色会深一些
                         if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
                             need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
-                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4), (2,2)]), 1)
+                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4)]), 1)
                         if knn_positions[0][0]<0 or knn_positions[0][1]<0:
                             mode = "foot"
                             # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
