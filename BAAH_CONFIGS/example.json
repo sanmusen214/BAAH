@@ -1,7 +1,7 @@
 {
     "INFO00": "不懂的看置顶视频：https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0",
     "TARGET_PORT": 16384,
-    "TARGET_EMULATOR_PATH": "D:/Software/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 1",
+    "TARGET_EMULATOR_PATH": "D:/Software/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 0",
     "TIME_AFTER_CLICK": 0.4,
     "INFO1": "课程表",
     "TIMETABLE_TASK": [
@@ -154,12 +154,12 @@
         "每日任务"
     ],
     "SERVER_INFO": "服务器信息",
-    "PIC_PATH": "./DATA/assets",
-    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
+    "PIC_PATH": "./DATA/assets_cn",
+    "ACTIVITY_PATH": "com.RoamingStar.BlueArchive/com.yostar.supersdk.activity.YoStarSplashActivity",
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "e2419474.png",
-    "RESPOND_Y": 40,
+    "RESPOND_Y": 60,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",
     "SHOP_NORMAL": [
@@ -195,7 +195,7 @@
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "LOCK_SERVER_TO_RESPOND_Y": true,
     "CAFE_CAMERA_FULL": true,
-    "SERVER_TYPE": "GLOBAL",
+    "SERVER_TYPE": "CN",
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": false,
