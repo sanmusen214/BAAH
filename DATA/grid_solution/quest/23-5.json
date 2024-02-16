@@ -83,7 +83,8 @@
                 {
                     "team": "A",
                     "action": "portal",
-                    "target": "center"
+                    "target": "center",
+                    "click" : [581, 250]
                 },
                 {
                     "team": "B",
