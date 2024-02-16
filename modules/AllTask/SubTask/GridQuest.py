@@ -53,7 +53,7 @@ class GridQuest(Task):
         
         # 当前关注的队伍下标
         self.now_focus_on_team = 0
-        # 用于本策略的队伍名字，字母列表，["A","B","C"...]
+        # 用于本策略的队伍名字，字母列表，["A","B","C"...]， 其内涵的潜在关系是队伍“A"对应的下标为0，队伍编号为1
         self.team_names = []
         # 上一次action
         self.lastaction = {
@@ -154,7 +154,7 @@ class GridQuest(Task):
     
     def get_now_focus_on_team(self):
         """
-        得到当前注意的队伍
+        得到当前注意的队伍，左下角数字减一
         """
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -192,7 +192,7 @@ class GridQuest(Task):
         self.team_names = [item["name"] for item in self.grider.get_initialteams(self.require_type)]
         # ========== 配队 ============
         last_team_set_list = config.sessiondict["LAST_TEAM_SET"]
-        now_need_team_set_list = [item["type"] for item in self.grider.get_initialteams(self.require_type)]
+        now_need_team_set_list = [item["type"] for item in self.grider.get_initialteams(self.require_type)]  # 内涵的潜在关系是队伍类型对应的队伍编号
         need_user_set_teams = False
         # 判断能否直接用上次的队伍
         for ind in range(len(now_need_team_set_list)):

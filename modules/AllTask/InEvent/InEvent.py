@@ -15,12 +15,12 @@ from modules.AllTask.InEvent.EventQuest import EventQuest
 from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, check_app_running, open_app
 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
         super().__init__(name)
-        self.try_enter_times = 3
+        self.try_enter_times = 2
         self.next_sleep_time = 0.1
         # 是否有活动但是已经结束
         self.has_event_but_closed = False
@@ -76,6 +76,15 @@ class InEvent(Task):
         """
         判断页面是否是一个有效的活动页面
         """
+        # 判断是否是在ba游戏里
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+            logging.warn("跳转出了游戏，尝试重新进入游戏")
+            open_app(config.userconfigdict['ACTIVITY_PATH'])
+            sleep(1)
+            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+                logging.error("重新进入游戏失败")
+                raise Exception("重新进入游戏失败")
+            screenshot() # 截图让后面继续判断
         if not Page.is_page(PageName.PAGE_EVENT):
             # 可能首次进入活动，有活动剧情
             SkipStory(pre_times=5).run()
@@ -147,13 +156,13 @@ class InEvent(Task):
 
     
     def on_run(self) -> None:
-        # 进入Fight Center
+        # 进入Fight Center, 这里离开了主页之后就狂点活动标
         self.run_until(
             lambda: click((1196, 567)),
-            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
+            lambda: not Page.is_page(PageName.PAGE_HOME),
         )
         # 狂点活动标
-        for i in range(10):
+        for i in range(15):
             click((35, 110), sleeptime=0.2)
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
