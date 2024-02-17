@@ -131,7 +131,7 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
             resstring_list = ZHT.detect_and_ocr(rawImage)
             return [[replace_mis(res.ocr_text), res.score] for res in resstring_list]
     
-def match_pixel_color_range(imageurl, x, y, low_range, high_range):
+def match_pixel_color_range(imageurl, x, y, low_range, high_range, printit = False):
     """
     match whether the color at that location is between the range
     
@@ -143,6 +143,8 @@ def match_pixel_color_range(imageurl, x, y, low_range, high_range):
     """
     img = cv2.imread(imageurl)
     pixel = img[y, x][:3]
+    if printit:
+        print("Pixel color at ({}, {}): {}".format(x, y, pixel))
     # logging.info(f"Pixel color at ({x}, {y}): {pixel}")
     if (pixel[0] >= low_range[0] and pixel[0] <= high_range[0] and pixel[1] >= low_range[1] and pixel[1] <= high_range[1] and pixel[2] >= low_range[2] and pixel[2] <= high_range[2]):
         return True

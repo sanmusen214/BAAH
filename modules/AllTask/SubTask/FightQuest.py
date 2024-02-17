@@ -38,7 +38,7 @@ class FightQuest(Task):
             # 等到右上角白色UI出来
             return self.run_until(
                 lambda: click(Page.MAGICPOINT),
-                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE),
+                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True),
                 times=15,
                 sleeptime = 2
             )
