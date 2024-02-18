@@ -21,6 +21,10 @@ from gui.pages.Setting_notification import set_notification
 
 @ui.refreshable
 def show_GUI(load_jsonname, config):
+    
+    # 如果是example.json，则大字提醒
+    if load_jsonname == "example.json":
+        ui.label(config.get_text("notice_example_json")).style("font-size: 30px; color: red;")
         
     config.parse_user_config(load_jsonname)
 

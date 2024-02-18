@@ -37,6 +37,8 @@ if __name__ in {"__main__", "__mp_main__"}:
             for i,tab_panel in enumerate(alljson_tab_list):
                 with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
                     show_GUI(alljson_list[i], MyConfigger())
+                    
+
         # 运行GUI
         print(open_state)
         if open_state["OPEN_IN_WEB"]:
