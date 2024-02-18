@@ -34,17 +34,17 @@ if __name__ in ["__main__", "__mp_main__"]:
             configname = "config.json"
             logging.info("读取默认config文件: "+configname)
             config.parse_user_config(configname)
-        
-        
-        # 打印config信息
-        logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
-        logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
-        logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
 
         from BAAH import BAAH_main, my_AllTask
         
         # 打印BAAH信息
         print_BAAH_start()
+        
+        # 打印config信息
+        logging.info(f"读取的config文件: {configname}")
+        logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
+        logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
+        logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
 
         # 不带GUI运行
         # config历史列表
