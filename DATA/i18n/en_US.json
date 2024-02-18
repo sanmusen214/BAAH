@@ -22,6 +22,7 @@
     "setting_server": "Server Configuration",
     "setting_task_order": "Task Execution Order",
     "setting_next_config": "Next Configuration File",
+    "setting_notification":"Notification Configuration",
     "setting_other": "Other Settings",
 
     "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. All config files are in the BAAH_CONFIGS folder. QQ group: 441069156",
@@ -83,6 +84,10 @@
     "config_push_hard_desc":"push hard stage start chapter, 0 means not push",
     "config_rainbow_teams_desc":"Whether use rainbow teams to explore, if open this, please prepare 3 rainbow teams before you start the explore task",
     "config_explore_attention":"Please make sure SKIP is turned on and PHASE is turned off when exploring",
+    "email_notification_desc":"Whether enable email notification",
+    "email_account":"QQ Email Account",
+    "email_pwd":"QQ Email SMTP token",
+    "get_email_pwd":"How to get QQ Email SMTP token",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

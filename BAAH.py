@@ -126,7 +126,25 @@ def BAAH_kill_emulator():
             logging.error(e)
     else:
         logging.info("跳过关闭模拟器")
-    
+
+def BAAH_send_email():
+    """
+    发送邮件
+    """
+    if config.userconfigdict["ENABLE_MAIL_NOTI"]:
+        logging.info("发送邮件")
+        try:
+            # 构造邮件内容
+            content = []
+            content.append("BAAH任务结束")
+            content.append("配置文件名称: "+config.nowuserconfigname)
+            content.append("任务结束时间: "+time.strftime("%Y-%m-%d %H:%M:%S"))
+            content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
+            print(notificationer.send("\n".join(content)))
+            logging.info("邮件发送结束")
+        except Exception as e:
+            logging.error("发送邮件失败")
+            logging.error(e)
 
 def BAAH_main():
     BAAH_release_adb_port()
@@ -138,6 +156,7 @@ def BAAH_main():
     my_AllTask.run()
     logging.info("所有任务结束")
     BAAH_kill_emulator()
+    BAAH_send_email()
             
 
 

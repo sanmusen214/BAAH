@@ -22,6 +22,7 @@
     "setting_server":"服务器配置",
     "setting_task_order":"任务执行顺序",
     "setting_next_config":"后续配置文件",
+    "setting_notification":"通知设置",
     "setting_other":"其他设置",
 
     "BAAH_desc":"BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务。配置文件存放于BAAH_CONFIGS文件夹内。QQ群：441069156",
@@ -83,6 +84,10 @@
     "config_push_hard_desc":"困难关卡推图起始章节, 0为不推图",
     "config_rainbow_teams_desc":"（高练度开启）推图是否是彩虹队伍，勾选此项后推图时不再等待配队，请先自己配好三只彩虹队再开启推图任务。",
     "config_explore_attention":"推图时请确保SKIP跳过战斗打开，PHASE回合自动结束关闭",
+    "email_notification_desc":"是否启用邮件通知，目前仅支持QQ邮箱",
+    "email_account":"QQ账号",
+    "email_pwd":"QQ邮箱SMTP授权码",
+    "get_email_pwd":"如何获取SMTP授权码",
 
 
     "config_server_jp":"日服",

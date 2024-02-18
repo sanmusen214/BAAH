@@ -171,7 +171,6 @@
     "SHOP_CONTEST": [],
     "TASK_ACTIVATE": [
         true,
-        true,
         false,
         false,
         false,
@@ -189,7 +188,8 @@
         false,
         false,
         false,
-        false
+        false,
+        true
     ],
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
@@ -205,5 +205,6 @@
     "PUSH_HARD_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
     "PUSH_HARD_QUEST_LEVEL": 1,
-    "EXPLORE_RAINBOW_TEAMS": true
+    "EXPLORE_RAINBOW_TEAMS": true,
+    "ENABLE_MAIL_NOTI": true
 }

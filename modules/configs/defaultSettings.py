@@ -90,13 +90,16 @@ defaultUserDict = {
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},
     "AUTO_EVENT_STORY_PUSH":{"d":False},
-    "EXPLORE_RAINBOW_TEAMS":{"d":False}
+    "EXPLORE_RAINBOW_TEAMS":{"d":False},
+    "ENABLE_MAIL_NOTI":{"d":False},
 }
 
 # 软件的config里的默认值
 
 defaultSoftwareDict = {
-    "LANGUAGE":{"d":"zh_CN", "s":["zh_CN", "en_US"]}
+    "LANGUAGE":{"d":"zh_CN", "s":["zh_CN", "en_US"]},
+    "MAIL_USER":{"d":""},
+    "MAIL_PASS":{"d":""},
 }
 
 # sessiondict是一个dict，存储了一次任务的运行时信息

@@ -4,6 +4,7 @@ from .adb_utils import *
 from .image_processing import *
 from .subprocess_helper import *
 from .grid_analyze import *
+from .notification import *
 
 import logging
 import time

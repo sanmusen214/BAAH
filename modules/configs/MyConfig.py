@@ -12,7 +12,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.3.1"
+    NOWVERSION="1.3.2"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -26,6 +26,7 @@ class MyConfigger:
         self.languagepackagedict = {}
         # 一次区服任务的config
         self.userconfigdict = {}
+        self.nowuserconfigname = ""
         # 一次区服任务运行的session
         self.sessiondict = {}
         self._check_session_config()
@@ -45,6 +46,7 @@ class MyConfigger:
         self._check_session_config()
         # 检查缺失的配置
         self._check_user_config()
+        self.nowuserconfigname = file_name
         # 强制设置截图文件名为配置名
         self.userconfigdict["SCREENSHOT_NAME"] = configname2screenshotname(file_name)
         # 检查截图文件夹路径里是否有DATA, 如果没有DATA，说明是1.1.x版本的配置，需要转换

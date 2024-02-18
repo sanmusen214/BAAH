@@ -32,6 +32,11 @@ from modules.AllTask import *
 from modules.AllTask.InCafe.CollectPower import CollectPower
 from modules.AllPage.Page import Page
 
+
+from email.mime.text import MIMEText
+from email.header import Header
+from smtplib import SMTP_SSL
+
 drawing = False  # 检查是否正在绘制
 start_x, start_y = -1, -1
 def screencut_tool():
@@ -76,7 +81,40 @@ def screencut_tool():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+def send_mail(sender_qq='',pwd='', receiver='',mail_title='',mail_content=''):
+    # qq邮箱smtp服务器
+    host_server = 'smtp.qq.com'
+    sender_qq_mail = sender_qq+'@qq.com'
+
+    #ssl登录
+    smtp = SMTP_SSL(host_server)
+    #set_debuglevel()是用来调试的。参数值为1表示开启调试模式，参数值为0关闭调试模式
+    smtp.set_debuglevel(1)
+    smtp.ehlo(host_server)
+    smtp.login(sender_qq, pwd)
+
+    msg = MIMEText(mail_content, "plain", 'utf-8')
+    msg["Subject"] = Header(mail_title, 'utf-8')
+    msg["From"] = sender_qq_mail
+    msg["To"] = receiver
+    res=smtp.sendmail(sender_qq_mail, receiver, msg.as_string())
+    print(res)
+    smtp.quit()
+
 if __name__=="__main__":
+    # #sender_qq为发件人的qq号码
+    # sender_qq = '1113746057'
+    # #pwd为qq邮箱的授权码
+    # pwd = ''
+    # #收件人邮箱receiver
+    # receiver='1113746057@qq.com'
+    # #邮件的正文内容
+    # mail_content = f'测试\n{config.userconfigdict["SERVER_TYPE"]}'
+    # #邮件标题
+    # mail_title = 'BAAH 测试'
+    
+    # send_mail(sender_qq=sender_qq,pwd=pwd,receiver=receiver,mail_title=mail_title,mail_content=mail_content)
+    
     # print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
     
     # print(os.path.basename(config.userconfigdict['TARGET_EMULATOR_PATH']+" --instance pie"))
@@ -110,8 +148,8 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    connect_to_device()
-    screenshot()
+    # connect_to_device()
+    # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
@@ -122,7 +160,7 @@ if __name__=="__main__":
     
 
     # 比划点
-    screencut_tool()
+    # screencut_tool()
     # offset = 40
     
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
