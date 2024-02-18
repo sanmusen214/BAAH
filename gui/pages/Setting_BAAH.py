@@ -4,10 +4,10 @@ import requests
 import os
 import zipfile
 
-def set_BAAH(config):
+def set_BAAH(config, shared_softwareconfig):
     
     def select_language(value):
-        config.softwareconfigdict["LANGUAGE"] = value
+        shared_softwareconfig.softwareconfigdict["LANGUAGE"] = value
         config.save_software_config()
         if value == "zh_CN":
             ui.notify("语言已切换为中文，重启生效")
@@ -92,7 +92,7 @@ def set_BAAH(config):
         ui.link_target("BAAH")
         ui.label("Blue Archive Aris Helper").style('font-size: xx-large')
         
-        ui.toggle({"zh_CN":"中文", "en_US":"English"}, value=config.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value))
+        ui.toggle({"zh_CN":"中文", "en_US":"English"}, value=shared_softwareconfig.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(shared_softwareconfig.softwareconfigdict, "LANGUAGE")
 
         ui.label(config.get_text("BAAH_desc"))
 

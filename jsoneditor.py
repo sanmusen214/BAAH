@@ -30,13 +30,16 @@ if __name__ in {"__main__", "__mp_main__"}:
             alljson_list = get_json_list()
             alljson_tab_list = [None for i in alljson_list]
         
+        # 构造一个config，用于在tab间共享softwareconfigdict
+        shared_softwareconfig = MyConfigger()
+        
         with ui.tabs().classes('w-full') as tabs:
             for i,jsonname in enumerate(alljson_list):
                 alljson_tab_list[i] = ui.tab(jsonname)
         with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
             for i,tab_panel in enumerate(alljson_tab_list):
                 with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
-                    show_GUI(alljson_list[i], MyConfigger())
+                    show_GUI(alljson_list[i], MyConfigger(), shared_softwareconfig)
                     
 
         # 运行GUI

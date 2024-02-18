@@ -20,7 +20,7 @@ from gui.pages.Setting_wanted import set_wanted
 from gui.pages.Setting_notification import set_notification
 
 @ui.refreshable
-def show_GUI(load_jsonname, config):
+def show_GUI(load_jsonname, config, shared_softwareconfig):
     
     # 如果是example.json，则大字提醒
     if load_jsonname == "example.json":
@@ -77,7 +77,7 @@ def show_GUI(load_jsonname, config):
 
         with ui.column().style('flex-grow: 4;'):
             
-            set_BAAH(config)
+            set_BAAH(config, shared_softwareconfig)
             
             # 模拟器配置
             set_emulator(config)
@@ -89,7 +89,7 @@ def show_GUI(load_jsonname, config):
             set_task_order(config, real_taskname_to_show_taskname)
             
             # 通知
-            set_notification(config)
+            set_notification(config, shared_softwareconfig)
             
             # 咖啡馆
             set_cafe(config)
@@ -126,12 +126,14 @@ def show_GUI(load_jsonname, config):
             def save_and_alert():
                 config.save_user_config(load_jsonname)
                 config.save_software_config()
+                shared_softwareconfig.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
             ui.button(config.get_text("button_save"), on_click=save_and_alert)
 
             def save_and_alert_and_run():
                 config.save_user_config(load_jsonname)
                 config.save_software_config()
+                shared_softwareconfig.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
                 ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
