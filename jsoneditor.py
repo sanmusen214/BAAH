@@ -32,20 +32,43 @@ if __name__ in {"__main__", "__mp_main__"}:
         
         # 构造一个config，用于在tab间共享softwareconfigdict
         shared_softwareconfig = MyConfigger()
-        
-        with ui.tabs().classes('w-full') as tabs:
-            for i,jsonname in enumerate(alljson_list):
-                alljson_tab_list[i] = ui.tab(jsonname)
-        with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
-            for i,tab_panel in enumerate(alljson_tab_list):
-                with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
-                    show_GUI(alljson_list[i], MyConfigger(), shared_softwareconfig)
-                    
+
+        async def add_new_config():
+            """
+            点击加号后，添加一个新的json配置文件到alljson_list和alljson_tab_list里，然后让Configger类去新建这个json文件
+            """
+            response = await ui.run_javascript('''
+                return await window.prompt("请输入新配置名/Please input new config name")
+            ''', timeout = 15.0)
+            response = response.strip().replace(".json", "")
+            response = response + ".json"
+            if response in alljson_list:
+                await ui.alert("配置名已存在/Config name already exists")
+            else:
+                # 创建一个新的json文件，延长alljson_list和alljson_tab_list
+                alljson_list.append(response)
+                alljson_tab_list.append(None)
+                tab_area.refresh()
+
+        @ui.refreshable
+        def tab_area():
+            with ui.tabs().classes('w-full') as tabs:
+                for i,jsonname in enumerate(alljson_list):
+                    alljson_tab_list[i] = ui.tab(jsonname, label=jsonname).style("text-transform: none;")
+                # 新建配置，用加号添加
+                ui.button("+", on_click=add_new_config).style("width: 30px; height: 30px; line-height: 30px; text-align: center; cursor: pointer;")
+            with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
+                for i,tab_panel in enumerate(alljson_tab_list):
+                    with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
+                        show_GUI(alljson_list[i], MyConfigger(), shared_softwareconfig)
+
+        # Tab栏区域
+        tab_area()
 
         # 运行GUI
         print(open_state)
         if open_state["OPEN_IN_WEB"]:
-            ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
+            ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=True, port=native.find_open_port())
         else:
             ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
 
