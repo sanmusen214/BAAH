@@ -4,7 +4,7 @@ jsoneditor.spec
 BAAH.spec
 compact_log.txt
 /*.png
-/DATA/CONFIGS/*.json
+/DATA/CONFIGS/software_config.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
