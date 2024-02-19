@@ -225,6 +225,10 @@ def check_connect():
             if img.shape[0] == 720 and img.shape[1] == 1280:
                 logging.info("图片分辨率为1280*720")
                 return True
+            elif img.shape[0] == 1280 and img.shape[1] == 720:
+                logging.warn("图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug")
+                logging.warn("继续运行，但是可能会出现问题，请确保模拟器分辨率为1280*720")
+                return True
             else:
                 logging.error("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
                 raise Exception("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
