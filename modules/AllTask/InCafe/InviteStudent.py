@@ -8,7 +8,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
 
 class InviteStudent(Task):
     """
@@ -20,15 +20,21 @@ class InviteStudent(Task):
 
      
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_CAFE) and match(button_pic(ButtonName.BUTTON_CAFE_CANINVITE))
+        return Page.is_page(PageName.PAGE_CAFE)
     
      
     def on_run(self) -> None:
         # 打开邀请界面
-        self.run_until(
+        open_momo = self.run_until(
             lambda: click((834, 652)),
-            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
+            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)),
+            times=3
         )
+        if not open_momo:
+            logging.warn("咖啡馆邀请界面打开失败, 跳出邀请任务")
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            return
         # 打开确认弹窗
         # 默认邀请第一个学生
         click_pos = (787, 225)
@@ -47,7 +53,7 @@ class InviteStudent(Task):
         )
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
-        
+        config.sessiondict["CAFE_HAD_INVITED"] = True
 
      
     def post_condition(self) -> bool:

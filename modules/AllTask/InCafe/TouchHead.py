@@ -7,7 +7,7 @@ from modules.configs.MyConfig import config
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, match_pixel
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, match_pixel, get_screenshot_cv_data, compare_diff
 
 class TouchHead(Task):
     # 安全的可点击边界，排除了下方按钮区域
@@ -15,8 +15,9 @@ class TouchHead(Task):
     SAFE_X_RIGHT = 1279
     SAFE_Y_TOP = 74
     SAFE_Y_BOTTOM = 598
-    def __init__(self, name="TouchHead") -> None:
+    def __init__(self, try_touch_epoch=3, name="TouchHead") -> None:
         super().__init__(name)
+        self.try_touch_epoch = try_touch_epoch
 
      
     def pre_condition(self) -> bool:
@@ -49,7 +50,7 @@ class TouchHead(Task):
         x=pos[0]
         y=pos[1]
         if x<self.SAFE_X_LEFT or x>self.SAFE_X_RIGHT or y<self.SAFE_Y_TOP or y>self.SAFE_Y_BOTTOM:
-            logging.warn("点击坐标不在安全范围内，不点击")
+            logging.warn(f"点击坐标{pos}不在安全范围内，不点击")
         else:
             click(pos, sleeptime=sleeptime)
             
@@ -68,20 +69,65 @@ class TouchHead(Task):
      
     def on_run(self) -> None:
         if config.userconfigdict["CAFE_CAMERA_FULL"]:
-            # 视角最高直接点
-            totalruns = 3
-            times_in_run = 3
-            for i in range(totalruns):
-                # sometimes a speak will cover the NOTICE icon, so we need to double check
-                click(Page.MAGICPOINT)
+            if config.userconfigdict["CAFE_TOUCH_WAY_DIFF"]:
+                # 如果使用了图片差异来摸头
+                self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: Page.is_page(PageName.PAGE_CAFE) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                )
+                # 左下进入编辑模式，截图
+                click((68, 649), 1)
+                screenshot()
+                noStu = get_screenshot_cv_data()
+                # 右上退出编辑模式
+                click((1171, 95), 1)
+                for match_times in range(int(2*self.try_touch_epoch)):
+                    # 重复检测6+2次
+                    # 确认来到咖啡厅页面
+                    self.run_until(
+                        lambda: click(Page.MAGICPOINT),
+                        lambda: Page.is_page(PageName.PAGE_CAFE) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                    )
+                    logging.info("开始检测图片差异")
+                    if match_times != 0:
+                        # 只是为了刷新学生们的位置，所以编辑模式内不需要再次截图
+                        # 左下进入编辑模式
+                        click((68, 649), 1)
+                        # 右上退出编辑模式
+                        click((1171, 95), 1)
+                    # 获取有学生的截图
+                    screenshot()
+                    hasStu = get_screenshot_cv_data()
+                    # 得出差异列表
+                    diff_pos_list = compare_diff(noStu, hasStu, [1, 1279], [124, 568])
+                    logging.info(f"第{match_times+1}次检测到{len(diff_pos_list)}个差异中心")
+                    # 挨个点击
+                    for pos in diff_pos_list:
+                        self.safe_click(pos, sleeptime=0.1)
+                    sleep(1.5)
+                # 最后用注意力符号模式再检查一下
                 self.run_until(
                     lambda: self.click_head_and_magic(),
                     lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95, rotate_trans=True),
-                    times = times_in_run, # 直到找不到注意力符号
+                    times = 3, # 直到找不到注意力符号
                     sleeptime=1
                 )
-                logging.info(f"第{i+1}/{totalruns}轮摸头结束")
-                sleep(3)
+            else:
+                # 否则使用注意力符号来摸头
+                # 视角最高直接点
+                totalruns = self.try_touch_epoch
+                times_in_run = 3
+                for i in range(totalruns):
+                    # sometimes a speak will cover the NOTICE icon, so we need to double check
+                    click(Page.MAGICPOINT)
+                    self.run_until(
+                        lambda: self.click_head_and_magic(),
+                        lambda: not match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold = 0.95, rotate_trans=True),
+                        times = times_in_run, # 直到找不到注意力符号
+                        sleeptime=1
+                    )
+                    logging.info(f"第{i+1}/{totalruns}轮摸头结束")
+                    sleep(3)
         else:
             # 左右拖动换视角摸头
             TO_POS_LEFT = [self.swipeLeft, self.swipeLeft, self.swipeLeft]

@@ -148,26 +148,27 @@ if __name__=="__main__":
     #     if len(response.json()['data']) != 0:
     #         print(response.json()['data'])
     
-    # connect_to_device()
-    # screenshot()
+    connect_to_device()
+    screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/BUTTON/BUTTON_CONFIRMY.png",  show_result=True, auto_rotate_if_trans=False)
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_CAFE_CANINVITE),  show_result=True, auto_rotate_if_trans=False)
     
 
     # 比划点
     # screencut_tool()
     # offset = 40
     
+    
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
     # print(matchres)
     
-    # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
-    # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
+    # InCafe().run()
+    
     
     
     # 推图那一套
@@ -216,6 +217,22 @@ if __name__=="__main__":
     # newpic = rotate_image_with_transparency(mypic, 90)
     # cv2.imshow("newpic", newpic)
     # cv2.waitKey(0)
+    
+    # 测找不同获取咖啡馆学生中心坐标
+    # click((68, 649), 1)
+    # screenshot()
+    # noStu = cv2.imread(config.userconfigdict['SCREENSHOT_NAME'])
+    # click((1171, 95), 1)
+    # for i in range(10):
+    #     screenshot()
+    #     hasStu = cv2.imread(config.userconfigdict['SCREENSHOT_NAME'])
+    #     diff_pos_list = compare_diff(noStu, hasStu, [1, 1279], [124, 568])
+    #     print(diff_pos_list)
+    #     for pos in diff_pos_list:
+    #         cv2.circle(hasStu, pos, 10, (0, 0, 255), -1)
+    #     cv2.imshow("newpic", hasStu)
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
     
     # 画3x3点
     # mypic = cv2.imread("./screenshot.png")
