@@ -22,9 +22,6 @@ class InQuest(Task):
     def __init__(self, types=["normal", "hard"], name="InQuest") -> None:
         super().__init__(name)
         self.types = types
-        for type in types:
-            if type not in ["normal", "hard"]:
-                logging.warn("错误的扫荡类型")
      
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
