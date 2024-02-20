@@ -89,6 +89,7 @@
     "email_pwd":"QQ邮箱SMTP授权码",
     "get_email_pwd":"如何获取SMTP授权码",
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
+    "enable_diff_touch":"是否使用图片找不同的方式点击",
 
 
     "config_server_jp":"日服",
