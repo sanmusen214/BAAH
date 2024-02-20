@@ -96,8 +96,8 @@ def BAAH_open_target_app():
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
         logging.info("检测到游戏已经在运行")
         return True
-    for i in range(5):
-        logging.info("打开游戏")
+    for i in range(40):
+        logging.info(f"打开游戏{i}/30")
         open_app(config.userconfigdict['ACTIVITY_PATH'])
         sleep(3)
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
