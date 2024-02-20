@@ -92,6 +92,7 @@ defaultUserDict = {
     "AUTO_EVENT_STORY_PUSH":{"d":False},
     "EXPLORE_RAINBOW_TEAMS":{"d":False},
     "ENABLE_MAIL_NOTI":{"d":False},
+    "CAFE_TOUCH_WAY_DIFF":{"d":False},
 }
 
 # 软件的config里的默认值

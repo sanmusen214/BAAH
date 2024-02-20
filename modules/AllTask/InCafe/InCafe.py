@@ -46,7 +46,7 @@ class InCafe(Task):
             # 摸第一个咖啡厅头
             TouchHead().run()
             InviteStudent(0).run()
-            TouchHead().run()
+            TouchHead(try_touch_epoch=1).run()
         # 检测是否有第二个咖啡厅
         if match(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM)):
             # 进入第二个咖啡厅
@@ -57,7 +57,7 @@ class InCafe(Task):
                 # 摸第二个咖啡厅头
                 TouchHead().run()
                 InviteStudent(1).run()
-                TouchHead().run()
+                TouchHead(try_touch_epoch=1).run()
         # 返回主页
         Task.back_to_home()
 

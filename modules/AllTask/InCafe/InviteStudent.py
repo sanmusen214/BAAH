@@ -27,7 +27,8 @@ class InviteStudent(Task):
         # 打开邀请界面
         open_momo = self.run_until(
             lambda: click((834, 652)),
-            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
+            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)),
+            times=3
         )
         if not open_momo:
             logging.warn("咖啡馆邀请界面打开失败, 跳出邀请任务")

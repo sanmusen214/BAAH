@@ -150,3 +150,55 @@ def match_pixel_color_range(imageurl, x, y, low_range, high_range, printit = Fal
         return True
     return False
     
+def compare_diff(img1, img2, xfocus, yfocus):
+    """
+    比较img1和img2的不同，返回这些不同的元素的中心点坐标列表
+    
+    Parameters
+    ----------
+    img1 : np.ndarray
+        图片1
+    img2 : np.ndarray
+        图片2
+    xignore : List[int]
+        关注的x范围, 图片坐标
+    yignore : List[int]
+        关注的y范围, 图片坐标
+    """
+    # 忽略UI部分
+    # xs = [1, 1279]
+    # ys = [124, 568]
+    xs=xfocus
+    ys=yfocus
+    
+    img1 = img1[ys[0]:ys[1], xs[0]:xs[1]]
+    img2 = img2[ys[0]:ys[1], xs[0]:xs[1]]
+    # img3为差异图
+    img3 = cv2.bitwise_xor(img1, img2)
+    img3[img3 != 0] = 255
+    # 缩横着的影子
+    kernel = np.ones((20, 5), np.uint8)
+    img4 = cv2.erode(img3, kernel)
+    # 再缩5x5
+    kernel = np.ones((5, 5), np.uint8)
+    img4 = cv2.erode(img4, kernel)
+    
+    
+    # 转换为gray灰度图
+    gray = cv2.cvtColor(img4, cv2.COLOR_BGR2GRAY)
+    # 寻找轮廓
+    contours, hier = cv2.findContours(gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    final_positions = []
+    # 这里得到的contours是一个list，每个元素都是一个ndarray，是轮廓的坐标
+    for cidx,cnt in enumerate(contours):
+        # 其中，x是轮廓的左上角x坐标，y是轮廓的左上角y坐标，w是轮廓的宽度，h是轮廓的高度
+        (x, y, w, h) = cv2.boundingRect(cnt)
+        print('RECT: x={}, y={}, w={}, h={}'.format(x, y, w, h))
+        # 如果面积比100小，就忽略
+        if cv2.contourArea(cnt) < 300:
+            continue
+        # 原图绘制圆形
+        # cv2.rectangle(originimg2, pt1=(x+xs[0], y+ys[0]), pt2=(x+w+xs[0], y+h+ys[0]),color=(255, 0, 0), thickness=3)
+        # 添加中心点到final_positions
+        final_positions.append((x+xs[0]+w//2, y+ys[0]+h//2))
+    return final_positions
