@@ -8,7 +8,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
 
 class InviteStudent(Task):
     """
@@ -53,7 +53,7 @@ class InviteStudent(Task):
         )
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
-        
+        config.sessiondict["CAFE_HAD_INVITED"] = True
 
      
     def post_condition(self) -> bool:

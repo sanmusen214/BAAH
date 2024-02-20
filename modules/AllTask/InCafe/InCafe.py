@@ -8,7 +8,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.Task import Task
 import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config
 
 # =====
 
@@ -45,8 +45,12 @@ class InCafe(Task):
         if self.touch:
             # 摸第一个咖啡厅头
             TouchHead().run()
+            config.sessiondict["CAFE_HAD_INVITED"] = False
             InviteStudent(0).run()
-            TouchHead(try_touch_epoch=1).run()
+            if config.sessiondict["CAFE_HAD_INVITED"]:
+                TouchHead(try_touch_epoch=1).run()
+            else:
+                logging.warn("邀请学生失败，跳过第二次摸头")
         # 检测是否有第二个咖啡厅
         if match(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM)):
             # 进入第二个咖啡厅
@@ -56,8 +60,12 @@ class InCafe(Task):
             if self.touch:
                 # 摸第二个咖啡厅头
                 TouchHead().run()
+                config.sessiondict["CAFE_HAD_INVITED"] = False
                 InviteStudent(1).run()
-                TouchHead(try_touch_epoch=1).run()
+                if config.sessiondict["CAFE_HAD_INVITED"]:
+                    TouchHead(try_touch_epoch=1).run()
+                else:
+                    logging.warn("邀请学生失败，跳过第二次摸头")
         # 返回主页
         Task.back_to_home()
 

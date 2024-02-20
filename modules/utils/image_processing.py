@@ -193,7 +193,7 @@ def compare_diff(img1, img2, xfocus, yfocus):
     for cidx,cnt in enumerate(contours):
         # 其中，x是轮廓的左上角x坐标，y是轮廓的左上角y坐标，w是轮廓的宽度，h是轮廓的高度
         (x, y, w, h) = cv2.boundingRect(cnt)
-        print('RECT: x={}, y={}, w={}, h={}'.format(x, y, w, h))
+        # print('RECT: x={}, y={}, w={}, h={}'.format(x, y, w, h))
         # 如果面积比100小，就忽略
         if cv2.contourArea(cnt) < 300:
             continue
