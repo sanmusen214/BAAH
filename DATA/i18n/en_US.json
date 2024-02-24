@@ -46,7 +46,7 @@
     "button_add": "Add",
     "button_delete": "Delete",
 
-    "config_cafe_attention": "In CN server, the cafe's perspective cannot be inherited, please uncheck the following item; for the global/JP server, please zoom out the camera, and keep the following item checked",
+    "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
     "config_kill_port": "Whether force to kill the port before starting emulator",
