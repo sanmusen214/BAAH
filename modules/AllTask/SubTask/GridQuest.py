@@ -310,20 +310,25 @@ class GridQuest(Task):
                         need_click_position = action["click"]
                     else:
                         mode = "head"
-                        # 需要蒙版的颜色
-                        need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
-                        # 国服的话头顶颜色会深一些
-                        if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
-                            need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
-                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4)]), 1)
+                        # 优先使用三角逼近
+                        knn_positions = [self.grider.get_head_triangle(get_screenshot_cv_data())]
                         if knn_positions[0][0]<0 or knn_positions[0][1]<0:
-                            mode = "foot"
-                            # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
-                            logging.info("三角识别失败，尝试使用砖块识别")
-                            knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
+                            # 如果三角逼近失败，那么使用头部黄色标识KNN识别
+                            logging.warn("三角逼近失败，尝试识别头部黄色标识中心")
+                            # 需要蒙版的颜色
+                            need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
+                            # 国服的话头顶颜色会深一些
+                            if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+                                need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
+                            knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4)]), 1)
                             if knn_positions[0][0]<0 or knn_positions[0][1]<0:
-                                # 如果还是失败，那么就是失败了
-                                raise Exception("队伍位置识别失败")
+                                mode = "foot"
+                                # 如果用头上三角箭头KNN识别队伍位置失败，那么用脚底黄色标识识别
+                                logging.warn("三角中心识别失败，尝试使用砖块识别")
+                                knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
+                                if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                                    # 如果还是失败，那么就是失败了
+                                    raise Exception("队伍位置识别失败")
                         # 此处坐标和opencv坐标相反
                         target_team_position = knn_positions[0]
                         # 根据攻略说明，偏移队伍位置得到点击的位置
