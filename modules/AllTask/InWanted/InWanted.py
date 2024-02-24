@@ -54,30 +54,27 @@ class InWanted(Task):
         # 开始循环扫荡target_info中的每一个关卡
         for each_target in target_info:
             # check whether there is a ticket
-            if ocr_area_0((72, 85), (322, 114)):
-                logging.warn("没有悬赏通缉券了")
+            # 使用PageName.PAGE_WANTED的坐标判断是国服还是其他服
+            if match(page_pic(PageName.PAGE_WANTED), returnpos=True)[1][1]>133:
+                # 如果右侧Title较低，说明是老版本的国服
+                logging.info("点击较低的三个定位点")
+                points = np.linspace(265, 544, 3)
             else:
-                # 使用PageName.PAGE_WANTED的坐标判断是国服还是其他服
-                if match(page_pic(PageName.PAGE_WANTED), returnpos=True)[1][1]>133:
-                    # 如果右侧Title较低，说明是老版本的国服
-                    logging.info("点击较低的三个定位点")
-                    points = np.linspace(265, 544, 3)
-                else:
-                    # 可点击的一列点
-                    points = np.linspace(206, 422, 3)
-                # 点击location
-                self.run_until(
-                    lambda: click((959, points[each_target[0]])),
-                    lambda: Page.is_page(PageName.PAGE_WANTED_SUB),
-                )
-                # 扫荡对应的level
-                RunWantedFight(levelnum = each_target[1], runtimes = each_target[2]).run()
-                # 回到SUB界面之后，点击一下返回
-                self.run_until(
-                    lambda: click(Page.TOPLEFTBACK),
-                    lambda: not Page.is_page(PageName.PAGE_WANTED_SUB),
-                    sleeptime=3
-                )
+                # 可点击的一列点
+                points = np.linspace(206, 422, 3)
+            # 点击location
+            self.run_until(
+                lambda: click((959, points[each_target[0]])),
+                lambda: Page.is_page(PageName.PAGE_WANTED_SUB),
+            )
+            # 扫荡对应的level
+            RunWantedFight(levelnum = each_target[1], runtimes = each_target[2]).run()
+            # 回到SUB界面之后，点击一下返回
+            self.run_until(
+                lambda: click(Page.TOPLEFTBACK),
+                lambda: not Page.is_page(PageName.PAGE_WANTED_SUB),
+                sleeptime=3
+            )
                 
         self.back_to_home()
 
