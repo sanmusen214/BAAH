@@ -84,6 +84,36 @@ class GridQuest(Task):
                 return True
         return False
     
+    def judge_whether_pre_set(self):
+        """
+        将自动战斗开启，PHASE自动结束关闭
+        """
+        logging.info("判断是否需要设置自动战斗开启和PHASE自动结束关闭")
+        # 开启的勾的蓝色
+        blue_pixel = ((245, 225, 80), (255, 235, 90))
+        positions_map = {
+            "CN":[(1121, 551), (1080, 606)],
+            "CN_BILI":[(1121, 551), (1080, 606)],
+            "JP":[(1088, 550), (952, 604)],
+            "GLOBAL":[(1116, 550), (1055, 605)],
+            "GLOBAL_EN":[(1096, 550), (1045, 604)]
+        }
+        server = config.userconfigdict["SERVER_TYPE"]
+        # 自动战斗和PHASE自动结束的位置
+        auto_fight_pos, auto_phase_pos = positions_map[server]
+        # 自动战斗开启
+        self.run_until(
+            lambda: click(auto_fight_pos),
+            lambda: match_pixel(auto_fight_pos, blue_pixel),
+            times=2
+        )
+        # PHASE自动结束关闭
+        self.run_until(
+            lambda: click(auto_phase_pos),
+            lambda: not match_pixel(auto_phase_pos, blue_pixel),
+            times=2
+        )
+    
     def wait_end(self, possible_fight = False):
         """
         点击右下任务资讯，等待战斗结束可以弹出弹窗，然后点击魔法点关掉弹窗
@@ -287,6 +317,7 @@ class GridQuest(Task):
         logging.info("开始战斗！")
         # 点击任务开始，这边多等一会，有的服战斗开始时会强制转到二队视角
         click(self.BUTTON_TASK_START_POS, sleeptime=4)
+        self.judge_whether_pre_set()
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
             # 循环每一个回合
             actions = self.grider.get_action_of_step(self.require_type, step_ind)
@@ -302,7 +333,6 @@ class GridQuest(Task):
                 sleep(1.5)
                 # 专注到一个队伍上后，分析队伍当前位置
                 screenshot()
-                # 先提取，后knn
                 try:
                     # 如果有click参数，那么就直接用click参数
                     if "click" in action:

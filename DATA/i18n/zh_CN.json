@@ -83,7 +83,7 @@
     "config_push_normal_desc":"普通关卡推图起始章节",
     "config_push_hard_desc":"困难关卡推图起始章节",
     "config_rainbow_teams_desc":"（高练度开启）推图是否是彩虹队伍，勾选此项后推图时不再等待配队，请先自己配好三只彩虹队再开启推图任务。",
-    "config_explore_attention":"推图时请确保SKIP跳过战斗打开，PHASE回合自动结束关闭",
+    "config_explore_attention":"建议自己配个彩虹队，要不然自己配队有点折磨",
     "email_notification_desc":"是否启用邮件通知，目前仅支持QQ邮箱",
     "email_account":"QQ账号",
     "email_pwd":"QQ邮箱SMTP授权码",
