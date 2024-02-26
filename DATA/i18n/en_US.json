@@ -24,6 +24,7 @@
     "setting_next_config": "Next Configuration File",
     "setting_notification":"Notification Configuration",
     "setting_other": "Other Settings",
+    "setting_vpn" : "VPN Configuration",
 
     "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. All config files are in the BAAH_CONFIGS folder. QQ group: 441069156",
     "BAAH_get_version": "To get the latest version, download from Github or join the group to download",
@@ -90,6 +91,7 @@
     "get_email_pwd":"How to get QQ Email SMTP token",
     "notice_example_json":"You are using the example json file, please save it as a new name before editing",
     "enable_diff_touch":"Enable picture difference touch mode",
+    "vpn_desc":"If you want to use VPN application",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

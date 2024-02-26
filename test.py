@@ -160,7 +160,7 @@ if __name__=="__main__":
     
 
     # 比划点
-    # screencut_tool()
+    screencut_tool()
     # offset = 40
     
     

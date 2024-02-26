@@ -89,6 +89,32 @@ def BAAH_check_adb_connect():
         raise Exception("检测到启动BAAH前 端口已被占用，但BAAH无法连接至该端口。上次模拟器可能未被正常关闭，请在启动BAAH前关闭模拟器")
     raise Exception("adb连接失败, 请检查配置里的adb端口")
 
+
+def BAAH_start_VPN():
+    """
+    启动加速器
+    """
+    if config.userconfigdict["USE_VPN"]:
+        logging.info("启动指定的加速器")
+        try:
+            open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
+            sleep(4)
+            logging.info(f"当前打开的应用: {get_now_running_app()}")
+            # 点击
+            for click_sleep_pair in config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']:
+                click_pos, sleep_time = click_sleep_pair
+                if type(click_pos) == list and click_pos[0]<0 and click_pos[1]<0:
+                    if sleep_time > 0:
+                        sleep(sleep_time)
+                    continue
+                logging.info(f"点击{click_pos}, 等待{sleep_time}秒")
+                click(click_pos, sleeptime=sleep_time)
+        except Exception as e:
+            logging.error("启动加速器失败, 可能是配置有误")
+            logging.error(e)
+    else:
+        logging.info("跳过启动加速器")
+
 def BAAH_open_target_app():
     """
     打开游戏
@@ -150,6 +176,7 @@ def BAAH_main():
     BAAH_release_adb_port()
     BAAH_start_emulator()
     BAAH_check_adb_connect()
+    BAAH_start_VPN()
     BAAH_open_target_app()
     # 运行任务
     logging.info("运行任务")

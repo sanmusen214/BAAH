@@ -68,6 +68,27 @@ def screen_shot_to_global():
     # img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
     # cv2.imwrite("./{}".format(config.userconfigdict['SCREENSHOT_NAME']), img_screenshot)
     
+def get_now_running_app():
+    """
+    获取当前运行的app
+    """
+    output = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'window']).stdout
+    # adb shell "dumpsys window | grep mCurrentFocus"
+    for sentence in output.split("\n"):
+        if "mCurrentFocus" in sentence:
+            # 找到当前运行的app那行
+            output = sentence
+            if "null" in output:
+                logging.warn("MUMU模拟器需要设置里关闭保活！")
+            break
+    # 截取app activity
+    try:
+        app_activity = output.split(" ")[-1].split("}")[0]
+    except Exception as e:
+        logging.warn("截取当前运行的app名失败：{}".format(output))
+        return output
+    return app_activity
+
 def check_app_running(activity_path:str) -> bool:
     """
     检查app是否在运行
@@ -77,17 +98,9 @@ def check_app_running(activity_path:str) -> bool:
     except Exception as e:
         logging.error("activity_path格式错误")
         return False
-    # 使用adb获取当前运行的app
-    output = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'window']).stdout
-    # adb shell "dumpsys window | grep mCurrentFocus"
-    for sentence in output.split("\n"):
-        if "mCurrentFocus" in sentence:
-            # 找到当前运行的app那行
-            output = sentence
-            logging.info("当前运行的app为：{}".format(output))
-            if "null" in output:
-                logging.warn("MUMU模拟器需要设置里关闭保活！")
-            break
+    # 获取当前运行的app
+    output = get_now_running_app()
+    logging.info("当前运行的app是：{}".format(output))
     if app_name in output:
         return True
     else:

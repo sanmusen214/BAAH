@@ -93,6 +93,11 @@ defaultUserDict = {
     "EXPLORE_RAINBOW_TEAMS":{"d":False},
     "ENABLE_MAIL_NOTI":{"d":False},
     "CAFE_TOUCH_WAY_DIFF":{"d":False},
+    "USE_VPN":{"d":False},
+    "VPN_CONFIG":{"d":{
+        "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST":[[(622, 248), 2]],
+    }}
 }
 
 # 软件的config里的默认值
