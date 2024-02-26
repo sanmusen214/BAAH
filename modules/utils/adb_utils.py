@@ -6,17 +6,25 @@ import time
 import numpy as np
 import cv2
 
-def getNewestSeialNumber():
+def getNewestSeialNumber(use_config=None):
+    # 如果传入指定的配置文件，就使用指定的配置文件
+    target_config = config
+    if use_config:
+        target_config = use_config
     # 从配置文件里得到最新的模拟器IP和端口
-    if config.userconfigdict["TARGET_PORT"] and config.userconfigdict["TARGET_IP_PATH"]:
-        return "{}:{}".format(config.userconfigdict["TARGET_IP_PATH"],config.userconfigdict["TARGET_PORT"])
+    if target_config.userconfigdict["TARGET_PORT"] and target_config.userconfigdict["TARGET_IP_PATH"]:
+        return "{}:{}".format(target_config.userconfigdict["TARGET_IP_PATH"],target_config.userconfigdict["TARGET_PORT"])
     else:
         logging.error("TARGET_IP_PATH或TARGET_PORT未设置")
         logging.warn("使用默认值：127.0.0.1:5555")
         return "127.0.0.1:5555"
     
-def get_config_adb_path():
-    return config.userconfigdict['ADB_PATH']
+def get_config_adb_path(use_config=None):
+    target_config = config
+    # 如果传入指定的配置文件，就使用指定的配置文件
+    if use_config:
+        target_config = use_config
+    return target_config.userconfigdict['ADB_PATH']
 
 # 判断是否有TARGET_PORT这个配置项
 def disconnect_this_device():
@@ -27,9 +35,12 @@ def kill_adb_server():
     """Kill the adb server."""
     subprocess_run([get_config_adb_path(), "kill-server"])
 
-def connect_to_device():
+def connect_to_device(use_config=None):
     """Connect to a device with the given device port."""
-    subprocess_run([get_config_adb_path(), "connect", getNewestSeialNumber()])
+    if use_config:
+        subprocess_run([get_config_adb_path(use_config), "connect", getNewestSeialNumber(use_config)])
+    else:
+        subprocess_run([get_config_adb_path(), "connect", getNewestSeialNumber()])
     
 def click_on_screen(x, y):
     """Click on the given coordinates."""
@@ -68,11 +79,14 @@ def screen_shot_to_global():
     # img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
     # cv2.imwrite("./{}".format(config.userconfigdict['SCREENSHOT_NAME']), img_screenshot)
     
-def get_now_running_app():
+def get_now_running_app(use_config=None):
     """
     获取当前运行的app
     """
-    output = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'window']).stdout
+    if use_config:
+        output = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), 'shell', 'dumpsys', 'window']).stdout
+    else:
+        output = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'window']).stdout
     # adb shell "dumpsys window | grep mCurrentFocus"
     for sentence in output.split("\n"):
         if "mCurrentFocus" in sentence:

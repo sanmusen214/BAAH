@@ -46,6 +46,7 @@
     "button_enable":"启用",
     "button_add":"添加",
     "button_delete":"删除",
+    "button_get_now_app":"获取当前应用名",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
     "config_camera_full":"进入咖啡馆时视角为最高",

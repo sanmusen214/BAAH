@@ -1,6 +1,16 @@
-from nicegui import ui
+from nicegui import ui, run
+from modules.utils import connect_to_device, get_now_running_app
 
 def set_vpn(config):
+    async def connect_and_get_now_app():
+        """
+        链接并获取当前运行的app
+        """
+        connect_to_device(config)
+        app = get_now_running_app(config)
+        if app:
+            config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'] = app
+        
     
     def list_of_click_and_sleep():
         """
@@ -56,7 +66,9 @@ def set_vpn(config):
     
     # 选择是否使用
     ui.checkbox(config.get_text("vpn_desc")).bind_value(config.userconfigdict, "USE_VPN")
-    # 选择加速器包名
-    ui.input("VPN APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
+    with ui.row():
+        # 选择加速器包名
+        ui.input("APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
+        ui.button(config.get_text("button_get_now_app"), on_click=connect_and_get_now_app)
     # 一系列点击操作
     list_of_click_and_sleep()
