@@ -47,6 +47,7 @@
     "button_add": "Add",
     "button_delete": "Delete",
     "button_get_now_app":"Get Current App",
+    "button_edit":"Edit",
 
     "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",

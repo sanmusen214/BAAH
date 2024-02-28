@@ -37,70 +37,6 @@ from email.mime.text import MIMEText
 from email.header import Header
 from smtplib import SMTP_SSL
 
-drawing = False  # 检查是否正在绘制
-start_x, start_y = -1, -1
-def screencut_tool():
-    # 读取透明度层
-    screenshot = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
-    # 平均最大最小bgr
-    bgr_result = [[],[],[]]
-    def mouse_callback_s(event, x, y, flags, param):
-        # 截图
-        global start_x, start_y, drawing
-        if event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
-            print(f"点击位置: ({x}, {y})", f"BGR 数组: {screenshot[y, x]}")
-            bgr_result[0].append(screenshot[y, x][0])
-            bgr_result[1].append(screenshot[y, x][1])
-            bgr_result[2].append(screenshot[y, x][2])
-            print("min max avg bgr: ", np.min(bgr_result, axis=1), np.max(bgr_result, axis=1), np.mean(bgr_result, axis=1))
-            
-        if event == cv2.EVENT_LBUTTONDOWN:  # 检查是否是鼠标左键按下事件
-            drawing = True
-            start_x, start_y = x, y
-        elif event == cv2.EVENT_MOUSEMOVE:  # 检查是否是鼠标移动事件
-            if drawing:
-                screenshot_copy = screenshot.copy()  # 创建截图的副本
-                cv2.rectangle(screenshot_copy, (start_x, start_y), (x, y), (0, 255, 0), 2)
-                cv2.imshow('Matched Screenshot', screenshot_copy)
-        elif event == cv2.EVENT_LBUTTONUP:  # 检查是否是鼠标左键释放事件
-            drawing = False
-            end_x, end_y = x, y
-            # cv2.rectangle(screenshot, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)
-            cv2.imshow('Matched Screenshot', screenshot)
-
-            # 保存截取的区域到当前目录
-            selected_region = screenshot[min(start_y,end_y):max(start_y,end_y), min(start_x,end_x):max(start_x,end_x)]
-            nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
-            filename = "selected_"+nowstr+".png"
-            cv2.imwrite(filename, selected_region)
-            print(f"选定区域已被保存为/Saved as {filename}")
-
-    cv2.imshow('Matched Screenshot', screenshot)
-    cv2.setMouseCallback("Matched Screenshot", mouse_callback_s)
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-def send_mail(sender_qq='',pwd='', receiver='',mail_title='',mail_content=''):
-    # qq邮箱smtp服务器
-    host_server = 'smtp.qq.com'
-    sender_qq_mail = sender_qq+'@qq.com'
-
-    #ssl登录
-    smtp = SMTP_SSL(host_server)
-    #set_debuglevel()是用来调试的。参数值为1表示开启调试模式，参数值为0关闭调试模式
-    smtp.set_debuglevel(1)
-    smtp.ehlo(host_server)
-    smtp.login(sender_qq, pwd)
-
-    msg = MIMEText(mail_content, "plain", 'utf-8')
-    msg["Subject"] = Header(mail_title, 'utf-8')
-    msg["From"] = sender_qq_mail
-    msg["To"] = receiver
-    res=smtp.sendmail(sender_qq_mail, receiver, msg.as_string())
-    print(res)
-    smtp.quit()
-
 if __name__=="__main__":
     # #sender_qq为发件人的qq号码
     # sender_qq = '1113746057'
@@ -149,7 +85,7 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     connect_to_device()
-    screenshot()
+    # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
@@ -196,8 +132,7 @@ if __name__=="__main__":
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
-    # res = ocr_area((327, 257), (353, 288))
-    # print(res)
+    # res = ocr_area((18, 50), (74, 87), multi_lines=True)
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
     # reslist = ocr_area((72, 544), (91, 569), multi_lines=False)

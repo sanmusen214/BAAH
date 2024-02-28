@@ -47,6 +47,7 @@
     "button_add":"添加",
     "button_delete":"删除",
     "button_get_now_app":"获取当前应用名",
+    "button_edit":"编辑",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
     "config_camera_full":"进入咖啡馆时视角为最高",
@@ -92,7 +93,7 @@
     "get_email_pwd":"如何获取SMTP授权码",
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
     "enable_diff_touch":"是否使用图片找不同的方式点击",
-    "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）",
+    "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）坐标相关参数可以滑动至页面底部点击截图按钮查看",
 
 
     "config_server_jp":"日服",

@@ -42,7 +42,10 @@ def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -
         matchRes = match(item, returnpos=True, threshold=threshold)
         if matchRes[0]:
             click_on_screen(matchRes[1][0], matchRes[1][1])
-            time.sleep(get_config_time_after_click())
+            if(sleeptime!=-1):
+                time.sleep(sleeptime)
+            else:
+                time.sleep(get_config_time_after_click())
             return True
         else:
             logging.warning("试图点击的目标图像不存在: {} ".format(item))

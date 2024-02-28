@@ -1,6 +1,8 @@
-from nicegui import ui
+from nicegui import ui, run
 from gui.components.list_edit_area import list_edit_area
 import os
+
+from modules.utils import screencut_tool, connect_to_device, screen_shot_to_global
 
 def set_other(config, load_jsonname):
     with ui.row():
@@ -34,7 +36,22 @@ def set_other(config, load_jsonname):
     
     # 测试/开发使用
     # 检查当前文件夹下有没有screencut.exe文件
-    whethercut = os.path.exists("./screencut.exe")
-    if whethercut:
-        with ui.row():
-            ui.button("测试截图/screencut test", on_click=lambda: os.system(f'start screencut.exe "{load_jsonname}"'))
+    # whethercut = os.path.exists("./screencut.exe")
+    # if whethercut:
+    #     with ui.row():
+    #         ui.button("测试截图/screencut test", on_click=lambda: os.system(f'start screencut.exe "{load_jsonname}"'))
+    
+    async def test_screencut():
+        connect_to_device(use_config=config)
+        screen_shot_to_global(use_config=config)
+        screenshotname = config.userconfigdict['SCREENSHOT_NAME']
+        await run.io_bound(
+            screencut_tool,
+            left_click=True,
+            right_click=True,
+            img_path=screenshotname
+        )
+    
+    # 将截图功能内嵌进GUI
+    with ui.row():
+        ui.button("测试截图/screencut test", on_click=test_screencut)

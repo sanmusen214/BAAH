@@ -5,6 +5,7 @@ from modules.configs.MyConfig import config
 import numpy as np
 from typing import Tuple
 from pponnxcr import TextSystem
+import time
 
 ZHT = TextSystem('en')
 
@@ -202,3 +203,81 @@ def compare_diff(img1, img2, xfocus, yfocus):
         # 添加中心点到final_positions
         final_positions.append((x+xs[0]+w//2, y+ys[0]+h//2))
     return final_positions
+
+
+drawing = False  # 检查是否正在绘制
+start_x, start_y = -1, -1
+quick_return_data = None
+def screencut_tool(left_click = True, right_click = True, img_path = None, quick_return = False):
+    """
+    截图工具
+    
+    Parameters
+    ----------
+    left_click : bool
+        是否开启左键点击事件
+    right_click : bool
+        是否开启右键点击事件
+    img_data : np.ndarray
+        图片数据
+    quick_return : bool
+        是否开启快速返回, 如果开启，点击右键后会返回坐标
+    """
+    global start_x, start_y, drawing, quick_return_data
+    drawing = False  # 检查是否正在绘制
+    start_x, start_y = -1, -1
+    quick_return_data = None
+    # 读取透明度层
+    if not img_path:
+        screenshot = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
+    else:
+        screenshot = cv2.imread(img_path)
+    # 平均最大最小bgr
+    bgr_result = [[],[],[]]
+    def mouse_callback_s(event, x, y, flags, param):
+        # 截图
+        global start_x, start_y, drawing, quick_return_data
+        if right_click and event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
+            print(f"点击位置: ({x}, {y})", f"BGR 数组: {screenshot[y, x]}")
+            bgr_result[0].append(screenshot[y, x][0])
+            bgr_result[1].append(screenshot[y, x][1])
+            bgr_result[2].append(screenshot[y, x][2])
+            print("min max avg bgr: ", np.min(bgr_result, axis=1), np.max(bgr_result, axis=1), np.mean(bgr_result, axis=1))
+            
+            if quick_return:
+                quick_return_data = [x, y]
+                cv2.destroyAllWindows()
+            
+        if left_click and event == cv2.EVENT_LBUTTONDOWN:  # 检查是否是鼠标左键按下事件
+            drawing = True
+            start_x, start_y = x, y
+        elif left_click and event == cv2.EVENT_MOUSEMOVE:  # 检查是否是鼠标移动事件
+            if drawing:
+                screenshot_copy = screenshot.copy()  # 创建截图的副本
+                cv2.rectangle(screenshot_copy, (start_x, start_y), (x, y), (0, 255, 0), 2)
+                cv2.imshow('Matched Screenshot', screenshot_copy)
+        elif event == cv2.EVENT_LBUTTONUP:  # 检查是否是鼠标左键释放事件
+            drawing = False
+            end_x, end_y = x, y
+            # cv2.rectangle(screenshot, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)
+            cv2.imshow('Matched Screenshot', screenshot)
+
+            # 保存截取的区域到当前目录
+            selected_region = screenshot[min(start_y,end_y):max(start_y,end_y), min(start_x,end_x):max(start_x,end_x)]
+            nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
+            filename = "selected_"+nowstr+".png"
+            cv2.imwrite(filename, selected_region)
+            print(f"选定区域已被保存为/Saved as {filename}")
+            
+            if quick_return:
+                quick_return_data = filename
+                cv2.destroyAllWindows()
+
+    cv2.imshow('Matched Screenshot', screenshot)
+    cv2.setMouseCallback("Matched Screenshot", mouse_callback_s)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
+    if quick_return:
+        return quick_return_data

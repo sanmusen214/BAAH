@@ -57,13 +57,15 @@ def convert_img(path):
     with open(path, "wb") as f:
         f.write(bys_)
 
-def screen_shot_to_global():
+def screen_shot_to_global(use_config=None):
     """Take a screenshot and save it to the GlobalState."""
+    target_config = config
+    if use_config:
+        target_config = use_config
     # 方法一，重定向输出到文件
-    
-    filename = config.userconfigdict['SCREENSHOT_NAME']
+    filename = target_config.userconfigdict['SCREENSHOT_NAME']
     with open("./{}".format(filename),"wb") as out:
-       subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "screencap", "-p"], stdout=out)
+       subprocess_run([get_config_adb_path(target_config), "-s", getNewestSeialNumber(target_config), "shell", "screencap", "-p"], stdout=out)
     #adb 命令有时直接截图保存到电脑出错的解决办法-加下面一段即可
     convert_img("./{}".format(filename))
     

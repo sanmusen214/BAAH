@@ -97,17 +97,21 @@ def BAAH_start_VPN():
     if config.userconfigdict["USE_VPN"]:
         logging.info("启动指定的加速器")
         try:
-            open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
-            sleep(4)
+            if config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY']:
+                open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
+            sleep(5)
             logging.info(f"当前打开的应用: {get_now_running_app()}")
             # 点击
             for click_sleep_pair in config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']:
+                screenshot()
                 click_pos, sleep_time = click_sleep_pair
+                # 如果为列表且第一个元素为负数，表示不点击
                 if type(click_pos) == list and click_pos[0]<0 and click_pos[1]<0:
                     if sleep_time > 0:
                         sleep(sleep_time)
                     continue
                 logging.info(f"点击{click_pos}, 等待{sleep_time}秒")
+                print(type(sleep_time))
                 click(click_pos, sleeptime=sleep_time)
         except Exception as e:
             logging.error("启动加速器失败, 可能是配置有误")
