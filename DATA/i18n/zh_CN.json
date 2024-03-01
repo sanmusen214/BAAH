@@ -93,7 +93,7 @@
     "get_email_pwd":"如何获取SMTP授权码",
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
     "enable_diff_touch":"是否使用图片找不同的方式点击",
-    "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）坐标相关参数可以滑动至页面底部点击截图按钮查看",
+    "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）。点击编辑后，左键拖拽截图；右键点击确定坐标点",
 
 
     "config_server_jp":"日服",

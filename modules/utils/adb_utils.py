@@ -83,7 +83,7 @@ def screen_shot_to_global(use_config=None):
     
 def get_now_running_app(use_config=None):
     """
-    获取当前运行的app
+    获取当前运行的app的activity
     """
     if use_config:
         output = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), 'shell', 'dumpsys', 'window']).stdout
@@ -107,7 +107,7 @@ def get_now_running_app(use_config=None):
 
 def check_app_running(activity_path:str) -> bool:
     """
-    检查app是否在运行
+    检查app是否在运行，不校验app的activity
     """
     try:
         app_name = activity_path.split("/")[0]

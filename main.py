@@ -16,6 +16,7 @@ def print_BAAH_start():
     print("+"+"".center(80, "=")+"+")
 
 def print_BAAH_finish():
+    print_BAAH_start()
     print("\n程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
     print("https://github.com/sanmusen214/BAAH")
 
@@ -66,12 +67,20 @@ if __name__ in ["__main__", "__mp_main__"]:
                 my_AllTask.parse_task()
             else:
                 break
+        # 此处所有任务已经完成，可以输出版本信息了
+        print_BAAH_finish()
+        # 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键
+        if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+            input("按回车键退出:")
+        else:
+            print("10秒后自动关闭")
+            sleep(10)
     except Exception as e:
         # 打印完整的错误信息
         import traceback
         traceback.print_exc()
         print_BAAH_finish()
-        input("按回车键继续:")
+        input("出现错误，按回车键退出:")
     
     # 运行结束后，删除截图文件
     try:
@@ -80,14 +89,6 @@ if __name__ in ["__main__", "__mp_main__"]:
             os.remove(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}")
     except Exception as e:
         logging.error("删除截图文件失败")
-    
-    print_BAAH_finish()
-    # 结束运行，如果用户没有勾选关闭模拟器，等待用户按回车键
-    if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
-        input()
-    else:
-        print("10秒后自动关闭")
-        sleep(10)
         
         
 
