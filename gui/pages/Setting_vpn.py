@@ -1,5 +1,5 @@
 from nicegui import ui, run
-from modules.utils import connect_to_device, get_now_running_app, screen_shot_to_global, screencut_tool
+from modules.utils import connect_to_device, get_now_running_app_entrance_activity, screen_shot_to_global, screencut_tool
 
 def set_vpn(config):
     async def connect_and_get_now_app():
@@ -7,7 +7,7 @@ def set_vpn(config):
         链接并获取当前运行的app
         """
         connect_to_device(config)
-        app = get_now_running_app(config)
+        app = get_now_running_app_entrance_activity(config)
         if app:
             config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'] = app
         

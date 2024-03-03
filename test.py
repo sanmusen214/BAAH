@@ -85,7 +85,8 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     connect_to_device()
-    # screenshot()
+    screenshot()
+    
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
@@ -105,7 +106,8 @@ if __name__=="__main__":
     
     # InCafe().run()
     
-    
+    # 获取入口activity
+    # print(get_now_running_app_entrance_activity())
     
     # 推图那一套
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()

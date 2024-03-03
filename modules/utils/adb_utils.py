@@ -83,7 +83,7 @@ def screen_shot_to_global(use_config=None):
     
 def get_now_running_app(use_config=None):
     """
-    获取当前运行的app的activity
+    获取当前运行的app的前台activity
     """
     if use_config:
         output = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), 'shell', 'dumpsys', 'window']).stdout
@@ -105,9 +105,32 @@ def get_now_running_app(use_config=None):
         return output
     return app_activity
 
+def get_now_running_app_entrance_activity(use_config=None):
+    """
+    得到当前app的入口activity
+    
+    https://stackoverflow.com/questions/12698814/get-launchable-activity-name-of-package-from-adb/41325792#41325792
+    """
+    # 先获取当前运行的app的前台activity
+    front_activity = get_now_running_app(use_config)
+    logging.info("当前运行的app的前台activity是：{}".format(front_activity))
+    # 提取出包名
+    package_name = front_activity.split("/")[0]
+    if use_config:
+        output = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), 'shell', 'cmd', 'package', 'resolve-activity', '--brief', package_name]).stdout
+    else:
+        output = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(),  'shell', 'cmd', 'package', 'resolve-activity', '--brief', package_name]).stdout
+    # 提取出入口activity
+    strlist = output.split()
+    entrance_activity = strlist[-1]
+    if "/" not in entrance_activity:
+        logging.error(f"获取入口activity失败：{output}")
+        return entrance_activity
+    return entrance_activity
+
 def check_app_running(activity_path:str) -> bool:
     """
-    检查app是否在运行，不校验app的activity
+    检查app是否在运行，不校验app的activity,只校验app的名字
     """
     try:
         app_name = activity_path.split("/")[0]
