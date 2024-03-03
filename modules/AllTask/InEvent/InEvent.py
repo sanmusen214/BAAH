@@ -91,6 +91,8 @@ class InEvent(Task):
         # 判断左上角标题
         if not Page.is_page(PageName.PAGE_EVENT):
             return False
+        click(Page.MAGICPOINT, sleeptime=0.3)
+        click(Page.MAGICPOINT, sleeptime=0.3)
         # 图片匹配深色的QUEST标签
         matchpic = self.run_until(
             lambda: click((965, 98)),

@@ -27,29 +27,32 @@ class SkipStory(Task):
     
      
     def on_run(self) -> None:
-        for i in range(5):
+        for i in range(7):
             screenshot()
             # 记住MENU的位置
             menures = match(button_pic(ButtonName.BUTTON_STORY_MENU), returnpos=True)
             if not menures[0]:
                 logging.info("跳过剧情被打断，重试")
-                click(Page.MAGICPOINT, sleeptime=1.2)
+                click(Page.MAGICPOINT, sleeptime=1.5)
                 continue
             menupos = menures[1]
             # 按MENU直到MENU变深色匹配不出来
             clickmenu = self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=1.5),
+                lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=1),
                 lambda: not match(button_pic(ButtonName.BUTTON_STORY_MENU))
             )
             # 点击跳过直到看到蓝色确认按钮
             clickskip = self.run_until(
-                lambda: click((menupos[0], menupos[1] + 80), sleeptime=1.5),
+                lambda: click((menupos[0], menupos[1] + 80), sleeptime=1),
                 lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 times=3
             )
+            if not clickskip:
+                logging.info("跳过剧情被打断，重试")
+                continue
             # 点击蓝色确认按钮，直到看不到蓝色确认按钮
             clickconfirmb = self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=1.5),
+                lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=1),
                 lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 times=3
             )
