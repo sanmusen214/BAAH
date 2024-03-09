@@ -220,5 +220,6 @@
                 3
             ]
         ]
-    }
+    },
+    "AUTO_PUSH_EVENT_QUEST": true
 }
