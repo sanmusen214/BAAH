@@ -84,6 +84,7 @@
     "config_adb_path":"ADB路径",
     "config_screenshot_name":"截图文件名",
     "config_auto_event_story":"自动推活动剧情",
+    "config_auto_event_push":"欲扫荡关卡未解锁时自动推关卡",
     "config_push_normal_desc":"普通关卡推图起始章节",
     "config_push_hard_desc":"困难关卡推图起始章节",
     "config_rainbow_teams_desc":"（高练度开启）推图是否是彩虹队伍，勾选此项后推图时不再等待配队，请先自己配好三只彩虹队再开启推图任务。",

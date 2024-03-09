@@ -84,6 +84,7 @@
     "config_adb_path": "ADB Path",
     "config_screenshot_name": "Screenshot File Name",
     "config_auto_event_story":"Auto View Event Story",
+    "config_auto_event_push": "Explore Event Quest if Target Level is not Reached",
     "config_push_normal_desc":"push normal stage start chapter",
     "config_push_hard_desc":"push hard stage start chapter",
     "config_rainbow_teams_desc":"Whether use rainbow teams to explore, if open this, please prepare 3 rainbow teams before you start the explore task",

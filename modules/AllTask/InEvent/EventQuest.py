@@ -29,8 +29,12 @@ class EventQuest(Task):
     
     def judge_whether_and_do_fight(self, this_level_ind):
         """
-        观察下标为this_level_ind的关卡是否可扫荡，如果不可扫荡就打一次
+        观察下标为this_level_ind的关卡是否可扫荡，如果不可扫荡就尝试推一次
+        
+        返回是否尝试了推一次
         """
+        if not config.userconfigdict["AUTO_PUSH_EVENT_QUEST"]:
+            return "no"
         screenshot()
         if not match(popup_pic(PopupName.POPUP_TASK_INFO)) and not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
             logging.info("触发推图任务")
@@ -68,6 +72,8 @@ class EventQuest(Task):
                 click((1130, 200), sleeptime=2)
                 logging.info(f"尝试跳转到第{level_ind+1}个level")
                 # 向右挪到第level_ind个level
+                if not config.userconfigdict["AUTO_PUSH_EVENT_QUEST"]:
+                    logging.info("设置的不自动推活动图，尝试直接跳转到扫荡关卡")
                 # 判断是否要推图并推图
                 res=self.judge_whether_and_do_fight(0)
                 if res=="yes":
