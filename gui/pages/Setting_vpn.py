@@ -1,13 +1,16 @@
 from nicegui import ui, run
-from modules.utils import connect_to_device, get_now_running_app_entrance_activity, screen_shot_to_global, screencut_tool
+from modules.utils import connect_to_device, get_now_running_app,  get_now_running_app_entrance_activity, screen_shot_to_global, screencut_tool
 
 def set_vpn(config):
-    async def connect_and_get_now_app():
+    async def connect_and_get_now_app(enter_activity = True):
         """
         链接并获取当前运行的app
         """
         connect_to_device(config)
-        app = get_now_running_app_entrance_activity(config)
+        if enter_activity:
+            app = get_now_running_app_entrance_activity(config)
+        else:
+            app = get_now_running_app(config)
         if app:
             config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'] = app
         
@@ -96,6 +99,7 @@ def set_vpn(config):
     with ui.row():
         # 选择加速器包名
         ui.input("APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
-        ui.button(config.get_text("button_get_now_app"), on_click=connect_and_get_now_app)
+        ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(True))
+        ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(False))
     # 一系列点击操作
     list_of_click_and_sleep()
