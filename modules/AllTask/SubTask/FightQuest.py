@@ -140,7 +140,7 @@ class FightQuest(Task):
         # 获得奖励，右下确认黄色（左边返回大厅）
         logging.info("点击确认...")
         backres = self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) and click(Page.MAGICPOINT),
+            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) or click(Page.MAGICPOINT),
             self.backtopic,
             times=20,
             sleeptime=1
