@@ -129,12 +129,9 @@ print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
-    if "_internal" in dirpath or "tools" in dirpath:
+    if "_internal" in dirpath or "tools" in dirpath or "BAAH_CONFIGS" in dirpath:
         continue
     for filename in filenames:
-        # 跳过example.json
-        if "example.json" in filename:
-            continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
 print(f"完成，压缩包./dist/BAAH{config_version}_update.zip已生成")
