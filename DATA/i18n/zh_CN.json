@@ -94,11 +94,11 @@
     "email_pwd":"QQ邮箱SMTP授权码",
     "get_email_pwd":"如何获取SMTP授权码",
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
-    "enable_diff_touch":"是否使用图片找不同的方式点击",
+    "enable_diff_touch":"是否识别人物的位置点击",
     "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）。点击编辑后，左键拖拽截图；右键点击确定坐标点",
     "cafe_collect_desc":"咖啡馆是否收集",
     "cafe_touch_desc":"咖啡馆是否摸头",
-    "cafe_invite_desc":"咖啡馆是否邀请",
+    "cafe_invite_desc":"咖啡馆是否邀请（默认邀请列表第一个/第二个）",
 
 
     "config_server_jp":"日服",

@@ -94,11 +94,11 @@
     "email_pwd":"QQ Email SMTP token",
     "get_email_pwd":"How to get QQ Email SMTP token",
     "notice_example_json":"You are using the example json file, please save it as a new name before editing",
-    "enable_diff_touch":"Enable picture difference touch mode",
+    "enable_diff_touch":"Enable student recognize touch mode",
     "vpn_desc":"If you want to use VPN application",
     "cafe_collect_desc":"Whether collect in cafe",
     "cafe_touch_desc":"Whether touch in cafe",
-    "cafe_invite_desc":"Whether invite in cafe",
+    "cafe_invite_desc":"Whether invite in cafe (the first or second in the invitation list)",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
