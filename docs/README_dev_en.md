@@ -25,7 +25,7 @@
 
 # Project Execution
 
-The automatic script project runs from main.py as the entry point. It reads the user-specified configuration file from the command line and then parses the daily tasks for this user configuration file through the myAllTask class under AllTask. It creates corresponding Task instances for each character in a list and sequentially runs these Task instances in BAAH.py.
+The automatic script project runs from main.py as the entry point. It reads the user-specified configuration file from the command line and then parses the daily tasks for this user configuration file through the myAllTask class under AllTask. It creates corresponding Task instances for each task in a list and sequentially runs these Task instances in BAAH.py.
 
 # Key Classes
 
