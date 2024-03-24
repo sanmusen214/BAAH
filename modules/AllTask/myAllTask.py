@@ -11,7 +11,7 @@ task_dict= {
     "登录游戏":[EnterGame,{}],
     "清momotalk":[InMomotalk,{}],
     "咖啡馆":[InCafe,{}],
-    "咖啡馆只摸头":[InCafe,{'collect':False}],
+    "咖啡馆只摸头":[InCafe,{}], # 此方法弃用，现在所有咖啡馆参数通过config调整
     "课程表":[InTimeTable,{}],
     "社团":[InClub,{}],
     "商店":[InShop,{}],

@@ -2,7 +2,7 @@
     "task_login_game":"登录游戏",
     "task_clear_momotalk":"清momotalk",
     "task_cafe":"咖啡馆",
-    "task_cafe_only_touch":"咖啡馆只摸头",
+    "task_cafe_deprecated":"咖啡馆只摸头(已废弃)",
     "task_timetable":"课程表/日程",
     "task_club":"社团",
     "task_shop":"商店",
@@ -96,6 +96,9 @@
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
     "enable_diff_touch":"是否使用图片找不同的方式点击",
     "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）。点击编辑后，左键拖拽截图；右键点击确定坐标点",
+    "cafe_collect_desc":"咖啡馆是否收集",
+    "cafe_touch_desc":"咖啡馆是否摸头",
+    "cafe_invite_desc":"咖啡馆是否邀请",
 
 
     "config_server_jp":"日服",

@@ -34,7 +34,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "登录游戏":config.get_text("task_login_game"),
         "清momotalk":config.get_text("task_clear_momotalk"),
         "咖啡馆":config.get_text("task_cafe"),
-        "咖啡馆只摸头":config.get_text("task_cafe_only_touch"),
+        "咖啡馆只摸头":config.get_text("task_cafe_deprecated"), # 为了兼容以前的配置里的咖啡馆只摸头，这里只改显示名
         "课程表":config.get_text("task_timetable"),
         "社团":config.get_text("task_club"),
         "商店":config.get_text("task_shop"),

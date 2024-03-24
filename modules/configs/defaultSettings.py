@@ -99,6 +99,9 @@ defaultUserDict = {
         "CLICK_AND_WAIT_LIST":[[(622, 248), 2]],
     }},
     "AUTO_PUSH_EVENT_QUEST":{"d":True},
+    "CAFE_COLLECT":{"d":True},
+    "CAFE_TOUCH":{"d":True},
+    "CAFE_INVITE":{"d":True},
 }
 
 # 软件的config里的默认值

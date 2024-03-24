@@ -221,5 +221,8 @@
             ]
         ]
     },
-    "AUTO_PUSH_EVENT_QUEST": true
+    "AUTO_PUSH_EVENT_QUEST": true,
+    "CAFE_COLLECT": true,
+    "CAFE_TOUCH": true,
+    "CAFE_INVITE": true
 }

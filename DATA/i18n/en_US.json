@@ -2,7 +2,7 @@
     "task_login_game": "Login Game",
     "task_clear_momotalk": "Clear Momotalk",
     "task_cafe": "Cafe",
-    "task_cafe_only_touch": "Cafe Head Touch Only",
+    "task_cafe_deprecated":"Cafe Only Touch (Deprecated)",
     "task_timetable": "Lesson",
     "task_club": "Club",
     "task_shop": "Shop",
@@ -96,6 +96,9 @@
     "notice_example_json":"You are using the example json file, please save it as a new name before editing",
     "enable_diff_touch":"Enable picture difference touch mode",
     "vpn_desc":"If you want to use VPN application",
+    "cafe_collect_desc":"Whether collect in cafe",
+    "cafe_touch_desc":"Whether touch in cafe",
+    "cafe_invite_desc":"Whether invite in cafe",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
