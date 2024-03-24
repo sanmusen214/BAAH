@@ -101,7 +101,9 @@ package_create_folder("./dist/BAAH/DATA/CONFIGS")
 # 将LICENSE挪进去占位, 不放software.config, 防止覆盖掉用户的
 package_copyfile("./LICENSE", "./dist/BAAH/DATA/CONFIGS/LICENSE")
 
-package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+# 这里只拷贝example.json，不拷贝其他的，因为其他的是用户的配置文件
+# package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+package_copyfile("./BAAH_CONFIGS/example.json", "./dist/BAAH/BAAH_CONFIGS/example.json")
 
 package_copyfolder("./DATA/assets", "./dist/BAAH/DATA/assets")
 package_copyfolder("./DATA/assets_jp", "./dist/BAAH/DATA/assets_jp")
