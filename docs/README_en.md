@@ -110,6 +110,10 @@ Bilibili: [Latest Tutorial on Homepage](https://space.bilibili.com/7331920?spm_i
 6. Execute `python jsoneditor.py` to run GUI
 7. Execute `python main.py config.json` to start running BAAH with user configuration in config.json
 
+# Contribution
+
+You can see contents about developing in [docs/README_dev_en.md](./README_dev_en.md)
+
 # Packaging
 
 Create a new tools folder under the project, put the `tools/adb`, `_internal/nicegui`, `_internal/pponnxcr` folders from the zip into the project folder, and run

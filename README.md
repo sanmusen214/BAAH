@@ -112,6 +112,10 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 6. 执行`python jsoneditor.py` 运行GUI
 7. 执行`python main.py config.json`按照config.json配置开始执行BAAH
 
+# 贡献
+
+你可以在[docs/README_dev.md](./docs/README_dev.md)里看到开发相关内容
+
 # 打包
 
 项目下新建tools文件夹，放入压缩包中的tools/adb，_internal/nicegui，_internal/pponnxcr文件夹
