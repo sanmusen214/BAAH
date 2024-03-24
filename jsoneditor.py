@@ -39,7 +39,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             """
             response = await ui.run_javascript('''
                 return await window.prompt("请输入新配置名/Please input new config name")
-            ''', timeout = 15.0)
+            ''', timeout = 120.0)
             if not response:
                 return
             response = response.strip().replace(".json", "")
