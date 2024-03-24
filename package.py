@@ -29,7 +29,7 @@ def package_rename(src, dst):
         
 def package_create_folder(path):
     try:
-        os.mkdir(path)
+        os.makedirs(path)
     except Exception as e:
         print(f"{path}创建时出错!")
 
@@ -49,9 +49,7 @@ def package_remove_folder(path):
 
 config_version = config.NOWVERSION
 
-package_remove_file(f"./dist/BAAH{config_version}.zip")
-package_remove_file(f"./dist/BAAH{config_version}_update.zip")
-package_rename(f"./dist/BAAH{config_version}", f"./dist/BAAH")
+package_remove_folder("./dist")
 
 # 打包main.py，名字为BAAH
 baahcmd = [
@@ -103,6 +101,7 @@ package_copyfile("./LICENSE", "./dist/BAAH/DATA/CONFIGS/LICENSE")
 
 # 这里只拷贝example.json，不拷贝其他的，因为其他的是用户的配置文件
 # package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+package_create_folder("./dist/BAAH/BAAH_CONFIGS")
 package_copyfile("./BAAH_CONFIGS/example.json", "./dist/BAAH/BAAH_CONFIGS/example.json")
 
 package_copyfolder("./DATA/assets", "./dist/BAAH/DATA/assets")
