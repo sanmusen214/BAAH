@@ -46,10 +46,14 @@ class InSpecial(Task):
             sleeptime=4
         )
         # 进入特殊任务页面
-        self.run_until(
+        caninspecial = self.run_until(
             lambda: click((721, 538)),
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
+        if not caninspecial:
+            logging.warning("Can't open special page, task quit")
+            self.back_to_home()
+            return
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             # 使用PageName.PAGE_SPECIAL的坐标判断是国服还是其他服

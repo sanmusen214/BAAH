@@ -7,7 +7,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config
 import logging
 
 class InContest(Task):
@@ -30,10 +30,17 @@ class InContest(Task):
             sleeptime=4
         )
         # 进入竞技场
-        canincontest = self.run_until(
-            lambda: click((1084, 550)),
-            lambda: Page.is_page(PageName.PAGE_CONTEST)
-        )
+        # 适配日服
+        if config.userconfigdict["SERVER_TYPE"] == "JP":
+            canincontest = self.run_until(
+                lambda: click((878, 595)),
+                lambda: Page.is_page(PageName.PAGE_CONTEST)
+            )
+        else:
+            canincontest = self.run_until(
+                lambda: click((1084, 550)),
+                lambda: Page.is_page(PageName.PAGE_CONTEST)
+            )
         if not canincontest:
             logging.warning("Can't open contest page, task quit")
             self.back_to_home()

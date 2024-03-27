@@ -48,10 +48,14 @@ class InExchange(Task):
             sleeptime=4
         )
         # 进入学院交流会页面
-        self.run_until(
+        caninexchange = self.run_until(
             lambda: click((712, 592)),
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
+        if not caninexchange:
+            logging.warning("Can't open exchange page, task quit")
+            self.back_to_home()
+            return
         for each_target in target_info:
             # check whether there is a ticket
             # 使用PageName.PAGE_EXCHANGE的坐标判断是国服还是其他服
