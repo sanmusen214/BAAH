@@ -157,6 +157,27 @@ class InEvent(Task):
         self.has_event_but_closed = True
         return False
 
+    def get_biggest_level(self):
+        """
+        通过下滑到底ocr获取最大关卡数
+        
+        -1表示没有找到
+        """
+        self.scroll_right_down()
+        sleep(1)
+        screenshot()
+        reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+        temp_max = -1
+        logging.info("ocr结果："+str(reslist))
+        # 将每一个字母尝试转换成数字，如果是数字就比较目前最大
+        for res in reslist:
+            try:
+                # 最大不过12
+                temp_max = min(max(temp_max, int(res[0])), 12)
+            except:
+                pass
+        self.max_level = temp_max
+        return temp_max
     
     def on_run(self) -> None:
         # 进入Fight Center, 这里离开了主页之后就狂点活动标
@@ -187,6 +208,21 @@ class InEvent(Task):
         # 检测并跳过剧情
         if config.userconfigdict["AUTO_EVENT_STORY_PUSH"]:
             EventStory().run()
+        # 推图任务
+        if config.userconfigdict["AUTO_PUSH_EVENT_QUEST"]:
+            # 点击Quest标签
+            click((965, 98))
+            click((965, 98))
+            logging.info("检查活动关卡是否推完")
+            maxquest = self.get_biggest_level()
+            if maxquest == -1:
+                logging.warn("未能识别活动关卡，跳过推图直接进行扫荡")
+            else:
+                maxquest_ind = maxquest - 1
+                logging.info(f"最大关卡: {maxquest}，开始检测是否需要推图")
+                # 设置一个推maxquest_ind关卡0次的任务
+                EventQuest([[maxquest_ind, 0]]).run()
+        # 扫荡任务
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])
