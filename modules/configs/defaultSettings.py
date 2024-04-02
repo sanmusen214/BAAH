@@ -113,11 +113,12 @@ defaultSoftwareDict = {
     "MAIL_PASS":{"d":""},
 }
 
-# sessiondict是一个dict，存储了一次任务的运行时信息
+# sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict
 defaultSessionDict = {
     "PORT_IS_USED":{"d":False},
     "EMULATOR_PROCESS_PID":{"d":None},
     "GUI_OPEN_IN_WEB":{"d":True},
     "LAST_TEAM_SET":{"d":[]},
     "CAFE_HAD_INVITED":{"d":True},
+    "TIMETABLE_NO_TICKET":{"d":False},
 }

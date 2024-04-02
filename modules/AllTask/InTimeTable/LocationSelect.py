@@ -9,7 +9,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config
 import numpy as np
 
 class LocationSelect(Task):
@@ -95,7 +95,8 @@ class LocationSelect(Task):
             # 如果点完开始发现购买弹窗
             if(match(popup_pic(PopupName.POPUP_TOTAL_PRICE))):
                 logging.info(f"教室{classroom+1}由于票卷不足，执行失败")
-                continue
+                config.sessiondict["TIMETABLE_NO_TICKET"] = True
+                break
             else:
                 # 课程表执行后狂点魔法点跳过弹窗, 回到无弹窗界面
                 sleep(1)
