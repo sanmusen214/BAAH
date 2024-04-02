@@ -1,6 +1,6 @@
 import sys
 import os
-from time import sleep
+from time import sleep, strftime
 
 # 将当前脚本所在目录添加到模块搜索路径
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -36,7 +36,7 @@ if __name__ in ["__main__", "__mp_main__"]:
             logging.info("读取默认config文件: "+configname)
             config.parse_user_config(configname)
 
-        from BAAH import BAAH_main, my_AllTask
+        from BAAH import BAAH_main, my_AllTask, notificationer
         
         # 打印BAAH信息
         print_BAAH_start()
@@ -80,6 +80,21 @@ if __name__ in ["__main__", "__mp_main__"]:
         import traceback
         traceback.print_exc()
         print_BAAH_finish()
+        # 发送错误通知邮件
+        if config.userconfigdict["ENABLE_MAIL_NOTI"]:
+            logging.info("发送错误通知邮件")
+            try:
+                # 构造邮件内容
+                content = []
+                content.append("BAAH任务出现错误")
+                content.append("配置文件名称: "+config.nowuserconfigname)
+                content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
+                content.append("错误信息: "+str(e))
+                print(notificationer.send("\n".join(content)))
+                logging.info("邮件发送结束")
+            except Exception as eagain:
+                logging.error("发送邮件失败")
+                logging.error(eagain)
         input("出现错误，按回车键退出:")
     
     # 运行结束后，删除截图文件
