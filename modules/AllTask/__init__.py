@@ -17,3 +17,4 @@ from .InContest.InContest import InContest
 from .CollectMails.CollectMails import CollectMails
 from .CollectDailyRewards.CollectDailyRewards import CollectDailyRewards
 
+from .AutoStory.AutoStory import AutoStory

@@ -174,4 +174,22 @@ class Task:
         for i in range(times):
             swipe((264, 558), (265, 254), sleeptime=0.2)
         sleep(0.5)
+    
+    @staticmethod
+    def scroll_to_left(times=3):
+        """
+        scroll to left
+        """
+        for i in range(times):
+            swipe((459, 375), (797, 375), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_to_right(times=3):
+        """
+        scroll to right
+        """
+        for i in range(times):
+            swipe((797, 375), (459, 375), sleeptime=0.2)
+        sleep(0.5)
         
