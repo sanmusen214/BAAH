@@ -102,6 +102,7 @@ defaultUserDict = {
     "CAFE_COLLECT":{"d":True},
     "CAFE_TOUCH":{"d":True},
     "CAFE_INVITE":{"d":True},
+    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
 }
 
 # 软件的config里的默认值

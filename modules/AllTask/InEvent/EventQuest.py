@@ -40,7 +40,11 @@ class EventQuest(Task):
             logging.info("触发推图任务")
             # 判断推图是否刚才打了一次，但是没三星或打不过去
             if this_level_ind == self.last_fight_level_ind:
-                raise Exception(f"活动自动推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
+                if config.userconfigdict["RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST"]:
+                    raise Exception(f"活动自动推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
+                else:
+                    logging.warn(f"活动自动推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
+                    return "noap"
             # 点击任务开始按钮
             click(button_pic(ButtonName.BUTTON_TASK_START))
             # 如果体力不够
