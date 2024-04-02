@@ -36,18 +36,13 @@ class SkipStory(Task):
                 click(Page.MAGICPOINT, sleeptime=1.5)
                 continue
             menupos = menures[1]
-            # 按MENU直到MENU变深色匹配不出来
-            clickmenu = self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=1),
-                lambda: not match(button_pic(ButtonName.BUTTON_STORY_MENU))
-            )
-            # 点击跳过直到看到蓝色确认按钮
-            clickskip = self.run_until(
-                lambda: click((menupos[0], menupos[1] + 80), sleeptime=1),
+            # 按MENU,点击跳过直到看到蓝色确认按钮，这里MENU和跳过图标之间响应很快，直接连点
+            clickmenu_and_skip = self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=0.3) and click((menupos[0], menupos[1] + 80), sleeptime=0.3),
                 lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB)),
-                times=3
+                sleeptime=2
             )
-            if not clickskip:
+            if not clickmenu_and_skip:
                 logging.info("跳过剧情被打断，重试")
                 continue
             # 点击蓝色确认按钮，直到看不到蓝色确认按钮
@@ -56,7 +51,7 @@ class SkipStory(Task):
                 lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB)),
                 times=3
             )
-            if clickmenu and clickskip and clickconfirmb:
+            if clickmenu_and_skip and clickconfirmb:
                 logging.info("跳过剧情成功")
                 return
             else:
