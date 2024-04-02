@@ -70,9 +70,9 @@ if __name__ in {"__main__", "__mp_main__"}:
         # 运行GUI
         print(open_state)
         if open_state["OPEN_IN_WEB"]:
-            ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
+            ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host="127.0.0.1", port=native.find_open_port())
         else:
-            ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
+            ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host="127.0.0.1", port=native.find_open_port())
 
     except Exception as e:
         import traceback
