@@ -51,18 +51,25 @@ class AutoStory(Task):
                 #     return
             else:
                 # 返回上级到主线剧情页面
-                click(Page.TOPLEFTBACK, sleeptime=1)
+                self.run_until(
+                    lambda: click(Page.TOPLEFTBACK),
+                    lambda: not Page.is_page(PageName.PAGE_STORY_SELECT_SECTION),
+                    times=3,
+                    sleeptime=2
+                )
+                
                 return
             # 如果匹配到章节资讯弹窗
             if enter_popup:
                 # 点击开始
-                logging.info("点击进入章节")
+                logging.info("点击进入小节")
                 self.run_until(
                     lambda: click((637, 518)),
                     lambda: not match(popup_pic(PopupName.POPUP_CHAPTER_INFO)),
                 )
                 # 进入章节后先剧情，然后可能有战斗
                 SkipStory().run()
+                # 尝试回到选择章节页面，后面战斗完也要考虑这个，不过那里写在FightQuest里面了
                 back_to_select = self.run_until(
                     lambda: click(Page.MAGICPOINT),
                     lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)),
@@ -70,6 +77,9 @@ class AutoStory(Task):
                 )
                 if not back_to_select:
                     # 如果跳过剧情后没有回到章节选择页面，那么就是有战斗，这里传入in_story_mode=True让FightQuest知道不需要检测最后的奖励页面
+                    # 如果走格子，就报错，目前不支持
+                    if Page.is_page(PageName.PAGE_GRID_FIGHT):
+                        raise Exception("目前主线章节不支持走格子战斗")
                     logging.info("检测到战斗，开始战斗")
                     # 编辑部队这里右上角页面名字不一样
                     # 点击右下角开始战斗按钮
@@ -87,6 +97,20 @@ class AutoStory(Task):
                 times=10,
                 sleeptime=1
             )
+    
+    def recognize_max_chapter(self):
+        """
+        在主线剧情页面识别最大的章节数
+        """
+        self.scroll_to_right()
+        screenshot()
+        lines = ocr_area((212, 296), (793, 574), multi_lines=True)
+        maxnum = 4
+        for line in lines:
+            if len(line[0])>=5 and line[0][3] == "." and line[0][4].isdigit():
+                maxnum = max(maxnum, int(line[0][4]))
+        logging.info("最大篇章数为%d", maxnum)
+        return maxnum
      
     def pre_condition(self) -> bool:
         return self.back_to_home()
@@ -96,39 +120,42 @@ class AutoStory(Task):
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
-            sleeptime=4
+            times=4,
+            sleeptime=2
         )
         # 进入总剧情页面
         self.run_until(
             lambda: click(page_pic(PageName.PAGE_FIGHT_CENTER)),
             lambda: not match(page_pic(PageName.PAGE_FIGHT_CENTER)),
-            sleeptime=3
+            times=3,
+            sleeptime=2
         )
         logging.info("进入剧情页面")
         # 进入主线剧情
+        click((359, 368), sleeptime=0.5)
+        click((359, 368), sleeptime=0.5)
         click((359, 368), sleeptime=1)
-        click((359, 368), sleeptime=1)
-        click((359, 368), sleeptime=1)
+        # 可能在最终篇页面，点击左上角返回到Vol篇章选择页面
+        click((84, 111), sleeptime=0.5)
         logging.info("进入主线剧情")
         # 一共四篇主线
-        for i in range(4):
+        for i in range(self.recognize_max_chapter()):
             # 点下下每篇的章节，然后看右侧黄点
             if i == 0:
-                # 滑动到最左边
+                # 滑动到最左边Vol1
                 self.scroll_to_left()
-                click((396, 242))
-            elif i==1:
-                # 滑动到最左边
-                self.scroll_to_left()
-                click((621, 464))
+                click((396, 242)) # Vol1
+            elif i == 1:
+                click((621, 464)) # Vol2
             elif i == 2:
-                # 滑动到最右边
-                self.scroll_to_right()
-                click((396, 242))
-            elif i==3:
-                # 滑动到最右边
-                self.scroll_to_right()
-                click((621, 464))
+                click((860, 250)) # Vol3
+            elif i == 3:
+                # 往右滑动到Vol3
+                swipe((830, 375), (280, 375), durationtime=1)
+                click((621, 464)) # Vol4
+            elif i == 4:
+                click((860, 250)) # Vol5
+            sleep(1)
             screenshot()
             # 尝试匹配右侧黄点篇章-大章节
             for ind, point_pos in enumerate(self.yellow_points):
@@ -144,6 +171,26 @@ class AutoStory(Task):
                     screenshot()
             # 全部章节都处理完了
             logging.info(f"篇章{i+1}所有章节处理完毕")
+        
+        # 处理最终篇
+        logging.info(f"处理最终篇")
+        # 点击底部最终篇蓝色按钮
+        click((846, 634))
+        click((846, 634))
+        screenshot()
+        # 尝试匹配右侧黄点篇章-大章节
+        for ind, point_pos in enumerate(self.yellow_points):
+            if match_pixel(point_pos, self.yellow_bgr):
+                logging.info(f"检测到最终篇新章节{ind+1}，点击进入")
+                self.run_until(
+                    lambda: click((point_pos[0]+10, point_pos[1]+5)),
+                    lambda: Page.is_page(PageName.PAGE_STORY_SELECT_SECTION),
+                    sleeptime=1
+                )
+                # 尝试处理完当前黄点篇章所有可点的New小节
+                self.try_to_solve_new_section()
+                screenshot()
+        logging.info(f"最终篇所有章节处理完毕")
 
         
         

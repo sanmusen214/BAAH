@@ -161,10 +161,15 @@ class FightQuest(Task):
 
         # 如果没有黄色确认可能进入剧情
         if not hasconfirmy:
-            SkipStory(pre_times=5).run()
+            SkipStory(pre_times=7).run()
         # 如果是主线剧情中的战斗，跳过剧情后，直接回到选择章节页面了
         if self.in_main_story_mode:
             logging.info("剧情战斗结束")
+            # 尝试回到backtopic
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                self.backtopic,
+            )
             return
         # 奖励界面 中下确认黄色
         # 获得奖励，右下确认黄色（左边返回大厅）
