@@ -39,9 +39,11 @@ if __name__ in {"__main__", "__mp_main__"}:
             """
             response = await ui.run_javascript('''
                 return await window.prompt("请输入新配置名/Please input new config name")
-            ''', timeout = 120.0)
+            ''', timeout = 60.0)
             if not response:
+                print("未输入配置名/No config name input")
                 return
+            print("输入的配置名/Input config name:", response)
             response = response.strip().replace(".json", "")
             response = response + ".json"
             if response in alljson_list:

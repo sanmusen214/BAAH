@@ -8,7 +8,7 @@ def set_BAAH(config, shared_softwareconfig):
     
     def select_language(value):
         shared_softwareconfig.softwareconfigdict["LANGUAGE"] = value
-        config.save_software_config()
+        shared_softwareconfig.save_software_config()
         if value == "zh_CN":
             ui.notify("语言已切换为中文，重启生效")
         else:
