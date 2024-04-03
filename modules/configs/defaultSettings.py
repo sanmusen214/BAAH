@@ -111,6 +111,10 @@ defaultSoftwareDict = {
     "LANGUAGE":{"d":"zh_CN", "s":["zh_CN", "en_US"]},
     "MAIL_USER":{"d":""},
     "MAIL_PASS":{"d":""},
+    "ADVANCED_EMAIL":{"d":False},
+    "SENDER_EMAIL":{"d":""},
+    "RECEIVER_EMAIL":{"d":""},
+    "MAIL_HOST":{"d":""},
 }
 
 # sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict
