@@ -99,6 +99,7 @@
     "cafe_collect_desc":"咖啡馆是否收集",
     "cafe_touch_desc":"咖啡馆是否摸头",
     "cafe_invite_desc":"咖啡馆是否邀请（默认邀请列表第一个/第二个）",
+    "raise_error_if_can_not_push_event_level":"勾选此项，推图无法三星时会报错；取消勾选以略过错误执行下一个任务",
 
 
     "config_server_jp":"日服",
