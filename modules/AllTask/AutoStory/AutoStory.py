@@ -33,6 +33,8 @@ class AutoStory(Task):
         尝试处理完当前章节所有可点的New章节，此操作会退出章节选择页面返回上级
         """
         # 来到选择章节页面
+        sleep(3) # 等动画
+        screenshot()
         while(1):
             # 点击New章节
             new_bool, new_pos, new_val = match(button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL), returnpos=True)
@@ -73,15 +75,15 @@ class AutoStory(Task):
                 back_to_select = self.run_until(
                     lambda: click(Page.MAGICPOINT),
                     lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)),
-                    times=3
+                    times=4
                 )
                 if not back_to_select:
                     # 如果跳过剧情后没有回到章节选择页面，那么就是有战斗，这里传入in_story_mode=True让FightQuest知道不需要检测最后的奖励页面
                     # 如果走格子，就报错，目前不支持
                     if Page.is_page(PageName.PAGE_GRID_FIGHT):
-                        raise Exception("目前主线章节不支持走格子战斗")
+                        raise Exception("目前主线章节功能不支持走格子战斗")
                     logging.info("检测到战斗，开始战斗")
-                    # 编辑部队这里右上角页面名字不一样
+                    # 编辑部队这里左上角页面名字不一样
                     # 点击右下角开始战斗按钮
                     click((1158, 662))
                     click((1158, 662))
@@ -105,10 +107,14 @@ class AutoStory(Task):
         self.scroll_to_right()
         screenshot()
         lines = ocr_area((212, 296), (793, 574), multi_lines=True)
-        maxnum = 4
+        print("ocr结果", lines)
+        maxnum = 0
         for line in lines:
             if len(line[0])>=5 and line[0][3] == "." and line[0][4].isdigit():
                 maxnum = max(maxnum, int(line[0][4]))
+            # 国服直接以数字开头
+            if len(line[0])>=2 and line[0][0].isdigit() and line[0][1] == ".":
+                maxnum = max(maxnum, int(line[0][0]))
         logging.info("最大篇章数为%d", maxnum)
         return maxnum
      

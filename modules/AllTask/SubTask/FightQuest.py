@@ -155,10 +155,13 @@ class FightQuest(Task):
             hasconfirmy = self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8),
-                times = 3,
+                times = 4,
                 sleeptime = 2
             )
-
+        if self.backtopic():
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            return
         # 如果没有黄色确认可能进入剧情
         if not hasconfirmy:
             SkipStory(pre_times=7).run()
