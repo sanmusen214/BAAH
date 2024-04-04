@@ -7,7 +7,7 @@ def set_notification(config, shared_softwareconfig):
     
     with ui.card():
         ui.checkbox(config.get_text("email_notification_desc")).bind_value(config.userconfigdict, 'ENABLE_MAIL_NOTI')
-        ui.input(config.get_text("email_account")).bind_value(shared_softwareconfig.softwareconfigdict, "MAIL_USER", forward = lambda x:x.replace("@","")).style("width: 300px")
+        ui.input(config.get_text("email_account")).bind_value(shared_softwareconfig.softwareconfigdict, "MAIL_USER").style("width: 300px")
         ui.input(config.get_text("email_pwd"), password=True).bind_value(shared_softwareconfig.softwareconfigdict, "MAIL_PASS").style("width: 300px")
         
         # 高级模式让用户自己选择邮件发送服务器
