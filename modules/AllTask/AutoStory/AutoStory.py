@@ -88,7 +88,7 @@ class AutoStory(Task):
                     click((1158, 662))
                     click((1158, 662))
                     # 直接开始战斗，然后直接到AUTO切换阶段，最后不用领取奖励判断
-                    FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)), start_from_editpage=False, in_main_story_mode=True, force_start=True).run()
+                    FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)), start_from_editpage=False, in_main_story_mode=True).run()
             else:
                 raise Exception("未匹配到章节资讯弹窗，该剧情可能要解锁主线关卡")
             # 回到选择章节页面

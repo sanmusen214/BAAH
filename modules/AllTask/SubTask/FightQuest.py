@@ -18,17 +18,16 @@ class FightQuest(Task):
     从编辑部队页面（或剧情播放页面->编辑部队页面）开始，进入到游戏内战斗，然后到战斗结束，离开战斗结算页面
     
     backtopic: 最后领完奖励回到的页面的匹配逻辑，回调函数
-    in_main_story_mode: 是否是在剧情模式下，如果是，那么最后没有奖励页面
-    force_start: 跳过判断，直接来到调整三倍速和auto阶段，主线剧情里的战斗有时候无法用右上UI判断进入了战斗
+    in_main_story_mode: 是否是在剧情模式下，如果是，那么最后没有奖励页面， 跳过pre判断，直接来到调整三倍速和auto阶段，主线剧情里的战斗有时候无法用右上UI判断进入了战斗
     """
-    def __init__(self, backtopic, start_from_editpage=True, in_main_story_mode=False, force_start = False, name="FightQuest") -> None:
+    def __init__(self, backtopic, start_from_editpage=True, in_main_story_mode=False, name="FightQuest") -> None:
         super().__init__(name)
         self.backtopic=backtopic
         # 是否从编辑部队页面开始，或者直接就是游戏内战斗画面
         self.start_from_editpage = start_from_editpage
         self.in_main_story_mode = in_main_story_mode
         self.click_magic_when_run = False
-        self.force_start = force_start
+        self.force_start = in_main_story_mode
         # 编辑页面开始的话，可能有剧情，最多等待2次
         # 如果是从游戏内战斗画面开始，那么不需要等待剧情，所以可以多检测几次
         self.pre_times = 1 if start_from_editpage else 2
@@ -107,10 +106,14 @@ class FightQuest(Task):
             # 先点击AUTO保证看到灰色的AUTO按钮，确保进入了战斗
             self.run_until(
                 lambda: click((1208, 658)),
-                lambda: match_pixel((1208, 658), Page.COLOR_BUTTON_GRAY), # 直到右下角按钮是灰色时
+                lambda: match_pixel((1208, 658), Page.COLOR_BUTTON_GRAY) or self.backtopic(), # 直到右下角按钮是灰色时或返回到backtopic
                 times=20,
                 sleeptime = 2
             )
+            # 由于是强制进入，这里也要考虑下其实没有战斗的情况
+            if self.backtopic():
+                logging.warn("已退出关卡战斗页面")
+                return
             # 将AUTO打开
             self.run_until(
                 lambda: click((1208, 658)),

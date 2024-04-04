@@ -17,6 +17,7 @@
     "task_mail": "Claim Mail",
     "push_normal":"Explore Normal Quest",
     "push_hard":"Explore Hard Quest",
+    "push_main_story":"Explore Eposide",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",

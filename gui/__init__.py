@@ -48,7 +48,8 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "邮件":config.get_text("task_mail"),
         "普通关卡":config.get_text("task_normal"),
         "普通推图":config.get_text("push_normal"),
-        "困难推图":config.get_text("push_hard")
+        "困难推图":config.get_text("push_hard"),
+        "主线剧情":config.get_text("push_main_story"),
     }
 
     # =============================================
