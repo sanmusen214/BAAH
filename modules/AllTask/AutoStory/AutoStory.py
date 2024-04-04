@@ -15,18 +15,28 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 class AutoStory(Task):
     """
         主线剧情自动化
+        
+        剧情总页-主线剧情-某一篇某一章的章节目录
     """
     def __init__(self, name="AutoStory") -> None:
         super().__init__(name)
-        self.yellow_points = [
-            (978, 290),
-            (939, 354),
-            (903, 419),
-            (866, 482),
-        ]
+        if config.userconfigdict["SERVER_TYPE"] in ["CN", "CN_BILI"]:
+            # 国服
+            self.yellow_points = [
+                (974, 297),
+                (939, 357),
+                (903, 422),
+                (866, 485),
+            ]
+        else:
+            self.yellow_points = [
+                (978, 290),
+                (939, 354),
+                (903, 419),
+                (866, 482),
+            ]
         # 黄色提示点的bgr值
         self.yellow_bgr = ((0, 170, 250), (30, 200, 255))
-        # 剧情总页-主线剧情-某一篇某一章的章节目录
 
     def try_to_solve_new_section(self):
         """
@@ -35,6 +45,7 @@ class AutoStory(Task):
         # 来到选择章节页面
         sleep(3) # 等动画
         screenshot()
+        initial_enter = True
         while(1):
             # 点击New章节
             new_bool, new_pos, new_val = match(button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL), returnpos=True)
@@ -51,12 +62,22 @@ class AutoStory(Task):
                 # if not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) and Page.is_page(PageName.PAGE_STORY_SELECT_SECTION):
                 #     logging.warn("此主线剧情需要解锁主线关卡")
                 #     return
+            elif not new_bool and initial_enter:
+                # 如果第一次进入循环但是没有匹配上New标识，那么可能已经推到了最后一节，但是New无法识别出来
+                # 手动点顶部的那一节
+                logging.warn("暂未能匹配到New标识符，尝试进入最顶部小节")
+                # 点击入场
+                enter_popup = self.run_until(
+                    lambda: click((1170, 254)),
+                    lambda: match(popup_pic(PopupName.POPUP_CHAPTER_INFO)),
+                    times = 3
+                )
             else:
                 # 返回上级到主线剧情页面
                 self.run_until(
                     lambda: click(Page.TOPLEFTBACK),
                     lambda: not Page.is_page(PageName.PAGE_STORY_SELECT_SECTION),
-                    times=3,
+                    times=4,
                     sleeptime=2
                 )
                 
@@ -99,6 +120,7 @@ class AutoStory(Task):
                 times=10,
                 sleeptime=1
             )
+            initial_enter = False
     
     def recognize_max_chapter(self):
         """
@@ -141,7 +163,7 @@ class AutoStory(Task):
         click((359, 368), sleeptime=0.5)
         click((359, 368), sleeptime=0.5)
         click((359, 368), sleeptime=1)
-        # 可能在最终篇页面，点击左上角返回到Vol篇章选择页面
+        # 可能在最终篇页面，点击左上角返回到Vol主线篇章选择页面
         click((84, 111), sleeptime=0.5)
         logging.info("进入主线剧情")
         # 一共四篇主线
@@ -180,9 +202,11 @@ class AutoStory(Task):
         
         # 处理最终篇
         logging.info(f"处理最终篇")
+        logging.warn("最终篇涉及到走格子以及攻略战，暂不支持以上部分")
         # 点击底部最终篇蓝色按钮
         click((846, 634))
         click((846, 634))
+        sleep(2)
         screenshot()
         # 尝试匹配右侧黄点篇章-大章节
         for ind, point_pos in enumerate(self.yellow_points):
