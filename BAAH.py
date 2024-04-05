@@ -170,8 +170,14 @@ def BAAH_send_email():
             content = []
             content.append("BAAH任务结束")
             content.append("配置文件名称: "+config.nowuserconfigname)
+            content.append("任务开始时间: "+config.sessiondict["BAAH_START_TIME"])
             content.append("任务结束时间: "+time.strftime("%Y-%m-%d %H:%M:%S"))
             content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
+            # 任务内容
+            content.append("执行的任务内容:")
+            for ind, task in enumerate(config.userconfigdict["TASK_ORDER"]):
+                if config.userconfigdict["TASK_ACTIVATE"][ind]:
+                    content.append(f"  {task}")
             print(notificationer.send("\n".join(content)))
             logging.info("邮件发送结束")
         except Exception as e:
@@ -179,6 +185,7 @@ def BAAH_send_email():
             logging.error(e)
 
 def BAAH_main():
+    config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
     BAAH_release_adb_port()
     BAAH_start_emulator()
     BAAH_check_adb_connect()

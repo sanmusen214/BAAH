@@ -141,4 +141,5 @@ defaultSessionDict = {
     "LAST_TEAM_SET":{"d":[]},
     "CAFE_HAD_INVITED":{"d":True},
     "TIMETABLE_NO_TICKET":{"d":False},
+    "BAAH_START_TIME":{"d":""},
 }
