@@ -122,13 +122,18 @@ class FightQuest(Task):
                 sleeptime = 2
             )
         logging.info("等待战斗结束...")
-        # 点魔法点直到战斗结束
+        # 点魔法点直到战斗结束 或匹配到应当返回的界面
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8),
+            lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(button_pic(ButtonName.BUTTON_CONFIRMY) or self.backtopic(), threshold=0.8),
             times = 90,
             sleeptime = 2
         )
+        if self.backtopic():
+            # 此处返回到backtopic，意味着错误进入了战斗
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            return
         # 结束时如果是黄色确认，那么战斗失败
         if match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8):
             logging.info("战斗失败")
