@@ -5,7 +5,7 @@ import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
 
-import logging
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask

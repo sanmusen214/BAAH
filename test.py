@@ -1,6 +1,5 @@
 import sys
-import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]

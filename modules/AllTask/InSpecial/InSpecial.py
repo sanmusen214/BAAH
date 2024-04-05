@@ -1,5 +1,5 @@
  
-import logging
+from modules.utils.log_utils import logging
 import time
 
 from DATA.assets.PageName import PageName

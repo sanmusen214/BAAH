@@ -6,7 +6,7 @@ from DATA.assets.ButtonName import ButtonName
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 
-import logging
+from modules.utils.log_utils import logging
 
 
 class Task:

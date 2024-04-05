@@ -1,10 +1,8 @@
 import json
-import logging
 import os
 import time
 from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict, defaultSessionDict
 from modules.configs.settingMaps import configname2screenshotname
-
 # 程序入口应当先import这个类，然后调用parse_user_config方法解析该config实例
 # 然后程序入口再import其他模块，在其他模块中import这个类，就可以直接使用这个类的实例了
 
@@ -55,7 +53,7 @@ class MyConfigger:
             mapfunc = defaultUserDict["PIC_PATH"]["m"]["map"]
             self.userconfigdict["PIC_PATH"] = mapfunc(self.userconfigdict[fromkey])
         # 输出
-        logging.debug("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
+        # print("user config字典内容: "+ ",".join([k for k in self.userconfigdict]))
     
     def parse_software_config(self, file_name):
         """
@@ -70,7 +68,7 @@ class MyConfigger:
         # 强制设定VERSION
         self.softwareconfigdict["NOWVERSION"] = self.NOWVERSION
         # 输出
-        logging.debug("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
+        # print("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
         # 加载语言包
         self.parse_language_package(self.softwareconfigdict["LANGUAGE"]+".json")
     
@@ -81,7 +79,7 @@ class MyConfigger:
         file_path = os.path.join(self.current_dir, self.LANGUAGE_PACKAGE_FOLDER, file_name)
         # 字典新值
         self.languagepackagedict = self._read_config_file(file_path)
-        logging.debug("language package字典内容: "+ ",".join([k for k in self.languagepackagedict]))
+        # print("language package字典内容: "+ ",".join([k for k in self.languagepackagedict]))
 
     def _read_config_file(self, file_path):
         """
@@ -90,14 +88,14 @@ class MyConfigger:
         try:
             with open(file_path, 'r', encoding="utf8") as f:
                 dictconfig = json.load(f)
-                logging.debug("读取{}文件成功, 读取了{}个配置".format(file_path, len(dictconfig)))
+                # print("读取{}文件成功, 读取了{}个配置".format(file_path, len(dictconfig)))
                 return dictconfig
         except FileNotFoundError as e:
             # 检查文件名
             [path, filename] = os.path.split(file_path)
             # 以json结尾的文件，如果不存在，就创建一个空的
             if filename.endswith(".json"):
-                logging.warning(f'文件不存在： {file_path}, 以默认值创建')
+                print(f'文件不存在： {file_path}, 以默认值创建')
                 os.makedirs(path, exist_ok=True)
                 with open(file_path, 'w', encoding="utf8") as f:
                     json.dump({}, f, indent=4, ensure_ascii=False)
@@ -119,14 +117,14 @@ class MyConfigger:
             if fromkey in selfmap:
                 # 能用对应关系就用对应关系
                 selfmap[key] = mapfunc(selfmap[fromkey])
-                logging.warn("缺少{}配置，根据{}配置自动填充为{}".format(key, fromkey, selfmap[key]))
+                print("缺少{}配置，根据{}配置自动填充为{}".format(key, fromkey, selfmap[key]))
             else:
                 # 对应关系的键不在，那就只能用默认值
-                logging.warn("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
+                print("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
                 selfmap[key] = defaultmap[key]["d"]
         else:
             # 没有对应关系就只能默认值
-            logging.warn("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
+            print("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
             selfmap[key] = defaultmap[key]["d"]
 
     def _check_user_config(self):

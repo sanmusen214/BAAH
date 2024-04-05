@@ -1,6 +1,6 @@
 import subprocess
 from modules.configs.MyConfig import config
-import logging
+from modules.utils.log_utils import logging
 from modules.utils.subprocess_helper import subprocess_run
 import time
 import numpy as np

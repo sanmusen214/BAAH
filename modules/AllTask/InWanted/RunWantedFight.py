@@ -12,7 +12,7 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 
 import numpy as np
-import logging
+from modules.utils.log_utils import logging
 
 class RunWantedFight(Task):
     def __init__(self, levelnum, runtimes, name="RunWantedFight") -> None:

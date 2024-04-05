@@ -1,5 +1,5 @@
  
-import logging
+from modules.utils.log_utils import logging
 import time
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.FightQuest import FightQuest

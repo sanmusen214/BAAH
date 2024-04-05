@@ -1,5 +1,5 @@
  
-import logging
+from modules.utils.log_utils import logging
 import random
 import time
 import requests

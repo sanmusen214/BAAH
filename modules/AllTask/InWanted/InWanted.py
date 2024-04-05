@@ -8,7 +8,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0
-import logging
+from modules.utils.log_utils import logging
 import time
 import numpy as np
 from .RunWantedFight import RunWantedFight

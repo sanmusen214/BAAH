@@ -6,7 +6,7 @@ from DATA.assets.PopupName import PopupName
 from modules.configs.MyConfig import config
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
-import logging
+from modules.utils.log_utils import logging
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, match_pixel, get_screenshot_cv_data, compare_diff
 
 class TouchHead(Task):

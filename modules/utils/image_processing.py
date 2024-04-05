@@ -1,5 +1,5 @@
 import cv2
-import logging
+from modules.utils.log_utils import logging
 import math
 from modules.configs.MyConfig import config
 import numpy as np

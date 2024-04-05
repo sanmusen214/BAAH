@@ -1,4 +1,4 @@
-import logging
+from modules.utils.log_utils import logging
  
 
 from DATA.assets.PageName import PageName

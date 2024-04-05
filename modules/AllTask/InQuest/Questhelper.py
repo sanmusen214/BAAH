@@ -1,7 +1,7 @@
 from modules.utils import click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 from modules.AllTask.Task import Task
 from modules.AllPage.Page import Page
-import logging
+from modules.utils.log_utils import logging
 
 def jump_to_page(to_num: int) -> bool:
     """
