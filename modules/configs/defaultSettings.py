@@ -128,8 +128,8 @@ defaultSoftwareDict = {
         "d":"54321",
         "m":{
             "from": "LANGUAGE", # map功能必须要有from字段，这里充当占位符
-            # 使用现在的时间戳作为加密key，长度截取5，字符串！
-            "map": lambda x:  str(int(time()))[:5]
+            # 使用现在的时间戳作为加密key，长度截取最后五位，字符串！
+            "map": lambda x:  str(int(time()))[-5:]
         }}
 }
 
