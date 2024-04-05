@@ -89,20 +89,18 @@ class EventQuest(Task):
             )
             # 进入页面后，点击黄色全部领取
             collect_all = self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
-                lambda: not match(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
-                times = 3
+                lambda: click(Page.MAGICPOINT) and click(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
+                lambda: not match(button_pic(ButtonName.BUTTON_ALL_COLLECT))
             )
             # 清空弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
-            if collect_all:
-                # 领取每日任务全部完成后的钻石
-                click((970, 670))
-                click((970, 670))
-                click((970, 670))
+            # 领取每日任务全部完成后的钻石
+            click((970, 670))
+            click((970, 670))
+            click((970, 670))
         # 返回活动页面
         self.run_until(
             lambda: click(Page.TOPLEFTBACK),
