@@ -36,7 +36,7 @@ if __name__ in ["__main__", "__mp_main__"]:
             logging.info("读取默认config文件: "+configname)
             config.parse_user_config(configname)
 
-        from BAAH import BAAH_main, my_AllTask, Email_Sender, Notificationer, decrypt_data
+        from BAAH import BAAH_main, my_AllTask, create_notificationer
         
         # 打印BAAH信息
         print_BAAH_start()
@@ -85,25 +85,7 @@ if __name__ in ["__main__", "__mp_main__"]:
             logging.info("发送错误通知邮件")
             try:
                 # 构造通知对象
-                if config.userconfigdict['ADVANCED_EMAIL']:
-                    # 如果开启了高级模式，则用户自己定义所有的邮件发送参数
-                    email_sender = Email_Sender(
-                        config.userconfigdict['MAIL_USER'], 
-                        decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
-                        config.userconfigdict['SENDER_EMAIL'], 
-                        config.userconfigdict['RECEIVER_EMAIL'], 
-                        config.userconfigdict['MAIL_HOST'], 
-                        1
-                    )
-                else:
-                    email_sender = Email_Sender(
-                        config.userconfigdict['MAIL_USER'], 
-                        decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
-                        config.userconfigdict['MAIL_USER']+"@qq.com", 
-                        config.userconfigdict['MAIL_USER']+"@qq.com", 
-                        'smtp.qq.com', 
-                        1)
-                notificationer = Notificationer(email_sender)
+                notificationer = create_notificationer()
                 # 构造邮件内容
                 content = []
                 content.append("BAAH任务出现错误")

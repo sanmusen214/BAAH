@@ -2,6 +2,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 from smtplib import SMTP_SSL
 from modules.configs.MyConfig import config
+from modules.utils.data_utils import decrypt_data
 
 
 class Message_Sender:
@@ -71,3 +72,28 @@ class Notificationer:
         return self.sender.send(message)
 
 # 实例化放在BAAH的生命周期里，每个配置文件邮箱可以不一样
+def create_notificationer():
+    """
+    创建一个通知器
+    """
+    # 构造通知对象
+    if config.userconfigdict['ADVANCED_EMAIL']:
+        # 如果开启了高级模式，则用户自己定义所有的邮件发送参数
+        email_sender = Email_Sender(
+            config.userconfigdict['MAIL_USER'], 
+            decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
+            config.userconfigdict['SENDER_EMAIL'], 
+            config.userconfigdict['RECEIVER_EMAIL'], 
+            config.userconfigdict['MAIL_HOST'], 
+            1
+        )
+    else:
+        email_sender = Email_Sender(
+            config.userconfigdict['MAIL_USER'], 
+            decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
+            config.userconfigdict['MAIL_USER']+"@qq.com", 
+            config.userconfigdict['MAIL_USER']+"@qq.com", 
+            'smtp.qq.com', 
+            1)
+    notificationer = Notificationer(email_sender)
+    return notificationer

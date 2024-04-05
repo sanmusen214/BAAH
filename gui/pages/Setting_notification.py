@@ -12,7 +12,8 @@ def set_notification(config, shared_softwareconfig):
         ui.input(config.get_text("email_pwd"), password=True).bind_value(
             config.userconfigdict, 
             "MAIL_PASS", 
-            forward= lambda x: encrypt_data(x, shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
+            forward= lambda x: encrypt_data(x, shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"]),
+            backward= lambda x: decrypt_data(x, shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
             ).style("width: 300px")
         
         # 高级模式让用户自己选择邮件发送服务器
