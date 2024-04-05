@@ -48,7 +48,7 @@ class Loginin(Task):
         self.run_until(self.try_jump_useless_pages, 
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
                       times = 666,
-                      sleeptime = 2)
+                      sleeptime = 3)
 
      
     def post_condition(self) -> bool:
