@@ -162,8 +162,28 @@ def BAAH_send_email():
     发送邮件
     """
     if config.userconfigdict["ENABLE_MAIL_NOTI"]:
-        logging.info("发送邮件")
+        logging.info("尝试发送邮件")
         try:
+            # 构造通知对象
+            if config.userconfigdict['ADVANCED_EMAIL']:
+                # 如果开启了高级模式，则用户自己定义所有的邮件发送参数
+                email_sender = Email_Sender(
+                    config.userconfigdict['MAIL_USER'], 
+                    decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
+                    config.userconfigdict['SENDER_EMAIL'], 
+                    config.userconfigdict['RECEIVER_EMAIL'], 
+                    config.userconfigdict['MAIL_HOST'], 
+                    1
+                )
+            else:
+                email_sender = Email_Sender(
+                    config.userconfigdict['MAIL_USER'], 
+                    decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
+                    config.userconfigdict['MAIL_USER']+"@qq.com", 
+                    config.userconfigdict['MAIL_USER']+"@qq.com", 
+                    'smtp.qq.com', 
+                    1)
+            notificationer = Notificationer(email_sender)
             # 构造邮件内容
             content = []
             content.append("BAAH任务结束")

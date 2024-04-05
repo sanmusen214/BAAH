@@ -92,7 +92,7 @@
     "config_explore_attention":"建议自己配个彩虹队，要不然自己配队有点折磨",
     "email_notification_desc":"是否启用邮件通知，默认为QQ邮箱",
     "email_account":"邮件账号/QQ号",
-    "email_pwd":"SMTP/POP3授权码",
+    "email_pwd":"SMTP授权码",
     "get_email_pwd":"如何获取授权码",
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
     "enable_diff_touch":"是否识别人物的位置点击",

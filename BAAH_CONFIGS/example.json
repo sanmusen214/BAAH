@@ -225,5 +225,11 @@
     "CAFE_COLLECT": true,
     "CAFE_TOUCH": true,
     "CAFE_INVITE": true,
-    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST": true
+    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST": true,
+    "MAIL_USER": "",
+    "MAIL_PASS": "",
+    "ADVANCED_EMAIL": false,
+    "SENDER_EMAIL": "",
+    "RECEIVER_EMAIL": "",
+    "MAIL_HOST": ""
 }

@@ -70,16 +70,4 @@ class Notificationer:
     def send(self, message: str) -> str:
         return self.sender.send(message)
 
-if config.softwareconfigdict['ADVANCED_EMAIL']:
-    # 如果开启了高级模式，则用户自己定义所有的邮件发送参数
-    email_sender = Email_Sender(
-        config.softwareconfigdict['MAIL_USER'], 
-        config.softwareconfigdict['MAIL_PASS'], 
-        config.softwareconfigdict['SENDER_EMAIL'], 
-        config.softwareconfigdict['RECEIVER_EMAIL'], 
-        config.softwareconfigdict['MAIL_HOST'], 
-        1
-    )
-else:
-    email_sender = Email_Sender(config.softwareconfigdict['MAIL_USER'], config.softwareconfigdict['MAIL_PASS'], config.softwareconfigdict['MAIL_USER']+"@qq.com", config.softwareconfigdict['MAIL_USER']+"@qq.com", 'smtp.qq.com', 1)
-notificationer = Notificationer(email_sender)
+# 实例化放在BAAH的生命周期里，每个配置文件邮箱可以不一样
