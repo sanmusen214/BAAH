@@ -24,17 +24,20 @@ class MyLogger:
     def colorful_print(self, msg, level):
         """
         30 黑色，31 红色，32 绿色，33 黄色，34 蓝色，35 紫色，36 青色，37 白色
+        
+        cmd 用不了
         """
-        if level == self.INFO:
-            print(f"\033[1;32m{msg}\033[0m")
-        elif level == self.DEBUG:
-            print(f"\033[1;34m{msg}\033[0m")
-        elif level == self.WARN:
-            print(f"\033[1;33m{msg}\033[0m")
-        elif level == self.ERROR:
-            print(f"\033[1;31m{msg}\033[0m")
-        else:
-            print(msg)
+        # if level == self.INFO:
+        #     print(f"\033[1;32m{msg}\033[0m")
+        # elif level == self.DEBUG:
+        #     print(f"\033[1;34m{msg}\033[0m")
+        # elif level == self.WARN:
+        #     print(f"\033[1;33m{msg}\033[0m")
+        # elif level == self.ERROR:
+        #     print(f"\033[1;31m{msg}\033[0m")
+        # else:
+        #     print(msg)
+        print(msg)
     
     def info(self, msg):
         formatted_msg = self.format_msg(msg, self.INFO)
