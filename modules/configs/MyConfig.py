@@ -105,7 +105,7 @@ class MyConfigger:
         except Exception as e:
             raise Exception(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)}')
 
-    def _fill_by_map_or_default(self, defaultmap, selfmap, key):
+    def _fill_by_map_or_default(self, defaultmap, selfmap, key, print_warn = True):
         """
         尝试用defaultmap里的map和default值填充某个key
         """
@@ -117,10 +117,12 @@ class MyConfigger:
             if fromkey in selfmap:
                 # 能用对应关系就用对应关系
                 selfmap[key] = mapfunc(selfmap[fromkey])
-                print("缺少{}配置，根据{}配置自动填充为{}".format(key, fromkey, selfmap[key]))
+                if print_warn:
+                    print("缺少{}配置，根据{}配置自动填充为{}".format(key, fromkey, selfmap[key]))
             else:
                 # 对应关系的键不在，那就只能用默认值
-                print("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
+                if print_warn:
+                    print("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
                 selfmap[key] = defaultmap[key]["d"]
         else:
             # 没有对应关系就只能默认值
@@ -162,7 +164,7 @@ class MyConfigger:
         for shouldKey in defaultSessionDict:
             # 如果没有这个值
             if shouldKey not in self.sessiondict:
-                self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
+                self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey, print_warn=False)
 
     def get_text(self, text_id):
         """

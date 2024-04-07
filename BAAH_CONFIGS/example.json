@@ -231,5 +231,7 @@
     "ADVANCED_EMAIL": false,
     "SENDER_EMAIL": "",
     "RECEIVER_EMAIL": "",
-    "MAIL_HOST": ""
+    "MAIL_HOST": "",
+    "AUTO_ASSAULT": false,
+    "AUTO_ASSAULT_LEVEL": 4
 }

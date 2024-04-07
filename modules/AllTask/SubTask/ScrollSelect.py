@@ -52,6 +52,8 @@ class ScrollSelect(Task):
             logging.warn("未设置滑动触发距离RESPOND_Y，使用默认值40")
             self.responsey = 40
         self.finalclick = finalclick
+        # 最后ScrollSelect任务想要点击的x,y坐标
+        self.wantclick_pos = [-1, -1]
 
     
     def pre_condition(self) -> bool:
@@ -91,6 +93,7 @@ class ScrollSelect(Task):
         if self.targetind < itemcount:
             # 目标元素高度中心点
             target_center_y = start_center_y + self.itemheight * self.targetind
+            self.wantclick_pos = [self.clickx, target_center_y]
             if self.finalclick:
                 self.run_until(
                     lambda: click((self.clickx, target_center_y)),
@@ -120,6 +123,7 @@ class ScrollSelect(Task):
             if scrolltotal_distance > 5:
                 # 最后一次滑动
                 self.compute_swipe(self.clickx + self.swipeoffsetx, scroll_start_from_y, scrolltotal_distance, self.responsey)
+            self.wantclick_pos = [self.clickx, self.window_endy - self.itemheight // 2]
             if self.finalclick:
                 # 点击最后一行
                 self.run_until(

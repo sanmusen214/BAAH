@@ -88,10 +88,9 @@ Bilibili: [Latest Tutorial on Homepage](https://space.bilibili.com/7331920?spm_i
 
 ## Before Running, Please Ensure
 
-1. Set the emulator resolution to 1280*720 pixels, 240 DPI.
-2. Enable adb debugging in the emulator settings.
-3. In the settings of the Global/Japanese version of BA, pull all options in the graphic settings to the right side, which means low render level (except FPS and rendering acceleration mode).
-4. In BA's café, pull the camera to the highest, and it's best to stack all the furniture on the far right of the screen
+1. Set the emulator resolution to 1280*720 pixels, 240 DPI. Enable adb debugging in the emulator settings.
+2. In the settings of BA, set Game: skill animation: off; picture: resolution: low, black borders on top and bottom during battle: off
+3. In BA's café, pull the camera to the highest, and it's best to stack all the furniture on the far right of the screen
 
 ## How to Use
 

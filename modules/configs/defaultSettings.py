@@ -112,6 +112,9 @@ defaultUserDict = {
     "SENDER_EMAIL":{"d":""},
     "RECEIVER_EMAIL":{"d":""},
     "MAIL_HOST":{"d":""},
+    
+    "AUTO_ASSAULT":{"d":False},
+    "AUTO_ASSAULT_LEVEL":{"d":4},
 }
 
 # 软件的config里的默认值

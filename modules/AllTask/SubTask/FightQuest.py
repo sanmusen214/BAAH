@@ -32,6 +32,13 @@ class FightQuest(Task):
         # 如果是从游戏内战斗画面开始，那么不需要等待剧情，所以可以多检测几次
         self.pre_times = 1 if start_from_editpage else 2
 
+    @staticmethod
+    def judge_whether_in_fight() -> bool:
+        """判断是否进入了小人对战环节，主要是靠判断UI，如果有剧情，就跳过剧情"""
+        if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
+            SkipStory(pre_times=2).run()
+            screenshot()
+        return match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True)
     
     def pre_condition(self) -> bool:
         if self.force_start:
@@ -41,12 +48,25 @@ class FightQuest(Task):
             如果是从游戏内战斗画面开始，那么直接判断右上角白色UI出来就行
             """
             # 等到右上角白色UI出来
-            return self.run_until(
+            hasUI = self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True),
                 times=15,
                 sleeptime = 2
             )
+            if not hasUI:
+                # 如果没有UI，尝试跳过剧情
+                logging.info("检测是否需要跳过剧情")
+                SkipStory(pre_times=2).run()
+            else:
+                return True
+            hasUI2 = self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True),
+                times=5,
+                sleeptime = 2
+            )
+            return hasUI2
         click(Page.MAGICPOINT, 1)
         click(Page.MAGICPOINT, 1)
         screenshot()
