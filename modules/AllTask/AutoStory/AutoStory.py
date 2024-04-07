@@ -20,21 +20,12 @@ class AutoStory(Task):
     """
     def __init__(self, name="AutoStory") -> None:
         super().__init__(name)
-        if config.userconfigdict["SERVER_TYPE"] in ["CN", "CN_BILI"]:
-            # 国服
-            self.yellow_points = [
-                (974, 297),
-                (939, 357),
-                (903, 422),
-                (866, 485),
-            ]
-        else:
-            self.yellow_points = [
-                (978, 290),
-                (939, 354),
-                (903, 419),
-                (866, 482),
-            ]
+        self.yellow_points = [
+            (975, 297),
+            (939, 359),
+            (903, 422),
+            (866, 485),
+        ]
         # 黄色提示点的bgr值
         self.yellow_bgr = ((0, 170, 250), (30, 200, 255))
 
