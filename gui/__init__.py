@@ -45,6 +45,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "战术大赛":config.get_text("task_contest"),
         "困难关卡":config.get_text("task_hard"),
         "活动关卡":config.get_text("task_event"),
+        "总力战":config.get_text("task_assault"),
         "每日任务":config.get_text("task_daily"),
         "邮件":config.get_text("task_mail"),
         "普通关卡":config.get_text("task_normal"),
