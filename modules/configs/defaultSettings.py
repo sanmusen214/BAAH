@@ -113,7 +113,6 @@ defaultUserDict = {
     "RECEIVER_EMAIL":{"d":""},
     "MAIL_HOST":{"d":""},
     
-    "AUTO_ASSAULT":{"d":False},
     "AUTO_ASSAULT_LEVEL":{"d":4},
 }
 

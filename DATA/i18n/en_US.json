@@ -18,6 +18,7 @@
     "push_normal":"Explore Normal Quest",
     "push_hard":"Explore Hard Quest",
     "push_main_story":"Explore Eposide",
+    "task_assault": "Assault",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",
@@ -105,6 +106,7 @@
     "config_email_sender":"Sender Email",
     "config_email_receiver":"Receiver Email",
     "config_email_smtp":"SMTP Server",
+    "desc_assault":"The target hardness of the assault, if it is unlock, BAAH will try to unlock it",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

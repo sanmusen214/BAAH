@@ -19,7 +19,7 @@ class CollectAssaultReward(Task):
     
     def click_collect_button(self):
         self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_COLLECT)),
+            lambda: click(button_pic(ButtonName.BUTTON_COLLECT), threshold=0.8),
             lambda: match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2] < match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2]
         )
      
