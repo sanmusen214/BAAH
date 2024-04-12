@@ -128,7 +128,7 @@ class AutoStory(Task):
             # 国服直接以数字开头
             if len(line[0])>=2 and line[0][0].isdigit() and line[0][1] == ".":
                 maxnum = max(maxnum, int(line[0][0]))
-        logging.info("最大篇章数为%d", maxnum)
+        logging.info(f"最大篇章数为{maxnum}")
         return maxnum
      
     def pre_condition(self) -> bool:
