@@ -12,7 +12,7 @@ def set_BAAH(config, shared_softwareconfig):
         if value == "zh_CN":
             ui.notify("语言已切换为中文，重启生效")
         else:
-            ui.notify("Language has been changed to English, restart to take effect")
+            ui.notify("Language has been changed, restart to take effect")
 
     # 检查更新
     async def check_newest_version():
@@ -92,7 +92,7 @@ def set_BAAH(config, shared_softwareconfig):
         ui.link_target("BAAH")
         ui.label(f"Blue Archive Aris Helper {config.NOWVERSION}").style('font-size: xx-large')
         
-        ui.toggle({"zh_CN":"中文", "en_US":"English"}, value=shared_softwareconfig.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(shared_softwareconfig.softwareconfigdict, "LANGUAGE")
+        ui.toggle({"zh_CN":"中文", "en_US":"English", "jp_JP":"日本語"}, value=shared_softwareconfig.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(shared_softwareconfig.softwareconfigdict, "LANGUAGE")
 
         ui.label(config.get_text("BAAH_desc"))
 
