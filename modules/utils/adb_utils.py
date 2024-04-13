@@ -150,6 +150,9 @@ def open_app(activity_path:str):
     使用adb打开app
     """
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path], isasync=True)
-    time.sleep(2)
+    time.sleep(1)
+    # 加-n参数，可以在已经启动的时候，切换activity而不只是包
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', '-n', activity_path], isasync=True)
+    time.sleep(1)
     appname = activity_path.split("/")[0]
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)
