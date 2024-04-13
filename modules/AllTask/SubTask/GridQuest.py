@@ -201,8 +201,8 @@ class GridQuest(Task):
         try:
             nowteam_ind = int(now_team_str)-1
         except ValueError as e:
-            logging.error("识别左下角切换队伍的按钮文字失败")
-            raise Exception("识别左下角切换队伍的按钮文字失败")
+            logging.error("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
+            raise Exception("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
         self.now_focus_on_team = nowteam_ind
         return nowteam_ind
         
