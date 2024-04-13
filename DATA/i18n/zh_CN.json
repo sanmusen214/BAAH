@@ -48,8 +48,8 @@
     "button_enable":"启用",
     "button_add":"添加",
     "button_delete":"删除",
-    "button_get_now_app":"获取当前应用的入口页面",
-    "button_get_now_app_enter":"获取当前页面",
+    "button_get_now_app":"获取当前页面",
+    "button_get_now_app_enter":"获取当前应用的入口页面",
     "button_edit":"编辑",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",

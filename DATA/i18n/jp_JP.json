@@ -48,8 +48,8 @@
     "button_enable": "有効にする",
     "button_add": "追加",
     "button_delete": "削除",
-    "button_get_now_app": "現在のアプリの入り口ページを取得",
-    "button_get_now_app_enter": "現在のページを取得",
+    "button_get_now_app": "現在のページを取得",
+    "button_get_now_app_enter": "現在のアプリの入り口ページを取得",
     "button_edit": "編集",
 
     "config_cafe_attention": "カフェの視点を最大にしてください。以下の項目をチェックして効率を向上させます",
