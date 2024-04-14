@@ -107,6 +107,8 @@
     "config_email_receiver": "受信者のメールアドレス",
     "config_email_smtp": "SMTPサーバー",
     "desc_assault": "総力戦の目標のステージを扫荡します。解除されている場合は目標ステージまで推進しようとします。この機能はゲーム画面右下のAutoに相当します。おおよそ人手のスキルを2段階低下させます",
+    "config_run_until_wait_time": "循環等待時間",
+    "config_run_until_try_times":"循環試行回数",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

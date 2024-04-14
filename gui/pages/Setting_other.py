@@ -12,6 +12,20 @@ def set_other(config, load_jsonname):
     ui.label(config.get_text("config_warn_change")).style('color: red')
     
     with ui.row():
+        ui.number(config.get_text("config_run_until_try_times"),
+                  step=1,
+                  min=3,
+                  precision=0).bind_value(config.userconfigdict, 'RUN_UNTIL_TRY_TIMES', forward=lambda x:int(x), backward=lambda x:int(x))
+        
+    with ui.row():
+        ui.number(config.get_text("config_run_until_wait_time"),
+                  suffix="s",
+                  step=0.1,
+                  min=0.1,
+                  precision=1
+                  ).bind_value(config.userconfigdict, 'RUN_UNTIL_WAIT_TIME')
+    
+    with ui.row():
         ui.number(config.get_text("config_wait_time_after_click"),
                     suffix="s",
                     step=0.1,

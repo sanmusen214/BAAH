@@ -4,7 +4,7 @@ from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, config
 
 from modules.utils.log_utils import logging
 
@@ -117,7 +117,7 @@ class Task:
             sleep(sleeptime)
     
     @staticmethod
-    def run_until(func1, func2, times=6, sleeptime = 1.5) -> bool:
+    def run_until(func1, func2, times=None, sleeptime = None) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
@@ -127,6 +127,12 @@ class Task:
 
         如果func2成立退出，返回true，否则返回false
         """
+        # 设置times，如果传进来是None，就用config里的值
+        if(times == None):
+            times = config.userconfigdict["RUN_UNTIL_TRY_TIMES"]
+        # 设置sleeptime，如果传进来是None，就用config里的值
+        if(sleeptime == None):
+            sleeptime = config.userconfigdict["RUN_UNTIL_WAIT_TIME"]
         for i in range(times):
             screenshot()
             if(func2()):

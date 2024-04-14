@@ -5,9 +5,9 @@ from time import time
 # 如果用户的config里没有某个值，先看能否用settingMaps里映射出来，如果不能，就用默认值代替
 # 注意引用链
 
-# d: default value
-# s: selective value
-# m: map value
+# d: default value 默认值
+# s: selective value 可选值
+# m: map value 映射方法
 # from: map value的来源key
 # map: map value的映射函数
 
@@ -114,6 +114,10 @@ defaultUserDict = {
     "MAIL_HOST":{"d":""},
     
     "AUTO_ASSAULT_LEVEL":{"d":4},
+    
+    "RUN_UNTIL_TRY_TIMES":{"d":6},
+    "RUN_UNTIL_WAIT_TIME":{"d":1.5},
+    
 }
 
 # 软件的config里的默认值
