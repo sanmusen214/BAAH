@@ -8,6 +8,8 @@
 
 QQ: 441069156
 
+Discord: https://discord.com/invite/7cEvvfcd
+
 # 如何运行
 
 [Bilibili首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)

@@ -2,138 +2,97 @@
 
 <div style="display:flex;justify-content:space-around"><img src="../DATA/assets/aris.png" style="width:48%"/><img src="../DATA/assets/kei.png" style="width:48%"/></div>
 
-
----
-
-BAAH can help senseis complete daily tasks in Blue Archive (Global/Japanese/Chinese Server/Chinese Bilibili Server) within an Android Emulator on PC.
-
-[English Document] | [[中文文档]](../README.md)
-
 ---
 
 ## Discussion Group
 
 QQ: 441069156
 
-[BAAH Usage and FAQs (Chinese).docx](https://docs.qq.com/doc/DR1RPaURleGF0ZWFS)
-
-## Tanks
-
-Icon from [@dada008](https://space.bilibili.com/23726244)
-
-Thanks to group member [@LLL1997](https://github.com/LLL1997) for organizing screenshots of the Japanese version interface elements
-
-Thanks to group member [@子墨](https://space.bilibili.com/11179370) for organizing screenshots of the Chinese version interface elements
-
-This project uses the following libraries: 
-
-1. [opencv-python](https://github.com/opencv/opencv): For template matching
-2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): For OCR of numbers
-3. [nicegui](https://github.com/zauberzeug/nicegui): For GUI features
-
-## Planned/Completed Automated Tasks:
-
-- [x] Log into the game
-  - [x] Skip event pop-ups
-  - [x] Log in from the PV page
-  - [x] Close community pop-ups
-
-- [x] momotalk
-  - [x] Clear affection dialogues in momotalk
-
-- [x] Café
-  - [x] Claim stamina
-  - [x] Invite students
-  - [x] Head patting
-- [x] Timetable
-  - [x] Complete multiple courses
-- [x] Club
-  - [x] Claim stamina
-- [ ] Manufacturing
-  - [ ] Manufacture
-  - [ ] Synthesize
-- [x] Shop
-  - [x] Purchase items
-  - [x] Purchase stamina
-
-- [x] Normal Stages
-  - [x] Sweep normal Quests
-  - [x] Explore Normal Levels
-- [x] Hard Stages
-  - [x] Sweep hard Quests
-  - [x] Explore Hard Levels
-- [x] Event Stages
-  - [x] Sweep event Quests
-  - [x] Explore event levels
-- [x] Bounty/Wanted
-  - [x] Sweep bounty missions
-- [x] Special Missions/Special Dependence
-  - [x] Sweep special stages
-- [x] School Exchange
-  - [x] Sweep school exchange
-- [x] Tactical Contest/Tactical Confrontation
-  - [x] Challenge once
-  - [x] Claim rewards
-- [x] Mail
-  - [x] Claim all mails in one go
-- [x] Daily Tasks
-  - [x] Claim all
-  - [x] Claim 20 diamonds
+Discord: https://discord.com/invite/7cEvvfcd
 
 # How to Run
 
-Bilibili: [Latest Tutorial on Homepage](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
+[Latest Tutorial on Bilibili Homepage](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
 
-[BAAH Usage and FAQs.docx](https://docs.qq.com/doc/DR1RPaURleGF0ZWFS)
+## Pre-run Setup
 
-## Before Running, Please Ensure
+1. Emulator: Set the resolution to 1280*720 pixels, 240 DPI. Enable adb debugging. Note the adb debugging port of the emulator.
+   - If you are using Mumu emulator, please disable background activity running at the bottom of the settings.
+2. BA Game Settings:
+   - Game: Turn off skill animations;
+   - Graphics: Set to low resolution; Turn off black bars at the top and bottom during battles,
+   - In the café, manually adjust the camera angle to the highest and stack all furniture on the right side of the screen if possible.
 
-1. Set the emulator resolution to 1280*720 pixels, 240 DPI. Enable adb debugging in the emulator settings.
-2. In the settings of BA, set Game: skill animation: off; picture: resolution: low, black borders on top and bottom during battle: off
-3. In BA's café, pull the camera to the highest, and it's best to stack all the furniture on the far right of the screen
+## Usage
 
-## How to Use
+### Running via exe (Windows)
 
-### Running via exe
+1. Download and extract the approximately 100MB zip file to any folder.
+2. Rename the example.json file in the BAAH_CONFIGS folder to any other name, such as task.json.
+3. Double-click BAAH_GUI.exe to open the interface.
+4. After modifying the task content of a configuration file in the interface, click `Save and Execute` in the bottom right corner of the interface.
 
-1. Unzip the package
-2. Double click BAAH_GUI.exe to run
+### Running via local Python environment
 
-### Running via local python environment
+1. Ensure your Python environment version is >= 3.10.
+2. Ensure adb.exe is available on your computer, and later modify the ADB_PATH in the configuration file to point to adb.exe on your computer.
+3. Execute `git clone https://github.com/sanmusen214/BAAH.git` in the command line.
+4. Execute `cd BAAH` to enter the project directory.
+5. Execute `pip install -r requirements.txt` to install the required dependencies.
+6. Execute `python jsoneditor.py` to run the GUI, and modify the path to adb.exe at the bottom of the GUI.
+7. Execute `python main.py config.json` to start executing BAAH according to the config.json configuration.
 
-1. Ensure your python version is >=3.10
-2. Ensure you have adb.exe on your computer, and modify the ADB_PATH in config.json, or move the adb folder into `./tools/adb`.
-3. Execute `git clone https://github.com/sanmusen214/BAAH.git` in the command line
-4. Execute `cd BAAH` to enter the project directory
-5. Execute `pip install -r requirements.txt` to install necessary dependencies
-6. Execute `python jsoneditor.py` to run GUI
-7. Execute `python main.py config.json` to start running BAAH with user configuration in config.json
+# FAQs
 
-# Contribution
+## 0. How to Update BAAH
 
-You can see contents about developing in [docs/README_dev_en.md](./README_dev_en.md)
+Download BAAH1.x.xx_update.zip, then extract all contents to overwrite the existing files in the BAAH folder.
 
-# Packaging
+## 1. How to Provide Feedback
 
-Create a new tools folder under the project, put the `tools/adb`, `_internal/nicegui`, `_internal/pponnxcr` folders from the zip into the project folder, and run
+Please:
 
-1. `python package.py`
+0. Check if the issue is already listed in the FAQs.
+1. Describe your game server, BAAH version.
+2. Describe your purpose.
+3. Describe the behavior of BAAH before and after the error occurred or provide a recording.
+4. Provide logs of BAAH.exe before and after the error occurred.
 
+## 2. ADB Connection Failed, Screenshot Size is 0kb, or Game Continuously Detected as Not Opened
 
-# Disclaimer
+Please check if the adb port number in your configuration file matches the adb port number of the emulator.
 
-This project is not affiliated with Nexon, NEXON Games Co., Ltd., or any of their subsidiaries.
+Please verify if your server selection in the configuration file is correct.
 
-Any game assets and resources related to Blue Archive used in this project are the property and copyright of their respective authors.
+## 3. How to View the Port Number of Mumu Emulator
 
-# Inspired by the following projects:
+Click the three horizontal lines in the upper right corner of the emulator, open problem detection, scroll to the bottom, and the adb port number will be displayed.
 
-1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): Automatic script for Blue Archive Global Version
-2. [MBA](https://github.com/MaaAssistantArknights/MBA): MAA framework-based Blue Archive Assistant
-3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script): Simplified Chinese script for Blue Archive
+## 4. How to View the Port Number of LDPlayer Emulator
 
-# Small Thoughts
+Click Multi-player on the right side of the emulator to find out the current emulator's ID number. The port number is: 5555 + ID * 2.
 
-Still missing manufacturing
+## 5. If I Installed Anti-Censorship for CN Server BA, BAAH Can't Click the Sweep Button
 
-Future discardable code by category: The three functions of the Chinese version's bounty missions to select regions, RaidQuest max times judgement
+Please check the "If anti-censorship is enabled, please check this option" box when selecting the server.
+
+## 6. When Using Swipe to Select Levels, the Swipe Distance is Not Enough
+
+This issue usually occurs in CN server official BAs. Unbind the swipe trigger distance from the server in the configuration file and change 40 to 60.
+
+## 7. Can BAAH be Multi-opened?
+
+Switch to different configuration files in the GUI interface, then click Save and Run in the bottom right corner separately.
+
+If you are using a bat command or Windows Task Scheduler, make sure to cd to the BAAH folder, then execute `BAAH.exe config1.json` followed by `BAAH.exe config2.json`.
+
+## 8. Can BAAH be Run Multi-opened with Other Scripts?
+
+BAAH is compatible with ALAS and MAA, but:
+
+1. Please do not attempt to run BAAH and ALAS or MAA on the same multi-opened emulator/same emulator port simultaneously, as they will compete for screenshots. Please set up multiple multi-opened emulators.
+2. Please be careful not to let the automation scripts restart the adb service frequently.
+
+## 9. After Extracting, BAAH.exe Disappears
+
+Please set the BAAH folder as an exception in your antivirus software, then extract it again. BAAH is completely open source.
