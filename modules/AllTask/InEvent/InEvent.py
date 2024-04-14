@@ -222,7 +222,7 @@ class InEvent(Task):
                 maxquest_ind = maxquest - 1
                 logging.info(f"最大关卡: {maxquest}，开始检测是否需要推图")
                 # 设置一个推maxquest_ind关卡0次的任务
-                EventQuest([[maxquest_ind, 0]]).run()
+                EventQuest([[maxquest_ind, 0]], explore=True, raid=False, collect=False).run()
         # 扫荡任务
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
