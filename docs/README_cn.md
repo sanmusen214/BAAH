@@ -12,7 +12,7 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 # 如何运行
 
-[Bilibili首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
+[Bilibili首页最新视频教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
 
 ## 运行前设置
 
@@ -91,8 +91,12 @@ Discord: https://discord.com/invite/7cEvvfcd
 BAAH与ALAS，MAA兼容，只是：
 
 1. 请不要尝试在 一个多开模拟器/一个模拟器端口 上同时运行（BAAH）和（ALAS）或（MAA），他们会抢占截图。请设置多个多开模拟器
-2. 请注意尽量不要让自动化脚本重启adb服务
+2. 请注意尽量不要让自动化脚本重启adb服务，BAAH永远不会重启adb服务，你可以把BAAH放在其它自动化工具的后面启动。
 
 ## 9. 解压后BAAH.exe消失了
 
-请将BAAH所在文件夹设置为杀毒软件的白名单重新解压，BAAH完全开源
+请将BAAH所在文件夹设置为杀毒软件的白名单重新解压，BAAH完全开源，只需确保你的BAAH下载自github release或本文档开头的QQ群内，即可安心使用。
+
+## 10. 如何让BAAH能够定时自动运行
+
+BAAH的本质是一个可以接受参数的应用程序，当我们打开cmd，cd到BAAH文件夹下，执行`BAAH.exe 你的配置名.json`即可运行该配置。在了解了如何使用windows的任务计划程序后（参见视频教程末尾），您就可以使用任务计划程序控制程序的定时自动运行，结合BAAH中的定时开启/关闭模拟器功能，即可做到解放双手完成BAAH的每日任务。
