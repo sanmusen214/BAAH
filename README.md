@@ -34,7 +34,7 @@ Supported BA servers/支持的BA游戏服务器：
 - 领取（咖啡馆产出/邀请/摸头，社团签到，每日任务奖励，邮件，活动，战术大赛，总力战）
 - 消耗体力/票卷进行扫荡（课程表，普通关，困难关，活动关，悬赏通缉，特殊任务，学院交流会，战术大赛，总力战）
 - 购买（每日商店购买，竞技场商店购买）
-- 探索（清桃信红点，推普通关卡，推困难关卡，推活动关卡）
+- 探索（清桃信红点，推普通关卡，推困难关卡，推活动关卡，推主线剧情）
 
 Supported Functions：
 
@@ -42,7 +42,13 @@ Supported Functions：
 - Collect (Cafe Rewards, Invite in Cafe, Touch Head, Club Sign in, Daily Task Rewards, MailBox，Event Rewards，Tactical Challenge Rewards, Total Assault Rewards)
 - Spend tickets/power to raid (Timetable, Normal, Hard, Event, Bounty, Commissions, Scrimmage, Tactical Challenge, Total Assault)
 - Buy (Normal Shop，Tactical Challenge Shop)
-- Explore (Momotalk, Normal, Hard, Event)
+- Explore (Momotalk, Normal, Hard, Event, Episode)
+
+# Star
+
+Please star if you like it, ^ ^.
+
+[![Stargazers over time](https://starchart.cc/sanmusen214/BAAH.svg?variant=adaptive)](https://starchart.cc/sanmusen214/BAAH)
 
 
 # Usage
