@@ -59,8 +59,8 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
     # =============================================
 
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
-        with ui.column().style('min-width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 0px;'):
-            with ui.card():
+        with ui.column().style('height:80vh;min-width: 200px; overflow: auto;flex-grow: 1; position: sticky; top: 0px;'):
+            with ui.card().style('overflow: auto;'):
                 ui.link("BAAH", '#BAAH')
                 ui.link(config.get_text("setting_emulator"), '#EMULATOR')
                 ui.link(config.get_text("setting_server"), '#SERVER')
