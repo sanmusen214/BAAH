@@ -15,7 +15,7 @@ from modules.AllTask.InEvent.EventQuest import EventQuest
 from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, check_app_running, open_app, get_now_running_app_entrance_activity
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, check_app_running, open_app, get_now_running_app_entrance_activity, get_now_running_app
 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
@@ -77,11 +77,11 @@ class InEvent(Task):
         判断页面是否是一个有效的活动页面
         """
         # 判断是否是在ba游戏里
-        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH']:
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH'] or "webview" in get_now_running_app().lower():
             logging.warn("跳转出了游戏，尝试重新进入游戏")
             open_app(config.userconfigdict['ACTIVITY_PATH'])
             sleep(1.5)
-            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH'] or "webview" in get_now_running_app().lower():
                 logging.error("重新进入游戏失败")
                 raise Exception("重新进入游戏失败")
             logging.info("重新进入游戏成功")
