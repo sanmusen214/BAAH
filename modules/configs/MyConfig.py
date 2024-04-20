@@ -128,7 +128,8 @@ class MyConfigger:
                 selfmap[key] = defaultmap[key]["d"]
         else:
             # 没有对应关系就只能默认值
-            print("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
+            if print_warn:
+                print("缺少{}配置，使用默认值{}".format(key, defaultmap[key]["d"]))
             selfmap[key] = defaultmap[key]["d"]
 
     def _check_user_config(self):
