@@ -5,6 +5,7 @@ from modules.configs.MyConfig import config
 import subprocess
 from pathlib import Path
 import nicegui
+import time
 
 def package_copyfolder(src, dst):
     try:
@@ -116,6 +117,7 @@ package_rename("./dist/BAAH/jsoneditor.exe", "./dist/BAAH/BAAH_GUI.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
 print("开始压缩")
+time.sleep(2)
 
 # 压缩./dist/BAAH文件夹为BAAH.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}.zip', 'w', zipfile.ZIP_DEFLATED)
@@ -125,6 +127,7 @@ for dirpath, dirnames, filenames in os.walk(startdir):
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
 print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
+print(f"压缩包大小为{os.path.getsize(f'./dist/BAAH{config_version}.zip')/1024/1024:.2f}MB")
 
 # 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
@@ -136,3 +139,5 @@ for dirpath, dirnames, filenames in os.walk(startdir):
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
 print(f"完成，压缩包./dist/BAAH{config_version}_update.zip已生成")
+print(f"压缩包大小为{os.path.getsize(f'./dist/BAAH{config_version}_update.zip')/1024/1024:.2f}MB")
+
