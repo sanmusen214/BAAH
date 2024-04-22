@@ -6,6 +6,7 @@ import numpy as np
 from typing import Tuple
 from pponnxcr import TextSystem
 import time
+from os.path import exists
 
 ZHT = TextSystem('en')
 
@@ -41,7 +42,10 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
     """
     logging.debug("Matching pattern {} in {}".format(patternpic, sourcepic))
     screenshot = cv2.imread(sourcepic)
-    
+    # 检查图片是否存在
+    if not exists(sourcepic):
+        logging.error("匹配的模板图片 文件不存在: {}".format(sourcepic))
+        return (False, (0, 0), 0)
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
     have_alpha=False
     if(pattern.shape[2] == 4 and auto_rotate_if_trans):
