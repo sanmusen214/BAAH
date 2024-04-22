@@ -109,6 +109,8 @@
     "desc_assault":"The target hardness of the assault, if it is unlock, BAAH will try to unlock it",
     "config_run_until_wait_time":"Wait time in loops",
     "config_run_until_try_times":"Try times in loops",
+    "adb_direct_use_serial":"Whether use adb serial to connect the emulator",
+    "adb_serial":"emulator serial, like emulator-5554",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

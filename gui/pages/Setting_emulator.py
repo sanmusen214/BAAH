@@ -6,10 +6,17 @@ def set_emulator(config):
         ui.label(config.get_text("setting_emulator")).style('font-size: x-large')
         
     with ui.row():
+        # IP+端口
         ui.number(config.get_text("config_emulator_port"),
                 step=1,
                 precision=0,
-                ).bind_value(config.userconfigdict, 'TARGET_PORT', forward=lambda v: int(v)).style('width: 400px')
+                ).bind_value(config.userconfigdict, 'TARGET_PORT', forward=lambda v: int(v)).style('width: 400px').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER", lambda v: not v)
+        # 序列号
+        ui.input(config.get_text("adb_serial")).bind_value(config.userconfigdict, 'ADB_SEIAL_NUMBER').style('width: 400px').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER", lambda v: v)
+        
+        # 切换使用序列号还是IP+端口
+        ui.checkbox(config.get_text("adb_direct_use_serial")).bind_value(config.userconfigdict, 'ADB_DIRECT_USE_SERIAL_NUMBER')
+        
     
     with ui.row():
         ui.checkbox(config.get_text("config_kill_port")).bind_value(config.userconfigdict, "KILL_PORT_IF_EXIST")

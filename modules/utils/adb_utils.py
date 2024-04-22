@@ -11,8 +11,12 @@ def getNewestSeialNumber(use_config=None):
     target_config = config
     if use_config:
         target_config = use_config
-    # 从配置文件里得到最新的模拟器IP和端口
-    if target_config.userconfigdict["TARGET_PORT"] and target_config.userconfigdict["TARGET_IP_PATH"]:
+    
+    if target_config.userconfigdict["ADB_DIRECT_USE_SERIAL_NUMBER"]:
+        # 得到完整的序列号，emulator-5554
+        return target_config.userconfigdict["ADB_SEIAL_NUMBER"]
+    elif target_config.userconfigdict["TARGET_PORT"] and target_config.userconfigdict["TARGET_IP_PATH"]:
+        # 从配置文件里得到模拟器IP和端口
         return "{}:{}".format(target_config.userconfigdict["TARGET_IP_PATH"],target_config.userconfigdict["TARGET_PORT"])
     else:
         logging.error("TARGET_IP_PATH或TARGET_PORT未设置")

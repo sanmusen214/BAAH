@@ -109,6 +109,8 @@
     "desc_assault":"总力战目标扫荡难度，如果没解锁会尝试推到目标挡位；本功能为游戏右下角Auto，大概是人手打的练度减两档",
     "config_run_until_wait_time":"循环等待时间",
     "config_run_until_try_times":"循环尝试次数",
+    "adb_direct_use_serial":"直接使用序列号连接模拟器",
+    "adb_serial":"模拟器序列号，如emulator-5554",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",
