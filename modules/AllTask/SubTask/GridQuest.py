@@ -89,6 +89,11 @@ class GridQuest(Task):
         将自动战斗开启，PHASE自动结束关闭
         """
         logging.info("判断是否需要设置自动战斗开启和PHASE自动结束关闭")
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
         # 开启的勾的蓝色
         blue_pixel = ((245, 225, 80), (255, 235, 90))
         positions_map = {
@@ -206,6 +211,12 @@ class GridQuest(Task):
         self.now_focus_on_team = nowteam_ind
         return nowteam_ind
         
+    def print_team_config(self, _now_need_team_set):
+        """
+        格式化输出队伍的初始位置以及配置这些信息
+        """
+        for ind in range(len(_now_need_team_set)):
+            logging.info(f"    编辑部队-> {ind+1}部队: {_now_need_team_set[ind]} {self.TEAM_TYPE_NAME.get(_now_need_team_set[ind])} {list(self.grider.get_initialteams(self.require_type))[ind]['position']}")
     
     def on_run(self) -> None:
         # 尝试读取json文件
@@ -237,8 +248,7 @@ class GridQuest(Task):
         if need_user_set_teams:
             # 需要用户配队
             logging.info("未保存适合的配置，请按照以下队伍要求配队")
-            for ind in range(len(now_need_team_set_list)):
-                logging.info(f"    编辑部队-> {ind+1}部队: {now_need_team_set_list[ind]} {self.TEAM_TYPE_NAME[now_need_team_set_list[ind]]} {list(self.grider.get_initialteams(self.require_type))[ind]['position']}")
+            self.print_team_config(now_need_team_set_list)
             logging.info("同时，请确保你的SKIP战斗设置为开启，PHASE自动结束为关闭")
             input("配队结束后请直接返回至走格子界面，不用点击出击。输入回车继续：")
             # 更新队伍信息
@@ -246,7 +256,7 @@ class GridQuest(Task):
             logging.info("配队信息已更新")
         else:
             # 不需要用户配队的话就继续用上次的队伍
-            display_str = " ".join([self.TEAM_TYPE_NAME[item] for item in last_team_set_list])
+            display_str = " ".join([self.TEAM_TYPE_NAME.get(item) for item in last_team_set_list])
             logging.info(f"使用上次的队伍配置: {display_str}")
         screenshot()
         if match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)):
@@ -298,7 +308,10 @@ class GridQuest(Task):
                 else:
                     click(self.BUTTON_SEE_OTHER_TEAM_POS, 1)
             if not edit_page_result:
-                raise Exception("未识别到配队界面，请确保当前界面是配队界面且你未手动出击任何队伍")
+                logging.error("未识别到配队界面，可能是队伍起始点被遮挡导致识别失败")
+                self.print_team_config(now_need_team_set_list)
+                input("请按照以上要求手动出击队伍，然后返回至格子地图界面，回车以继续...")
+
             # 点击确定
             logging.info("点击出击")
             self.run_until(
