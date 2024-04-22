@@ -117,6 +117,12 @@ class LocationSelect(Task):
             times = 15,
             sleeptime=2
         )
+        # 如果不小心返回键点多了，回到课程表页面
+        if match(page_pic(PageName.PAGE_HOME)):
+            self.run_until(
+                lambda: click((212, 669)),
+                lambda: Page.is_page(PageName.PAGE_TIMETABLE)
+            )
         
                     
         
