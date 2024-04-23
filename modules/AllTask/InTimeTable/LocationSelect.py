@@ -93,7 +93,7 @@ class LocationSelect(Task):
                 times=3
             )
             # 如果点完开始发现购买弹窗
-            if(match(popup_pic(PopupName.POPUP_TOTAL_PRICE))):
+            if(match(popup_pic(PopupName.POPUP_TOTAL_PRICE)) or match(popup_pic(PopupName.POPUP_NOTICE))):
                 logging.info(f"教室{classroom+1}由于票卷不足，执行失败")
                 config.sessiondict["TIMETABLE_NO_TICKET"] = True
                 break
