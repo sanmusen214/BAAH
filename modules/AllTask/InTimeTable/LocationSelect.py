@@ -9,7 +9,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config, match_pixel
 import numpy as np
 
 class LocationSelect(Task):
@@ -112,17 +112,18 @@ class LocationSelect(Task):
         logging.info("返回到课程表页面")
         # 清除弹窗
         self.run_until(
-            lambda: click(Page.MAGICPOINT) and click(Page.TOPLEFTBACK),
-            lambda: Page.is_page(PageName.PAGE_TIMETABLE) and not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)),
+            lambda: click(Page.MAGICPOINT),
+            lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             times = 15,
             sleeptime=2
         )
-        # 如果不小心返回键点多了，回到课程表页面
-        if match(page_pic(PageName.PAGE_HOME)):
-            self.run_until(
-                lambda: click((212, 669)),
-                lambda: Page.is_page(PageName.PAGE_TIMETABLE)
-            )
+        # 返回到课程表页面
+        self.run_until(
+            lambda: click(Page.TOPLEFTBACK),
+            lambda: Page.is_page(PageName.PAGE_TIMETABLE),
+            times=2,
+            sleeptime=2
+        )
         
                     
         
