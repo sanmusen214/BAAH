@@ -121,6 +121,10 @@ defaultUserDict = {
     # 是否直接使用emulator-5554这种序列号
     "ADB_DIRECT_USE_SERIAL_NUMBER":{"d":False},
     "ADB_SEIAL_NUMBER":{"d":"emulator-5554"},
+    # 是否助战学生
+    "IS_AUTO_ASSAULT_STUDENT_HELP":{"d":False},
+    "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT":{"d":False},
+    "AUTO_ASSAULT_HELP_STUDENT":{"d":""},
     
 }
 
@@ -152,4 +156,6 @@ defaultSessionDict = {
     "CAFE_HAD_INVITED":{"d":True},
     "TIMETABLE_NO_TICKET":{"d":False},
     "BAAH_START_TIME":{"d":""},
+    "BEFORE_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
+    "AFTER_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
 }
