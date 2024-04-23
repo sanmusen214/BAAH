@@ -19,3 +19,5 @@ from .CollectDailyRewards.CollectDailyRewards import CollectDailyRewards
 
 from .AutoStory.AutoStory import AutoStory
 from .AutoAssault.AutoAssault import AutoAssault
+
+from .PostAllTask.PostAllTask import PostAllTask

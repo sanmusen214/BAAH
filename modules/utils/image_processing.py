@@ -7,6 +7,7 @@ from typing import Tuple
 from pponnxcr import TextSystem
 import time
 from os.path import exists
+from math import isnan
 
 ZHT = TextSystem('en')
 
@@ -130,11 +131,11 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
         if not multi_lines:
             # 图像识别单行
             resstring = ZHT.ocr_single_line(rawImage)
-            return [replace_mis(resstring[0]), resstring[1]]
+            return [replace_mis(resstring[0]), resstring[1] if not isnan(resstring[1]) else 0]
         else:
             # 图像识别多行
             resstring_list = ZHT.detect_and_ocr(rawImage)
-            return [[replace_mis(res.ocr_text), res.score] for res in resstring_list]
+            return [[replace_mis(res.ocr_text), res.score if not isnan(res.score) else 0] for res in resstring_list]
     
 def match_pixel_color_range(imageurl, x, y, low_range, high_range, printit = False):
     """

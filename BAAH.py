@@ -171,7 +171,9 @@ def BAAH_send_email():
             content.append("BAAH任务结束")
             content.append("配置文件名称: "+config.nowuserconfigname)
             content.append("任务开始时间: "+config.sessiondict["BAAH_START_TIME"])
+            content.append("开始时资源: "+str(config.sessiondict["BEFORE_BAAH_SOURCES"]))
             content.append("任务结束时间: "+time.strftime("%Y-%m-%d %H:%M:%S"))
+            content.append("结束时资源: "+str(config.sessiondict["AFTER_BAAH_SOURCES"]))
             content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
             # 任务内容
             content.append("执行的任务内容:")
