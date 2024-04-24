@@ -10,7 +10,7 @@ from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, config, screenshot
 
 from .Questhelper import jump_to_page,close_popup_until_see
 import numpy as np
@@ -45,9 +45,23 @@ class HardQuest(Task):
                 continue
             # clickable points
             logging.info("点击从上往下第{}关".format(level_ind+1))
-            ScrollSelect(level_ind, 190, 306, 630, 1116, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+            ScrollSelect(level_ind, 190, 306, 630, 1116, lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)).run()
+            if config.userconfigdict["SERVER_TYPE"] == "JP":
+                # 适配日服简易攻略
+                click((385, 183))
+                screenshot()
+                if not match(popup_pic(PopupName.POPUP_EASY_QUEST)):
+                    # 匹配简易攻略弹窗失败
+                    logging.warn("日服：未能匹配到扫荡弹窗，跳过")
+                    break
+            else:
+                screenshot()
+                if not match(popup_pic(PopupName.POPUP_TASK_INFO)):
+                    # 匹配弹窗失败
+                    logging.warn("未能匹配到扫荡弹窗，跳过")
+                    break
             # 扫荡
-            RaidQuest(repeat_times).run()
+            RaidQuest(repeat_times, has_easy_tab=config.userconfigdict["SERVER_TYPE"]=="JP").run()
             
             # 关闭弹窗，直到看到hard按钮
             close_popup_until_see(button_pic(ButtonName.BUTTON_HARD))

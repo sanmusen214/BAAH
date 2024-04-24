@@ -8,7 +8,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, ocr_area_0, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
+from modules.utils import click, ocr_area_0, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, config, match_pixel
 
 class RaidQuest(Task):
     """
@@ -20,28 +20,44 @@ class RaidQuest(Task):
         扫荡次数，-1为最大次数，-n为最大次数减去若干次，0为不扫荡，正数为具体扫荡次数
     recall_close：function
         回调函数，用于后续关闭弹窗，通常建议将关闭操作放在此class外部
+    has_easy_tab: bool
+        是否有简易攻略tab，用于适配日服简易攻略扫荡弹窗
     """
-    def __init__(self, raidtimes, recall_close=None, name="RaidQuest") -> None:
+    def __init__(self, raidtimes, recall_close=None, has_easy_tab = False, name="RaidQuest") -> None:
         super().__init__(name)
         self.raidtimes = raidtimes
         self.click_magic_when_run = False
+        self.has_easy_tab = has_easy_tab
         # 回调函数，用于关闭弹窗
         self.recall_close = recall_close
+        
+        self.max_pos = (1084, 299)
+        self.add_pos = (1017, 300)
+        self.minus_pos = (857, 301)
+        self.ocr_area_pos_1 = (906, 284)
+        self.ocr_area_pos_2 = (970, 318)
+        if self.has_easy_tab:
+            # 日服简易攻略扫荡弹窗位置需要往下偏移
+            self.max_pos = (1084, 299+30)
+            self.add_pos = (1017, 300+30)
+            self.minus_pos = (857, 301+30)
+            self.ocr_area_pos_1 = (906, 284+30)
+            self.ocr_area_pos_2 = (970, 318+30)
 
     def pre_condition(self) -> bool:
         # 判断默认的次数不是0才能进入
-        return match(popup_pic(PopupName.POPUP_TASK_INFO)) and not ocr_area_0((906, 284),(970, 318))
+        return not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) and not ocr_area_0(self.ocr_area_pos_1,self.ocr_area_pos_2)
     
     def check_has_max(self) -> bool:
         """
         通过检查数字是否变化来判断是否可以通过max times来扫荡
         """
         screenshot()
-        now_num = ocr_area((906, 284),(970, 318))[0]
+        now_num = ocr_area(self.ocr_area_pos_1,self.ocr_area_pos_2)[0]
         # 点一下max
-        click((1084, 299))
+        click(self.max_pos)
         screenshot()
-        next_num = ocr_area((906, 284),(970, 318))[0]
+        next_num = ocr_area(self.ocr_area_pos_1,self.ocr_area_pos_2)[0]
         if now_num == next_num:
             return False
         return True
@@ -56,26 +72,26 @@ class RaidQuest(Task):
             # 检测能够通过max times来扫荡
             if self.check_has_max():
                 # max times
-                click((1084, 299))
+                click(self.max_pos)
             else:
                 # 点加号多次然后长按
-                click((1017, 300), sleeptime=0.1)
-                click((1017, 300), sleeptime=0.1)
-                swipe((1017, 300), (1017, 300), durationtime=6)
+                click(self.add_pos, sleeptime=0.1)
+                click(self.add_pos, sleeptime=0.1)
+                swipe(self.add_pos, self.add_pos, durationtime=6)
             # max后反向减少次数
             if repeat_times < -1:
                 # max times - Math.abs(repeat_times)
                 # 按减号
                 # decrease times
                 for t in range(abs(repeat_times)):
-                    click((857, 301))
+                    click(self.minus_pos)
         elif repeat_times == 0:
             logging.info("扫荡次数为0，不扫荡")
             return
         else:
             for t in range(max(0,repeat_times-1)):
                 # increase times
-                click((1017, 300))
+                click(self.add_pos)
         # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示，还有个是购买困难扫荡券的提示
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),

@@ -85,6 +85,7 @@ class AutoAssault(Task):
         # 点击支援按钮
         if config.userconfigdict["AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT"]:
             click((819, 211))
+            click((819, 211))
         # 选择要挑选的助战学生
         screenshot()
         helper_stu = match(config.userconfigdict["AUTO_ASSAULT_HELP_STUDENT"], returnpos=True)

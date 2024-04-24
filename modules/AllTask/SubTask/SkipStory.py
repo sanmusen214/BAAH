@@ -53,6 +53,15 @@ class SkipStory(Task):
             )
             if clickmenu_and_skip and clickconfirmb:
                 logging.info("跳过剧情成功")
+                # # 有时候跳过剧情后会有cg，这时候需要点击一下屏幕，看是不是有通知
+                # click(Page.MAGICPOINT, sleeptime=1)
+                # screenshot()
+                # if match(popup_pic(PopupName.POPUP_NOTICE)):
+                #     self.run_until(
+                #         lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
+                #         lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB)),
+                #         times = 3
+                #     )
                 return
             else:
                 logging.info("跳过剧情被打断，重试")

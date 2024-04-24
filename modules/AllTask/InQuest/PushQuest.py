@@ -83,10 +83,14 @@ class PushQuest(Task):
             # 当前关卡就是这次需要推图的关卡
             # 国服弹窗往右偏移了50
             offsetx = 0
+            # 日服弹窗往下偏移了30，由于简易攻略tab
+            offsety = 0
             if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
                 offsetx = 50
+            if config.userconfigdict["SERVER_TYPE"] == "JP":
+                offsety = 30
             # 识别关卡序号，更新最新的page_ind和level_ind
-            left_up = ocr_area((139+offsetx, 197), (216+offsetx, 232))
+            left_up = ocr_area((139+offsetx, 197+offsety), (216+offsetx, 232+offsety))
             page_level = left_up[0].split(" ")[0].replace("|","").replace("[","").replace("]","").strip().split("-")
             try:
                 logging.info(f"分割后的关卡序号：{page_level}")
@@ -119,7 +123,13 @@ class PushQuest(Task):
                     return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
-            ocr_s = ocr_area((327+offsetx, 257), (353+offsetx, 288))
+            ocr_s = ocr_area((327+offsetx, 257+offsety), (353+offsetx, 288+offsety))
+            # 如果是日服，推图点击简易攻略
+            if config.userconfigdict["SERVER_TYPE"] == "JP":
+                logging.info("日服：使用简易攻略")
+                click((891, 185))
+                click((891, 185))
+                ocr_s = "easy"
             walk_grid = None
             if ocr_s[0].upper() != "S":
                 logging.info("未识别到S等级，判断为普通战斗")
