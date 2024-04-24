@@ -79,6 +79,7 @@ def set_vpn(config):
                         ui.number("X", min=-1, value=click_pos[0], on_change=lambda x,i=i: change_click_pos_x(i, 0, x.value))
                         ui.number("Y", min=-1, value=click_pos[1], on_change=lambda x,i=i: change_click_pos_x(i, 1, x.value))
                     else:
+                        ui.image(click_pos).style("max-width: 100px; max-height: 100px")
                         ui.input("Pic", value=click_pos, on_change=lambda x,i=i: change_click_pos_x(i, None, x.value)).style('width: 400px')
                     ui.number("Wait", min=0, value=sleep_time, on_change=lambda x,i=i: change_wait_time(i, x.value))
                     ui.button(config.get_text("button_edit"), on_click=lambda x,i=i: set_click_pos_of_line(i))
@@ -99,7 +100,7 @@ def set_vpn(config):
     with ui.row():
         # 选择加速器包名
         ui.input("APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
-        ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(True))
-        ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(False))
+        ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(enter_activity=True))
+        ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(enter_activity=False))
     # 一系列点击操作
     list_of_click_and_sleep()

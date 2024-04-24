@@ -111,6 +111,9 @@
     "config_run_until_try_times":"循環試行回数",
     "adb_direct_use_serial":"ADB直接使用シリアル番号",
     "adb_serial":"シリアル番号，(emulator-5554)",
+    "config_need_assault_helper":"総力戦助戦が必要です",
+    "config_assault_helper_is_support":"助戦生徒がサポートされています",
+    "config_assault_helper_student":"助戦生徒",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
