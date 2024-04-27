@@ -31,7 +31,7 @@ class CollectDailyRewards(Task):
         # 清除弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: match_pixel(Page.COLOR_WHITE)
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # collect 20
         self.run_until(
