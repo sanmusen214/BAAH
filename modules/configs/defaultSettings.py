@@ -97,7 +97,7 @@ defaultUserDict = {
     "USE_VPN":{"d":False},
     "VPN_CONFIG":{"d":{
         "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
-        "CLICK_AND_WAIT_LIST":[[(622, 248), 2]],
+        "CLICK_AND_WAIT_LIST":[[[622, 248], 2]],
     }},
     "AUTO_PUSH_EVENT_QUEST":{"d":True},
     "CAFE_COLLECT":{"d":True},

@@ -74,13 +74,14 @@ def set_vpn(config):
                 # 分割出点击位置和等待时间
                 click_pos, sleep_time = line
                 with ui.row():
-                    # 如果click_pos是列表
-                    if isinstance(click_pos, list):
-                        ui.number("X", min=-1, value=click_pos[0], on_change=lambda x,i=i: change_click_pos_x(i, 0, x.value))
-                        ui.number("Y", min=-1, value=click_pos[1], on_change=lambda x,i=i: change_click_pos_x(i, 1, x.value))
-                    else:
+                    # 如果click_pos是字符串
+                    if isinstance(click_pos, str):
                         ui.image(click_pos).style("max-width: 100px; max-height: 100px")
                         ui.input("Pic", value=click_pos, on_change=lambda x,i=i: change_click_pos_x(i, None, x.value)).style('width: 400px')
+                    else:
+                        # 注意list和tuple判断
+                        ui.number("X", min=-1, value=click_pos[0], on_change=lambda x,i=i: change_click_pos_x(i, 0, x.value))
+                        ui.number("Y", min=-1, value=click_pos[1], on_change=lambda x,i=i: change_click_pos_x(i, 1, x.value))
                     ui.number("Wait", min=0, value=sleep_time, on_change=lambda x,i=i: change_wait_time(i, x.value))
                     ui.button(config.get_text("button_edit"), on_click=lambda x,i=i: set_click_pos_of_line(i))
                     ui.button(config.get_text("button_add"), on_click=lambda x, i=i:add_line(i))
