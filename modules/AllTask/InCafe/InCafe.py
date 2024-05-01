@@ -63,7 +63,7 @@ class InCafe(Task):
         if match(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM)):
             # 进入第二个咖啡厅
             logging.info("进入第二个咖啡厅")
-            click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM))
+            click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM), sleeptime=1)
             click((247, 165))
             if self.touch:
                 # 摸第二个咖啡厅头
