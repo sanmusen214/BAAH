@@ -16,7 +16,7 @@ class AutoStory(Task):
     """
         主线剧情自动化
         
-        剧情总页-主线剧情-某一篇某一章的章节目录
+        剧情总页-主线剧情（篇，章，PAGE_STORY.png）-小节目录列表（PAGE_STORY_SELECT_SECTION.png）
     """
     def __init__(self, name="AutoStory") -> None:
         super().__init__(name)
@@ -31,9 +31,9 @@ class AutoStory(Task):
 
     def try_to_solve_new_section(self):
         """
-        尝试处理完当前章节所有可点的New章节，此操作会退出章节选择页面返回上级
+        尝试处理完当前章节所有可点的New小节，此操作会退出小节选择页面返回上级
         """
-        # 来到选择章节页面
+        # 来到小节页面
         sleep(3) # 等动画
         screenshot()
         initial_enter = True
@@ -48,11 +48,6 @@ class AutoStory(Task):
                     lambda: match(popup_pic(PopupName.POPUP_CHAPTER_INFO)),
                     times = 3
                 )
-                
-                # 如果匹配到弹窗，认为需要解锁主线关卡
-                # if not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) and Page.is_page(PageName.PAGE_STORY_SELECT_SECTION):
-                #     logging.warn("此主线剧情需要解锁主线关卡")
-                #     return
             elif not new_bool and initial_enter:
                 # 如果第一次进入循环但是没有匹配上New标识，那么可能已经推到了最后一节，但是New无法识别出来
                 # 手动点顶部的那一节
@@ -64,15 +59,8 @@ class AutoStory(Task):
                     times = 3
                 )
             else:
-                # 返回上级到主线剧情页面
-                self.run_until(
-                    lambda: click(Page.TOPLEFTBACK),
-                    lambda: not Page.is_page(PageName.PAGE_STORY_SELECT_SECTION),
-                    times=4,
-                    sleeptime=2
-                )
-                
-                return
+                # 返回上级到主线剧情页面，离开剧情页面
+                break
             # 如果匹配到章节资讯弹窗
             if enter_popup:
                 # 点击开始
@@ -83,14 +71,14 @@ class AutoStory(Task):
                 )
                 # 进入章节后先剧情，然后可能有战斗
                 SkipStory().run()
-                # 尝试回到选择章节页面，后面战斗完也要考虑这个，不过那里写在FightQuest里面了
+                # 尝试回到选择小节页面，后面战斗完也要考虑这个，不过那里写在FightQuest里面了
                 back_to_select = self.run_until(
                     lambda: click(Page.MAGICPOINT),
-                    lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)),
+                    lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
                     times=4
                 )
                 if not back_to_select:
-                    # 如果跳过剧情后没有回到章节选择页面，那么就是有战斗，这里传入in_story_mode=True让FightQuest知道不需要检测最后的奖励页面
+                    # 如果跳过剧情后没有回到小节选择页面，那么就是有战斗，这里传入in_main_story_mode=True让FightQuest知道不需要检测最后的奖励页面
                     # 如果走格子，就报错，目前不支持
                     if Page.is_page(PageName.PAGE_GRID_FIGHT):
                         raise Exception("目前主线章节功能不支持走格子战斗")
@@ -103,7 +91,7 @@ class AutoStory(Task):
                     FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_STORY_SELECT_SECTION)), start_from_editpage=False, in_main_story_mode=True).run()
             else:
                 raise Exception("未匹配到章节资讯弹窗，该剧情可能要解锁主线关卡")
-            # 回到选择章节页面
+            # 回到小节列表页面，新的NEW button会有一段出现动画，这里确保动画结束
             # 清除弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
@@ -112,6 +100,13 @@ class AutoStory(Task):
                 sleeptime=1
             )
             initial_enter = False
+        # 返回上级到主线剧情页面，离开剧情小节页面
+        self.run_until(
+            lambda: click(Page.TOPLEFTBACK),
+            lambda: not Page.is_page(PageName.PAGE_STORY_SELECT_SECTION),
+            times=4,
+            sleeptime=2
+        )
     
     def recognize_max_chapter(self):
         """
