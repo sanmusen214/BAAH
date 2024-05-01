@@ -2,7 +2,7 @@
     "INFO00": "不懂的看置顶视频：https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0",
     "TARGET_PORT": 16384,
     "TARGET_EMULATOR_PATH": "",
-    "TIME_AFTER_CLICK": 0.4,
+    "TIME_AFTER_CLICK": 0.5,
     "INFO1": "课程表",
     "TIMETABLE_TASK": [
         [],
@@ -207,7 +207,7 @@
     "PUSH_HARD_QUEST_LEVEL": 1,
     "EXPLORE_RAINBOW_TEAMS": true,
     "ENABLE_MAIL_NOTI": false,
-    "CAFE_TOUCH_WAY_DIFF": false,
+    "CAFE_TOUCH_WAY_DIFF": true,
     "USE_VPN": false,
     "VPN_CONFIG": {
         "VPN_ACTIVITY": "com.github.kr328.clash/com.github.kr328.clash.MainActivity",
@@ -234,8 +234,8 @@
     "MAIL_HOST": "",
     "AUTO_ASSAULT": false,
     "AUTO_ASSAULT_LEVEL": 4,
-    "RUN_UNTIL_TRY_TIMES": 6,
-    "RUN_UNTIL_WAIT_TIME": 1.4,
+    "RUN_UNTIL_TRY_TIMES": 9,
+    "RUN_UNTIL_WAIT_TIME": 1,
     "ADB_DIRECT_USE_SERIAL_NUMBER": false,
     "ADB_SEIAL_NUMBER": "emulator-5554",
     "IS_AUTO_ASSAULT_STUDENT_HELP": false,

@@ -74,6 +74,10 @@ def set_vpn(config):
                 # 分割出点击位置和等待时间
                 click_pos, sleep_time = line
                 with ui.row():
+                    # 处理如果click_pos是None，虽然不知道为什么可能是None
+                    # 但是有群友遇到过这个问题
+                    if click_pos == None:
+                        click_pos = f"Error: is None, ind = {i}"
                     # 如果click_pos是字符串
                     if isinstance(click_pos, str):
                         ui.image(click_pos).style("max-width: 100px; max-height: 100px")
