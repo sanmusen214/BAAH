@@ -106,20 +106,23 @@ class InEvent(Task):
             logging.warn("此页面不存在活动Quest")
             return False
         # 通过数字识别关卡数字，判断活动是否已结束
+        # event_res为最终判断活动有没有开放还是进入到领取奖励阶段
+        event_res = False
         screenshot()
         reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
         for res in reslist:
             try:
                 res_num = int(res[0])
-                return True
+                event_res = True
+                break
             except:
                 continue
         # # 判断左下角时间
-        # time_res = ocr_area((175, 566), (552, 593))
+        time_res = ocr_area((175, 566), (552, 593))
         # if len(time_res[0])==0:
         #     return False
         # # '2023-12-2603:00~2024-01-0902:59'
-        # logging.info(f"识别活动时间: {time_res}")
+        logging.info(f"识别活动时间: {time_res}")
         # # 分割出结束时间
         # # 取最后15个字符
         # if len(time_res[0]) < 15:
@@ -154,9 +157,19 @@ class InEvent(Task):
         # if local_time_struct > end_time_struct:
         #     logging.info("此活动已结束")
         #     return False
-        logging.error("未能识别有效活动关卡，判断此活动已结束")
-        self.has_event_but_closed = True
-        return False
+        
+        end_date = time_res[0][-16:]
+        if event_res:
+            logging.info("活动开放中")
+            # 避免重复输出
+            config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动开放中，结束日期: {end_date}"
+            return True
+        else:
+            logging.error("未能识别有效活动关卡，判断活动已结束")
+            self.has_event_but_closed = True
+            # 避免重复输出
+            config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动领取奖励阶段，结束日期: {end_date}"
+            return False
 
     def get_biggest_level(self):
         """

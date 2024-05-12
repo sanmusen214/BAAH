@@ -1,5 +1,5 @@
 from time import strftime
-
+import hashlib
 
 # 构建日志类
 class MyLogger:
@@ -16,6 +16,10 @@ class MyLogger:
         self.debug_list = []
         self.warn_list = []
         self.error_list = []
+        
+    def hash_str(self, data):
+        """得到字符串的哈希值"""
+        return hashlib.md5(data.encode(encoding='UTF-8')).hexdigest()
     
     def format_msg(self, msg, level):
         """加入时间，错误级别"""

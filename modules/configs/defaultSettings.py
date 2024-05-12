@@ -160,4 +160,6 @@ defaultSessionDict = {
     "AFTER_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
     "CONTEST_NO_TICKET":{"d":False},
     "HAS_ENTER_EVENT":{"d":False},
+    "INFO_DICT":{"d":{}},
+    "INFO_LIST":{"d":[]},
 }

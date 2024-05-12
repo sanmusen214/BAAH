@@ -162,7 +162,7 @@ def BAAH_send_email():
     发送邮件
     """
     if config.userconfigdict["ENABLE_MAIL_NOTI"]:
-        logging.info("尝试发送邮件")
+        logging.info("尝试发送通知")
         try:
             # 构造通知对象
             notificationer = create_notificationer()
@@ -177,9 +177,21 @@ def BAAH_send_email():
             content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
             # 任务内容
             content.append("执行的任务内容:")
+            tasks_str = ""
             for ind, task in enumerate(config.userconfigdict["TASK_ORDER"]):
                 if config.userconfigdict["TASK_ACTIVATE"][ind]:
-                    content.append(f"  {task}")
+                    tasks_str += f" -> {task}"
+            content.append(tasks_str)
+            # 其他消息
+            content.append("其他消息:")
+            info_str = ""
+            # INFO_DICT 和 INFO_LIST 里的信息
+            for key, value in config.sessiondict["INFO_DICT"].items():
+                info_str += f"{value}\n"
+            for info in config.sessiondict["INFO_LIST"]:
+                info_str += f"{info}\n"
+            content.append(info_str)
+            # 发送
             print(notificationer.send("\n".join(content)))
             logging.info("邮件发送结束")
         except Exception as e:
