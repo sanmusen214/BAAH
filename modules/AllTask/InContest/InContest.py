@@ -24,6 +24,12 @@ class InContest(Task):
     
     
     def on_run(self) -> None:
+        
+        if(config.sessiondict["CONTEST_NO_TICKET"] == True):
+            logging.info("上次进入竞技场已经无票卷，本次不再进入竞技场")
+            self.back_to_home()
+            return
+        
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
@@ -59,6 +65,8 @@ class InContest(Task):
         if match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_USE_DIAMOND)):
             # if no ticket
             logging.warning("已经无票卷...尝试收集奖励")
+            # sessiondict设置
+            config.sessiondict["CONTEST_NO_TICKET"] = True
             # 强制收集
             self.collect = True
             # close all popup
