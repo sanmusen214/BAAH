@@ -125,7 +125,10 @@ defaultUserDict = {
     "IS_AUTO_ASSAULT_STUDENT_HELP":{"d":False},
     "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT":{"d":False},
     "AUTO_ASSAULT_HELP_STUDENT":{"d":""},
-    
+    # 是否Http通知
+    "ENABLE_HTTP_NOTI":{"d":False},
+    "TARGET_HTTP_URL":{"d":""},
+    "TARGET_HTTP_TOKEN":{"d":""},
 }
 
 # 软件的config里的默认值

@@ -1,6 +1,8 @@
 from email.mime.text import MIMEText
 from email.header import Header
 from smtplib import SMTP_SSL
+
+from requests import get as http_get
 from modules.configs.MyConfig import config
 from modules.utils.data_utils import decrypt_data
 
@@ -9,7 +11,7 @@ class Message_Sender:
     """
     消息发送的基类
     """
-    def send(self, message: str):
+    def send(self, message: str, title: str = "BAAH通知"):
         pass
     
 class Email_Sender(Message_Sender):
@@ -59,41 +61,81 @@ class Email_Sender(Message_Sender):
         msg["To"] = self.receiver
         res=smtp.sendmail(self.sender, self.receiver, msg.as_string())
         smtp.quit()
-        return res
+        print(res)
+    
+class Http_Sender(Message_Sender):
+    """
+    Api发送类
+    """
+    def __init__(self, target_url, token, token_pattern="[token]", is_get=True, content_pattern="[content]", title_pattern="[title]") -> None:
+        super().__init__()
+        self.target_url = target_url
+        self.token = token
+        self.token_pattern = token_pattern
+        self.is_get = is_get
+        self.content_pattern = content_pattern
+        self.title_pattern = title_pattern
+    
+    def send(self, message: str, title: str = "BAAH通知") -> str:
+        request_url = self.target_url.replace(self.token_pattern, self.token).replace(self.title_pattern, title).replace(self.content_pattern, message)
+        response = http_get(request_url)
+        if response.status_code == 200:
+            if len(response.json()['data']) != 0:
+                print(response.json()['data'])
 
 class Notificationer:
     """
     通知类，用于发送通知
     """
-    def __init__(self, sender: Message_Sender):
-        self.sender = sender
+    def __init__(self):
+        self.senders = []
+        
+    def add_sender(self, sender: Message_Sender):
+        self.senders.append(sender)
 
-    def send(self, message: str) -> str:
-        return self.sender.send(message)
+    def send(self, message: str, title: str = "BAAH通知") -> str:
+        for sender in self.senders:
+            try:
+                sender.send(message, title)
+            except Exception as e:
+                print("发送失败", e)
+        return "发送结束，共有{}个通知器".format(len(self.senders))
 
 # 实例化放在BAAH的生命周期里，每个配置文件邮箱可以不一样
 def create_notificationer():
     """
     创建一个通知器
     """
-    # 构造通知对象
-    if config.userconfigdict['ADVANCED_EMAIL']:
-        # 如果开启了高级模式，则用户自己定义所有的邮件发送参数
-        email_sender = Email_Sender(
-            config.userconfigdict['MAIL_USER'], 
-            decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
-            config.userconfigdict['SENDER_EMAIL'], 
-            config.userconfigdict['RECEIVER_EMAIL'], 
-            config.userconfigdict['MAIL_HOST'], 
-            1
+    notificationer = Notificationer()
+    # 构造邮件通知对象
+    if config.userconfigdict["ENABLE_MAIL_NOTI"]:
+        if config.userconfigdict['ADVANCED_EMAIL']:
+            # 如果开启了高级模式，则用户自己定义所有的邮件发送参数
+            email_sender = Email_Sender(
+                config.userconfigdict['MAIL_USER'], 
+                decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
+                config.userconfigdict['SENDER_EMAIL'], 
+                config.userconfigdict['RECEIVER_EMAIL'], 
+                config.userconfigdict['MAIL_HOST'], 
+                1
+            )
+        else:
+            email_sender = Email_Sender(
+                config.userconfigdict['MAIL_USER'], 
+                decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
+                config.userconfigdict['MAIL_USER']+"@qq.com", 
+                config.userconfigdict['MAIL_USER']+"@qq.com", 
+                'smtp.qq.com', 
+                1)
+        notificationer.add_sender(email_sender)
+    # 构造第三方api通知对象
+    if config.userconfigdict["ENABLE_HTTP_NOTI"]:
+        http_sender = Http_Sender(
+            config.userconfigdict['TARGET_HTTP_URL'],
+            token=config.userconfigdict['TARGET_HTTP_TOKEN']
         )
-    else:
-        email_sender = Email_Sender(
-            config.userconfigdict['MAIL_USER'], 
-            decrypt_data(config.userconfigdict['MAIL_PASS'], config.softwareconfigdict["ENCRYPT_KEY"]), 
-            config.userconfigdict['MAIL_USER']+"@qq.com", 
-            config.userconfigdict['MAIL_USER']+"@qq.com", 
-            'smtp.qq.com', 
-            1)
-    notificationer = Notificationer(email_sender)
+        notificationer.add_sender(http_sender)
+
+
+
     return notificationer
