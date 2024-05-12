@@ -158,4 +158,6 @@ defaultSessionDict = {
     "BAAH_START_TIME":{"d":""},
     "BEFORE_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
     "AFTER_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
+    "CONTEST_NO_TICKET":{"d":False},
+    "HAS_ENTER_EVENT":{"d":False},
 }

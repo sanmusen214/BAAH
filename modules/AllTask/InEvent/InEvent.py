@@ -209,8 +209,8 @@ class InEvent(Task):
         # 检测并跳过剧情
         if config.userconfigdict["AUTO_EVENT_STORY_PUSH"]:
             EventStory().run()
-        # 推图任务
-        if config.userconfigdict["AUTO_PUSH_EVENT_QUEST"]:
+        # 推图任务，如果已经进入过活动一次了，就不用再推图了
+        if config.userconfigdict["AUTO_PUSH_EVENT_QUEST"] and not config.sessiondict["HAS_ENTER_EVENT"]:
             # 点击Quest标签
             click((965, 98))
             click((965, 98))
@@ -237,4 +237,5 @@ class InEvent(Task):
 
      
     def post_condition(self) -> bool:
+        config.sessiondict["HAS_ENTER_EVENT"] = True
         return self.back_to_home()
