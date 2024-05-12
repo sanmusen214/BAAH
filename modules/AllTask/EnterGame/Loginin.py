@@ -51,8 +51,8 @@ class Loginin(Task):
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
         self.run_until(self.try_jump_useless_pages, 
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
-                      times = 666,
-                      sleeptime = 3)
+                      times = 200,
+                      sleeptime = 4)
 
      
     def post_condition(self) -> bool:

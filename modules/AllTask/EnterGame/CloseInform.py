@@ -7,7 +7,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 
 class CloseInform(Task):
     def __init__(self, name="CloseInform", pre_times = 3, post_times = 3) -> None:
@@ -15,6 +15,8 @@ class CloseInform(Task):
 
      
     def pre_condition(self) -> bool:
+        sleep(1)
+        screenshot()
         if not match(popup_pic(PopupName.POPUP_LOGIN_FORM)):
             return False
         return True
