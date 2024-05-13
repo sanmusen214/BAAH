@@ -114,6 +114,9 @@
     "config_need_assault_helper":"总力战1号队是否选择助战",
     "config_assault_helper_is_support":"总力战助战学生是否是后排角色",
     "config_assault_helper_student":"总力战助战学生",
+    "config_api_noti":"是否启用API通知",
+    "config_api_noti_url":"API通知URL(get请求)",
+    "config_api_noti_token":"API通知Token",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

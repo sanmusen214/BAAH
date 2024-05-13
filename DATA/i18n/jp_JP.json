@@ -114,6 +114,9 @@
     "config_need_assault_helper":"総力戦助戦が必要です",
     "config_assault_helper_is_support":"助戦生徒がサポートされています",
     "config_assault_helper_student":"助戦生徒",
+    "config_api_noti":"API通知",
+    "config_api_noti_url":"API通知URL",
+    "config_api_noti_token":"API通知トークン",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
