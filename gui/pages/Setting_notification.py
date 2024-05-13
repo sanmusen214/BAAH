@@ -45,4 +45,4 @@ def set_notification(config, shared_softwareconfig):
             ui.input(config.get_text("config_api_noti_url")).bind_value(config.userconfigdict, "TARGET_HTTP_URL").style("width: 300px")
             
             # 官网
-            ui.link("PushPlus", "http://www.pushplus.plus/")
+            ui.link("PushPlus", "http://www.pushplus.plus/", new_tab=True)

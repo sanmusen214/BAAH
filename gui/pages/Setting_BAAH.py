@@ -105,9 +105,13 @@ def set_BAAH(config, shared_softwareconfig):
                     "bilibili":"https://space.bilibili.com/7331920"
                 }
         
-        ui.input("Github").bind_value_from(web_url, "github").style('width: 400px')
-        ui.input("Bilibili").bind_value_from(web_url, "bilibili").style('width: 400px')
-        
+        with ui.row():
+            ui.link("Github", web_url["github"], new_tab=True)
+            ui.input("Github").bind_value_from(web_url, "github").style('width: 400px')
+            
+        with ui.row():
+            ui.link("Bilibili", web_url["bilibili"], new_tab=True)
+            ui.input("Bilibili").bind_value_from(web_url, "bilibili").style('width: 400px')
 
         ui.label(config.get_text("BAAH_attention")).style('color: red; font-size: x-large')
         
