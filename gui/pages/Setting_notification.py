@@ -11,7 +11,7 @@ def set_notification(config, shared_softwareconfig):
         with ui.card():
             ui.checkbox(config.get_text("email_notification_desc")).bind_value(config.userconfigdict, 'ENABLE_MAIL_NOTI')
             ui.input(config.get_text("email_account")).bind_value(config.userconfigdict, "MAIL_USER").style("width: 300px")
-            ui.input(config.get_text("email_pwd"), password=True).bind_value(
+            ui.input(config.get_text("email_pwd"), password=True, password_toggle_button=True).bind_value(
                 config.userconfigdict, 
                 "MAIL_PASS", 
                 forward= lambda x: encrypt_data(x, shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"]),
@@ -34,15 +34,26 @@ def set_notification(config, shared_softwareconfig):
         
         with ui.card():
             ui.checkbox(config.get_text("config_api_noti")).bind_value(config.userconfigdict, "ENABLE_HTTP_NOTI")
-            ui.input(config.get_text("config_api_noti_token")).bind_value(config.userconfigdict, "TARGET_HTTP_TOKEN").style("width: 300px")
+            ui.input(config.get_text("config_api_noti_token"),
+                     password=True,
+                     password_toggle_button=True
+                     ).bind_value(config.userconfigdict, "TARGET_HTTP_TOKEN").style("width: 300px")
+                
             # 目标url
+            ui.label("Keywords: [token], [title], [content]")
+            ui.input(config.get_text("config_api_noti_url")).bind_value(config.userconfigdict, "TARGET_HTTP_URL").style("width: 500px")
+            
+            # 提供一些自动填充按钮
             mapdict = {
-                "PushPlus":"http://www.pushplus.plus/send?token=[token]&title=[title]&content=[content]&template=txt"
+                "PushPlus":"http://www.pushplus.plus/send?token=[token]&title=[title]&content=[content]&template=txt",
+                "ServerChan":"https://sctapi.ftqq.com/[token].send?title=[title]&desp=[content]"
             }
-            ui.radio([k for k in mapdict], on_change=lambda x: set_api_noti_type(x.value)).props('inline')
+            with ui.row():
+                for type in mapdict.keys():
+                    ui.button(type, color=None, on_click=lambda type=type: set_api_noti_type(type))
             def set_api_noti_type(type):
                 config.userconfigdict["TARGET_HTTP_URL"] = mapdict.get(type, "")
-            ui.input(config.get_text("config_api_noti_url")).bind_value(config.userconfigdict, "TARGET_HTTP_URL").style("width: 300px")
             
             # 官网
             ui.link("PushPlus", "http://www.pushplus.plus/", new_tab=True)
+            ui.link("ServerChan", "http://sc.ftqq.com/3.version", new_tab=True)

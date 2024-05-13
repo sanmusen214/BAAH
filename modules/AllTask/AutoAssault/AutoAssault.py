@@ -214,11 +214,23 @@ class AutoAssault(Task):
                 times = 2,
                 sleeptime = 1
             )
+            # 清除弹窗
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+            )
             if not canopen_popup:
-                logging.error("尝试打开总力战第{}关时未能匹配到弹窗，总力战任务结束".format(next_ind+1))
+                logging.error("尝试打开总力战第{}关时未能匹配到弹窗，未开放，总力战任务结束".format(next_ind+1))
+                open_date = ocr_area((788, 474), (1173, 522))[0]
+                # 重组数字，去除中文日文什么的
+                open_date = "".join([i for i in open_date if i.isdigit() or i in ["/", ":", " "]])
+                config.sessiondict["INFO_DICT"]["ASSAULT_DATE"] = f"总力战未开放，下次开放时间: {open_date}"
                 return "can_not_open"
             else:
                 logging.info("总力战开放中")
+                end_date = ocr_area((1134, 110), (1253, 136))[0]
+                config.sessiondict["INFO_DICT"]["ASSAULT_DATE"] = f"总力战已开放，结束时间: {end_date}"
+
         else:
             logging.info("总力战第{}关已完成".format(next_ind+1))
             return "success"
