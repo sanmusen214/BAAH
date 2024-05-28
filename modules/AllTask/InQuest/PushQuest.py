@@ -162,6 +162,7 @@ class PushQuest(Task):
                 if not self.is_normal:
                     jsonname = f"H{jsonname}"
                 grider = GridAnalyzer("quest", jsonfilename=jsonname)
+                click(button_pic(ButtonName.BUTTON_TASK_START), sleeptime=2)
                 self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
                     lambda: match(page_pic(PageName.PAGE_GRID_FIGHT))
