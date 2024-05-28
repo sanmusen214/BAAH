@@ -129,6 +129,9 @@ defaultUserDict = {
     "ENABLE_HTTP_NOTI":{"d":False},
     "TARGET_HTTP_URL":{"d":""},
     "TARGET_HTTP_TOKEN":{"d":""},
+    
+    # 是否直接在内存中获取图像数据
+    "USE_MEMORY_IMAGE":{"d":False},
 }
 
 # 软件的config里的默认值
@@ -165,4 +168,6 @@ defaultSessionDict = {
     "HAS_ENTER_EVENT":{"d":False},
     "INFO_DICT":{"d":{}},
     "INFO_LIST":{"d":[]},
+    # 截图文件读取失败的次数
+    "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
 }
