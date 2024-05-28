@@ -330,6 +330,11 @@ class GridQuest(Task):
         logging.info("开始战斗！")
         # 点击任务开始，这边多等一会，有的服战斗开始时会强制转到二队视角
         click(self.BUTTON_TASK_START_POS, sleeptime=4)
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
         self.judge_whether_pre_set()
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
             # 循环每一个回合
