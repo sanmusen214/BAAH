@@ -64,6 +64,7 @@ class Task:
                     raise Exception("任务{}执行后条件不成立或超时，且无法正确返回主页，程序退出".format(self.name))
         else:
             logging.warn("任务{}执行前条件不成立或超时，跳过此任务".format(self.name))
+            config.sessiondict["INFO_DICT"][self.name+"_SKIP"] = f"跳过{self.name}任务"
 
     @staticmethod
     def back_to_home(times = 3) -> bool:

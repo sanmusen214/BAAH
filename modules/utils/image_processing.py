@@ -42,7 +42,15 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
     If the pattern picture is a transparent picture, it will be rotated to match the source picture.
     """
     logging.debug("Matching pattern {} in {}".format(patternpic, sourcepic))
-    screenshot = cv2.imread(sourcepic)
+    try:
+        screenshot = cv2.imread(sourcepic)
+    except:
+        logging.error("无法读取截图文件: {}".format(sourcepic))
+        config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] += 1
+        if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
+            logging.error("读取截图文件失败次数过多，退出程序")
+            raise Exception("由于卡顿或其他原因，截图文件损坏，请尝试清理电脑内存后重启程序")
+        return (False, (0, 0), 0)
     # 检查图片是否存在
     if not exists(sourcepic):
         logging.error("匹配的模板图片 文件不存在: {}".format(sourcepic))

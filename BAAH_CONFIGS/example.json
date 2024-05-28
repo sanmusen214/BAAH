@@ -235,7 +235,7 @@
     "AUTO_ASSAULT": false,
     "AUTO_ASSAULT_LEVEL": 4,
     "RUN_UNTIL_TRY_TIMES": 9,
-    "RUN_UNTIL_WAIT_TIME": 1,
+    "RUN_UNTIL_WAIT_TIME": 0.7,
     "ADB_DIRECT_USE_SERIAL_NUMBER": false,
     "ADB_SEIAL_NUMBER": "emulator-5554",
     "IS_AUTO_ASSAULT_STUDENT_HELP": false,
@@ -243,5 +243,6 @@
     "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT": false,
     "ENABLE_HTTP_NOTI": false,
     "TARGET_HTTP_URL": "",
-    "TARGET_HTTP_TOKEN": ""
+    "TARGET_HTTP_TOKEN": "",
+    "USE_MEMORY_IMAGE": false
 }

@@ -21,6 +21,11 @@ def jump_to_neighbour_page(to_num: int) -> bool:
     
     return True if it is already in the page
     """
+    # 清除弹窗
+    Task.run_until(
+        lambda: click(Page.MAGICPOINT),
+        lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+    )
     ocr_str = ocr_area((122, 179), (165, 211))[0]
     if ocr_str == "":
         return False

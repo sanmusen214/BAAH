@@ -330,6 +330,11 @@ class GridQuest(Task):
         logging.info("开始战斗！")
         # 点击任务开始，这边多等一会，有的服战斗开始时会强制转到二队视角
         click(self.BUTTON_TASK_START_POS, sleeptime=4)
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
         self.judge_whether_pre_set()
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
             # 循环每一个回合
@@ -410,12 +415,17 @@ class GridQuest(Task):
                         logging.error(f"{self.grider.jsonfilename}：队伍交换失败")
                         raise Exception("未识别到交换队伍按钮，这可能是由于你的队伍练度过低；或者攻略配置文件不正确导致的，请反馈给开发者（群里或者issue）")
                 elif action["action"]=="portal":
-                    sleep(2)
+                    # 等待弹窗出来
+                    portal_popup = self.run_until(
+                        lambda: sleep(0.5),
+                        lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                    )
+                    # 传送
                     portal_result = self.run_until(
                         lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
                         lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
                     )
-                    if not portal_result:
+                    if not portal_popup or not portal_result:
                         logging.error("未识别到传送弹窗")
                         raise Exception("未识别到传送弹窗，这可能是由于攻略配置文件不正确导致的，请反馈给开发者")
                 if action_ind==len(actions)-1 and step_ind==self.grider.get_num_of_steps(self.require_type)-1:

@@ -64,7 +64,12 @@ class PushQuest(Task):
                 return
             click(Page.MAGICPOINT, sleeptime=1)
             self.scroll_right_up()
-            sleep(0.5)
+            sleep(3)
+            # 清除弹窗
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+            )
             # 点击第一个关卡
             self.run_until(
                 lambda: click((1118, 240)),
@@ -157,6 +162,7 @@ class PushQuest(Task):
                 if not self.is_normal:
                     jsonname = f"H{jsonname}"
                 grider = GridAnalyzer("quest", jsonfilename=jsonname)
+                click(button_pic(ButtonName.BUTTON_TASK_START), sleeptime=2)
                 self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
                     lambda: match(page_pic(PageName.PAGE_GRID_FIGHT))
