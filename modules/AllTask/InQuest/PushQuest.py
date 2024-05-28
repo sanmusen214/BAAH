@@ -64,7 +64,12 @@ class PushQuest(Task):
                 return
             click(Page.MAGICPOINT, sleeptime=1)
             self.scroll_right_up()
-            sleep(0.5)
+            sleep(3)
+            # 清除弹窗
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+            )
             # 点击第一个关卡
             self.run_until(
                 lambda: click((1118, 240)),
