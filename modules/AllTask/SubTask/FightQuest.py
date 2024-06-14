@@ -196,10 +196,20 @@ class FightQuest(Task):
         # 如果是主线剧情中的战斗，跳过剧情后，直接回到选择章节页面了
         if self.in_main_story_mode:
             logging.info("剧情战斗结束")
+            # 如果有黄按钮（剧情战斗赢了对局会有蓝按钮，失败情况下只有黄按钮），点击黄按钮确认
+            if hasconfirmy:
+                self.run_until(
+                    lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) and click(Page.MAGICPOINT),
+                    lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMY)),
+                    times=7,
+                    sleeptime=1
+                )
             # 尝试回到backtopic
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 self.backtopic,
+                times=15,
+                sleeptime=1.5
             )
             return
         # 奖励界面 中下确认黄色
