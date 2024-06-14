@@ -19,7 +19,9 @@ def set_emulator(config):
         
     
     with ui.row():
-        ui.checkbox(config.get_text("config_kill_port")).bind_value(config.userconfigdict, "KILL_PORT_IF_EXIST")
+        kill_port = ui.checkbox(config.get_text("config_kill_port")).bind_value(config.userconfigdict, "KILL_PORT_IF_EXIST")
+        kill_port.set_value(False)
+        kill_port.set_enabled(False)
     
     with ui.row():    
         ui.input(config.get_text("config_emulator_path"),
