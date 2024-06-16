@@ -49,5 +49,6 @@ def get_school_name_from_pic_numpy(picture_numpy: numpy.ndarray) -> str:
 
 
 def get_school_number(pic_path: str) -> int:
+    """根据map，通过学校名字获得学校的下标"""
     school_name = get_school_name_from_file_path(pic_path)
     return JP_SCHOOL_NUM_DICT[school_name]
