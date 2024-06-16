@@ -3,7 +3,7 @@ import easyocr
 import numpy
 import re
 
-from TimeTableConstant import *
+from .TimeTableConstant import *
 
 
 def cut_pic_school_name(all_pic: numpy.ndarray) -> numpy.ndarray:
