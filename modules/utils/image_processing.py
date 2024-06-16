@@ -320,6 +320,7 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
             nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
             filename = "selected_"+nowstr+".png"
             cv2.imwrite(filename, selected_region)
+            print(f"坐标点为起点[{start_x}, {start_y}] 终点[{end_x}, {end_y}]")
             print(f"选定区域已被保存为/Saved as {filename}")
             
             if quick_return:
