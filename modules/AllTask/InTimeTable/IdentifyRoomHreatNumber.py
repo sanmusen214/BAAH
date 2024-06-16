@@ -7,6 +7,7 @@ from modules.utils import (popup_pic)
 
 
 def split_room_pic(pic_file_path: str) -> list[numpy.ndarray]:
+    """把截图按照房间分成8份，最后一个如果和空的图片匹配剔除"""
     ret_list = []
     num_pic = cv2.imread(pic_file_path)
     ret_list.append(num_pic[203:335, 135:456])
@@ -27,6 +28,7 @@ def split_room_pic(pic_file_path: str) -> list[numpy.ndarray]:
 
 
 def get_heart_num(room_pic: numpy.ndarray, debug=False) -> int:
+    """获得此房间内学生爱心数量"""
     img_gray = cv2.cvtColor(room_pic, cv2.COLOR_BGR2GRAY)
 
     template = cv2.imread(popup_pic(PopupName.POPUP_TIMETABLE_HEART))
