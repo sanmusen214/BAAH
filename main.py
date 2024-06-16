@@ -11,7 +11,7 @@ def print_BAAH_start():
     print("||"+f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ")+"||")
     print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
     print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
-    print("||" + "QQ群聊: 441069156".center(80, " ") + "||")
+    print("||" + "QQ group: 441069156".center(80, " ") + "||")
     print("||"+"".center(80, " ")+"||")
     print("+"+"".center(80, "=")+"+")
 
