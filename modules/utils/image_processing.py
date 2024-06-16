@@ -321,8 +321,9 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
             filename = "selected_"+nowstr+".png"
             cv2.imwrite(filename, selected_region)
             print(f"坐标点为起点[{start_x}, {start_y}] 终点[{end_x}, {end_y}]")
+            print(f"cut code = [{start_y}:{end_y}, {start_x}:{end_x}]")
             print(f"选定区域已被保存为/Saved as {filename}")
-            
+
             if quick_return:
                 quick_return_data = filename
                 cv2.destroyAllWindows()
