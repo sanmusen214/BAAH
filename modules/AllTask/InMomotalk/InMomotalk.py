@@ -126,6 +126,8 @@ class InMomotalk(Task):
             lambda: not match(popup_pic(PopupName.POPUP_MOMOTALK))
         )
         self.back_to_home()
+        # 递归运行
+        InMomotalk().run()
      
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

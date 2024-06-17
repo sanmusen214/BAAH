@@ -1,7 +1,6 @@
 日服
 
 国际服
-BUTTON_CAFE_SET_ROOM.png 暂无：国际服的咖啡厅切换（版本未到）
 
 国服
 BUTTON_CAFE_SET_ROOM.png 暂无：国服的咖啡厅切换（版本未到）
