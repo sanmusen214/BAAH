@@ -36,6 +36,12 @@ class PushQuest(Task):
         self.page_ind = page_ind # 初始聚焦章节下标
         self.level_ind = level_ind # 初始聚焦关卡下标
         self.require_type_ind = 0 # 当前需要完成的任务类型下标
+        self.center_tab_pos_L = (589, 180)
+        self.easy_tab_pos_R = (702, 181)
+        # 集中指挥tab栏未选中时的绿色
+        self.unselect_color_L = ((175, 245, 193), (180, 250, 200))
+        # 简易攻略tab未选中的蓝色
+        self.unselect_color_R = ((241, 221, 166), (246, 226, 171))
 
     
     def pre_condition(self) -> bool:
@@ -76,6 +82,9 @@ class PushQuest(Task):
                 lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
             # 此时应该看到扫荡弹窗
+            # 判断是否有简易攻略tab
+            
+            has_easy_tab = match_pixel(self.center_tab_pos_L, self.unselect_color_L) or match_pixel(self.easy_tab_pos_R, self.unselect_color_R)
             # 向右翻self.level_ind次
             logging.info("尝试翻到关卡 {}".format(self.level_ind + 1))
             for i in range(self.level_ind):
@@ -88,11 +97,12 @@ class PushQuest(Task):
             # 当前关卡就是这次需要推图的关卡
             # 国服弹窗往右偏移了50
             offsetx = 0
-            # 日服弹窗往下偏移了30，由于简易攻略tab
+            # 往下偏移了30，由于简易攻略tab
             offsety = 0
             if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
                 offsetx = 50
-            if config.userconfigdict["SERVER_TYPE"] == "JP":
+            if has_easy_tab:
+                logging.info("存在简易攻略")
                 offsety = 30
             # 识别关卡序号，更新最新的page_ind和level_ind
             left_up = ocr_area((139+offsetx, 197+offsety), (216+offsetx, 232+offsety))
@@ -129,12 +139,18 @@ class PushQuest(Task):
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
             ocr_s = ocr_area((327+offsetx, 257+offsety), (353+offsetx, 288+offsety))
-            # 如果是日服，推图点击简易攻略
-            if config.userconfigdict["SERVER_TYPE"] == "JP":
-                logging.info("日服：使用简易攻略")
-                click((891, 185))
-                click((891, 185))
-                ocr_s = "easy"
+            # 如果有简易攻略
+            if has_easy_tab:
+                if self.is_normal:
+                    logging.info("使用简易攻略")
+                    click(self.easy_tab_pos_R)
+                    click(self.easy_tab_pos_R)
+                    ocr_s = "easy"
+                else:
+                    logging.info("困难图，走格子拿钻石")
+                    click(self.center_tab_pos_L)
+                    click(self.center_tab_pos_L)
+                    
             walk_grid = None
             if ocr_s[0].upper() != "S":
                 logging.info("未识别到S等级，判断为普通战斗")
