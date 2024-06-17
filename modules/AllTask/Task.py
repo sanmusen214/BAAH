@@ -4,7 +4,7 @@ from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, config
+from modules.utils import click, swipe, match, page_pic, match_pixel, button_pic, popup_pic, sleep, screenshot, config
 
 from modules.utils.log_utils import logging
 
@@ -200,3 +200,13 @@ class Task:
             swipe((797, 375), (459, 375), sleeptime=0.2)
         sleep(0.5)
         
+    @staticmethod
+    def clear_popup():
+        """
+        清除弹窗
+        """
+        Task.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+            times=15,
+        )

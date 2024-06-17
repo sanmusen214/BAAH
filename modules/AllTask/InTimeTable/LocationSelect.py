@@ -14,20 +14,25 @@ import numpy as np
 
 class LocationSelect(Task):
     """
-    从课程表页面选择一个地点，然后点若干个里面的教室
+    从课程表页面选择一个地点（可跳过），然后点若干个九宫格里的教室
     
     location: 一个地点
-        0表示从上往下第一个地点
+        0表示从上往下第一个地点。-1表示不选择地点，已经在教室选择页面
     classrooms: 那个地点里要点的教室
         (0,7) 表示第1个和第8个教室都要点
+    backtoLocationPage: boolean
+        是否返回到地点选择页面
     """
-    def __init__(self, location, classrooms, name="LocationSelect") -> None:
+    def __init__(self, location, classrooms, backtoLocationPage = True, name="LocationSelect") -> None:
         super().__init__(name)
         self.location = location
         self.classrooms = classrooms
+        self.backtoLocationPage = backtoLocationPage
 
      
     def pre_condition(self) -> bool:
+        if self.location == -1 and Page.is_page(PageName.PAGE_TIMETABLE_SEL):
+            return True
         if not Page.is_page(PageName.PAGE_TIMETABLE):
             return False
         # 如果没票了也False
@@ -37,11 +42,12 @@ class LocationSelect(Task):
     def on_run(self) -> None:
         
         # 点击地点，直到跳到地区里
-        ScrollSelect(self.location, 130, 236, 669, 1114, lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)).run()
-        if not match(page_pic(PageName.PAGE_TIMETABLE_SEL)):
-            logging.error("无法跳转到第{}地区页面".format(self.location+1))
-            return
-        logging.info("进入到第{}个地区".format(self.location+1))
+        if self.location != -1:
+            ScrollSelect(self.location, 130, 236, 669, 1114, lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)).run()
+            if not match(page_pic(PageName.PAGE_TIMETABLE_SEL)):
+                logging.error("无法跳转到第{}地区页面".format(self.location+1))
+                return
+            logging.info("进入到第{}个地区".format(self.location+1))
         # 来到
         logging.info("尝试到全体课程表弹窗页面")
         self.run_until(
@@ -109,7 +115,6 @@ class LocationSelect(Task):
                     lambda: not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)) and Page.is_page(PageName.PAGE_TIMETABLE_SEL),
                     times=8
                 )
-        logging.info("返回到课程表页面")
         # 清除弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -117,17 +122,21 @@ class LocationSelect(Task):
             times = 15,
             sleeptime=2
         )
-        # 返回到课程表页面
-        self.run_until(
-            lambda: click(Page.TOPLEFTBACK),
-            lambda: Page.is_page(PageName.PAGE_TIMETABLE),
-            times=2,
-            sleeptime=2
-        )
+        if self.backtoLocationPage:
+            logging.info("返回到课程表页面")
+            # 返回到课程表页面
+            self.run_until(
+                lambda: click(Page.TOPLEFTBACK),
+                lambda: Page.is_page(PageName.PAGE_TIMETABLE),
+                times=2,
+                sleeptime=2
+            )
         
                     
         
 
      
     def post_condition(self) -> bool:
+        if self.location == -1:
+            return Page.is_page(PageName.PAGE_TIMETABLE_SEL)
         return Page.is_page(PageName.PAGE_TIMETABLE)

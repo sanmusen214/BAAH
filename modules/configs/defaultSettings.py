@@ -132,6 +132,9 @@ defaultUserDict = {
     
     # 是否直接在内存中获取图像数据
     "USE_MEMORY_IMAGE":{"d":False},
+    
+    # 时间表是否自动选择
+    "SMART_TIMETABLE":{"d":False},
 }
 
 # 软件的config里的默认值

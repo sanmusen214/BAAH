@@ -1,58 +1,62 @@
-import cv2
-import numpy
-import os
+import numpy as np
 
-from DATA.assets.PopupName import PopupName
-from modules.utils import (popup_pic)
+from modules.utils import (screenshot, match_pixel)
 
 
-def split_room_pic(pic_file_path: str) -> list[numpy.ndarray]:
-    """把截图按照房间分成8份，最后一个如果和空的图片匹配剔除"""
-    ret_list = []
-    num_pic = cv2.imread(pic_file_path)
-    ret_list.append(num_pic[203:335, 135:456])
-    ret_list.append(num_pic[204:335, 485:800])
-    ret_list.append(num_pic[202:336, 831:1144])
-    ret_list.append(num_pic[353:487, 139:458])
-    ret_list.append(num_pic[356:487, 484:802])
-    ret_list.append(num_pic[355:488, 828:1146])
-    ret_list.append(num_pic[507:621, 138:459])
-    ret_list.append(num_pic[507:622, 480:807])
-    tmp_room = ret_list[-1]
-    template = cv2.imread(popup_pic(PopupName.POPUP_NONE_ROOM))
-    err = numpy.sum((tmp_room.astype("float") - template.astype("int")) ** 2)
-    err /= float(tmp_room.shape[0] * tmp_room.shape[1])
-    if err < 0.1:
-        ret_list.pop()
-    return ret_list
+def get_hearts_of_rooms() -> dict:
+    """
+    截图并返回所有房间的爱心数，返回一个键值对，{房间的序号:爱心数}
+    """
+    # 每个房间最右侧学生大头的爱心位置， x：[445, 788, 1133], y: [290, 442, 594]
+    baseX = np.linspace(445, 1133, 3, dtype=int)
+    baseY = np.linspace(290, 594, 3, dtype=int)
+    # 单个房间内爱心x坐标挨个的偏移量 50
+    OFFSET_X = -50
+    # 爱心的BGR值 [144 118 255]
+    COLOR_HEART = [[140, 115, 253], [145, 120, 255]]
+    
+    total_counts = dict()
+    
+    for (j, y) in enumerate(baseY):
+        for (i, x) in enumerate(baseX):
+            # 一个房间最多三个爱心，向左最多偏移次数3次
+            heart_count = 0
+            for t in range(3):
+                if match_pixel((x + t * OFFSET_X, y), COLOR_HEART):
+                    heart_count += 1
+            # 序号从1开始
+            total_counts[j * 3 + i + 1] = heart_count
+    print("爱心数量", total_counts)
+    
+    return total_counts
 
-
-def get_heart_num(room_pic: numpy.ndarray, debug=False) -> int:
-    """获得此房间内学生爱心数量"""
-    img_gray = cv2.cvtColor(room_pic, cv2.COLOR_BGR2GRAY)
-
-    template = cv2.imread(popup_pic(PopupName.POPUP_TIMETABLE_HEART))
-    template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
-
-    res = cv2.matchTemplate(img_gray, template_gray, cv2.TM_CCOEFF_NORMED)
-    locations = numpy.where(res >= 0.9)
-    count = 0
-    h, w = template.shape[0:2]
-    close_list = []
-    for x1, y1 in zip(*locations[::-1]):
-        close_num = [abs(x1 - i) for i in close_list]
-        if any(_ < 10 for _ in close_num):
-            continue
-        x2 = x1 + w
-        y2 = y1 + h
-        cv2.rectangle(room_pic, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        close_list.append(x1)
-        count += 1
-    if debug:
-        file_num = 0
-        time_name = f'heartNum_debug_{file_num}.png'
-        while os.path.exists(time_name):
-            file_num += 1
-            time_name = f'heartNum_debug_{file_num}.png'
-        cv2.imwrite(time_name, room_pic)
-    return count
+def get_open_status_of_rooms() -> dict:
+    """
+    得到所有房间的开放状态，返回一个键值对，{房间的序号:是否开放}
+    
+    1表示未解锁，0表示解锁
+    """
+    # 每个房间右上部分空白处， x：[445, 788, 1133], y: [270, 422, 574]
+    baseX = np.linspace(445, 1133, 3, dtype=int)
+    baseY = np.linspace(270, 574, 3, dtype=int)
+    # 白色部分的BGR值 [255 255 255]
+    COLOR_OPEN = [[254, 254, 254], [255, 255, 255]]
+    # 未解锁部分的BGR值  [41 42 42]
+    COLOR_LOCK = [[40, 40, 40], [43, 43, 43]]
+    # 不存在教室的BGR值 [205 207 207]
+    COLOR_NOROOM = [[204, 205, 205], [206, 209, 209]]
+    
+    total_counts = dict()
+    
+    for (j, y) in enumerate(baseY):
+        for (i, x) in enumerate(baseX):
+            if match_pixel((x, y), COLOR_NOROOM):
+                print(f"房间开启状态：{total_counts}")
+                return total_counts
+            # 1表示未解锁，0表示解锁
+            total_counts[j * 3 + i + 1] = 1
+            if match_pixel((x, y), COLOR_OPEN):
+                total_counts[j * 3 + i + 1] = 0
+    print(f"房间开启状态：{total_counts}")
+    return total_counts
+    

@@ -85,7 +85,7 @@ if __name__=="__main__":
     
     connect_to_device()
     screenshot()
-    
+    InTimeTable().run()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
@@ -95,7 +95,7 @@ if __name__=="__main__":
     # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL),  show_result=True, auto_rotate_if_trans=False)
 
     # 比划点
-    screencut_tool()
+    # screencut_tool()
     # offset = 40
     
     
