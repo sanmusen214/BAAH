@@ -35,6 +35,39 @@ def rotate_image_with_transparency(image_mat, angle):
     return rotated_image[y_offset:y_offset+image_mat.shape[0], x_offset:x_offset+image_mat.shape[1]]
 
 
+def check_the_pic_validity(_img, _templ):
+    """
+    检查图片和模板的维度色深是否一致，返回是否有效
+    
+    (depth == CV_8U || depth == CV_32F) && type == _templ.type() && _img.dims() <= 2
+    """
+    # int type = _img.type(), depth = CV_MAT_DEPTH(type), cn = CV_MAT_CN(type);
+    valid = True
+    if _img is None or _templ is None:
+        valid = False
+    else:
+        if isinstance(_img, np.ndarray):
+            # numpy ndarray类型
+            depth = _img.dtype
+        else:
+            # cv2 MatLike类型
+            depth = _img.type().depth()
+        if (depth == cv2.CV_8U or depth == cv2.CV_32F) and _img.type() == _templ.type() and _img.dims() <= 2:
+            valid = False
+    if not valid:
+        logging.warn("图像匹配出错：")
+        if _img is None or _templ is None:
+            logging.warn("图片为空") if _img is None else logging.warn("模板为空")
+        else:
+            logging.warn(f"图片类型: {_img.type()}, 模板类型: {_templ.type()}")
+            logging.warn(f"图片维度: {_img.dims()} <=2 : {_img.dims()<2}")
+        config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] += 1
+        if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
+            logging.error("读取截图文件失败次数过多，退出程序")
+            raise Exception("由于卡顿或其他原因，截图文件损坏过多次，请尝试清理电脑内存后重启程序")
+        return False
+    return True
+
 def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_result:bool = False, auto_rotate_if_trans = False) -> Tuple[bool, Tuple[float, float], float]:
     """
     Match the pattern picture in the source picture.
@@ -42,6 +75,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
     If the pattern picture is a transparent picture, it will be rotated to match the source picture.
     """
     logging.debug("Matching pattern {} in {}".format(patternpic, sourcepic))
+    default_response = (False, (0, 0), 0)
     try:
         screenshot = cv2.imread(sourcepic)
     except:
@@ -50,11 +84,11 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
             logging.error("读取截图文件失败次数过多，退出程序")
             raise Exception("由于卡顿或其他原因，截图文件损坏，请尝试清理电脑内存后重启程序")
-        return (False, (0, 0), 0)
+        return default_response
     # 检查图片是否存在
     if not exists(sourcepic):
         logging.error("匹配的模板图片 文件不存在: {}".format(sourcepic))
-        return (False, (0, 0), 0)
+        return default_response
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
     have_alpha=False
     if(pattern.shape[2] == 4 and auto_rotate_if_trans):
@@ -71,6 +105,8 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             rotate_mask[rotate_mask>0] = 255
             rotate_pattern = rotate_pattern[:, :, :3] # 去除透明通道
             # https://www.cnblogs.com/FHC1994/p/9123393.html
+            if not check_the_pic_validity(screenshot, rotate_pattern):
+                return default_response
             result = cv2.matchTemplate(screenshot, rotate_pattern, cv2.TM_CCORR_NORMED, mask=rotate_mask)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
             # print("角度为{}时，最大匹配值为{}".format(degree, max_val))
@@ -87,9 +123,13 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             pattern_mask = pattern[:, :, 3]  # 透明通道
             pattern_mask[pattern_mask>0] = 255
             pattern = pattern[:, :, :3] # 去除透明通道
+            if not check_the_pic_validity(screenshot, pattern):
+                return default_response
             result = cv2.matchTemplate(screenshot, pattern, cv2.TM_CCOEFF_NORMED, mask=pattern_mask)
         else:
             # 无透明度通道
+            if not check_the_pic_validity(screenshot, pattern):
+                return default_response
             result = cv2.matchTemplate(screenshot, pattern[:,:,:3], cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
     

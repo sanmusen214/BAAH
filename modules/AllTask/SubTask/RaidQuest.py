@@ -93,6 +93,9 @@ class RaidQuest(Task):
                 # increase times
                 click(self.add_pos)
         # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示，还有个是购买困难扫荡券的提示
+        screenshot()
+        if not match(button_pic(ButtonName.BUTTON_CFIGHT_START)):
+            logging.warn("扫荡（快速战斗）按钮匹配失败，请检查配置文件中的服务器语言，以及是否有反和谐")
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),
             lambda: match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9) or match(popup_pic(PopupName.POPUP_USE_DIAMOND))

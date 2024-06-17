@@ -102,6 +102,8 @@ class MyConfigger:
                 # os.makedirs(path, exist_ok=True)
                 # with open(file_path, 'w', encoding="utf8") as f:
                 #     json.dump({}, f, indent=4, ensure_ascii=False)
+                print(f'试图读取的配置文件不存在，这里使用预设的默认值代替')
+                print(f'请传入正确的配置文件名')
                 return {}
             else:
                 raise Exception(f'文件不存在： {file_path}')
