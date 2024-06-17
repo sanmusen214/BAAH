@@ -137,6 +137,6 @@ class LocationSelect(Task):
 
      
     def post_condition(self) -> bool:
-        if self.location == -1:
+        if not self.backtoLocationPage:
             return Page.is_page(PageName.PAGE_TIMETABLE_SEL)
         return Page.is_page(PageName.PAGE_TIMETABLE)

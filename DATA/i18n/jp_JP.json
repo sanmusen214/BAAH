@@ -117,6 +117,11 @@
     "config_api_noti":"API通知",
     "config_api_noti_url":"API通知URL",
     "config_api_noti_token":"API通知トークン",
+    "config_smart_timetable_desc":"スマートタイムテーブルは、タイムテーブルの部屋を自動的に検出します。部屋が変更された場合、自動的に部屋を変更します",
+    "config_weight_of_rewards":"報酬の重み（偏向報酬を取得する）",
+    "config_weight_of_hearts":"ハートの重み（偏向ハートを取得する）",
+    "config_weight_of_lock":"ロックの重み（偏向ロックを取得する）",
+
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

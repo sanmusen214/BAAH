@@ -135,6 +135,11 @@ defaultUserDict = {
     
     # 时间表是否自动选择
     "SMART_TIMETABLE":{"d":False},
+    # 时间表各项权重
+    "TIMETABLE_WEIGHT_OF_REWARD":{"d":10},
+    "TIMETABLE_WEIGHT_OF_HEART":{"d":20},
+    "TIMETABLE_WEIGHT_OF_LOCK":{"d":10},
+    
 }
 
 # 软件的config里的默认值

@@ -117,6 +117,10 @@
     "config_api_noti":"是否启用API通知。自定义需注意关键字段格式",
     "config_api_noti_url":"API通知URL(get请求)",
     "config_api_noti_token":"API通知Token",
+    "config_smart_timetable_desc":"是否开启智能识别课程表/日程，开启后会自动识别当前课程表/日程的房间权重",
+    "config_weight_of_rewards":"奖励权重（偏向拿取更高质量的光盘奖励）",
+    "config_weight_of_hearts":"爱心权重（偏向获取更多学生的好感度）",
+    "config_weight_of_lock":"未解锁房间权重（偏向解锁更多房间）",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

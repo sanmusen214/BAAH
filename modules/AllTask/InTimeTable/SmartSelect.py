@@ -45,11 +45,26 @@ class SmartSelect(Task):
         self.clear_popup()
         return ticket_num
     
+    def evaluate_score(self, seq_this_room:int, heart_of_this_room:int, lock_num_of_this_area:int) -> int:
+        """给格子打分, seq_this_room房子序号从1开始"""
+        # 奖励
+        weight_of_reward = config.userconfigdict["TIMETABLE_WEIGHT_OF_REWARD"]
+        # 爱心
+        weight_of_heart = config.userconfigdict["TIMETABLE_WEIGHT_OF_HEART"]
+        # 未解锁房间
+        weight_of_lock = config.userconfigdict["TIMETABLE_WEIGHT_OF_LOCK"]
+        row_ind = (seq_this_room-1)//3
+        score = weight_of_reward * row_ind + weight_of_heart * heart_of_this_room + weight_of_lock * lock_num_of_this_area
+        return score
+        
      
     def on_run(self) -> None:
         # 获取现在票数
         tickets = self.get_tickets_number()
         logging.info(f"当前票卷数量：{tickets}")
+        if tickets == 0:
+            logging.warn("卷票数量为0，无法选择教室")
+            return
         # 存储各个下标教室对应的教室的分数，[地区下标，教室序号，分数]
         rooms_scores = []
         # 第一个地区
@@ -88,7 +103,7 @@ class SmartSelect(Task):
                     break
                 else:
                     lockednum = sum(opendict.values())
-                    rooms_scores.append([i, room_num, heartdict.get(room_num, 0) * 10 + lockednum * 10])
+                    rooms_scores.append([i, room_num, self.evaluate_score(room_num, heartdict[room_num], lockednum)])
             # 清除弹窗
             self.clear_popup()
             # 往后翻页
@@ -98,6 +113,7 @@ class SmartSelect(Task):
         # 大到小排序, 取前tickets个
         rooms_scores.sort(key=lambda x: x[2], reverse=True)
         rooms_scores = rooms_scores[:tickets]
+        logging.info(f"最终选择的教室：{rooms_scores}")
         max_location_ind = max(rooms_scores, key=lambda x: x[0])[0]
         # 整合成字典 {地区下标: [教室序号, ...]}
         timetable_dict = {}

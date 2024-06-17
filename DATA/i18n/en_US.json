@@ -117,6 +117,10 @@
     "config_api_noti":"API Notification",
     "config_api_noti_url":"API Notification URL",
     "config_api_noti_token":"API Notification Token",
+    "config_smart_timetable_desc":"Whether recognize which room to click in the timetable",
+    "config_weight_of_rewards":"Weight of rewards, try to get better rewards",
+    "config_weight_of_hearts":"Weight of heart, try to increase more relationship with students",
+    "config_weight_of_lock":"Weight of lock rooms, try to unlock more rooms",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
