@@ -28,11 +28,11 @@ if __name__ in ["__main__", "__mp_main__"]:
         from modules.configs.MyConfig import config
         if len(sys.argv) > 1:
             configname = sys.argv[1]
-            logging.info("读取指定的config文件: "+configname)
+            logging.info("读取指定的配置文件: "+configname)
             config.parse_user_config(configname)
         else:
-            configname = "config.json"
-            logging.info("读取默认config文件: "+configname)
+            configname = input("启动程序时没有指定配置文件, 请手动输入要运行的配置文件名(包含.json后缀): ")
+            logging.info("读取指定的配置文件: "+configname)
             config.parse_user_config(configname)
 
         from BAAH import BAAH_main, my_AllTask, create_notificationer
@@ -41,7 +41,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         print_BAAH_start()
         
         # 打印config信息
-        logging.info(f"读取的config文件: {configname}")
+        logging.info(f"读取的配置文件: {configname}")
         logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
         logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
         logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
@@ -50,7 +50,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         # config历史列表
         config_history = [configname]
         while True:
-            logging.debug("config历史列表: "+ ",".join(config_history))
+            logging.debug("配置文件历史列表: "+ ",".join(config_history))
             BAAH_main()
             # 判断config里是否有next_config文件
             if config.userconfigdict['NEXT_CONFIG'] and len(config.userconfigdict['NEXT_CONFIG']) > 0:
