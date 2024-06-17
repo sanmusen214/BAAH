@@ -35,11 +35,13 @@ class SmartSelect(Task):
         )
         # 识别
         if ocr_area_0((580, 333), (628, 368)):
+            self.clear_popup()
             return 0
         ticket_num = ocr_area((580, 333), (628, 368))[0]
         try:
             ticket_num = int(ticket_num)
         except:
+            logging.error(f"识别票卷数量失败，识别结果：{ticket_num}, 请反馈")
             ticket_num = 8
         # 关闭弹窗
         self.clear_popup()
