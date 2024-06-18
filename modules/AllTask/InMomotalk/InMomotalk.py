@@ -110,7 +110,15 @@ class InMomotalk(Task):
         click((450, 421)) # 日
         # 尝试切换排序，多次后还没检测到红标记就放弃
         self.scroll_left_up()
-        while(self.whether_has_red_icon()):
+        # 检测是否有红点，没有就退出
+        has_red_icon_initial = self.whether_has_red_icon()
+        if not has_red_icon_initial:
+            logging.info("未检测到红点标记，跳过此任务")
+            self.back_to_home()
+            return
+        # has_red_icon_initial 只有第一次循环开头被使用于判断
+        while(has_red_icon_initial or self.whether_has_red_icon()):
+            has_red_icon_initial = False
             # 处理第一个momotalk
             logging.info("处理第一条momotalk")
             # 按回复框或羁绊框并跳过剧情
@@ -126,6 +134,8 @@ class InMomotalk(Task):
             lambda: not match(popup_pic(PopupName.POPUP_MOMOTALK))
         )
         self.back_to_home()
+        # 递归
+        InMomotalk().run()
      
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
