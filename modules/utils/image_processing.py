@@ -271,8 +271,8 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
         是否开启左键点击事件
     right_click : bool
         是否开启右键点击事件
-    img_data : np.ndarray
-        图片数据
+    img_path : string
+        要截取的图片路径
     quick_return : bool
         是否开启快速返回, 如果开启，点击右键后会返回坐标
     """

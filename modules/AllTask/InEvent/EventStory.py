@@ -28,6 +28,23 @@ class EventStory(Task):
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_EVENT)
     
+    
+    def do_view(self):
+        """弹窗已经打开，观看当前页面的剧情，可能要打架"""
+        self.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_TASK_START)) or click((633, 496)),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE)),
+            times = 3, 
+            sleeptime=2
+        )
+        # 如果体力不够
+        screenshot()
+        if match(popup_pic(PopupName.POPUP_TOTAL_PRICE)):
+            logging.warn("体力不够，结束")
+            return "noap"
+        # 剧情这边应该只会有单次战斗
+        FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()
+    
     def judge_whether_and_do_view(self, this_level_ind):
         """
         判断并执行观看Story，可能要打架
@@ -51,19 +68,7 @@ class EventStory(Task):
             for i in range(this_level_ind-1):
                 # 点右边的箭头
                 click((1171, 359), sleeptime=1)
-            self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_TASK_START)) or click((633, 496)),
-                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE)),
-                times = 3, 
-                sleeptime=2
-            )
-            # 如果体力不够
-            screenshot()
-            if match(popup_pic(PopupName.POPUP_TOTAL_PRICE)):
-                logging.warn("体力不够，结束")
-                return "noap"
-            # 剧情这边应该只会有单次战斗
-            FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()
+            self.do_view()
             # 更新上次自动推剧情的关卡下标
             self.last_fight_level_ind = this_level_ind
             return "yes"
@@ -98,7 +103,7 @@ class EventStory(Task):
         if max_level == -1:
             logging.warn("无法获取最大关卡数，结束")
             return
-        logging.info("检查活动剧情是否推完,最大关卡数为"+str(max_level)+", 最后一关请手动推")
+        logging.info("检查活动剧情是否推完,最大关卡数为"+str(max_level))
         while 1:
             sleep(3)
             # 视角会自动滚动到顶部，等3秒
@@ -133,7 +138,14 @@ class EventStory(Task):
             # 观看了剧情，那么再尝试继续看后面的关卡剧情
             if has_do_view:
                 continue
+            # 运行到这，意味着没有通过蒙版检测出有剧情没打。此时处于最后一个剧情的弹窗界面
+            # 不过最后一个剧情无法通过弹窗的方式检测，最后一个剧情用奖励文字检测有没有打过
+            screenshot()
+            if match(button_pic(ButtonName.BUTTON_EVENT_FIRST)):
+                logging.info("需要推最后一关剧情")
+                self.do_view()
             # 如果没有需要看的剧情了，那么就结束
+            click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             break
      
