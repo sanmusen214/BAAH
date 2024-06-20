@@ -19,8 +19,8 @@ def getNewestSeialNumber(use_config=None):
         # 从配置文件里得到模拟器IP和端口
         return "{}:{}".format(target_config.userconfigdict["TARGET_IP_PATH"],target_config.userconfigdict["TARGET_PORT"])
     else:
-        logging.error("TARGET_IP_PATH或TARGET_PORT未设置")
-        logging.warn("使用默认值：127.0.0.1:5555")
+        logging.error({"zh_CN": "TARGET_IP_PATH或TARGET_PORT未设置", "en_US":"TARGET_IP_PATH or TARGET_PORT not set"})
+        logging.warn({"zh_CN": "使用默认值：127.0.0.1:5555", "en_US":"127.0.0.1:5555 is used as default value"})
         return "127.0.0.1:5555"
     
 def get_config_adb_path(use_config=None):
@@ -99,13 +99,13 @@ def get_now_running_app(use_config=None):
             # 找到当前运行的app那行
             output = sentence
             if "null" in output:
-                logging.warn("MUMU模拟器需要设置里关闭保活！")
+                logging.warn({"zh_CN": "MUMU模拟器需要设置里关闭保活！", "en_US":"If you are using MUMU emulator, please turn off the keep alive in the settings!"})
             break
     # 截取app activity
     try:
         app_activity = output.split(" ")[-1].split("}")[0]
     except Exception as e:
-        logging.warn("截取当前运行的app名失败：{}".format(output))
+        logging.warn({"zh_CN": "截取当前运行的app名失败：{}".format(output), "en_US":"Failed to get the current running app name:{}".format(output)})
         return output
     return app_activity
 
@@ -128,7 +128,7 @@ def get_now_running_app_entrance_activity(use_config=None):
     strlist = output.split()
     entrance_activity = strlist[-1]
     if "/" not in entrance_activity:
-        logging.error(f"获取入口activity失败：{output}")
+        logging.error({"zh_CN": f"获取入口activity失败：{output}", "en_US":f"Failing to get entrance activity: {output}"})
         return entrance_activity
     return entrance_activity
 
@@ -139,7 +139,7 @@ def check_app_running(activity_path:str) -> bool:
     try:
         app_name = activity_path.split("/")[0]
     except Exception as e:
-        logging.error("activity_path格式错误")
+        logging.error({"zh_CN": "activity_path格式错误", "en_US":"The format of activity_path is wrong"})
         return False
     # 获取当前运行的app
     output = get_now_running_app()

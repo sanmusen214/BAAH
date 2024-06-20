@@ -66,7 +66,7 @@ class PushQuest(Task):
             logging.info("尝试跳转至页面 {}".format(self.page_ind + 1))
             jumpres = jump_to_page(self.page_ind + 1) # 下标加1为实际页号数字
             if not jumpres:
-                logging.error("跳转至页面 {} 失败，结束此任务".format(self.page_ind + 1))
+                logging.error({"zh_CN": "跳转至页面 {} 失败，结束此任务".format(self.page_ind + 1), "en_US":"Cannot jump to page {}, end this task".format(self.page_ind + 1)})
                 return
             click(Page.MAGICPOINT, sleeptime=1)
             self.scroll_right_up()
@@ -123,7 +123,7 @@ class PushQuest(Task):
                     self.level_ind = level_num - 1
                     logging.info("格子关卡：{}-{}，开始推图".format(page_num, level_num))
             except:
-                logging.warn(f"OCR关卡序号识别失败({left_up[0]})")
+                logging.warn({"zh_CN": f"OCR关卡序号识别失败({left_up[0]})", "en_US":f"Failing to recognize the level number({left_up[0]})"})
                 if not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
                     if "A" in left_up[0] or "B" in left_up[0] or "C" in left_up[0]:
                         # 如果匹配到数字A,B,C，说明是章节末尾关卡，打完后不会消失
@@ -134,7 +134,7 @@ class PushQuest(Task):
                         # 这里将level_ind-1，因为支线关卡打完后会消失，后面的关相当于自动往前进一格，让后面打完后的level_ind+1刚好抵消
                         self.level_ind -= 1
                 else:
-                    logging.error(f"OCR关卡序号识别失败({left_up[0]}), 且未匹配到开始任务弹窗，结束此任务")
+                    logging.error({"zh_CN": f"OCR关卡序号识别失败({left_up[0]}), 且未匹配到开始任务弹窗，结束此任务", "en_US":f"Cannnot recognize the level number({left_up[0]}), and not match the start task popup, end this task"})
                     return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S

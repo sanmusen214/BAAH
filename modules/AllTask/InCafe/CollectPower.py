@@ -53,7 +53,7 @@ class CollectPower(Task):
         if collect_res:
             logging.info("成功点击领取")
         else:
-            logging.warn("领取失败")
+            logging.warn({"zh_CN": "领取失败", "en_US":"Failed to collect"})
         # 不管成功失败，点击魔法点来关闭一次弹窗，让收益情况弹窗出现
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)

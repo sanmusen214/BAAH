@@ -51,7 +51,7 @@ class AutoStory(Task):
             elif not new_bool and initial_enter:
                 # 如果第一次进入循环但是没有匹配上New标识，那么可能已经推到了最后一节，但是New无法识别出来
                 # 手动点顶部的那一节
-                logging.warn("暂未能匹配到New标识符，尝试进入最顶部小节")
+                logging.warn({"zh_CN": "暂未能匹配到New标识符，尝试进入最顶部小节", "en_US":"Cannot match New button, try to enter the top section manually"})
                 # 点击入场
                 enter_popup = self.run_until(
                     lambda: click((1170, 254)),
@@ -188,7 +188,7 @@ class AutoStory(Task):
         
         # 处理最终篇
         logging.info(f"处理最终篇")
-        logging.warn("最终篇涉及到走格子以及攻略战，暂不支持以上部分")
+        logging.warn({"zh_CN": "最终篇涉及到走格子以及攻略战，暂不支持以上部分", "en_US":"The final chapter involves grid walking and strategy battles, which are not currently supported"})
         # 点击底部最终篇蓝色按钮
         click((846, 634))
         click((846, 634))

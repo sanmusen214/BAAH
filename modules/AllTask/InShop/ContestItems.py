@@ -32,7 +32,7 @@ class ContestItems(Task):
                 times=3
             )
             if not showconfirm:
-                logging.error("刷新按钮无反应，可能刷新次数用光了")
+                logging.error({"zh_CN": "刷新按钮无反应，可能刷新次数用光了", "en_US":"Refresh button no response, maybe refresh times used up"})
                 click(Page.MAGICPOINT)
                 return
             else:
@@ -46,7 +46,7 @@ class ContestItems(Task):
                     logging.info("刷新成功")
                     BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
                 else:
-                    logging.error("刷新失败")
+                    logging.error({"zh_CN": "刷新失败", "en_US":"Refresh failed"})
                     click(Page.MAGICPOINT)
                     return
 

@@ -51,19 +51,19 @@ class Task:
         （不要重写）
         运行一个任务
         """
-        logging.info("判断任务{}是否可以执行".format(self.name))
+        logging.info({"zh_CN": "判断任务{}是否可以执行".format(self.name), "en_US":"Judge whether the task {} can be executed".format(self.name)})
         if(Task.run_until(self.click_magic_sleep,self.pre_condition, self.pre_times)):
-            logging.info("执行任务{}".format(self.name))
+            logging.info({"zh_CN": "执行任务{}".format(self.name), "en_US":"Run task {}".format(self.name)})
             self.on_run()
-            logging.info("判断任务{}执行结果是否可控".format(self.name))
+            logging.info({"zh_CN": "判断任务{}执行结果是否可控".format(self.name), "en_US":"Judge whether the task {} execution result is controllable".format(self.name)})
             if(Task.run_until(self.click_magic_sleep,self.post_condition, self.post_times)):
-                logging.info("任务{}执行结束".format(self.name))
+                logging.info({"zh_CN": "任务{}执行结束".format(self.name), "en_US":"Task {} execution completed".format(self.name)})
             else:
-                logging.warn("任务{}执行后条件不成立或超时".format(self.name))
+                logging.warn({"zh_CN": "任务{}执行后条件不成立或超时".format(self.name), "en_US":"The condition after the task {} is not met or timed out".format(self.name)})
                 if not self.back_to_home():
                     raise Exception("任务{}执行后条件不成立或超时，且无法正确返回主页，程序退出".format(self.name))
         else:
-            logging.warn("任务{}执行前条件不成立或超时，跳过此任务".format(self.name))
+            logging.warn({"zh_CN": "任务{}执行前条件不成立或超时，跳过此任务".format(self.name), "en_US":"The condition before the task {} is not met or timed out, skip this task".format(self.name)})
             config.sessiondict["INFO_DICT"][self.name+"_SKIP"] = f"跳过{self.name}任务"
 
     @staticmethod
@@ -93,7 +93,7 @@ class Task:
                 click((menuxy[0], menuxy[1] + 80), sleeptime=1)
                 screenshot()
                 click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=2)
-        logging.error("返回主页失败")
+        logging.error({"zh_CN": "返回主页失败", "en_US":"Failed to return to home page"})
         return False
         
     

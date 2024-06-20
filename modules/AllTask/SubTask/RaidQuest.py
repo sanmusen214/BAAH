@@ -95,17 +95,17 @@ class RaidQuest(Task):
         # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示，还有个是购买困难扫荡券的提示
         screenshot()
         if not match(button_pic(ButtonName.BUTTON_CFIGHT_START)):
-            logging.warn("扫荡（快速战斗）按钮匹配失败，请检查配置文件中的服务器语言，以及是否有反和谐")
+            logging.warn({"zh_CN": "扫荡（快速战斗）按钮匹配失败，请检查配置文件中的服务器语言，以及是否有反和谐", "en_US":"Failed to match raid button, please check the server language in config file"})
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),
             lambda: match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9) or match(popup_pic(PopupName.POPUP_USE_DIAMOND))
         )
         # 如果弹出购买体力/票卷的弹窗，取消任务
         if match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
-            logging.warn("检测到购买体力/卷票弹窗，取消此次扫荡任务")
+            logging.warn({"zh_CN": "检测到购买体力/卷票弹窗，取消此次扫荡任务", "en_US":"Detected purchase AP/ticket popup, cancel this raid task"})
         elif match(popup_pic(PopupName.POPUP_USE_DIAMOND)):
             # 困难关卡恢复挑战次数
-            logging.warn("检测到需要消耗钻石，跳过关卡扫荡")
+            logging.warn({"zh_CN": "检测到需要消耗钻石，跳过关卡扫荡", "en_US":"Detected need to consume diamond, skip raiding"})
         else:
             # 弹出确认框，点击确认
             logging.info("点击弹窗内的确认")

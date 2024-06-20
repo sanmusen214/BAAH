@@ -54,7 +54,7 @@ class InCafe(Task):
                 if config.sessiondict["CAFE_HAD_INVITED"]:
                     TouchHead(try_touch_epoch=1).run()
                 else:
-                    logging.warn("邀请学生失败，跳过第二次摸头")
+                    logging.warn({"zh_CN": "邀请学生失败，跳过第二次摸头", "en_US":"Failed to invite student, skip the second touch head"})
             else:
                 logging.info("设置的咖啡馆不邀请学生，跳过第二次摸头")
         else:
@@ -79,7 +79,7 @@ class InCafe(Task):
                     if config.sessiondict["CAFE_HAD_INVITED"]:
                         TouchHead(try_touch_epoch=1).run()
                     else:
-                        logging.warn("邀请学生失败，跳过第二次摸头")
+                        logging.warn({"zh_CN": "邀请学生失败，跳过第二次摸头", "en_US":"The invitation failed and the second touch head was skipped"})
                 else:
                     logging.info("设置的咖啡馆不邀请学生，跳过第二次摸头")
             else:

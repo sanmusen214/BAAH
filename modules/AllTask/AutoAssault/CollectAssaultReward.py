@@ -36,7 +36,7 @@ class CollectAssaultReward(Task):
             lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         if not open_collect_popup:
-            logging.warn("总力战无领取页面")
+            logging.warn({"zh_CN": "总力战无领取页面", "en_US":"There is no collect page in Assault"})
             return
         logging.info("领取总力战奖励")
         # 切到奖励

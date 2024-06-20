@@ -41,10 +41,10 @@ if __name__ in ["__main__", "__mp_main__"]:
         print_BAAH_start()
         
         # 打印config信息
-        logging.info(f"读取的配置文件: {configname}")
-        logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
-        logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
-        logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
+        logging.info({"zh_CN": f"读取的配置文件: {configname}", "en_US":f"Read config file: {configname}"})
+        logging.info({"zh_CN": f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}", "en_US":f"Emulator: {config.userconfigdict['TARGET_EMULATOR_PATH']}"})
+        logging.info({"zh_CN": f"端口:{config.userconfigdict['TARGET_PORT']}", "en_US":f"Port: {config.userconfigdict['TARGET_PORT']}"})
+        logging.info({"zh_CN": f"区服:{config.userconfigdict['SERVER_TYPE']}", "en_US":f"Server: {config.userconfigdict['SERVER_TYPE']}"})
 
         # 不带GUI运行
         # config历史列表
@@ -70,9 +70,9 @@ if __name__ in ["__main__", "__mp_main__"]:
         print_BAAH_finish()
         # 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键
         if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
-            input("按回车键退出:")
+            input("Press Enter to exit/回车退出:")
         else:
-            print("10秒后自动关闭")
+            logging.info({"zh_CN": "10秒后自动关闭", "en_US":"Auto close in 10 seconds"})
             sleep(10)
     except Exception as e:
         # 打印完整的错误信息
@@ -81,7 +81,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         print_BAAH_finish()
         # 发送错误通知邮件
         if config.userconfigdict["ENABLE_MAIL_NOTI"]:
-            logging.info("发送错误通知邮件")
+            logging.info({"zh_CN": "发送错误通知邮件", "en_US":"Send error notification email"})
             try:
                 # 构造通知对象
                 notificationer = create_notificationer()
@@ -92,11 +92,11 @@ if __name__ in ["__main__", "__mp_main__"]:
                 content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
                 content.append("错误信息: "+str(e))
                 print(notificationer.send("\n".join(content)))
-                logging.info("邮件发送结束")
+                logging.info({"zh_CN": "邮件发送结束", "en_US":"The email has been sent"})
             except Exception as eagain:
-                logging.error("发送邮件失败")
+                logging.error({"zh_CN": "发送邮件失败", "en_US":"Failed to send email"})
                 logging.error(eagain)
-        input("出现错误，按回车键退出:")
+        input("Error, Enter to exit/错误，回车退出:")
     
     # 运行结束后，删除截图文件
     try:
@@ -104,7 +104,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         if os.path.exists(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}"):
             os.remove(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}")
     except Exception as e:
-        logging.error("删除截图文件失败")
+        logging.error({"zh_CN": "删除截图文件失败", "en_US":"Failed to delete screenshot file"})
         
         
 

@@ -206,7 +206,7 @@ class GridQuest(Task):
         try:
             nowteam_ind = int(now_team_str)-1
         except ValueError as e:
-            logging.error("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
+            logging.error({"zh_CN": "识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启", "en_US":"Can't recognize the text of the button in the lower left corner to switch teams, please make sure that your game settings-turn off the black edges up and down during the battle, and turn on the skip battle option in the lower right corner of the grid"})
             raise Exception("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
         self.now_focus_on_team = nowteam_ind
         return nowteam_ind
@@ -222,7 +222,7 @@ class GridQuest(Task):
         # 尝试读取json文件
         # 没有读取到json文件
         if self.grider.level_data is None:
-            logging.error(f"关卡文件{self.grider.jsonfilename}读取失败")
+            logging.error({"zh_CN": f"关卡文件{self.grider.jsonfilename}读取失败", "en_US":f"Fails to read the level file {self.grider.jsonfilename}"})
             self.run_until(
                 lambda: click(Page.TOPLEFTBACK),
                 lambda: self.backtopic(),
@@ -275,7 +275,7 @@ class GridQuest(Task):
                     times=3
                 )
                 if not res_gridpage:
-                    logging.error("未识别到走格子界面")
+                    logging.error({"zh_CN": "未识别到走格子界面", "en_US":"Can't recognize the grid map page"})
                     raise Exception("未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍")
                 # 如果队伍配队配置里面有click参数，那么就点击相对应的位置就行了
                 if "click" in list(self.grider.get_initialteams(self.require_type))[focus_team_ind]:
@@ -308,7 +308,7 @@ class GridQuest(Task):
                 else:
                     click(self.BUTTON_SEE_OTHER_TEAM_POS, 1)
             if not edit_page_result:
-                logging.error("未识别到配队界面，可能是队伍起始点被遮挡导致识别失败")
+                logging.error({"zh_CN": "未识别到配队界面，可能是队伍起始点被遮挡导致识别失败", "en_US":"Can't recognize the edit team page, maybe the team start point is blocked and the recognition fails"})
                 self.print_team_config(now_need_team_set_list)
                 input("请按照以上要求手动出击队伍，然后返回至格子地图界面，回车以继续...")
 
@@ -391,14 +391,14 @@ class GridQuest(Task):
                         need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0]+offset_from_cnn_to_real)] # 纵轴从人物头顶三角箭头往下偏移
                 except Exception as e:
                     print(e)
-                    logging.warn("队伍位置识别失败")
+                    logging.warn({"zh_CN": "队伍位置识别失败", "en_US":"Failed to recognize the position of the team"})
                     if action["team"]==self.lastaction["team"] and action["action"]=="portal" and action["target"]=="center":
                         logging.info("动作为原地传送，尝试点击上次点击位置")
                         # 如果队伍与上一次一样，且是传送门，而且是点击队伍脚底下。
                         # 如果队伍上次是移动到传送门上，则此时会没有脚底黄色标
                         need_click_position = self.last_click_position
                     else:
-                        logging.error("队伍位置识别失败，这可能是由于识别参数不正确导致的，请反馈给开发者")
+                        logging.error({"zh_CN": "队伍位置识别失败，这可能是由于识别参数不正确导致的，请反馈给开发者", "en_US":"Failed to recognize the position of the team, this may be due to incorrect recognition parameters, please feedback to the developer"})
                         raise Exception("队伍位置识别失败")
                 # 点击使其移动
                 logging.info(f'点击{need_click_position}')
@@ -412,7 +412,7 @@ class GridQuest(Task):
                             lambda: not match(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM))
                         )
                     if not exchange_res:
-                        logging.error(f"{self.grider.jsonfilename}：队伍交换失败")
+                        logging.error({"zh_CN": f"{self.grider.jsonfilename}：队伍交换失败", "en_US":f"Fails to exchange team in {self.grider.jsonfilename}"})
                         raise Exception("未识别到交换队伍按钮，这可能是由于你的队伍练度过低；或者攻略配置文件不正确导致的，请反馈给开发者（群里或者issue）")
                 elif action["action"]=="portal":
                     # 等待弹窗出来
@@ -426,7 +426,7 @@ class GridQuest(Task):
                         lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
                     )
                     if not portal_popup or not portal_result:
-                        logging.error("未识别到传送弹窗")
+                        logging.error({"zh_CN": "未识别到传送弹窗", "en_US":"Can't recognize the portal popup"})
                         raise Exception("未识别到传送弹窗，这可能是由于攻略配置文件不正确导致的，请反馈给开发者")
                 if action_ind==len(actions)-1 and step_ind==self.grider.get_num_of_steps(self.require_type)-1:
                     # 可能局内战斗，自己去碰boss

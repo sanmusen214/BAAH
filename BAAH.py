@@ -21,14 +21,14 @@ def BAAH_release_adb_port(justDoIt=False):
             for line in res.split("\n"):
                 if ":"+str(config.userconfigdict["TARGET_PORT"]) in line and "LISTENING" in line:
                     logging.info(line)
-                    logging.info("端口被占用，正在释放")
+                    logging.info({"zh_CN":"端口被占用，正在释放" , "en_US":"Port is used, releasing now"})
                     pid=line.split()[-1]
                     subprocess_run(["taskkill", "/T", "/F", "/PID", pid], encoding="gbk")
-                    logging.info("端口被占用，已释放")
+                    logging.info({"zh_CN": "端口被占用，已释放", "en_US":"Port is used, released"})
                     config.sessiondict["PORT_IS_USED"]=True
                     break
         except Exception as e:
-            logging.error("释放端口失败，请关闭模拟器后重试")
+            logging.error({"zh_CN":"释放端口失败，请关闭模拟器后重试", "en_US":"Failed to release port, please close the emulator and try again"})
             logging.error(e)
 def _check_process_exist(pid):
     """
@@ -54,21 +54,21 @@ def BAAH_start_emulator():
     if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "":
         try:
             # 以列表形式传命令行参数
-            logging.info("启动模拟器")
+            logging.info({"zh_CN": "启动模拟器", "en_US":"Starting the emulator"})
             emulator_process = subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
-            logging.info("模拟器pid: "+str(emulator_process.pid))
+            logging.info({"zh_CN": "模拟器pid: "+str(emulator_process.pid), "en_US":"The emulator pid: "+str(emulator_process.pid)})
             time.sleep(5)
             # 检查pid是否存在
             if not _check_process_exist(emulator_process.pid):
-                logging.warn("模拟器启动进程已结束，可能是启动失败，或者是模拟器已经在运行")
+                logging.warn({"zh_CN": "模拟器启动进程已结束，可能是启动失败，或者是模拟器已经在运行", "en_US":"The emulator startup process has ended, may be startup failed, or the emulator is already running"})
             else:
                 # 存进session，这样最后根据需要按照这个pid杀掉模拟器
                 config.sessiondict["EMULATOR_PROCESS_PID"]=emulator_process.pid
         except Exception as e:
-            logging.error("启动模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
+            logging.error({"zh_CN":"启动模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误", "en_US":"Failed to start the emulator, maybe not run as administrator or the emulator path is wrong"})
             logging.error(e)
     else:
-        logging.info("未配置模拟器路径，跳过启动模拟器")
+        logging.info({"zh_CN": "未配置模拟器路径，跳过启动模拟器", "en_US":"No emulator path configured, skip starting the emulator"})
 
 def BAAH_check_adb_connect():
     """
@@ -79,10 +79,10 @@ def BAAH_check_adb_connect():
     for i in range(1, 10):
         sleep(i)
         if check_connect():
-            logging.info("adb连接成功")
+            logging.info({"zh_CN": "adb连接成功", "en_US":"Adb connected successfully"})
             return True
         else:
-            logging.info("未检测到设备连接, 重试...")
+            logging.info({"zh_CN": "未检测到设备连接, 重试...", "en_US":"Could not detect device connection, retrying..."})
     if config.sessiondict["PORT_IS_USED"]:
         # 连接失败，并且出现端口被占用的情况，现在模拟器的用户可见进程的端口估计是配置文件里的后一个端口
         # 提醒用户启动BAAH时，不要启动模拟器
@@ -95,12 +95,12 @@ def BAAH_start_VPN():
     启动加速器
     """
     if config.userconfigdict["USE_VPN"]:
-        logging.info("启动指定的加速器")
+        logging.info({"zh_CN": "启动指定的加速器", "en_US":"Starting the specified accelerator"})
         try:
             if config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY']:
                 open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
             sleep(5)
-            logging.info(f"当前打开的应用: {get_now_running_app()}")
+            logging.info({"zh_CN": f"当前打开的应用: {get_now_running_app()}", "en_US":f"now running app: {get_now_running_app()}"})
             # 点击
             for click_sleep_pair in config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']:
                 screenshot()
@@ -110,11 +110,11 @@ def BAAH_start_VPN():
                     if sleep_time > 0:
                         sleep(sleep_time)
                     continue
-                logging.info(f"点击{click_pos}, 等待{sleep_time}秒")
+                logging.info({"zh_CN": f"点击{click_pos}, 等待{sleep_time}秒", "en_US":f"Cilck {click_pos}, wait {sleep_time} seconds"})
                 print(type(sleep_time))
                 click(click_pos, sleeptime=sleep_time)
         except Exception as e:
-            logging.error("启动加速器失败, 可能是配置有误")
+            logging.error({"zh_CN": "启动加速器失败, 可能是配置有误", "en_US":""})
             logging.error(e)
     else:
         logging.info("跳过启动加速器")
@@ -124,14 +124,14 @@ def BAAH_open_target_app():
     打开游戏
     """
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
-        logging.info("检测到游戏已经在运行")
+        logging.info({"zh_CN": "检测到游戏已经在运行", "en_US":"Detected that the game is already running"})
         return True
     for i in range(40):
-        logging.info(f"打开游戏{i}/30")
+        logging.info({"zh_CN": f"打开游戏{i}/30", "en_US":f"Try to open the game {i}/30"})
         open_app(config.userconfigdict['ACTIVITY_PATH'])
         sleep(3)
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
-            logging.error("未检测到游戏打开，请检查区服设置")
+            logging.error({"zh_CN": "未检测到游戏打开，请检查区服设置", "en_US":"No game detected, please check the server settings"})
         else:
             return True
     raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
@@ -143,7 +143,7 @@ def BAAH_kill_emulator():
     if config.userconfigdict["TARGET_EMULATOR_PATH"] and config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
         try:
             if not config.sessiondict["EMULATOR_PROCESS_PID"]:
-                logging.error("未能获取到模拟器进程，跳过关闭模拟器")
+                logging.error({"zh_CN": "未能获取到模拟器进程，跳过关闭模拟器", "en_US":"Failed to get the emulator process, skip closing the emulator"})
                 return
             # 提取出模拟器的exe名字
             full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
@@ -152,16 +152,16 @@ def BAAH_kill_emulator():
             # 杀掉模拟器可见窗口进程后，可能残留后台进程，这里根据adb端口再杀一次
             BAAH_release_adb_port(justDoIt=True)
         except Exception as e:
-            logging.error("关闭模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
+            logging.error({"zh_CN": "关闭模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误", "en_US":"Failed to close the emulator, maybe not run as administrator or the emulator path is wrong"})
             logging.error(e)
     else:
-        logging.info("跳过关闭模拟器")
+        logging.info({"zh_CN": "跳过关闭模拟器", "en_US":"Skip closing the emulator"})
 
 def BAAH_send_email():
     """
     发送邮件
     """
-    logging.info("尝试发送通知")
+    logging.info({"zh_CN": "尝试发送通知" , "en_US":"Trying to send notification"})
     try:
         # 构造通知对象
         notificationer = create_notificationer()
@@ -192,9 +192,9 @@ def BAAH_send_email():
         content.append(info_str)
         # 发送
         notificationer.send("\n".join(content))
-        logging.info("通知发送结束")
+        logging.info({"zh_CN": "通知发送结束", "en_US":"Finished sending notification"})
     except Exception as e:
-        logging.error("发送通知失败")
+        logging.error({"zh_CN": "发送通知失败", "en_US":"Failed to send notification"})
         logging.error(e)
 
 def BAAH_main():
@@ -205,9 +205,9 @@ def BAAH_main():
     BAAH_start_VPN()
     BAAH_open_target_app()
     # 运行任务
-    logging.info("运行任务")
+    logging.info({"zh_CN": "运行任务", "en_US":"start running tasks"})
     my_AllTask.run()
-    logging.info("所有任务结束")
+    logging.info({"zh_CN": "所有任务结束", "en_US":"All tasks are finished"})
     BAAH_kill_emulator()
     BAAH_send_email()
             

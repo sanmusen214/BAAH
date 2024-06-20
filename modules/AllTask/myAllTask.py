@@ -60,7 +60,7 @@ class AllTask:
             if last_contest:
                 last_contest.set_collect(True)
         else:
-            logging.error("配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问")
+            logging.error({"zh_CN": "配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问", "en_US":"Serious error in config file, please delete config.json and open GUI.exe to generate config.py file or ask in the group"})
         # 任务列表末尾添加一个PostAllTask任务，用于统计资源
         self.add_task(PostAllTask())
         

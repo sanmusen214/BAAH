@@ -23,7 +23,7 @@ class InExchange(Task):
      
     def pre_condition(self) -> bool:
         if not config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'] or len(config.userconfigdict['EXCHANGE_HIGHEST_LEVEL']) == 0:
-            logging.warn("没有配置学院交流会的level")
+            logging.warn({"zh_CN": "没有配置学院交流会的level", "en_US":"Didn't set the level of exchange meeting"})
             return False
         return Page.is_page(PageName.PAGE_HOME)
     
@@ -36,7 +36,7 @@ class InExchange(Task):
         target_info = config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'][target_loc]
         # 判断这一天是否设置有交流会关卡
         if len(target_info) == 0:
-            logging.warn("今天轮次中无学院交流会关卡，跳过")
+            logging.warn({"zh_CN": "今天轮次中无学院交流会关卡，跳过", "en_US":"No exchange level in today's round, skip"})
             return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标

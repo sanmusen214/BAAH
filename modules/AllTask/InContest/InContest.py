@@ -48,7 +48,7 @@ class InContest(Task):
                 lambda: Page.is_page(PageName.PAGE_CONTEST)
             )
         if not canincontest:
-            logging.warning("Can't open contest page, task quit")
+            logging.warning({"zh_CN": "无法打开竞技场页面，跳过任务", "en_US":"Can't open contest page, task quit"})
             self.back_to_home()
             return
         # click the first enemy
@@ -64,7 +64,7 @@ class InContest(Task):
         #  匹配到通知弹窗或者匹配到使用钻石弹窗，说明没有票卷了，为什么日服的通知标题有时候是片假名有时候是汉字啊
         if match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_USE_DIAMOND)):
             # if no ticket
-            logging.warning("已经无票卷...尝试收集奖励")
+            logging.warning({"zh_CN":"已经无票卷...尝试收集奖励" , "en_US":"No ticket...try to collect reward"})
             # sessiondict设置
             config.sessiondict["CONTEST_NO_TICKET"] = True
             # 强制收集

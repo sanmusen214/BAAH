@@ -56,7 +56,7 @@ class InEvent(Task):
             )
         else:
             # 如果不在Fight Center页面，返回主页然后来到Fight Center页面
-            logging.warn("页面发生未知偏移，尝试修正")
+            logging.warn({"zh_CN": "页面发生未知偏移，尝试修正", "en_US":"Meets unknown page, try to fix it"})
             self.back_to_home()
             self.run_until(
                 lambda: click((1196, 567)),
@@ -78,11 +78,11 @@ class InEvent(Task):
         """
         # 判断是否是在ba游戏里
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH'] or "webview" in get_now_running_app().lower():
-            logging.warn("跳转出了游戏，尝试重新进入游戏")
+            logging.warn({"zh_CN": "跳转出了游戏，尝试重新进入游戏", "en_US":"Try to re-enter the game after jumping out of the game"})
             open_app(config.userconfigdict['ACTIVITY_PATH'])
             sleep(1.5)
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH'] or "webview" in get_now_running_app().lower():
-                logging.error("重新进入游戏失败")
+                logging.error({"zh_CN": "重新进入游戏失败", "en_US":"Failed to re-enter the game"})
                 raise Exception("重新进入游戏失败")
             logging.info("重新进入游戏成功")
             screenshot() # 截图让后面继续判断
@@ -103,7 +103,7 @@ class InEvent(Task):
         )
         logging.info(f"QUEST按钮匹配结果: {matchpic}")
         if not matchpic:
-            logging.warn("此页面不存在活动Quest")
+            logging.warn({"zh_CN": "此页面不存在活动Quest", "en_US":"No event Quest on this page"})
             return False
         # 通过数字识别关卡数字，判断活动是否已结束
         # event_res为最终判断活动有没有开放还是进入到领取奖励阶段
@@ -165,7 +165,7 @@ class InEvent(Task):
             config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动开放中，结束日期: {end_date}"
             return True
         else:
-            logging.error("未能识别有效活动关卡，判断活动已结束")
+            logging.error({"zh_CN": "未能识别有效活动关卡，判断活动已结束", "en_US":"Could not recognize the valid event level, and the event is judged to be over"})
             self.has_event_but_closed = True
             # 避免重复输出
             config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动领取奖励阶段，结束日期: {end_date}"
@@ -211,10 +211,10 @@ class InEvent(Task):
             times=self.try_enter_times
         )
         if self.has_event_but_closed:
-            logging.warn("存在活动但是已经结束")
+            logging.warn({"zh_CN": "存在活动但是已经结束", "en_US":"Contains events but has ended"})
             return
         if not enter_event:
-            logging.warn("未能成功进入活动Event页面")
+            logging.warn({"zh_CN": "未能成功进入活动Event页面", "en_US":"Failed to enter the event Event page"})
             return
         logging.info("成功进入Event页面")
         today = time.localtime().tm_mday
@@ -230,7 +230,7 @@ class InEvent(Task):
             logging.info("检查活动关卡是否推完")
             maxquest = self.get_biggest_level()
             if maxquest == -1:
-                logging.warn("未能识别活动关卡，跳过推图直接进行扫荡")
+                logging.warn({"zh_CN": "未能识别活动关卡，跳过推图直接进行扫荡", "en_US":"Failed to recognize the event level, skip the push map and go directly to the sweep"})
             else:
                 maxquest_ind = maxquest - 1
                 logging.info(f"最大关卡: {maxquest}，开始检测是否需要推图")

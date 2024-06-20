@@ -40,7 +40,7 @@ class EventStory(Task):
         # 如果体力不够
         screenshot()
         if match(popup_pic(PopupName.POPUP_TOTAL_PRICE)):
-            logging.warn("体力不够，结束")
+            logging.warn({"zh_CN": "体力不够，结束", "en_US":"Not enough AP, end"})
             return "noap"
         # 剧情这边应该只会有单次战斗
         FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()
@@ -60,7 +60,7 @@ class EventStory(Task):
             logging.info(f"触发推剧情任务，关卡{this_level_ind}")
             # 判断推图是否刚才打了一次，但是没三星或打不过去
             if this_level_ind == self.last_fight_level_ind:
-                logging.warn(f"活动剧情推图第{this_level_ind}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置。或已经是最后一关了")
+                logging.warn({"zh_CN": f"活动剧情推图第{this_level_ind}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置。或已经是最后一关了", "en_US":f"The {this_level_ind}th level of the event story automatic push map was just played once, but it did not get three stars or could not pass, please configure a better team configuration. Or it is the last level already"})
                 return "repeatfight"
             # 这里弹窗已经关了，重新跑到下标为this_level_ind-1的关卡
             self.scroll_right_up()
@@ -101,7 +101,7 @@ class EventStory(Task):
         click((766, 98))
         max_level = self.get_biggest_level()
         if max_level == -1:
-            logging.warn("无法获取最大关卡数，结束")
+            logging.warn({"zh_CN": "无法获取最大关卡数，结束", "en_US":"Failed to get the max level, end"})
             return
         logging.info("检查活动剧情是否推完,最大关卡数为"+str(max_level))
         while 1:
@@ -133,7 +133,7 @@ class EventStory(Task):
                     logging.info("返回到根页面")
                     return
                 elif res=="repeatfight":
-                    logging.warn("重复打关卡，结束")
+                    logging.warn({"zh_CN": "重复打关卡，结束", "en_US":"Repeatedly play the level, end"})
                     return
             # 观看了剧情，那么再尝试继续看后面的关卡剧情
             if has_do_view:

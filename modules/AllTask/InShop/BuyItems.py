@@ -40,7 +40,7 @@ class BuyItems(Task):
                         itemind = lineitems[j]-1
                         # 判断itemind是否在clickable_xs有效范围内
                         if itemind < 0 or itemind > 3:
-                            logging.warn(f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过")
+                            logging.warn({"zh_CN":f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过" , "en_US":f"The item is not in the valid range, skipping the item in line {i+1}:{itemind+1}"})
                         else:
                             logging.info(f"购买第{i+1}行第{itemind+1}个物品")
                             click((clickable_xs[itemind], 246))
@@ -52,7 +52,7 @@ class BuyItems(Task):
                         itemind = lineitems[j]-1
                         # 判断itemind是否在clickable_xs有效范围内
                         if itemind < 0 or itemind > 3:
-                            logging.warn(f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过")
+                            logging.warn({"zh_CN": f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过", "en_US":f"The item is not in the valid range, skipping the item in line {i+1}:{itemind+1}"})
                             # 还是要往下翻一行！
                         else:
                             logging.info(f"购买第{i+1}行第{itemind+1}个物品")
@@ -72,7 +72,7 @@ class BuyItems(Task):
             times=3
         )
         if not buypop:
-            logging.warn("未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买")
+            logging.warn({"zh_CN": "未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买", "en_US":"Could not identify the purchase button or the yellow confirmation button in the popup, skipping purchase"})
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)

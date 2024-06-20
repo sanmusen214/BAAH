@@ -31,7 +31,7 @@ class InviteStudent(Task):
             times=3
         )
         if not open_momo:
-            logging.warn("咖啡馆邀请界面打开失败, 跳出邀请任务")
+            logging.warn({"zh_CN": "咖啡馆邀请界面打开失败, 跳出邀请任务", "en_US":"Failed to open the cafe invite interface, jump out of the invitation task"})
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             return

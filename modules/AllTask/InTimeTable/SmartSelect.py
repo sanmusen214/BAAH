@@ -41,7 +41,7 @@ class SmartSelect(Task):
         try:
             ticket_num = int(ticket_num)
         except:
-            logging.error(f"识别票卷数量失败，识别结果：{ticket_num}, 请反馈")
+            logging.error({"zh_CN": f"识别票卷数量失败，识别结果：{ticket_num}, 请反馈", "en_US":"Cannot recognize ticket number, result: {ticket_num}, please feedback"})
             ticket_num = 8
         # 关闭弹窗
         self.clear_popup()
@@ -65,7 +65,7 @@ class SmartSelect(Task):
         tickets = self.get_tickets_number()
         logging.info(f"当前票卷数量：{tickets}")
         if tickets == 0:
-            logging.warn("卷票数量为0，无法选择教室")
+            logging.warn({"zh_CN": "卷票数量为0，无法选择教室", "en_US":"Tickets number is 0, cannot select room"})
             return
         # 存储各个下标教室对应的教室的分数，[地区下标，教室序号，分数]
         rooms_scores = []

@@ -103,13 +103,13 @@ class AutoAssault(Task):
                 sleeptime=1.5
             )
             if select_helper:
-                logging.info("选择助战学生成功")
+                logging.info({"zh_CN": "选择助战学生成功", "en_US":"Successfully selected a helper student"})
             else:
-                logging.warn("选择助战学生失败，将不会选择助战学生")
+                logging.warn({"zh_CN": "选择助战学生失败，将不会选择助战学生", "en_US":"Failed to select a helper student, no helper student will be selected"})
                 click(Page.MAGICPOINT)
                 screenshot()
         else:
-            logging.warn("未找到助战学生，将不会选择助战学生")
+            logging.warn({"zh_CN": "未找到助战学生，将不会选择助战学生", "en_US":"Did not find a helper student, no helper student will be selected"})
             click(Page.MAGICPOINT)
             screenshot()
         
@@ -129,7 +129,7 @@ class AutoAssault(Task):
         )
         # 如果仍然在总力战页面，说明没有票卷了
         if Page.is_page(PageName.PAGE_ASSAULT) or match(popup_pic(PopupName.POPUP_NOTICE)):
-            logging.error("总力战未能进入（或是无票卷了），总力战任务结束")
+            logging.error({"zh_CN": "总力战未能进入（或是无票卷了），总力战任务结束", "en_US":"Failed to enter the assault (or no tickets left), the assault task is over"})
             return "no_ticket"
         sleep(2)
         # 如果要助战
@@ -197,7 +197,7 @@ class AutoAssault(Task):
                 sleeptime = 1
             )
             if not canopen_popup:
-                logging.error("尝试打开总力战第{}关时未能匹配到弹窗，总力战任务结束".format(next_ind+1))
+                logging.error({"zh_CN": "尝试打开总力战第{}关时未能匹配到弹窗，总力战任务结束".format(next_ind+1), "en_US":"Could not match the popup when trying to open the {}th assault, the assault task is over".format(next_ind+1)})
                 return "can_not_open"
             
             # =================接管战斗=================
@@ -220,7 +220,7 @@ class AutoAssault(Task):
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             )
             if not canopen_popup:
-                logging.error("尝试打开总力战第{}关时未能匹配到弹窗，未开放，总力战任务结束".format(next_ind+1))
+                logging.error({"zh_CN": "尝试打开总力战第{}关时未能匹配到弹窗，未开放，总力战任务结束".format(next_ind+1), "en_US":"Could not match the popup when trying to open the {}th assault, not open, the assault task is over".format(next_ind+1)})
                 open_date = ocr_area((788, 474), (1173, 522))[0]
                 # 重组数字，去除中文日文什么的
                 open_date = "".join([i for i in open_date if i.isdigit() or i in ["/", ":", " "]])
@@ -255,7 +255,7 @@ class AutoAssault(Task):
         screenshot()
         # 检查是否到总力战界面
         if not Page.is_page(PageName.PAGE_ASSAULT):
-            logging.error("未能进入总力战页面，任务结束")
+            logging.error({"zh_CN": "未能进入总力战页面，任务结束", "en_US":"Could not enter the assault page, the task is over"})
             return
         
         target_ind = config.userconfigdict["AUTO_ASSAULT_LEVEL"] - 1
@@ -269,7 +269,7 @@ class AutoAssault(Task):
         logging.info(f"检测总力战第{target_ind+1}关是否解锁")
         unlock_level = self.check_unlock(target_ind)
         if unlock_level != -1:
-            logging.warn("总力战第{}关未解锁，最高解锁关卡为第{}关".format(target_ind+1, unlock_level))
+            logging.warn({"zh_CN": "总力战第{}关未解锁，最高解锁关卡为第{}关".format(target_ind+1, unlock_level), "en_US":"The {}th assault is not unlocked, the highest unlocked assault is the {}th assault".format(target_ind+1, unlock_level)})
             next_ind = unlock_level - 1
         else:
             next_ind = target_ind
@@ -283,7 +283,7 @@ class AutoAssault(Task):
                 sleeptime = 1
             )
             if not canopen_popup:
-                logging.error("尝试打开总力战第{}关时未能匹配到弹窗，总力战任务结束".format(next_ind+1))
+                logging.error({"zh_CN": "尝试打开总力战第{}关时未能匹配到弹窗，总力战任务结束".format(next_ind+1), "en_US":"Could not match the popup when trying to open the {}th assault, the assault task is over".format(next_ind+1)})
                 break
             # 如果一开始解锁的关卡就是目标关卡，那么直接判断能扫荡就扫荡
             if next_ind == target_ind and ocr_area((911, 271), (976, 333))[0] == "1":
@@ -320,7 +320,7 @@ class AutoAssault(Task):
                     sleeptime=2
                 )
                 if not openswap:
-                    logging.error("未能打开扫荡弹窗，总力战任务结束")
+                    logging.error({"zh_CN": "未能打开扫荡弹窗，总力战任务结束", "en_US":"Could not open the sweep popup, the assault task is over"})
                     break
                 # 确认
                 self.run_until(

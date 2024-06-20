@@ -45,7 +45,7 @@ class LocationSelect(Task):
         if self.location != -1:
             ScrollSelect(self.location, 130, 236, 669, 1114, lambda: Page.is_page(PageName.PAGE_TIMETABLE_SEL)).run()
             if not match(page_pic(PageName.PAGE_TIMETABLE_SEL)):
-                logging.error("无法跳转到第{}地区页面".format(self.location+1))
+                logging.error({"zh_CN": "无法跳转到第{}地区页面".format(self.location+1), "en_US":"Cannot jump to the {}th location page".format(self.location+1)})
                 return
             logging.info("进入到第{}个地区".format(self.location+1))
         # 来到

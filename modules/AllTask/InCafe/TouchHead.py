@@ -50,7 +50,7 @@ class TouchHead(Task):
         x=pos[0]
         y=pos[1]
         if x<self.SAFE_X_LEFT or x>self.SAFE_X_RIGHT or y<self.SAFE_Y_TOP or y>self.SAFE_Y_BOTTOM:
-            logging.warn(f"点击坐标{pos}不在安全范围内，不点击")
+            logging.warn({"zh_CN": f"点击坐标{pos}不在安全范围内，不点击", "en_US":f"Click position {pos} is not in the safe range"})
         else:
             click(pos, sleeptime=sleeptime)
             

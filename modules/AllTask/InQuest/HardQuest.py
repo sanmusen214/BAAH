@@ -41,7 +41,7 @@ class HardQuest(Task):
                 continue
             jumpres = jump_to_page(to_page_num)
             if not jumpres:
-                logging.error("无法到达页面{}, 忽略这关扫荡".format(to_page_num))
+                logging.error({"zh_CN": "无法到达页面{}, 忽略这关扫荡".format(to_page_num), "en_US":"Cannot jump to page {}, ignore this quest".format(to_page_num)})
                 continue
             # clickable points
             logging.info("点击从上往下第{}关".format(level_ind+1))
@@ -52,13 +52,13 @@ class HardQuest(Task):
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_EASY_QUEST)):
                     # 匹配简易攻略弹窗失败
-                    logging.warn("日服：未能匹配到扫荡弹窗，跳过")
+                    logging.warn({"zh_CN": "日服：未能匹配到扫荡弹窗，跳过", "en_US":"JP server: Cannot match the raid popup, skip"})
                     break
             else:
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_TASK_INFO)):
                     # 匹配弹窗失败
-                    logging.warn("未能匹配到扫荡弹窗，跳过")
+                    logging.warn({"zh_CN": "未能匹配到扫荡弹窗，跳过", "en_US":"Cannot match the raid popup, skip"})
                     break
             # 扫荡
             RaidQuest(repeat_times, has_easy_tab=config.userconfigdict["SERVER_TYPE"]=="JP").run()

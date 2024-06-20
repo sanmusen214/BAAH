@@ -49,14 +49,14 @@ class EventQuest(Task):
                 if config.userconfigdict["RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST"]:
                     raise Exception(f"活动自动推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
                 else:
-                    logging.warn(f"活动自动推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置")
+                    logging.warn({"zh_CN": f"活动自动推图第{this_level_ind+1}关刚才打了一次，但是没三星或打不过去，请配置更好的队伍配置", "en_US":f"The {this_level_ind+1}th level of the event automatic push map was just played once, but it did not get three stars or could not pass, please configure a better team configuration"})
                     return "noap"
             # 点击任务开始按钮
             click(button_pic(ButtonName.BUTTON_TASK_START))
             # 如果体力不够
             screenshot()
             if match(popup_pic(PopupName.POPUP_TOTAL_PRICE)):
-                logging.warn("体力不够，结束")
+                logging.warn({"zh_CN": "体力不够，结束", "en_US":"Not enough AP, end"})
                 return "noap"
             # 单次战斗
             FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()

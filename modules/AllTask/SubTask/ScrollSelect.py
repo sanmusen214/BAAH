@@ -49,7 +49,7 @@ class ScrollSelect(Task):
         if config.userconfigdict["RESPOND_Y"]:
             self.responsey = config.userconfigdict['RESPOND_Y']
         else:
-            logging.warn("未设置滑动触发距离RESPOND_Y，使用默认值40")
+            logging.warn({"zh_CN": "未设置滑动触发距离RESPOND_Y，使用默认值40", "en_US":"Default value 40 is used for swipe trigger distance RESPOND_Y"})
             self.responsey = 40
         self.finalclick = finalclick
         # 最后ScrollSelect任务想要点击的x,y坐标

@@ -22,7 +22,7 @@ class InWanted(Task):
      
     def pre_condition(self) -> bool:
         if len(config.userconfigdict['WANTED_HIGHEST_LEVEL']) == 0:
-            logging.warn("没有配置悬赏通缉的level")
+            logging.warn({"zh_CN": "没有配置悬赏通缉的level", "en_US":"There is no level of wanted"})
             return False
         return Page.is_page(PageName.PAGE_HOME)
     
@@ -36,7 +36,7 @@ class InWanted(Task):
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 判断这一天是否设置有扫荡任务关卡
         if len(target_info) == 0:
-            logging.warn("今天轮次中无悬赏通缉关卡，跳过")
+            logging.warn({"zh_CN": "今天轮次中无悬赏通缉关卡，跳过", "en_US":"There is no wanted level in today's round, skip"})
             return
         # 序号转下标
         target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]

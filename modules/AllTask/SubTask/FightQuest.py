@@ -132,7 +132,7 @@ class FightQuest(Task):
             )
             # 由于是强制进入，这里也要考虑下其实没有战斗的情况
             if self.backtopic():
-                logging.warn("已退出关卡战斗页面")
+                logging.warn({"zh_CN": "已退出关卡战斗页面", "en_US":"Already exited the quest fight page"})
                 return
             # 将AUTO打开
             self.run_until(
@@ -156,8 +156,8 @@ class FightQuest(Task):
             return
         # 结束时如果是黄色确认，那么战斗失败
         if match(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8):
-            logging.info("战斗失败")
-            logging.warn("请检查自动AUTO是否开启，提升队伍练度")
+            logging.info({"zh_CN": "战斗失败", "en_US":"Fight failed"})
+            logging.warn({"zh_CN": "请检查自动AUTO是否开启，提升队伍练度", "en_US":"Please check if AUTO is on, and improve the team's level"})
         else:
             # 战斗结算页面
             # 四人界面 右下确认蓝色
