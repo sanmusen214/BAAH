@@ -14,7 +14,7 @@ from modules.AllTask.SubTask.GridQuest import GridQuest
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot, match_pixel
 from modules.utils.grid_analyze import GridAnalyzer
-from .Questhelper import jump_to_page, close_popup_until_see, judge_whether_3star
+from .Questhelper import jump_to_page, close_popup_until_see, judge_whether_3star, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L
 
 class PushQuest(Task):
     """
@@ -36,12 +36,6 @@ class PushQuest(Task):
         self.page_ind = page_ind # 初始聚焦章节下标
         self.level_ind = level_ind # 初始聚焦关卡下标
         self.require_type_ind = 0 # 当前需要完成的任务类型下标
-        self.center_tab_pos_L = (589, 180)
-        self.easy_tab_pos_R = (702, 181)
-        # 集中指挥tab栏未选中时的绿色
-        self.unselect_color_L = ((175, 245, 193), (180, 250, 200))
-        # 简易攻略tab未选中的蓝色
-        self.unselect_color_R = ((241, 221, 166), (246, 226, 171))
 
     
     def pre_condition(self) -> bool:
@@ -84,7 +78,7 @@ class PushQuest(Task):
             # 此时应该看到扫荡弹窗
             # 判断是否有简易攻略tab
             
-            has_easy_tab = match_pixel(self.center_tab_pos_L, self.unselect_color_L) or match_pixel(self.easy_tab_pos_R, self.unselect_color_R)
+            has_easy_tab = quest_has_easy_tab()
             # 向右翻self.level_ind次
             logging.info("尝试翻到关卡 {}".format(self.level_ind + 1))
             for i in range(self.level_ind):
@@ -143,13 +137,13 @@ class PushQuest(Task):
             if has_easy_tab:
                 if self.is_normal:
                     logging.info("使用简易攻略")
-                    click(self.easy_tab_pos_R)
-                    click(self.easy_tab_pos_R)
+                    click(easy_tab_pos_R)
+                    click(easy_tab_pos_R)
                     ocr_s = "easy"
                 else:
                     logging.info("困难图，走格子拿钻石")
-                    click(self.center_tab_pos_L)
-                    click(self.center_tab_pos_L)
+                    click(center_tab_pos_L)
+                    click(center_tab_pos_L)
                     
             walk_grid = None
             if ocr_s[0].upper() != "S":

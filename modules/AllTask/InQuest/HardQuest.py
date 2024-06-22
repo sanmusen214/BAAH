@@ -12,7 +12,7 @@ from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, config, screenshot
 
-from .Questhelper import jump_to_page,close_popup_until_see
+from .Questhelper import jump_to_page,close_popup_until_see, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L
 import numpy as np
 
 class HardQuest(Task):
@@ -46,13 +46,13 @@ class HardQuest(Task):
             # clickable points
             logging.info("点击从上往下第{}关".format(level_ind+1))
             ScrollSelect(level_ind, 190, 306, 630, 1116, lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)).run()
-            if config.userconfigdict["SERVER_TYPE"] == "JP":
+            if quest_has_easy_tab():
                 # 适配日服简易攻略
                 click((385, 183))
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_EASY_QUEST)):
                     # 匹配简易攻略弹窗失败
-                    logging.warn({"zh_CN": "日服：未能匹配到扫荡弹窗，跳过", "en_US":"JP server: Cannot match the raid popup, skip"})
+                    logging.warn({"zh_CN": "简易攻略：未能匹配到扫荡弹窗，跳过", "en_US":"Easy Quest: Cannot match the raid popup, skip"})
                     break
             else:
                 screenshot()
