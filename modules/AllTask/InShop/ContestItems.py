@@ -21,10 +21,10 @@ class ContestItems(Task):
     
     
     def on_run(self) -> None:
-        logging.info("开始竞技场商店购买")
+        logging.info({"zh_CN": "开始竞技场商店购买", "en_US": "start shopping(Arena)"})
         BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
         for i in range(config.userconfigdict["SHOP_CONTEST_REFRESH_TIME"]):
-            logging.info("刷新")
+            logging.info({"zh_CN": "刷新", "en_US": "refresh"})
             # 点击刷新按钮
             showconfirm = self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_SHOP_REFRESH)),

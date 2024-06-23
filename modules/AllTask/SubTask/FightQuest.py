@@ -56,7 +56,7 @@ class FightQuest(Task):
             )
             if not hasUI:
                 # 如果没有UI，尝试跳过剧情
-                logging.info("检测是否需要跳过剧情")
+                logging.info({"zh_CN": "检测是否需要跳过剧情", "en_US": "Check if you need to skip the plot"})
                 SkipStory(pre_times=2).run()
             else:
                 return True

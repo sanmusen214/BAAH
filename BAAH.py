@@ -117,8 +117,7 @@ def BAAH_start_VPN():
             logging.error({"zh_CN": "启动加速器失败, 可能是配置有误", "en_US":""})
             logging.error(e)
     else:
-        logging.info("跳过启动加速器")
-
+        logging.info({"zh_CN": "跳过启动加速器", "en_US": "starting game accelerator"})
 def BAAH_open_target_app():
     """
     打开游戏

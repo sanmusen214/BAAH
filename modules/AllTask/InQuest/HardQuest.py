@@ -26,7 +26,7 @@ class HardQuest(Task):
     
      
     def on_run(self) -> None:
-        logging.info("switch to hard quest")
+        logging.info({"zh_CN": "切换到困难关卡", "en_US": "switch to hard quest"})
         self.run_until(
             lambda: click((1064, 161)),
             lambda: match(button_pic(ButtonName.BUTTON_HARD))

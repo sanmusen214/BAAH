@@ -21,10 +21,10 @@ class NormalItems(Task):
     
      
     def on_run(self) -> None:
-        logging.info("开始普通商店购买")
+        logging.info({"zh_CN": "开始普通商店购买", "en_US": "start shopping(common)"})
         BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
         for i in range(config.userconfigdict["SHOP_NORMAL_REFRESH_TIME"]):
-            logging.info("刷新")
+            logging.info({"zh_CN": "刷新", "en_US": "refresh"})
             # 点击刷新按钮
             showconfirm = self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_SHOP_REFRESH)),

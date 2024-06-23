@@ -32,7 +32,7 @@ class TouchHead(Task):
         )
         canmatchRes = match(button_pic(ButtonName.BUTTON_STU_NOTICE), threshold=0.95, returnpos=True, rotate_trans=True)
         if(canmatchRes[0]):
-            logging.info("匹配到注意力符号，点击头部")
+            logging.info({"zh_CN": "匹配到注意力符号，点击头部", "en_US": "match the 'mind' symbol, click it!"})
             # 中心点
             self.safe_click((canmatchRes[1][0]+50, canmatchRes[1][1]+30), sleeptime=0.1)
             # 四个角

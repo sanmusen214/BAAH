@@ -73,7 +73,7 @@ class AutoAssault(Task):
     
     def select_target_helper(self) -> None:
         """选择助战的学生"""
-        logging.info("选择助战学生")
+        logging.info({"zh_CN": "选择助战学生", "en_US": "choose helper students"})
         self.run_until(
             lambda: click((1197, 166)),
             lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),

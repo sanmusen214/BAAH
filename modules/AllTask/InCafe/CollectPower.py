@@ -27,7 +27,7 @@ class CollectPower(Task):
         )
         sleep(2)
         if match(button_pic(ButtonName.BUTTON_CAFE_CANNOT_COLLECT)):
-            logging.info("咖啡馆没有可领取的物品")
+            logging.info({"zh_CN": "咖啡馆没有可领取的物品", "en_US": "there's nothing in cafe"})
             return
         
         # 重复点收集直到出现弹窗
@@ -37,7 +37,8 @@ class CollectPower(Task):
             times = 3
         )
         if openinfo:
-            logging.info("成功点击右下角收集")
+            logging.info({"zh_CN": "成功点击右下角收集",
+                          "en_US": "Successfully click the Collect button in the lower right corner"})
         else:
             logging.info("没有可收集的物品")
             return

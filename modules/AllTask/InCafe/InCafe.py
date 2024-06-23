@@ -44,7 +44,7 @@ class InCafe(Task):
             # 收集体力
             CollectPower().run()
         else:
-            logging.info("设置的咖啡馆不收集体力")
+            logging.info({"zh_CN": "设置的咖啡馆不收集体力", "en_US": "set the config, do not gather energy"})
         if self.touch:
             # 摸第一个咖啡厅头
             TouchHead().run()
@@ -54,11 +54,13 @@ class InCafe(Task):
                 if config.sessiondict["CAFE_HAD_INVITED"]:
                     TouchHead(try_touch_epoch=1).run()
                 else:
-                    logging.warn({"zh_CN": "邀请学生失败，跳过第二次摸头", "en_US":"Failed to invite student, skip the second touch head"})
+                    logging.warn({"zh_CN": "邀请学生失败，跳过第二次摸头",
+                                  "en_US": "Failed to invite student, skip the second touch head"})
             else:
-                logging.info("设置的咖啡馆不邀请学生，跳过第二次摸头")
+                logging.info({"zh_CN": "设置的咖啡馆不邀请学生，跳过第二次摸头",
+                              "en_US": "the setup file sets don't invite student, skip the second touch head"})
         else:
-            logging.info("设置的咖啡馆不摸头")
+            logging.info({"zh_CN": "设置的咖啡馆不摸头", "en_US": "The setup file sets the cafe without touching the head"})
         # 清除弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -79,7 +81,8 @@ class InCafe(Task):
                     if config.sessiondict["CAFE_HAD_INVITED"]:
                         TouchHead(try_touch_epoch=1).run()
                     else:
-                        logging.warn({"zh_CN": "邀请学生失败，跳过第二次摸头", "en_US":"The invitation failed and the second touch head was skipped"})
+                        logging.info({"zh_CN": "设置的咖啡馆不邀请学生，跳过第二次摸头",
+                                      "en_US": "the config file set don't invite student, skip the second touch head"})
                 else:
                     logging.info("设置的咖啡馆不邀请学生，跳过第二次摸头")
             else:

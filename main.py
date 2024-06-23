@@ -27,13 +27,13 @@ if __name__ in ["__main__", "__mp_main__"]:
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
         from modules.configs.MyConfig import config
         if len(sys.argv) > 1:
-            configname = sys.argv[1]
-            logging.info("读取指定的配置文件: "+configname)
-            config.parse_user_config(configname)
+            config_name = sys.argv[1]
+            logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
+            config.parse_user_config(config_name)
         else:
-            configname = input("启动程序时没有指定配置文件, 请手动输入要运行的配置文件名(包含.json后缀): ")
-            logging.info("读取指定的配置文件: "+configname)
-            config.parse_user_config(configname)
+            config_name = input("启动程序时没有指定配置文件, 请手动输入要运行的配置文件名(包含.json后缀): ")
+            logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
+            config.parse_user_config(config_name)
 
         from BAAH import BAAH_main, my_AllTask, create_notificationer
         
@@ -41,14 +41,14 @@ if __name__ in ["__main__", "__mp_main__"]:
         print_BAAH_start()
         
         # 打印config信息
-        logging.info({"zh_CN": f"读取的配置文件: {configname}", "en_US":f"Read config file: {configname}"})
+        logging.info({"zh_CN": f"读取的配置文件: {config_name}", "en_US": f"Read config file: {config_name}"})
         logging.info({"zh_CN": f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}", "en_US":f"Emulator: {config.userconfigdict['TARGET_EMULATOR_PATH']}"})
         logging.info({"zh_CN": f"端口:{config.userconfigdict['TARGET_PORT']}", "en_US":f"Port: {config.userconfigdict['TARGET_PORT']}"})
         logging.info({"zh_CN": f"区服:{config.userconfigdict['SERVER_TYPE']}", "en_US":f"Server: {config.userconfigdict['SERVER_TYPE']}"})
 
         # 不带GUI运行
         # config历史列表
-        config_history = [configname]
+        config_history = [config_name]
         while True:
             logging.debug("配置文件历史列表: "+ ",".join(config_history))
             BAAH_main()

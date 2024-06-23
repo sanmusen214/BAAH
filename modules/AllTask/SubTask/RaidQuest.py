@@ -86,7 +86,7 @@ class RaidQuest(Task):
                 for t in range(abs(repeat_times)):
                     click(self.minus_pos)
         elif repeat_times == 0:
-            logging.info("扫荡次数为0，不扫荡")
+            logging.info({"zh_CN": "扫荡次数为0，不扫荡", "en_US": "raid number is 0, don't raid"})
             return
         else:
             for t in range(max(0,repeat_times-1)):

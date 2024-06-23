@@ -32,7 +32,7 @@ class SkipStory(Task):
             # 记住MENU的位置
             menures = match(button_pic(ButtonName.BUTTON_STORY_MENU), returnpos=True)
             if not menures[0]:
-                logging.info("跳过剧情被打断，重试")
+                logging.info({"zh_CN": "跳过剧情被打断，重试", "en_US": "Skip the plot was interruption, try again"})
                 click(Page.MAGICPOINT, sleeptime=1.5)
                 continue
             menupos = menures[1]
@@ -43,7 +43,7 @@ class SkipStory(Task):
                 sleeptime=2
             )
             if not clickmenu_and_skip:
-                logging.info("跳过剧情被打断，重试")
+                logging.info({"zh_CN": "跳过剧情被打断，重试", "en_US": "Skip the plot was interruption, try again"})
                 continue
             # 点击蓝色确认按钮，直到看不到蓝色确认按钮
             clickconfirmb = self.run_until(
@@ -52,7 +52,7 @@ class SkipStory(Task):
                 times=3
             )
             if clickmenu_and_skip and clickconfirmb:
-                logging.info("跳过剧情成功")
+                logging.info({"zh_CN": "跳过剧情成功", "en_US": "skip the plot success"})
                 # # 有时候跳过剧情后会有cg，这时候需要点击一下屏幕，看是不是有通知
                 # click(Page.MAGICPOINT, sleeptime=1)
                 # screenshot()
@@ -64,7 +64,7 @@ class SkipStory(Task):
                 #     )
                 return
             else:
-                logging.info("跳过剧情被打断，重试")
+                logging.info({"zh_CN": "跳过剧情被打断，重试", "en_US": "Skip the plot was interruption, try again"})
         raise Exception("跳过剧情失败，可能是剧情按钮的图片变化了，请反馈")
      
     def post_condition(self) -> bool:
