@@ -1,4 +1,3 @@
- 
 
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
@@ -15,21 +14,22 @@ class InContest(Task):
         super().__init__(name)
         # 是否领取奖励
         self.collect = collect
-    
-    def set_collect(self, collect:bool) -> None:
+
+    def set_collect(self, collect :bool) -> None:
         self.collect = collect
-     
+
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
-    
-    
+
+
     def on_run(self) -> None:
-        
-        if(config.sessiondict["CONTEST_NO_TICKET"] == True):
-            logging.info("上次进入竞技场已经无票卷，本次不再进入竞技场")
+        if config.sessiondict["CONTEST_NO_TICKET"]:
+            logging.info({"zh_CN": "上次进入竞技场已经无票卷，本次不再进入竞技场",
+                          "en_US": "There are no tickets for the last time you entered the arena, "
+                                   "you will not enter the arena this time"})
             self.back_to_home()
             return
-        
+
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
@@ -48,7 +48,7 @@ class InContest(Task):
                 lambda: Page.is_page(PageName.PAGE_CONTEST)
             )
         if not canincontest:
-            logging.warning("Can't open contest page, task quit")
+            logging.warning({"zh_CN": "无法打开竞技场页面，跳过任务", "en_US": "Can't open contest page, task quit"})
             self.back_to_home()
             return
         # click the first enemy
@@ -64,7 +64,7 @@ class InContest(Task):
         #  匹配到通知弹窗或者匹配到使用钻石弹窗，说明没有票卷了，为什么日服的通知标题有时候是片假名有时候是汉字啊
         if match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_USE_DIAMOND)):
             # if no ticket
-            logging.warning("已经无票卷...尝试收集奖励")
+            logging.warning({"zh_CN": "已经无票卷...尝试收集奖励", "en_US": "No ticket...try to collect reward"})
             # sessiondict设置
             config.sessiondict["CONTEST_NO_TICKET"] = True
             # 强制收集
@@ -89,8 +89,8 @@ class InContest(Task):
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_GOFIGHT)),
                 lambda: match(popup_pic(PopupName.POPUP_FIGHT_RESULT)),
-                times = 20,
-                sleeptime = 2
+                times=20,
+                sleeptime=2
             )
             # click magic point to close the Result popup, back to pure contest page
             self.run_until(
@@ -102,10 +102,12 @@ class InContest(Task):
             self.run_until(
                 self.collect_and_magic,
                 lambda: match(button_pic(ButtonName.BUTTON_CONTEST_COLLECT_BOTH_GRAY)),
-                times = 4
+                times=4
             )
         else:
-            logging.info("设置的该次执行战术大赛不收集奖励, 直接返回主页")
+            logging.info({"zh_CN": "设置的该次执行战术大赛不收集奖励, 直接返回主页",
+                          "en_US": "The set execution tactical contest does not collect rewards, "
+                                   "directly return to the homepage"})
         self.back_to_home()
 
     def collect_and_magic(self):
@@ -114,8 +116,5 @@ class InContest(Task):
         sleep(1)
         click(Page.MAGICPOINT)
 
-
-
-     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

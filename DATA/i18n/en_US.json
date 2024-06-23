@@ -30,7 +30,7 @@
 
     "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. All config files are in the BAAH_CONFIGS folder. QQ group: 441069156",
     "BAAH_get_version": "To get the latest version, download from Github or join the group to download",
-    "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI!",
+    "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI! Game settings: the skill animation off, graph resolution low, black bars during battles off",
 
     "notice_success": "Success",
     "notice_fail": "Fail",
@@ -117,6 +117,10 @@
     "config_api_noti":"API Notification",
     "config_api_noti_url":"API Notification URL",
     "config_api_noti_token":"API Notification Token",
+    "config_smart_timetable_desc":"Whether recognize which room to click in the timetable",
+    "config_weight_of_rewards":"Weight of rewards, try to get better rewards",
+    "config_weight_of_hearts":"Weight of heart, try to increase more relationship with students",
+    "config_weight_of_lock":"Weight of lock rooms, try to unlock more rooms",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

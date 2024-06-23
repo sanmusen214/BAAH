@@ -29,7 +29,7 @@ class Loginin(Task):
         # 确认处在游戏界面
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
             open_app(config.userconfigdict['ACTIVITY_PATH'])
-            logging.warn("游戏未在前台，尝试打开游戏")
+            logging.warn({"zh_CN": "游戏未在前台，尝试打开游戏", "en_US":"The game is not in the foreground, try to open the game"})
             sleep(2)
             screenshot()
         

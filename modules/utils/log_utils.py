@@ -1,4 +1,6 @@
 from time import strftime
+from modules.configs.MyConfig import config
+
 import hashlib
 
 # 构建日志类
@@ -16,6 +18,8 @@ class MyLogger:
         self.debug_list = []
         self.warn_list = []
         self.error_list = []
+        self.lang = config.softwareconfigdict["LANGUAGE"]
+        print("使用语言/Use language: ", self.lang)
         
     def hash_str(self, data):
         """得到字符串的哈希值"""
@@ -23,7 +27,10 @@ class MyLogger:
     
     def format_msg(self, msg, level):
         """加入时间，错误级别"""
-        return f"{strftime('%d-%b-%y %H:%M:%S')} - {level} : {msg}"
+        if isinstance(msg, dict):
+            if self.lang in msg:
+                msg = msg[self.lang]
+        return f"{strftime('%d-%b-%y %H:%M:%S')} - {level} : {str(msg)}"
     
     def colorful_print(self, msg, level):
         """

@@ -55,15 +55,15 @@ def check_the_pic_validity(_img, _templ):
         if (depth == cv2.CV_8U or depth == cv2.CV_32F) and _img.type() == _templ.type() and _img.dims() <= 2:
             valid = False
     if not valid:
-        logging.warn("图像匹配出错：")
+        logging.warn({"zh_CN": "图像匹配出错：", "en_US":"Error in image matching:"})
         if _img is None or _templ is None:
-            logging.warn("图片为空") if _img is None else logging.warn("模板为空")
+            logging.warn({"zh_CN": "图片为空", "en_US":"Picture is null"}) if _img is None else logging.warn({"zh_CN": "模板为空", "en_US":"Pattern is null"})
         else:
-            logging.warn(f"图片类型: {_img.type()}, 模板类型: {_templ.type()}")
-            logging.warn(f"图片维度: {_img.dims()} <=2 : {_img.dims()<2}")
+            logging.warn(f"Pic type: {_img.type()}, Pattern type: {_templ.type()}")
+            logging.warn(f"Pic dims: {_img.dims()} <=2 : {_img.dims()<2}")
         config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] += 1
         if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
-            logging.error("读取截图文件失败次数过多，退出程序")
+            logging.error({"zh_CN": "读取截图文件失败次数过多，退出程序", "en_US":"The number of failed attempts to read the screenshot file is too many, exit the program"})
             raise Exception("由于卡顿或其他原因，截图文件损坏过多次，请尝试清理电脑内存后重启程序")
         return False
     return True
@@ -79,15 +79,15 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
     try:
         screenshot = cv2.imread(sourcepic)
     except:
-        logging.error("无法读取截图文件: {}".format(sourcepic))
+        logging.error({"zh_CN": "无法读取截图文件: {}".format(sourcepic), "en_US":"Cannot read the screenshot file: {}".format(sourcepic)})
         config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] += 1
         if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
-            logging.error("读取截图文件失败次数过多，退出程序")
+            logging.error({"zh_CN": "读取截图文件失败次数过多，退出程序", "en_US":"The number of failed attempts to read the screenshot file is too many, exit the program"})
             raise Exception("由于卡顿或其他原因，截图文件损坏，请尝试清理电脑内存后重启程序")
         return default_response
     # 检查图片是否存在
     if not exists(sourcepic):
-        logging.error("匹配的模板图片 文件不存在: {}".format(sourcepic))
+        logging.error({"zh_CN": "匹配的模板图片 文件不存在: {}".format(sourcepic), "en_US":"The pattern picture file does not exist: {}".format(sourcepic)})
         return default_response
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
     have_alpha=False
@@ -271,8 +271,8 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
         是否开启左键点击事件
     right_click : bool
         是否开启右键点击事件
-    img_data : np.ndarray
-        图片数据
+    img_path : string
+        要截取的图片路径
     quick_return : bool
         是否开启快速返回, 如果开启，点击右键后会返回坐标
     """
@@ -320,8 +320,10 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
             nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
             filename = "selected_"+nowstr+".png"
             cv2.imwrite(filename, selected_region)
+            print(f"坐标点为起点[{start_x}, {start_y}] 终点[{end_x}, {end_y}]")
+            print(f"cut code = [{start_y}:{end_y}, {start_x}:{end_x}]")
             print(f"选定区域已被保存为/Saved as {filename}")
-            
+
             if quick_return:
                 quick_return_data = filename
                 cv2.destroyAllWindows()

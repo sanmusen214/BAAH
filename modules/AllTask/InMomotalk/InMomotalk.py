@@ -1,4 +1,3 @@
- 
 from modules.utils.log_utils import logging
 
 from DATA.assets.PageName import PageName
@@ -9,15 +8,17 @@ from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel, screenshot
+from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel,
+                           screenshot)
+
 
 class InMomotalk(Task):
     def __init__(self, name="InMomotalk") -> None:
         super().__init__(name)
-     
+
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
-    
+
     def whether_has_red_icon(self) -> bool:
         """
         检测第一条对话旁边是否有红色标记，
@@ -35,23 +36,23 @@ class InMomotalk(Task):
             # 检测红标记，手动截图！
             screenshot()
             if match_pixel((638, 242), Page.COLOR_RED):
-                # logging.info(f"检测到红色标记")
+                # logging.info({"zh_CN": "检测到红色标记", "en_US": "Red marks detected"})
                 return True
             # 如果在第二位检测到红标记
             if match_pixel((638, 318), Page.COLOR_RED):
-                logging.info("刷新排序")
+                logging.info({"zh_CN": "刷新排序", "en_US": "Refresh Sorting"})
                 click((623, 177))
                 click((623, 177))
             else:
                 # 点击重新排序
-                logging.info("重新排序")
+                logging.info({"zh_CN": "重新排序", "en_US": "Reorder"})
                 click((623, 177))
         return False
-     
+
     def click_reply(self) -> None:
         """
         点击第一条对话，点击对话框位置或者羁绊按钮
-        
+
         一般是 回复-》（粉色羁绊-》蓝色进入羁绊剧情）
         """
         # 右侧往下滑动, 在头像框的位置滑
@@ -60,21 +61,23 @@ class InMomotalk(Task):
         # 手动截图！
         screenshot()
         # 回复按钮 +40
-        reply_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87,returnpos=True)
-        logging.info("回复按钮匹配度:{:.2f}".format(reply_button[2]))
+        reply_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87, returnpos=True)
+        logging.info({"zh_CN": "回复按钮匹配度:{:.2f}".format(reply_button[2]),
+                      "en_US": "Reply button matching degree :{:.2f}".format(reply_button[2])})
         if reply_button[0]:
-            logging.info("检测到回复按钮")
+            logging.info({"zh_CN": "检测到回复按钮", "en_US": "Reply Button Detected"})
             self.run_until(
-                lambda: click((reply_button[1][0], reply_button[1][1]+40)),
+                lambda: click((reply_button[1][0], reply_button[1][1] + 40)),
                 lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87)
             )
         # 羁绊按钮 +40
         partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), returnpos=True)
-        logging.info("羁绊按钮匹配度:{:.2f}".format(partner_button[2]))
+        logging.info({"zh_CN": "羁绊按钮匹配度:{:.2f}".format(partner_button[2]),
+                      "en_US": "Bond button matching degree:{:.2f}".format(partner_button[2])})
         if partner_button[0]:
-            logging.info("检测到羁绊按钮")
+            logging.info({"zh_CN": "检测到羁绊按钮", "en_US": "Bond Button Detected"})
             self.run_until(
-                lambda: click((partner_button[1][0], partner_button[1][1]+40)),
+                lambda: click((partner_button[1][0], partner_button[1][1] + 40)),
                 lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER))
             )
             # 羁绊按钮后面必定有羁绊剧情按钮，等待一秒
@@ -95,7 +98,8 @@ class InMomotalk(Task):
             lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
         )
         if not openmomo:
-            logging.info(f"未检测到momotalk弹窗，跳过此任务")
+            logging.info({"zh_CN": "未检测到momotalk弹窗，跳过此任务",
+                          "en_US": "The momotalk popup is not detected. Skip this task"})
             self.back_to_home()
             return
         # 记住momotalk标题位置
@@ -106,13 +110,21 @@ class InMomotalk(Task):
         # 按照未读的momotalk筛选
         click((507, 176), 1)
         click((508, 293))
-        click((450, 366)) # 国
-        click((450, 421)) # 日
+        click((450, 366))  # 国
+        click((450, 421))  # 日
         # 尝试切换排序，多次后还没检测到红标记就放弃
         self.scroll_left_up()
-        while(self.whether_has_red_icon()):
+        # 检测是否有红点，没有就退出
+        has_red_icon_initial = self.whether_has_red_icon()
+        if not has_red_icon_initial:
+            logging.info({"zh_CN": "未检测到红点标记，跳过此任务", "en_US": "No red dot detected, skipping this task"})
+            self.back_to_home()
+            return
+        # has_red_icon_initial 只有第一次循环开头被使用于判断
+        while (has_red_icon_initial or self.whether_has_red_icon()):
+            has_red_icon_initial = False
             # 处理第一个momotalk
-            logging.info("处理第一条momotalk")
+            logging.info({"zh_CN": "处理第一条momotalk", "en_US": "Dealing with the first momotalk"})
             # 按回复框或羁绊框并跳过剧情
             self.click_reply()
             # 剧情过完可能会有个得到回忆大厅的弹窗
@@ -120,12 +132,14 @@ class InMomotalk(Task):
                 lambda: click(self.momo_title_pos),
                 lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
             )
-        logging.info("momotalk处理完毕，返回主页")
+        logging.info({"zh_CN": "momotalk处理完毕，返回主页", "en_US": "momotalk finished, go back to homepage"})
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: not match(popup_pic(PopupName.POPUP_MOMOTALK))
         )
         self.back_to_home()
-     
+        # 递归
+        InMomotalk().run()
+
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
