@@ -1,4 +1,3 @@
- 
 from modules.utils.log_utils import logging
 
 from DATA.assets.PageName import PageName
@@ -11,15 +10,15 @@ from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
 
+
 class ContestItems(Task):
     def __init__(self, name="ContestItems") -> None:
         super().__init__(name)
 
-     
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_SHOP) and config.userconfigdict["SHOP_CONTEST"] and len(config.userconfigdict["SHOP_CONTEST"]) > 0
-    
-    
+        return (Page.is_page(PageName.PAGE_SHOP) and config.userconfigdict["SHOP_CONTEST"] and
+                len(config.userconfigdict["SHOP_CONTEST"]) > 0)
+
     def on_run(self) -> None:
         logging.info({"zh_CN": "开始竞技场商店购买", "en_US": "start shopping(Arena)"})
         BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
@@ -32,7 +31,8 @@ class ContestItems(Task):
                 times=3
             )
             if not showconfirm:
-                logging.error({"zh_CN": "刷新按钮无反应，可能刷新次数用光了", "en_US":"Refresh button no response, maybe refresh times used up"})
+                logging.error({"zh_CN": "刷新按钮无反应，可能刷新次数用光了",
+                               "en_US": "Refresh button no response, maybe refresh times used up"})
                 click(Page.MAGICPOINT)
                 return
             else:
@@ -43,13 +43,12 @@ class ContestItems(Task):
                 )
                 # 成功刷新
                 if clickconfirm:
-                    logging.info("刷新成功")
+                    logging.info({"zh_CN": "刷新成功", "en_US": "Refresh successfully"})
                     BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
                 else:
-                    logging.error({"zh_CN": "刷新失败", "en_US":"Refresh failed"})
+                    logging.error({"zh_CN": "刷新失败", "en_US": "Refresh failed"})
                     click(Page.MAGICPOINT)
                     return
 
-     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_SHOP)
