@@ -25,7 +25,7 @@ class NormalQuest(Task):
     
      
     def on_run(self) -> None:
-        logging.info("switch to normal quest")
+        logging.info({"zh_CN": "切换到普通关卡", "en_US": "switch to normal quest"})
         self.run_until(
             lambda: click((798, 159)),
             lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
