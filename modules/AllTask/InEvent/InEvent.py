@@ -188,7 +188,7 @@ class InEvent(Task):
         screenshot()
         reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
         temp_max = -1
-        logging.info({"zh_CN": "ocr结果：" + str(reslist), "en_US": "ocr result: " + str(reslist)})
+        logging.info({"zh_CN": "ocr结果: " + str(reslist), "en_US": "ocr result: " + str(reslist)})
         # 将每一个字母尝试转换成数字，如果是数字就比较目前最大
         for res in reslist:
             try:
