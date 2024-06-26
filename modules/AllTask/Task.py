@@ -74,12 +74,14 @@ class Task:
         返回成功与否
         """
         logging.info({"zh_CN": "尝试返回主页", "en_US":"Try back to homepage"})
+        can_back_home = False
         for i in range(times):
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             screenshot()
             if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
-                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=2)
+                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=3)
+                can_back_home = True
             screenshot()
             if(Page.is_page(PageName.PAGE_HOME)):
                 logging.info({"zh_CN": "返回主页成功", "en_US":"Successfully returned to the home page"})
@@ -92,7 +94,10 @@ class Task:
                 click(menuxy, sleeptime=1)
                 click((menuxy[0], menuxy[1] + 80), sleeptime=1)
                 screenshot()
-                click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=2)
+                click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=3)
+                can_back_home = True
+            if can_back_home:
+                sleep(3)
         logging.error({"zh_CN": "返回主页失败", "en_US":"Failed to return to home page"})
         return False
         

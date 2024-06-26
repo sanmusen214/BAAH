@@ -35,7 +35,20 @@ if __name__ in ["__main__", "__mp_main__"]:
             logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
             config.parse_user_config(config_name)
         else:
-            config_name = input("启动程序时没有指定配置文件, 请手动输入要运行的配置文件名(包含.json后缀): ")
+            logging.warn({"zh_CN": "启动程序时没有指定配置文件", "en_US": "No config file specified when starting the program"})
+            now_config_files = config.get_all_user_config_names()
+            logging.info({"zh_CN": "可用的配置文件: " + ", ".join(now_config_files), "en_US": "Available config files: " + ", ".join(now_config_files)})
+            if len(now_config_files) == 1:
+                logging.info({"zh_CN": "自动读取唯一的配置文件", "en_US": "Automatically read the only config file"})
+                config_name = now_config_files[0]
+            else:
+                while(1):
+                    logging.info({"zh_CN": "请手动输入要运行的配置文件名(包含.json后缀)", "en_US": "Please enter the config file name to run (including .json suffix)"})
+                    config_name = input(": ")
+                    if config_name in now_config_files:
+                        break
+                    else:
+                        logging.warn({"zh_CN": "输入的配置文件名不在可用配置文件列表中", "en_US": "The entered config file name is not in the list of available config files"})
             logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
             config.parse_user_config(config_name)
 

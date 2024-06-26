@@ -150,7 +150,8 @@ class EventStory(Task):
             # 运行到这，意味着没有通过蒙版检测出有剧情没打。此时处于最后一个剧情的弹窗界面
             # 不过最后一个剧情无法通过弹窗的方式检测，最后一个剧情用奖励文字检测有没有打过
             screenshot()
-            if match(button_pic(ButtonName.BUTTON_EVENT_FIRST)):
+            # 弹窗大小不同影响到匹配精度，匹配threshold设置为0.8
+            if match(button_pic(ButtonName.BUTTON_EVENT_FIRST), threshold=0.8):
                 logging.info({"zh_CN": "需要推最后一关剧情",
                               "en_US": "Need to push the last stage of the plot"})
                 self.do_view()
