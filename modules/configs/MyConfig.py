@@ -80,6 +80,13 @@ class MyConfigger:
         # 字典新值
         self.languagepackagedict = self._read_config_file(file_path)
         # print("language package字典内容: "+ ",".join([k for k in self.languagepackagedict]))
+        
+    @staticmethod
+    def get_all_user_config_names()->list[str]:
+        """
+        获取所有用户配置文件名
+        """
+        return [f for f in os.listdir(os.path.join(os.getcwd(), MyConfigger.USER_CONFIG_FOLDER)) if f.endswith(".json")]
 
     def _read_config_file(self, file_path):
         """
