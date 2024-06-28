@@ -1,5 +1,6 @@
 import os
 import subprocess
+import traceback
 from modules.configs.MyConfig import config
 from modules.utils.log_utils import logging
 from modules.utils.subprocess_helper import subprocess_run
@@ -180,11 +181,9 @@ def open_app(activity_path: str):
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)
 
 NO_NEED = "NO_NEED"
-NO_ROOT = "NO_ROOT"
 ERROR = "ERROR"
 FAILED = "FAILED"
 SUCCESS = "SUCCESS"
-READ_ONLY = "READ_ONLY"
 NO_FILE = "NO_FILE"
 def mumu_rm_mu(use_config=None) -> str:
     """删除mumu的mu_bak文件，需要mumu开启root且读写系统文件权限"""
@@ -219,7 +218,7 @@ def mumu_rm_mu(use_config=None) -> str:
         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"rm -rf /system/xbin/mu_bak\""], isasync=True)
         time.sleep(1)
         # adb点击 (761, 629)
-        subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "input", "tap", str(761), str(629)])
+        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(761), str(629)])
         time.sleep(2)
         # 检测是否删除成功
         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
@@ -229,7 +228,9 @@ def mumu_rm_mu(use_config=None) -> str:
             logging.info({"zh_CN": "检查ROOT权限开启，以及磁盘共享可写系统盘", "en_US": "check if ROOT permission is enabled and disk sharing is writable"})
             return FAILED
         return SUCCESS
-    except:
+    except Exception as e:
+        logging.error({"zh_CN": "删除mu_bak文件失败：{}".format(e), "en_US": "Failed to delete mu_bak file:{}".format(e)})
+        traceback.print_exc()
         return ERROR
     
 def mumu_bak_mu(use_config=None) -> str:
@@ -264,7 +265,7 @@ def mumu_bak_mu(use_config=None) -> str:
         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"cp /data/local/tmp/mu_bak /system/xbin/mu_bak\""], isasync=True)
         time.sleep(1)
         # adb点击 (761, 629)
-        subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "input", "tap", str(761), str(629)])
+        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(761), str(629)])
         time.sleep(2)
         # 检测是否粘贴成功
         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
@@ -274,5 +275,7 @@ def mumu_bak_mu(use_config=None) -> str:
             logging.info({"zh_CN": "检查ROOT权限开启，以及磁盘共享可写系统盘", "en_US": "check if ROOT permission is enabled and disk sharing is writable"})
             return FAILED
         return SUCCESS
-    except:
+    except Exception as e:
+        logging.error({"zh_CN": "mu_bak文件还原失败：{}".format(e), "en_US": "Failed to restore mu_bak file:{}".format(e)})
+        traceback.print_exc()
         return ERROR
