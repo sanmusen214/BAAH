@@ -194,6 +194,11 @@ def mumu_rm_mu(use_config=None) -> str:
     else:
         this_config = config
     try:
+        # 获取屏幕分辨率
+        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "wm", "size"]).stdout
+        height = int(output.split(":")[1].split("x")[0])
+        width = int(output.split(":")[1].split("x")[1])
+        print(width, height)
         # 检查mumu是否有mu_bak文件
         # adb -s 127.0.0.1:16416 shell "cd /system/xbin && ls"
         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
@@ -218,7 +223,7 @@ def mumu_rm_mu(use_config=None) -> str:
         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"rm -rf /system/xbin/mu_bak\""], isasync=True)
         time.sleep(1)
         # adb点击 (761, 629)
-        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(761), str(629)])
+        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(int(width*761/1280)), str(int(height*629/720))])
         time.sleep(2)
         # 检测是否删除成功
         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
