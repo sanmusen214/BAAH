@@ -6,6 +6,7 @@
     "task_timetable":"课程表/日程",
     "task_club":"社团",
     "task_shop":"商店",
+    "task_buy_ap":"购买体力",
     "task_wanted":"悬赏通缉/指名手配",
     "task_special":"特殊任务/委托/依赖",
     "task_exchange":"学园交流会",
@@ -121,6 +122,10 @@
     "config_weight_of_rewards":"奖励权重（偏向拿取更高质量的光盘奖励）",
     "config_weight_of_hearts":"爱心权重（偏向获取更多学生的好感度）",
     "config_weight_of_lock":"未解锁房间权重（偏向解锁更多房间）",
+    "config_buy_ap_attention":"购买体力时请确保有足够的钻石",
+    "config_buy_ap_max_price":"体力单价的最大值（包含）",
+    "config_buy_ap_add_times":"购买体力组数",
+
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

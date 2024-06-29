@@ -20,6 +20,7 @@ from gui.pages.Setting_wanted import set_wanted
 from gui.pages.Setting_notification import set_notification
 from gui.pages.Setting_vpn import set_vpn
 from gui.pages.Setting_Assault import set_assault
+from gui.pages.Setting_BuyAP import set_buyAP
 
 @ui.refreshable
 def show_GUI(load_jsonname, config, shared_softwareconfig):
@@ -39,6 +40,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "课程表":config.get_text("task_timetable"),
         "社团":config.get_text("task_club"),
         "商店":config.get_text("task_shop"),
+        "购买AP":config.get_text("task_buy_ap"),
         "悬赏通缉":config.get_text("task_wanted"),
         "特殊任务":config.get_text("task_special"),
         "学园交流会":config.get_text("task_exchange"),
@@ -71,6 +73,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("task_cafe"), '#CAFE')
                 ui.link(config.get_text("task_timetable"), '#TIME_TABLE')
                 ui.link(config.get_text("task_shop"), '#SHOP_NORMAL')
+                ui.link(config.get_text("task_buy_ap"), '#BUY_AP')
                 ui.link(config.get_text("task_wanted"), '#WANTED')
                 ui.link(config.get_text("task_special"), '#SPECIAL_TASK')
                 ui.link(config.get_text("task_exchange"), '#EXCHANGE')
@@ -108,6 +111,9 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 
             # 商店
             set_shop(config)
+            
+            # 购买AP
+            set_buyAP(config)
             
             # 悬赏通缉
             set_wanted(config)

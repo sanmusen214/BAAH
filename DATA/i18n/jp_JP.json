@@ -6,6 +6,7 @@
     "task_timetable": "タイムテーブル／スケジュール",
     "task_club": "クラブ",
     "task_shop": "ショップ",
+    "task_buy_ap": "体力を購入する",
     "task_wanted": "指名手配／懸賞",
     "task_special": "特別任務／依頼",
     "task_exchange": "学園交流会",
@@ -121,6 +122,9 @@
     "config_weight_of_rewards":"報酬の重み（偏向報酬を取得する）",
     "config_weight_of_hearts":"ハートの重み（偏向ハートを取得する）",
     "config_weight_of_lock":"ロックの重み（偏向ロックを取得する）",
+    "config_buy_ap_attention":"APを購入する際は、十分なダイヤモンドがあることを確認してください",
+    "config_buy_ap_max_price":"APの最大価格(含む)",
+    "config_buy_ap_add_times":"APを購入する回数",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
