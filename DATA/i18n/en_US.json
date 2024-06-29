@@ -6,6 +6,7 @@
     "task_timetable": "Lesson",
     "task_club": "Club",
     "task_shop": "Shop",
+    "task_buy_ap": "Buy AP",
     "task_wanted": "Bounty",
     "task_special": "Commissions",
     "task_exchange": "Scrimm",
@@ -121,6 +122,9 @@
     "config_weight_of_rewards":"Weight of rewards, try to get better rewards",
     "config_weight_of_hearts":"Weight of heart, try to increase more relationship with students",
     "config_weight_of_lock":"Weight of lock rooms, try to unlock more rooms",
+    "config_buy_ap_attention":"When buying AP, please make sure you have enough diamonds",
+    "config_buy_ap_max_price":"The Maximum price of AP(included)",
+    "config_buy_ap_add_times":"Number of times to buy AP",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

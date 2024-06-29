@@ -28,6 +28,7 @@ task_dict= {
     "普通推图":[InQuest, {'types':["push-normal"]}],
     "困难推图":[InQuest, {'types':["push-hard"]}],
     "主线剧情":[AutoStory,{}],
+    "购买AP":[BuyAP,{}],
 }
 
 class AllTask:

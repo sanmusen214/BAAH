@@ -5,6 +5,7 @@ BAAH.spec
 compact_log.txt
 /*.png
 /DATA/CONFIGS/software_config.json
+/DATA/mu_bak
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
