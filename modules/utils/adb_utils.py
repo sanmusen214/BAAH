@@ -180,107 +180,107 @@ def open_app(activity_path: str):
     appname = activity_path.split("/")[0]
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)
 
-NO_NEED = "NO_NEED"
-ERROR = "ERROR"
-FAILED = "FAILED"
-SUCCESS = "SUCCESS"
-NO_FILE = "NO_FILE"
-def mumu_rm_mu(use_config=None) -> str:
-    """删除mumu的mu_bak文件，需要mumu开启root且读写系统文件权限"""
+# NO_NEED = "NO_NEED"
+# ERROR = "ERROR"
+# FAILED = "FAILED"
+# SUCCESS = "SUCCESS"
+# NO_FILE = "NO_FILE"
+# def mumu_rm_mu(use_config=None) -> str:
+#     """删除mumu的mu_bak文件，需要mumu开启root且读写系统文件权限"""
 
     
-    if use_config:
-        this_config = use_config
-    else:
-        this_config = config
-    try:
-        # 获取屏幕分辨率
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "wm", "size"]).stdout
-        height = int(output.split(":")[1].split("x")[0])
-        width = int(output.split(":")[1].split("x")[1])
-        print(width, height)
-        # 检查mumu是否有mu_bak文件
-        # adb -s 127.0.0.1:16416 shell "cd /system/xbin && ls"
-        logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
-        logging.info(output.split())
-        if ("mu_bak" in output.split()):
-            logging.info({"zh_CN": "模拟器检测到mu_bak文件", "en_US": "mu_bak file detected in the emulator"})
-        else:
-            return NO_NEED
-        # 将mu_bak文件保存到DATA文件夹下，如果已经在文件夹里了就跳过
-        if not os.path.exists("DATA/mu_bak"):
-            logging.info({"zh_CN": "保存mu_bak文件至本地", "en_US": "Saving mu_bak file to local"})
-            # adb -s
-            subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "pull", "/system/xbin/mu_bak", "DATA/mu_bak"])
-        # 解锁
-        # adb -s 127.0.0.1:16416 shell pm unsuspend com.nemu.superuser
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "pm", "unsuspend", "com.nemu.superuser"]).stdout
-        logging.info(output)
-        # 删除mu_bak文件
-        logging.info({"zh_CN": "删除模拟器mu_bak文件", "en_US": "Deleting mu_bak file in the emulator"})
-        # adb -s 127.0.0.1:16416 shell "su & rm -rf /system/xbin/mu_bak"
-        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"rm -rf /system/xbin/mu_bak\""], isasync=True)
-        time.sleep(1)
-        # adb点击 (761, 629)
-        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(int(width*761/1280)), str(int(height*629/720))])
-        time.sleep(2)
-        # 检测是否删除成功
-        logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
-        logging.info(output.split())
-        if ("mu_bak" in output.split()):
-            logging.info({"zh_CN": "检查ROOT权限开启，以及磁盘共享可写系统盘", "en_US": "check if ROOT permission is enabled and disk sharing is writable"})
-            return FAILED
-        return SUCCESS
-    except Exception as e:
-        logging.error({"zh_CN": "删除mu_bak文件失败：{}".format(e), "en_US": "Failed to delete mu_bak file:{}".format(e)})
-        traceback.print_exc()
-        return ERROR
+#     if use_config:
+#         this_config = use_config
+#     else:
+#         this_config = config
+#     try:
+#         # 获取屏幕分辨率
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "wm", "size"]).stdout
+#         height = int(output.split(":")[1].split("x")[0])
+#         width = int(output.split(":")[1].split("x")[1])
+#         print(width, height)
+#         # 检查mumu是否有mu_bak文件
+#         # adb -s 127.0.0.1:16416 shell "cd /system/xbin && ls"
+#         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
+#         logging.info(output.split())
+#         if ("mu_bak" in output.split()):
+#             logging.info({"zh_CN": "模拟器检测到mu_bak文件", "en_US": "mu_bak file detected in the emulator"})
+#         else:
+#             return NO_NEED
+#         # 将mu_bak文件保存到DATA文件夹下，如果已经在文件夹里了就跳过
+#         if not os.path.exists("DATA/mu_bak"):
+#             logging.info({"zh_CN": "保存mu_bak文件至本地", "en_US": "Saving mu_bak file to local"})
+#             # adb -s
+#             subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "pull", "/system/xbin/mu_bak", "DATA/mu_bak"])
+#         # 解锁
+#         # adb -s 127.0.0.1:16416 shell pm unsuspend com.nemu.superuser
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "pm", "unsuspend", "com.nemu.superuser"]).stdout
+#         logging.info(output)
+#         # 删除mu_bak文件
+#         logging.info({"zh_CN": "删除模拟器mu_bak文件", "en_US": "Deleting mu_bak file in the emulator"})
+#         # adb -s 127.0.0.1:16416 shell "su & rm -rf /system/xbin/mu_bak"
+#         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"rm -rf /system/xbin/mu_bak\""], isasync=True)
+#         time.sleep(1)
+#         # adb点击 (761, 629)
+#         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(int(width*761/1280)), str(int(height*629/720))])
+#         time.sleep(2)
+#         # 检测是否删除成功
+#         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
+#         logging.info(output.split())
+#         if ("mu_bak" in output.split()):
+#             logging.info({"zh_CN": "检查ROOT权限开启，以及磁盘共享可写系统盘", "en_US": "check if ROOT permission is enabled and disk sharing is writable"})
+#             return FAILED
+#         return SUCCESS
+#     except Exception as e:
+#         logging.error({"zh_CN": "删除mu_bak文件失败：{}".format(e), "en_US": "Failed to delete mu_bak file:{}".format(e)})
+#         traceback.print_exc()
+#         return ERROR
     
-def mumu_bak_mu(use_config=None) -> str:
-    """将mu_bak文件还原，需要mumu开启root且读写系统文件权限"""
+# def mumu_bak_mu(use_config=None) -> str:
+#     """将mu_bak文件还原，需要mumu开启root且读写系统文件权限"""
     
-    if use_config:
-        this_config = use_config
-    else:
-        this_config = config
-    try:
-        # 检查mumu是否有mu_bak文件
-        # adb -s 127.0.0.1:16416 shell "cd /system/xbin && ls"
-        logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
-        logging.info(output.split())
-        if ("mu_bak" not in output.split()):
-            logging.info({"zh_CN": "模拟器没有检测到mu_bak文件", "en_US": "no mu_bak file detected in the emulator"})
-        else:
-            return NO_NEED
-        # 解锁
-        # adb -s 127.0.0.1:16416 shell pm unsuspend com.nemu.superuser
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "pm", "unsuspend", "com.nemu.superuser"]).stdout
-        logging.info(output)
-        # 粘贴mu_bak文件
-        if not os.path.exists("DATA/mu_bak"):
-            logging.info({"zh_CN": "DATA/mu_bak文件不存在", "en_US": "DATA/mu_bak file not found"})
-            return NO_FILE
-        logging.info({"zh_CN": "粘贴mu_bak文件", "en_US": "Add mu_bak file"})
-        # adb push DATA/mu_bak /data/local/tmp/mu_bak
-        # adb shell su -c "cp /data/local/tmp/mu_bak /system/xbin/mu_bak"
-        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "push", "DATA/mu_bak", "/data/local/tmp/mu_bak"])
-        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"cp /data/local/tmp/mu_bak /system/xbin/mu_bak\""], isasync=True)
-        time.sleep(1)
-        # adb点击 (761, 629)
-        subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(761), str(629)])
-        time.sleep(2)
-        # 检测是否粘贴成功
-        logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
-        output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
-        logging.info(output.split())
-        if ("mu_bak" not in output.split()):
-            logging.info({"zh_CN": "检查ROOT权限开启，以及磁盘共享可写系统盘", "en_US": "check if ROOT permission is enabled and disk sharing is writable"})
-            return FAILED
-        return SUCCESS
-    except Exception as e:
-        logging.error({"zh_CN": "mu_bak文件还原失败：{}".format(e), "en_US": "Failed to restore mu_bak file:{}".format(e)})
-        traceback.print_exc()
-        return ERROR
+#     if use_config:
+#         this_config = use_config
+#     else:
+#         this_config = config
+#     try:
+#         # 检查mumu是否有mu_bak文件
+#         # adb -s 127.0.0.1:16416 shell "cd /system/xbin && ls"
+#         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
+#         logging.info(output.split())
+#         if ("mu_bak" not in output.split()):
+#             logging.info({"zh_CN": "模拟器没有检测到mu_bak文件", "en_US": "no mu_bak file detected in the emulator"})
+#         else:
+#             return NO_NEED
+#         # 解锁
+#         # adb -s 127.0.0.1:16416 shell pm unsuspend com.nemu.superuser
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "pm", "unsuspend", "com.nemu.superuser"]).stdout
+#         logging.info(output)
+#         # 粘贴mu_bak文件
+#         if not os.path.exists("DATA/mu_bak"):
+#             logging.info({"zh_CN": "DATA/mu_bak文件不存在", "en_US": "DATA/mu_bak file not found"})
+#             return NO_FILE
+#         logging.info({"zh_CN": "粘贴mu_bak文件", "en_US": "Add mu_bak file"})
+#         # adb push DATA/mu_bak /data/local/tmp/mu_bak
+#         # adb shell su -c "cp /data/local/tmp/mu_bak /system/xbin/mu_bak"
+#         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "push", "DATA/mu_bak", "/data/local/tmp/mu_bak"])
+#         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "su", "-c", "\"cp /data/local/tmp/mu_bak /system/xbin/mu_bak\""], isasync=True)
+#         time.sleep(1)
+#         # adb点击 (761, 629)
+#         subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "input", "tap", str(761), str(629)])
+#         time.sleep(2)
+#         # 检测是否粘贴成功
+#         logging.info({"zh_CN": "检查mu_bak文件", "en_US": "Checking mu_bak file"})
+#         output = subprocess_run([get_config_adb_path(this_config), "-s", getNewestSeialNumber(this_config), "shell", "cd /system/xbin && ls"]).stdout
+#         logging.info(output.split())
+#         if ("mu_bak" not in output.split()):
+#             logging.info({"zh_CN": "检查ROOT权限开启，以及磁盘共享可写系统盘", "en_US": "check if ROOT permission is enabled and disk sharing is writable"})
+#             return FAILED
+#         return SUCCESS
+#     except Exception as e:
+#         logging.error({"zh_CN": "mu_bak文件还原失败：{}".format(e), "en_US": "Failed to restore mu_bak file:{}".format(e)})
+#         traceback.print_exc()
+#         return ERROR
