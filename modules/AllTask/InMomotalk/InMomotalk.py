@@ -71,14 +71,14 @@ class InMomotalk(Task):
                 lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87)
             )
         # 羁绊按钮 +40
-        partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), returnpos=True)
+        partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), threshold=0.87, returnpos=True)
         logging.info({"zh_CN": "羁绊按钮匹配度:{:.2f}".format(partner_button[2]),
                       "en_US": "Bond button matching degree:{:.2f}".format(partner_button[2])})
         if partner_button[0]:
             logging.info({"zh_CN": "检测到羁绊按钮", "en_US": "Bond Button Detected"})
             self.run_until(
                 lambda: click((partner_button[1][0], partner_button[1][1] + 40)),
-                lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER))
+                lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), threshold=0.87)
             )
             # 羁绊按钮后面必定有羁绊剧情按钮，等待一秒
             sleep(1.5)
@@ -108,10 +108,11 @@ class InMomotalk(Task):
         click((170, 299), 1)
         click((170, 299), 1)
         # 按照未读的momotalk筛选
-        click((507, 176), 1)
-        click((508, 293))
-        click((450, 366))  # 国
-        click((450, 421))  # 日
+        click((507, 176), 1) # 打开筛选框
+        click((508, 293))  # 日, 国际服, 国
+        # 关掉筛选框，此位置下面是第一个对话的右上角
+        click((660, 223))
+        click((660, 223))
         # 尝试切换排序，多次后还没检测到红标记就放弃
         self.scroll_left_up()
         # 检测是否有红点，没有就退出
