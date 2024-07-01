@@ -1,3 +1,4 @@
+import sys
 from time import strftime
 from modules.configs.MyConfig import config
 
@@ -49,6 +50,9 @@ class MyLogger:
         # else:
         #     print(msg)
         print(msg)
+        # flush
+        sys.stdout.flush()
+        
     
     def info(self, msg):
         formatted_msg = self.format_msg(msg, self.INFO)
