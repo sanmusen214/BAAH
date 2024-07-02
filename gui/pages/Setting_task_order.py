@@ -48,10 +48,10 @@ def set_task_order(config, real_taskname_to_show_taskname):
     
     task_order()
     
-    with ui.row():
-        ui.link_target("NEXT_CONFIG")
-        ui.label(config.get_text("setting_next_config")).style('font-size: x-large')
+    # with ui.row():
+    #     ui.link_target("NEXT_CONFIG")
+    #     ui.label(config.get_text("setting_next_config")).style('font-size: x-large')
     
-    ui.label(config.get_text("config_desc_next_config")).style('color: red')
+    # ui.label(config.get_text("config_desc_next_config")).style('color: red')
         
-    ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+    # ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')

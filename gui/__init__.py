@@ -69,7 +69,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("setting_vpn"), '#VPN')
                 ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
                 ui.link(config.get_text("setting_notification"), '#NOTIFICATION')
-                ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
+                # ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
                 ui.link(config.get_text("task_cafe"), '#CAFE')
                 ui.link(config.get_text("task_timetable"), '#TIME_TABLE')
                 ui.link(config.get_text("task_shop"), '#SHOP_NORMAL')
