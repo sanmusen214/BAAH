@@ -10,6 +10,31 @@ from modules.configs.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
 
+def print_BAAH_info():
+    print("+" + "BAAH".center(80, "="), "+")
+    print("||" + f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ") + "||")
+    print("||" + "Bilibili: https://space.bilibili.com/7331920".center(80, " ") + "||")
+    print("||" + "Github: https://github.com/sanmusen214/BAAH".center(80, " ") + "||")
+    print("||" + "QQ group: 441069156".center(80, " ") + "||")
+    print("||" + "".center(80, " ") + "||")
+    print("+" + "".center(80, "=") + "+")
+
+def print_BAAH_start():
+    print_BAAH_info()
+    # 打印config信息
+    logging.info({"zh_CN": f"读取的配置文件: {config.nowuserconfigname}", "en_US": f"Read config file: {config.nowuserconfigname}"})
+    logging.info({"zh_CN": f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}",
+                    "en_US":f"Emulator: {config.userconfigdict['TARGET_EMULATOR_PATH']}"})
+    logging.info({"zh_CN": f"端口:{config.userconfigdict['TARGET_PORT']}",
+                    "en_US": f"Port: {config.userconfigdict['TARGET_PORT']}"})
+    logging.info({"zh_CN": f"区服:{config.userconfigdict['SERVER_TYPE']}",
+                    "en_US": f"Server: {config.userconfigdict['SERVER_TYPE']}"})
+    
+
+def print_BAAH_finish():
+    print_BAAH_info()
+    print("\n程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
+    print("https://github.com/sanmusen214/BAAH")
 
 def BAAH_release_adb_port(justDoIt=False):
     """
@@ -219,20 +244,73 @@ def BAAH_send_email():
         logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
         logging.error(e)
 
+def BAAH_auto_quit():
+    """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
+    if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+        input("Press Enter to exit/回车退出:")
+    else:
+        logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
+        sleep(10)
+        
+def BAAH_rm_pic():
+    """运行结束后，删除截图文件，内含try-except"""
+    try:
+        # 运行结束后如果截图文件存在，删除截图文件
+        if os.path.exists(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}"):
+            os.remove(f"./{config.userconfigdict.get('SCREENSHOT_NAME')}")
+    except Exception as e:
+        logging.error({"zh_CN": "删除截图文件失败", "en_US": "Failed to delete screenshot file"})
+
+def BAAH_send_err_mail(e):
+    """ 发送错误通知邮件 """
+    if config.userconfigdict["ENABLE_MAIL_NOTI"]:
+        logging.info({"zh_CN": "发送错误通知邮件", "en_US": "Send error notification email"})
+        try:
+            # 构造通知对象
+            notificationer = create_notificationer()
+            # 构造邮件内容
+            content = []
+            content.append("BAAH任务出现错误")
+            content.append("配置文件名称: " + config.nowuserconfigname)
+            content.append("游戏区服: " + config.userconfigdict["SERVER_TYPE"])
+            content.append("错误信息: " + str(e))
+            print(notificationer.send("\n".join(content)))
+            logging.info({"zh_CN": "邮件发送结束", "en_US": "The email has been sent"})
+        except Exception as eagain:
+            logging.error({"zh_CN": "发送邮件失败", "en_US": "Failed to send email"})
+            logging.error(eagain)
 
 def BAAH_main():
-    config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
-    BAAH_release_adb_port()
-    BAAH_start_emulator()
-    BAAH_check_adb_connect()
-    BAAH_start_VPN()
-    BAAH_open_target_app()
-    # 运行任务
-    logging.info({"zh_CN": "运行任务", "en_US": "start running tasks"})
-    my_AllTask.run()
-    logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
-    BAAH_kill_emulator()
-    BAAH_send_email()
+    """
+    执行BAAH主程序，在此之前config应该已经被单独import然后解析为用户指定的配置文件->随后再导入my_AllTask以及其他依赖config的模块
+    """
+    try:
+        config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        print_BAAH_start()
+        BAAH_release_adb_port()
+        BAAH_start_emulator()
+        BAAH_check_adb_connect()
+        BAAH_start_VPN()
+        BAAH_open_target_app()
+        
+        # 运行任务
+        logging.info({"zh_CN": "运行任务", "en_US": "start running tasks"})
+        my_AllTask.run()
+        logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
+        BAAH_kill_emulator()
+        BAAH_send_email()
+        print_BAAH_finish()
+        BAAH_rm_pic()
+        BAAH_auto_quit()
+        
+    except Exception as e:
+        logging.error({"zh_CN": "运行出错", "en_US": "Error occurred"})
+        # 打印完整的错误信息
+        import traceback
+        traceback.print_exc()
+        BAAH_send_err_mail(e)
+        print_BAAH_finish()
+        input("Error, Enter to exit/错误，回车退出:")
 
 
 if __name__ in ["__main__", "__mp_main__"]:
