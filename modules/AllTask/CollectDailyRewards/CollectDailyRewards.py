@@ -7,7 +7,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel
 
 class CollectDailyRewards(Task):
     def __init__(self, name="CollectDailyRewards") -> None:
@@ -27,6 +27,11 @@ class CollectDailyRewards(Task):
         self.run_until(
             lambda: click(Page.MAGICPOINT) and click((1150, 671)) and click(Page.MAGICPOINT),
             lambda: match(button_pic(ButtonName.BUTTON_ALL_COLLECT_GRAY),returnpos=True)[2] > match(button_pic(ButtonName.BUTTON_ALL_COLLECT),returnpos=True)[2]
+        )
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
         # collect 20
         self.run_until(

@@ -17,3 +17,9 @@ from .InContest.InContest import InContest
 from .CollectMails.CollectMails import CollectMails
 from .CollectDailyRewards.CollectDailyRewards import CollectDailyRewards
 
+from .AutoStory.AutoStory import AutoStory
+from .AutoAssault.AutoAssault import AutoAssault
+
+from .BuyAP.BuyAP import BuyAP
+
+from .PostAllTask.PostAllTask import PostAllTask

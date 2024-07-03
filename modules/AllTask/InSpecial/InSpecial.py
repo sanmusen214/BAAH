@@ -1,5 +1,5 @@
  
-import logging
+from modules.utils.log_utils import logging
 import time
 
 from DATA.assets.PageName import PageName
@@ -21,7 +21,7 @@ class InSpecial(Task):
 
     def pre_condition(self) -> bool:
         if not config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'] or len(config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'])==0:
-            logging.warn("未配置特殊关卡")
+            logging.warn({"zh_CN": "未配置特殊关卡", "en_US":"Didn't set the special level"})
             return False
         return Page.is_page(PageName.PAGE_HOME)
 
@@ -34,7 +34,7 @@ class InSpecial(Task):
         target_info = config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'][target_loc]
         # 判断这一天是否设置有特殊关卡
         if len(target_info) == 0:
-            logging.warn("今天轮次中无特殊关卡，跳过")
+            logging.warn({"zh_CN": "今天轮次中无特殊关卡，跳过", "en_US":"There is no special level in today's round, skip"})
             return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
@@ -46,10 +46,14 @@ class InSpecial(Task):
             sleeptime=4
         )
         # 进入特殊任务页面
-        self.run_until(
+        caninspecial = self.run_until(
             lambda: click((721, 538)),
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
+        if not caninspecial:
+            logging.warning("Can't open special page, task quit")
+            self.back_to_home()
+            return
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             # 使用PageName.PAGE_SPECIAL的坐标判断是国服还是其他服

@@ -5,6 +5,7 @@ from modules.configs.MyConfig import config
 import subprocess
 from pathlib import Path
 import nicegui
+import time
 
 def package_copyfolder(src, dst):
     try:
@@ -29,7 +30,7 @@ def package_rename(src, dst):
         
 def package_create_folder(path):
     try:
-        os.mkdir(path)
+        os.makedirs(path)
     except Exception as e:
         print(f"{path}创建时出错!")
 
@@ -49,9 +50,7 @@ def package_remove_folder(path):
 
 config_version = config.NOWVERSION
 
-package_remove_file(f"./dist/BAAH{config_version}.zip")
-package_remove_file(f"./dist/BAAH{config_version}_update.zip")
-package_rename(f"./dist/BAAH{config_version}", f"./dist/BAAH")
+package_remove_folder("./dist")
 
 # 打包main.py，名字为BAAH
 baahcmd = [
@@ -101,7 +100,10 @@ package_create_folder("./dist/BAAH/DATA/CONFIGS")
 # 将LICENSE挪进去占位, 不放software.config, 防止覆盖掉用户的
 package_copyfile("./LICENSE", "./dist/BAAH/DATA/CONFIGS/LICENSE")
 
-package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+# 这里只拷贝example.json，不拷贝其他的，因为其他的是用户的配置文件
+# package_copyfolder("./BAAH_CONFIGS", "./dist/BAAH/BAAH_CONFIGS")
+package_create_folder("./dist/BAAH/BAAH_CONFIGS")
+package_copyfile("./BAAH_CONFIGS/example.json", "./dist/BAAH/BAAH_CONFIGS/example.json")
 
 package_copyfolder("./DATA/assets", "./dist/BAAH/DATA/assets")
 package_copyfolder("./DATA/assets_jp", "./dist/BAAH/DATA/assets_jp")
@@ -110,34 +112,34 @@ package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en
 package_copyfolder("./DATA/grid_solution", "./dist/BAAH/DATA/grid_solution")
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
 
+time.sleep(2)
+
 # package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
-package_rename("./dist/BAAH/jsoneditor.exe", f"./dist/BAAH/BAAH_GUI{config_version}.exe")
+package_rename("./dist/BAAH/jsoneditor.exe", "./dist/BAAH/BAAH_GUI.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
 print("开始压缩")
+time.sleep(2)
 
 # 压缩./dist/BAAH文件夹为BAAH.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
     for filename in filenames:
-        # 跳过config.json
-        if "config.json" in filename:
-            continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
 print(f"完成，压缩包./dist/BAAH{config_version}.zip已生成")
+print(f"压缩包大小为{os.path.getsize(f'./dist/BAAH{config_version}.zip')/1024/1024:.2f}MB")
 
 # 压缩./dist/BAAH文件夹(除了_internal, tools)为BAAH_update.zip
 z = zipfile.ZipFile(f'./dist/BAAH{config_version}_update.zip', 'w', zipfile.ZIP_DEFLATED)
 startdir = f"./dist/BAAH{config_version}"
 for dirpath, dirnames, filenames in os.walk(startdir):
-    if "_internal" in dirpath or "tools" in dirpath:
+    if "_internal" in dirpath or "tools" in dirpath or "BAAH_CONFIGS" in dirpath:
         continue
     for filename in filenames:
-        # 跳过config.json
-        if "config.json" in filename:
-            continue
         z.write(os.path.join(dirpath, filename), arcname=os.path.join(dirpath, filename).replace("/dist",""))
 
 print(f"完成，压缩包./dist/BAAH{config_version}_update.zip已生成")
+print(f"压缩包大小为{os.path.getsize(f'./dist/BAAH{config_version}_update.zip')/1024/1024:.2f}MB")
+

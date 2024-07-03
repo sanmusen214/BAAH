@@ -4,15 +4,15 @@ import requests
 import os
 import zipfile
 
-def set_BAAH(config):
+def set_BAAH(config, shared_softwareconfig):
     
     def select_language(value):
-        config.softwareconfigdict["LANGUAGE"] = value
-        config.save_software_config()
+        shared_softwareconfig.softwareconfigdict["LANGUAGE"] = value
+        shared_softwareconfig.save_software_config()
         if value == "zh_CN":
             ui.notify("语言已切换为中文，重启生效")
         else:
-            ui.notify("Language has been changed to English, restart to take effect")
+            ui.notify("Language has been changed, restart to take effect")
 
     # 检查更新
     async def check_newest_version():
@@ -90,9 +90,9 @@ def set_BAAH(config):
     
     with ui.column():
         ui.link_target("BAAH")
-        ui.label("Blue Archive Aris Helper").style('font-size: xx-large')
+        ui.label(f"Blue Archive Aris Helper {config.NOWVERSION}").style('font-size: xx-large')
         
-        ui.toggle({"zh_CN":"中文", "en_US":"English"}, value=config.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value))
+        ui.toggle({"zh_CN":"中文", "en_US":"English", "jp_JP":"日本語"}, value=shared_softwareconfig.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(shared_softwareconfig.softwareconfigdict, "LANGUAGE")
 
         ui.label(config.get_text("BAAH_desc"))
 
@@ -105,8 +105,14 @@ def set_BAAH(config):
                     "bilibili":"https://space.bilibili.com/7331920"
                 }
         
-        ui.input("Github").bind_value_from(web_url, "github").style('width: 400px')
-        ui.input("Bilibili").bind_value_from(web_url, "bilibili").style('width: 400px')
-        
+        with ui.row():
+            ui.link("Github", web_url["github"], new_tab=True)
+            ui.input("Github").bind_value_from(web_url, "github").style('width: 400px')
+            
+        with ui.row():
+            ui.link("Bilibili", web_url["bilibili"], new_tab=True)
+            ui.input("Bilibili").bind_value_from(web_url, "bilibili").style('width: 400px')
 
         ui.label(config.get_text("BAAH_attention")).style('color: red; font-size: x-large')
+        
+        ui.html('<iframe  src="//player.bilibili.com/player.html?aid=539065954&bvid=BV1pi4y1W7QB&cid=1413492023&p=1&autoplay=0" width="720px" height="480px" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>')

@@ -1,5 +1,4 @@
- 
-import logging
+from modules.utils.log_utils import logging
 
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
@@ -12,16 +11,15 @@ from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
 import numpy as np
 
+
 class BuyItems(Task):
     def __init__(self, buyitems, name="BuyItems") -> None:
         super().__init__(name)
         self.buyitems = buyitems
 
-     
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_SHOP)
-    
-    
+
     def on_run(self) -> None:
         if config.userconfigdict["RESPOND_Y"]:
             responsey = config.userconfigdict['RESPOND_Y']
@@ -37,25 +35,31 @@ class BuyItems(Task):
             if i == 0:
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
-                        itemind = lineitems[j]-1
+                        itemind = lineitems[j] - 1
                         # 判断itemind是否在clickable_xs有效范围内
                         if itemind < 0 or itemind > 3:
-                            logging.warn(f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过")
+                            logging.warn({"zh_CN": f"第{i + 1}行第{itemind + 1}个物品不在有效范围内，跳过",
+                                          "en_US": f"The item is not in the valid range, "
+                                                   f"skipping the item in line {i + 1}:{itemind + 1}"})
                         else:
-                            logging.info(f"购买第{i+1}行第{itemind+1}个物品")
+                            logging.info({"zh_CN": f"购买第{i + 1}行第{itemind + 1}个物品",
+                                          "en_US": f"Purchase item {itemind + 1} on line {i + 1}"})
                             click((clickable_xs[itemind], 246))
                             totalbuy += 1
             else:
                 # 其他行不管点不点都翻页
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
-                        itemind = lineitems[j]-1
+                        itemind = lineitems[j] - 1
                         # 判断itemind是否在clickable_xs有效范围内
                         if itemind < 0 or itemind > 3:
-                            logging.warn(f"第{i+1}行第{itemind+1}个物品不在有效范围内，跳过")
+                            logging.warn({"zh_CN": f"第{i + 1}行第{itemind + 1}个物品不在有效范围内，跳过",
+                                          "en_US": f"The item is not in the valid range, "
+                                                   f"skipping the item in line {i + 1}:{itemind + 1}"})
                             # 还是要往下翻一行！
                         else:
-                            logging.info(f"购买第{i+1}行第{itemind+1}个物品")
+                            logging.info({"zh_CN": f"购买第{i + 1}行第{itemind + 1}个物品",
+                                          "en_US": f"Purchase item {itemind + 1} on line {i + 1}"})
                             click((clickable_xs[itemind], 508))
                             totalbuy += 1
                 # 往下翻一行
@@ -72,12 +76,14 @@ class BuyItems(Task):
             times=3
         )
         if not buypop:
-            logging.warn("未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买")
+            logging.warn({"zh_CN": "未识别到购买按钮或弹窗中的黄色确认按钮，跳过购买",
+                          "en_US": "Could not identify the purchase button or the yellow confirmation button "
+                                   "in the popup, skipping purchase"})
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             return
-        logging.info("成功点击右下角购买")
+        logging.info({"zh_CN": "成功点击右下角购买", "en_US": "Successfully clicked to buy in the lower right corner"})
         self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)),
             lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMY)),
@@ -86,7 +92,6 @@ class BuyItems(Task):
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
-        
-     
+
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_SHOP)

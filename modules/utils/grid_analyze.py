@@ -18,10 +18,6 @@ class GridAnalyzer:
     
     此类返回的坐标都是以数组为基底的，即左上角为原点，向下为第一轴正方向，向右为第二轴正方向。如果用于opencv的坐标，需要转换先后。
     """
-    TEAM_NAME_LIST = ["A","B","C","D","E"]
-    """
-    队伍名字映射表
-    """
     
     PIXEL_START_YELLOW = ((125, 250, 250), (132, 255, 255))
     """
@@ -31,11 +27,10 @@ class GridAnalyzer:
     """
     过程中的聚焦队伍的格子黄色
     """
-    if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
-        # 国服的走格子头顶黄色箭头颜色暗一点
-        PIXEL_HEAD_YELLOW = ((4, 211, 249), (47, 231, 255))
-    else:
-        PIXEL_HEAD_YELLOW = ((17, 223, 254), (50, 235, 255))
+    # 国服的走格子头顶黄色箭头颜色暗一点,有些关卡敌人会有黄色感叹号(16, 219, 255)
+    PIXEL_HEAD_YELLOW_CN_DARKER = ((2, 222, 249), (33, 233, 255))
+    # 有些关卡敌人会有黄色感叹号，那个的第一位在30或40左右，第二位在220左右。hard关头顶有灯照着时，第一个数字会变暗。
+    PIXEL_HEAD_YELLOW = ((4, 223, 254), (33, 235, 255))
     """
     过程中的聚焦队伍的头顶黄色箭头
     """
@@ -51,7 +46,7 @@ class GridAnalyzer:
         '90':"up",
         '270':"down"
     }
-    # 队伍行走方向的距离方位偏差
+    # 队伍行走方向的距离方位偏，轴与数组轴保持一致
     WALK_MAP = {
         "left":(0, -115),
         "right":(0, 115),
@@ -79,13 +74,15 @@ class GridAnalyzer:
 
     def get_mask(self, img, pixel_range, shrink_kernels=[(3, 3)]):
         """
-        提取图片中特定颜色范围的元素，置为白。其他地方置为黑。
+        提取图片中特定颜色范围的元素，置为白。其他地方置为黑。返回灰度图
         """
         lower = np.array(pixel_range[0])
         upper = np.array(pixel_range[1])
         mask = cv2.inRange(img, lower, upper)
         # 转成灰度图
         mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+        if shrink_kernels is None:
+            return mask
         for shrink_kernel in shrink_kernels:
             # 对masker进行腐蚀操作，使用nxn的结构元素
             kernel = np.ones(shrink_kernel, np.uint8)
@@ -260,3 +257,68 @@ class GridAnalyzer:
         获取require_type方案第step_ind回合的行动，step_ind从0开始
         """
         return self.level_data[require_type]["fight_plan"][step_ind]
+    
+    def get_head_triangle(self, imgdata):
+        """
+        获取头顶的黄色箭头的位置，返回中心点坐标，这里按照数组轴
+        
+        Parameters
+        ----------
+        imgdata : np.ndarray
+            输入的图片
+        pixel_range : tuple
+            黄色箭头的颜色范围
+        """
+        ini_image = imgdata
+
+        # 切割UI部分
+        xs = [50, 1279] # 左右
+        ys = [50, 640] # 上下
+
+        image = ini_image[ys[0]:ys[1], xs[0]:xs[1]]
+
+        # 筛选出黄色箭头
+        head_yellow = ((2, 213, 250), (65, 235, 255))
+        mask_head = self.get_mask(image, head_yellow, shrink_kernels=None)
+        # 腐蚀操作
+        # kernel = np.ones((3, 3), np.uint8)
+        # eroded = cv2.erode(mask_head, kernel, iterations=1)
+        # show(eroded)
+        # 膨胀操作
+        kernel = np.ones((8, 8), np.uint8)
+        dilated = cv2.dilate(mask_head, kernel, iterations=1)
+        # 边缘检测
+        edges = cv2.Canny(dilated, 50, 150, apertureSize=3)
+
+        # 找到轮廓
+        contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+        max_area = 0
+        max_triangle = None
+
+        # 对于每个轮廓，找最小的外接三角形，然后我们从中找到最大的一个
+        for contour in contours:
+            # 计算轮廓的最小外接三角形
+            area, trg1 = cv2.minEnclosingTriangle(contour)
+            if area > max_area:
+                max_area = area
+                max_triangle = trg1
+        
+        if max_triangle is None:
+            return None
+
+        # 去掉max_triangle的第2个维度
+        max_triangle = max_triangle[:, 0, :]
+        center_of_triangle = np.mean(max_triangle, axis=0)
+        
+        # print(max_triangle)
+        # # 画出三角形，max_triangle是三个点的坐标
+        # for i in range(3):
+        #     cv2.line(image, (int(max_triangle[i][0]), int(max_triangle[i][1])), (int(max_triangle[(i + 1) % 3][0]), int(max_triangle[(i + 1) % 3][1])), (0, 255, 0), 3)
+        # cv2.circle(image, (int(center_of_triangle[0]), int(center_of_triangle[1])), 7, (0, 0, 255), -1)
+        
+        # 加上截取掉的坐标
+        real_center = center_of_triangle + np.array([xs[0], ys[0]])
+        
+        # 图片坐标转数组坐标
+        return real_center[::-1]

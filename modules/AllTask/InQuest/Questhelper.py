@@ -1,7 +1,7 @@
 from modules.utils import click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 from modules.AllTask.Task import Task
 from modules.AllPage.Page import Page
-import logging
+from modules.utils.log_utils import logging
 
 def jump_to_page(to_num: int) -> bool:
     """
@@ -21,6 +21,11 @@ def jump_to_neighbour_page(to_num: int) -> bool:
     
     return True if it is already in the page
     """
+    # 清除弹窗
+    Task.run_until(
+        lambda: click(Page.MAGICPOINT),
+        lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+    )
     ocr_str = ocr_area((122, 179), (165, 211))[0]
     if ocr_str == "":
         return False
@@ -57,4 +62,15 @@ def judge_whether_3star():
         if not match_pixel(pos, gray_star):
             has_star_count += 1
     return has_star_count == 3
-    
+
+# 集中指挥
+center_tab_pos_L = (589, 180)
+# 简易攻略
+easy_tab_pos_R = (702, 181)
+def quest_has_easy_tab():
+    # 集中指挥tab栏未选中时的绿色
+    unselect_color_L = ((175, 245, 193), (180, 250, 200))
+    # 简易攻略tab未选中的蓝色
+    unselect_color_R = ((241, 221, 166), (246, 226, 171))
+    has_easy_tab = match_pixel(center_tab_pos_L, unselect_color_L) or match_pixel(easy_tab_pos_R, unselect_color_R)
+    return has_easy_tab

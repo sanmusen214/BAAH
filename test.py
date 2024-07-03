@@ -1,6 +1,5 @@
 import sys
-import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]
@@ -32,51 +31,25 @@ from modules.AllTask import *
 from modules.AllTask.InCafe.CollectPower import CollectPower
 from modules.AllPage.Page import Page
 
-drawing = False  # 检查是否正在绘制
-start_x, start_y = -1, -1
-def screencut_tool():
-    # 读取透明度层
-    screenshot = cv2.imread("./{}".format(config.userconfigdict['SCREENSHOT_NAME']))
-    # 平均最大最小bgr
-    bgr_result = [[],[],[]]
-    def mouse_callback_s(event, x, y, flags, param):
-        # 截图
-        global start_x, start_y, drawing
-        if event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
-            print(f"点击位置: ({x}, {y})", f"BGR 数组: {screenshot[y, x]}")
-            bgr_result[0].append(screenshot[y, x][0])
-            bgr_result[1].append(screenshot[y, x][1])
-            bgr_result[2].append(screenshot[y, x][2])
-            print("min max avg bgr: ", np.min(bgr_result, axis=1), np.max(bgr_result, axis=1), np.mean(bgr_result, axis=1))
-            
-        if event == cv2.EVENT_LBUTTONDOWN:  # 检查是否是鼠标左键按下事件
-            drawing = True
-            start_x, start_y = x, y
-        elif event == cv2.EVENT_MOUSEMOVE:  # 检查是否是鼠标移动事件
-            if drawing:
-                screenshot_copy = screenshot.copy()  # 创建截图的副本
-                cv2.rectangle(screenshot_copy, (start_x, start_y), (x, y), (0, 255, 0), 2)
-                cv2.imshow('Matched Screenshot', screenshot_copy)
-        elif event == cv2.EVENT_LBUTTONUP:  # 检查是否是鼠标左键释放事件
-            drawing = False
-            end_x, end_y = x, y
-            # cv2.rectangle(screenshot, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)
-            cv2.imshow('Matched Screenshot', screenshot)
 
-            # 保存截取的区域到当前目录
-            selected_region = screenshot[min(start_y,end_y):max(start_y,end_y), min(start_x,end_x):max(start_x,end_x)]
-            nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
-            filename = "selected_"+nowstr+".png"
-            cv2.imwrite(filename, selected_region)
-            print(f"选定区域已被保存为/Saved as {filename}")
-
-    cv2.imshow('Matched Screenshot', screenshot)
-    cv2.setMouseCallback("Matched Screenshot", mouse_callback_s)
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+from email.mime.text import MIMEText
+from email.header import Header
+from smtplib import SMTP_SSL
 
 if __name__=="__main__":
+    # #sender_qq为发件人的qq号码
+    # sender_qq = '1113746057'
+    # #pwd为qq邮箱的授权码
+    # pwd = ''
+    # #收件人邮箱receiver
+    # receiver='1113746057@qq.com'
+    # #邮件的正文内容
+    # mail_content = f'测试\n{config.userconfigdict["SERVER_TYPE"]}'
+    # #邮件标题
+    # mail_title = 'BAAH 测试'
+    
+    # send_mail(sender_qq=sender_qq,pwd=pwd,receiver=receiver,mail_title=mail_title,mail_content=mail_content)
+    
     # print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
     
     # print(os.path.basename(config.userconfigdict['TARGET_EMULATOR_PATH']+" --instance pie"))
@@ -112,25 +85,27 @@ if __name__=="__main__":
     
     connect_to_device()
     screenshot()
+
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/BUTTON/BUTTON_CONFIRMY.png",  show_result=True, auto_rotate_if_trans=False)
-    
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_GRID_FIGHT),  show_result=True, auto_rotate_if_trans=False)
 
     # 比划点
     screencut_tool()
     # offset = 40
     
+    
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
     # print(matchres)
     
-    # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
-    # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
+    # AutoStory().run()
     
+    # 获取入口activity
+    # print(get_now_running_app_entrance_activity())
     
     # 推图那一套
     # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
@@ -157,8 +132,7 @@ if __name__=="__main__":
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
-    # res = ocr_area((327, 257), (353, 288))
-    # print(res)
+    # res = ocr_area((18, 50), (74, 87), multi_lines=True)
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
     # reslist = ocr_area((72, 544), (91, 569), multi_lines=False)
@@ -178,6 +152,22 @@ if __name__=="__main__":
     # newpic = rotate_image_with_transparency(mypic, 90)
     # cv2.imshow("newpic", newpic)
     # cv2.waitKey(0)
+    
+    # 测找不同获取咖啡馆学生中心坐标
+    # click((68, 649), 1)
+    # screenshot()
+    # noStu = cv2.imread(config.userconfigdict['SCREENSHOT_NAME'])
+    # click((1171, 95), 1)
+    # for i in range(10):
+    #     screenshot()
+    #     hasStu = cv2.imread(config.userconfigdict['SCREENSHOT_NAME'])
+    #     diff_pos_list = compare_diff(noStu, hasStu, [1, 1279], [124, 568])
+    #     print(diff_pos_list)
+    #     for pos in diff_pos_list:
+    #         cv2.circle(hasStu, pos, 10, (0, 0, 255), -1)
+    #     cv2.imshow("newpic", hasStu)
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
     
     # 画3x3点
     # mypic = cv2.imread("./screenshot.png")

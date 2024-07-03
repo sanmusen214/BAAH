@@ -22,9 +22,9 @@ class Page:
 
     COLOR_WHITE = ((240, 240, 240), (255, 255, 255))
     COLOR_RED = ((24, 70, 250), (26, 72, 252))
-    COLOR_BUTTON_WHITE = ((230, 230, 230), (255, 255, 255))
+    COLOR_BUTTON_WHITE = ((220, 220, 220), (255, 255, 255))
     """
-    按钮有时半透明，受到游戏内交战环境影响，阈值可以低点
+    用于交战时右上角暂停按钮的像素识别，按钮有时半透明，受到游戏内交战环境影响，阈值可以低点
     """
     COLOR_BUTTON_GRAY = ((200, 200, 200), (230, 230, 230))
     # 父类
@@ -50,19 +50,17 @@ class Page:
         return match(page_pic(self.name))
     
     @staticmethod
-    def is_page(pagename, task = None) -> bool:
+    def is_page(pagename) -> bool:
         """
         确定当前截图是否是指定页面
         
-        pagename: PageName下的页面名
+        Parameters
+        ----------
+        pagename: 
+            PageName下的页面名
         
-        task: 如果传入一个Task对象，则会在判断前调用task.close_any_non_select_popup()确保关闭了所有非选项弹窗
-        
-        return: 如果是指定页面，返回True，否则返回False
+        Return
+        ------
+        如果是指定页面，返回True，否则返回False
         """
-        if task:
-            # 循环清除弹窗
-            havefound = True
-            while(havefound):
-                havefound = task.close_any_non_select_popup()
         return match(page_pic(pagename))

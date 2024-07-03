@@ -3,7 +3,7 @@ from modules.AllTask import *
 from modules.AllPage.Page import Page
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
-import logging
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 
 # 用户config里的 任务名称 和 任务类 的对应关系
@@ -11,7 +11,7 @@ task_dict= {
     "登录游戏":[EnterGame,{}],
     "清momotalk":[InMomotalk,{}],
     "咖啡馆":[InCafe,{}],
-    "咖啡馆只摸头":[InCafe,{'collect':False}],
+    "咖啡馆只摸头":[InCafe,{}], # 此方法弃用，现在所有咖啡馆参数通过config调整
     "课程表":[InTimeTable,{}],
     "社团":[InClub,{}],
     "商店":[InShop,{}],
@@ -19,11 +19,16 @@ task_dict= {
     "特殊任务":[InSpecial,{}],
     "学园交流会":[InExchange,{}],
     "战术大赛":[InContest, {'collect':False}],
-    "困难关卡":[InQuest, {'types':["hard", "push-hard"]}],
+    "总力战":[AutoAssault,{}],
+    "困难关卡":[InQuest, {'types':["hard"]}],
     "活动关卡":[InEvent,{}],
     "每日任务":[CollectDailyRewards,{}],
     "邮件":[CollectMails,{}],
-    "普通关卡":[InQuest, {'types':["normal", "push-normal"]}]
+    "普通关卡":[InQuest, {'types':["normal"]}],
+    "普通推图":[InQuest, {'types':["push-normal"]}],
+    "困难推图":[InQuest, {'types':["push-hard"]}],
+    "主线剧情":[AutoStory,{}],
+    "购买AP":[BuyAP,{}],
 }
 
 class AllTask:
@@ -56,7 +61,9 @@ class AllTask:
             if last_contest:
                 last_contest.set_collect(True)
         else:
-            logging.error("配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问")
+            logging.error({"zh_CN": "配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问", "en_US":"Serious error in config file, please delete config.json and open GUI.exe to generate config.py file or ask in the group"})
+        # 任务列表末尾添加一个PostAllTask任务，用于统计资源
+        self.add_task(PostAllTask())
         
         
     

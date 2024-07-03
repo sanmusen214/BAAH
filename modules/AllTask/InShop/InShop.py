@@ -1,5 +1,5 @@
  
-import logging
+from modules.utils.log_utils import logging
 
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
@@ -43,7 +43,7 @@ class InShop(Task):
             lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),
         )
         if not switchres:
-            logging.error("切换到竞技场商店失败，中止任务")
+            logging.error({"zh_CN": "切换到竞技场商店失败，中止任务", "en_US":"Switch to contest shop failed, abort task"})
             return
         ContestItems().run()
         
