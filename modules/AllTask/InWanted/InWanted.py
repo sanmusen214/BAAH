@@ -38,7 +38,7 @@ class InWanted(Task):
                           "en_US": "There is no wanted level in today's round, skip"})
             return
         # 序号转下标
-        target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
+        target_info = [[each[0]-1, each[1]-1, *each[2:]] for each in target_info]
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
@@ -56,6 +56,9 @@ class InWanted(Task):
             return
         # 开始循环扫荡target_info中的每一个关卡
         for each_target in target_info:
+            if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
+                logging.info(f"悬赏通缉{each_target[0]+1}-{each_target[1]+1}设置为关, 忽略")
+                continue
             # check whether there is a ticket
             # 使用PageName.PAGE_WANTED的坐标判断是国服还是其他服
             if match(page_pic(PageName.PAGE_WANTED), returnpos=True)[1][1] > 133:

@@ -38,13 +38,7 @@ class InSpecial(Task):
             return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
-        def _generator(target_info):
-            for  x in target_info:
-                if len(x)==4:
-                    yield  [x[0]-1,x[1]-1,x[2],x[3]]
-                else: # 兼容老版3个参数的config
-                    yield  [x[0]-1,x[1]-1,x[2]]
-        target_info=_generator(target_info)
+        target_info=[[each[0]-1, each[1]-1, *each[2:]] for each in target_info]
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),

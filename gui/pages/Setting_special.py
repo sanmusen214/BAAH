@@ -16,12 +16,11 @@ def set_special(config):
             [
                 config.get_text("config_location"),
                 config.get_text("config_level"),
-                config.get_text("config_times"),
-                "switch" # 增加开关，
-            ],
-            ""
+                config.get_text("config_times")
+            ]
             
         ], 
-        config.get_text("config_desc_list_edit")
+        config.get_text("config_desc_list_edit"),
+        has_switch=True
     )
             
