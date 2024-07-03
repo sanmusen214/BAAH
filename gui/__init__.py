@@ -155,7 +155,10 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.notify(config.get_text("notice_save_success"))
                 ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
-                os.system(f'start BAAH.exe "{load_jsonname}"')
+                if os.path.exists("BAAH.exe"):
+                    os.system(f'start BAAH.py "{load_jsonname}"')
+                else:
+                    os.system(f'start python main.py "{load_jsonname}"')
             ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run)
         
     # 加载完毕保存一下config，应用最新的对config的更改
