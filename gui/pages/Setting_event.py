@@ -14,4 +14,16 @@ def set_event(config):
         ui.checkbox(config.get_text("raise_error_if_can_not_push_event_level")).bind_value(config.userconfigdict, "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST").bind_visibility_from(config.userconfigdict, "AUTO_PUSH_EVENT_QUEST")
     
     ui.label(config.get_text("config_desc_times"))
-    list_edit_area(config.userconfigdict["EVENT_QUEST_LEVEL"], [config.get_text("config_day"), "", [config.get_text("config_level"), config.get_text("config_times")]], config.get_text("config_desc_list_edit"))
+    list_edit_area(
+        config.userconfigdict["EVENT_QUEST_LEVEL"], 
+        [
+            config.get_text("config_day"), 
+            "", 
+            [
+                config.get_text("config_level"), 
+                config.get_text("config_times")
+            ]
+        ], 
+        config.get_text("config_desc_list_edit"),
+        has_switch=True
+    )

@@ -69,7 +69,7 @@ class InQuest(Task):
                 # [[13,2,3],[19,2,3]]
                 hard_list = config.userconfigdict['HARD'][hard_loc]
                 # 序号转下标
-                hard_list_2 = [[x[0]-1, x[1]-1, x[2]] for x in hard_list]
+                hard_list_2 = [[x[0]-1, x[1]-1, *x[2:]] for x in hard_list]
                 # do HARD QUEST
                 HardQuest(hard_list_2).run()
         if "normal" in self.types:
@@ -82,7 +82,7 @@ class InQuest(Task):
                 normal_list = config.userconfigdict['NORMAL'][normal_loc]
                 # do NORMAL QUEST
                 # 序号转下标
-                normal_list_2 = [[x[0]-1, x[1]-1, x[2]] for x in normal_list]
+                normal_list_2 = [[x[0]-1, x[1]-1, *x[2:]] for x in normal_list]
                 NormalQuest(normal_list_2).run()
         self.back_to_home()
 

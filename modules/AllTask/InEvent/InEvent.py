@@ -253,7 +253,7 @@ class InEvent(Task):
             # [[10, -1],[11, -1]]
             quest_list = config.userconfigdict['EVENT_QUEST_LEVEL'][quest_loc]
             # 序号转下标
-            quest_list_2 = [[x[0] - 1, x[1]] for x in quest_list]
+            quest_list_2 = [[x[0] - 1, x[1], *x[2:]] for x in quest_list]
             # do Event QUEST
             EventQuest(quest_list_2).run()
 

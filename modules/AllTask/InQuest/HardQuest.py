@@ -35,6 +35,9 @@ class HardQuest(Task):
             to_page_num = each_quest[0] + 1
             level_ind = each_quest[1]
             repeat_times = each_quest[2]
+            if each_quest[-1] == 'false' or each_quest[-1] == False or each_quest[-1] == 0 : # 设置开关关闭
+                logging.info(f"{to_page_num}-{level_ind+1}设置为关, 忽略这关扫荡")
+                continue
             if repeat_times == 0:
                 # if repeat_times == 0, means this quest is not required to do
                 continue
