@@ -31,16 +31,16 @@ def run_baah_task(msg_obj, output_area, config):
     msg_obj["msg"] = "<br>" + f"{config.nowuserconfigname}" + "<br>" + msg_obj["msg"]
     output_area.refresh()
     # 使用subprocess.Popen来运行外部程序
-    with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1) as process:
-        # 创建队列来保存子进程输出
-        stdout_queue = queue.Queue()
+    try:
+        with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1) as process:
+            # 创建队列来保存子进程输出
+            stdout_queue = queue.Queue()
 
-        # 启动线程来读取子进程的标准输出
-        stdout_thread = threading.Thread(target=enqueue_output, args=(process.stdout, stdout_queue))
-        stdout_thread.daemon = True
-        stdout_thread.start()
+            # 启动线程来读取子进程的标准输出
+            stdout_thread = threading.Thread(target=enqueue_output, args=(process.stdout, stdout_queue))
+            stdout_thread.daemon = True
+            stdout_thread.start()
 
-        try:
             while True:
                 # 尝试从stdout_queue中获取数据
                 try:
@@ -65,10 +65,10 @@ def run_baah_task(msg_obj, output_area, config):
                     process.wait()
                     break
                 time.sleep(0.1)
-        except KeyboardInterrupt:
-            print("Terminating the process...")
-            process.terminate()
-            process.wait()
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+
     msg_obj["runing_signal"] = 0
     print("Process finished.")
     msg_obj["msg"] = "<br>" + f"{config.nowuserconfigname}" + "<br>" + msg_obj["msg"]
