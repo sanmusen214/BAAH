@@ -244,11 +244,11 @@ def BAAH_send_email():
         logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
         logging.error(e)
 
-def BAAH_auto_quit():
+def BAAH_auto_quit(forcewait = False):
     """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
     # 用于GUI识别是否结束的关键字
     print("GUI_BAAH_TASK_END")
-    if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+    if forcewait or not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
         input("Press Enter to exit/回车退出:")
     else:
         logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
@@ -313,7 +313,7 @@ def BAAH_main():
         traceback.print_exc()
         BAAH_send_err_mail(e)
         print_BAAH_finish()
-        input("Error, Enter to exit/错误，回车退出:")
+        BAAH_auto_quit(forcewait=True)
 
 
 if __name__ in ["__main__", "__mp_main__"]:
