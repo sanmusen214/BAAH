@@ -246,6 +246,8 @@ def BAAH_send_email():
 
 def BAAH_auto_quit():
     """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
+    # 用于GUI识别是否结束的关键字
+    print("GUI_BAAH_TASK_END")
     if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
         input("Press Enter to exit/回车退出:")
     else:
@@ -285,6 +287,7 @@ def BAAH_main():
     执行BAAH主程序，在此之前config应该已经被单独import然后解析为用户指定的配置文件->随后再导入my_AllTask以及其他依赖config的模块
     """
     try:
+        # TODO: 加任务执行前后bash脚本
         config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
         print_BAAH_start()
         BAAH_release_adb_port()
