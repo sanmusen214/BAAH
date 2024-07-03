@@ -71,6 +71,7 @@
     "config_desc_timetable": "地域はタイムテーブル／スケジュールの右側の異なるタブを指します（夏莱のオフィス、夏莱の住宅区など）。部屋はタイムテーブル／スケジュール内の各学院の部屋で、左から右、上から下に数えます。数字は1から9までです。地域がクリックした部屋を設定していない場合、その地域はスキップされます。",
     "config_shop_normal": "普通のショップ",
     "config_shop_contest": "競技場のショップ",
+    "config_shop_contest_switch":"“競技場のショップのスイッチ",
     "config_refresh": "リフレッシュ",
     "config_row": "行",
     "config_column": "列",

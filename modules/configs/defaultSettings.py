@@ -87,6 +87,7 @@ defaultUserDict = {
         }
     },
     "SHOP_NORMAL_REFRESH_TIME":{"d": 0},
+    'SHOP_CONTEST_SWITCH':{"d":False},
     "SHOP_CONTEST_REFRESH_TIME":{"d": 0},
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},

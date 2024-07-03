@@ -38,6 +38,9 @@ class InShop(Task):
                 lambda: Page.is_page(PageName.PAGE_SHOP),
             )
         NormalItems().run()
+        if not config.userconfigdict["SHOP_CONTEST_SWITCH"]: # 判断config里的开关是否开启
+            logging.info("设置中未开启战术商店购买")
+            return
         switchres = self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
             lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),

@@ -71,6 +71,7 @@
     "config_desc_timetable": "The 'Location' refers to the different tabs on the right side of the Lesson (e.g., Schale Office, Schale Residence Hall, etc.). The 'Room' refers to the rooms in each academy in the Lesson, counted from left to right and top to bottom, numbered from 1 to 9. If a room is not set to be clicked in a certain area, that area will be skipped.",
     "config_shop_normal": "Normal Shop",
     "config_shop_contest": "Tacticial Challenge Shop",
+    "config_shop_contest_switch":"Tactical Challenge Shop Purchase Switch",
     "config_refresh": "Refresh",
     "config_row": "Row",
     "config_column": "Column",
