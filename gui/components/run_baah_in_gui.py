@@ -28,7 +28,7 @@ def run_baah_task(msg_obj, output_area, config):
     # 运行BAAH_main()方法
     command = ["BAAH.exe", config.nowuserconfigname]
     print("RUN")
-    msg_obj["msg"] = msg_obj["msg"] + "\n" + f"{config.nowuserconfigname}"
+    msg_obj["msg"] = "<br>" + f"{config.nowuserconfigname}" + "<br>" + msg_obj["msg"]
     output_area.refresh()
     # 使用subprocess.Popen来运行外部程序
     with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1) as process:
@@ -49,7 +49,7 @@ def run_baah_task(msg_obj, output_area, config):
                     output = None
 
                 if output:
-                    msg_obj["msg"] =   output + "\n" + msg_obj.get("msg", "")
+                    msg_obj["msg"] = output + "<br>" + msg_obj.get("msg", "")
                     output_area.refresh()
                     
                 # 检查子进程是否已经结束
@@ -71,5 +71,5 @@ def run_baah_task(msg_obj, output_area, config):
             process.wait()
     msg_obj["runing_signal"] = 0
     print("Process finished.")
-    msg_obj["msg"] = msg_obj["msg"] + "\n" + f"{config.nowuserconfigname}"
+    msg_obj["msg"] = "<br>" + f"{config.nowuserconfigname}" + "<br>" + msg_obj["msg"]
     output_area.refresh()

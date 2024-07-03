@@ -152,7 +152,8 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         def output_area():
             with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
                 with ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;'):
-                    ui.markdown(msg_obj.get("msg", ""))
+                    ui.html(f'<span>{msg_obj.get("msg", "")}</span>')
+        output_area()
         
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             
