@@ -119,9 +119,7 @@ package_rename("./dist/BAAH/jsoneditor.exe", "./dist/BAAH/BAAH_GUI.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
 package_remove_file("./BAAH.exe")
-package_remove_file("./BAAH_GUI.exe")
 package_copyfile(f"./dist/BAAH{config_version}/BAAH.exe", "./BAAH.exe")
-package_copyfile(f"./dist/BAAH{config_version}/BAAH_GUI.exe", "./BAAH_GUI.exe")
 
 print("开始压缩")
 time.sleep(2)
