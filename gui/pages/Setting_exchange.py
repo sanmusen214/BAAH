@@ -19,5 +19,6 @@ def set_exchange(config):
                 config.get_text("config_times")
             ]
         ], 
-        config.get_text("config_desc_list_edit")
+        config.get_text("config_desc_list_edit"),
+        has_switch=True
     )

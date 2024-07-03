@@ -1,16 +1,20 @@
 from nicegui import ui
 from modules.configs.MyConfig import config
 
-def list_edit_area(datadict, linedesc, blockdesc=""):
+def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
     """
     datadict: 要修改的二维或三维列表，长度代表列表维度
         [str1, str2] 或 [str1, str2, [str3, str4]] 或 [str1, str2, [str3, str4, str5]]
     linedesc: 二维或三维列表的描述，长度代表列表维度
     blockdesc: 对于这个块的描述
+    has_switch: 是否有功能开关
     """
     dim = len(linedesc)
+    # 对列表的最后一维的元素的文字描述的数量
+    # [关卡，次数] -> subdim = 2 = len(linedesc[2])
+    # [地区，关卡，次数] -> subdim = 3 = len(linedesc[2])
     subdim = 0
-    if dim == 3:
+    if dim >= 3:
         subdim = len(linedesc[2])
     @ui.refreshable
     def item_list():
@@ -36,8 +40,15 @@ def list_edit_area(datadict, linedesc, blockdesc=""):
                         with ui.row():
                             with ui.card():
                                 for k in range(len(line_item[j])):
-                                    #  遍历关卡和次数
+                                    # 如果一个元素的数据量超出了给定的文字描述的数量，而且是有开关的
+                                    # 那么最后那个'多出来的'数据就是开关
+                                    if k == subdim and has_switch:
+                                        ui.label(config.get_text("button_enable"))
+                                        ui.switch(value=line_item[j][k],on_change=lambda v,i=i,j=j:datadict[i][j].__setitem__(k, bool(v.value)))
+                                        continue
+                                    #  遍历地区, 关卡和次数
                                     min_value = 1
+                                    # 如果数据的位置就是最后一个文字描述的位置，代表的数据是扫荡次数，最小值为-99
                                     if k == subdim-1:
                                         min_value = -99
                                     ui.number(f'{linedesc[2][k]}',
@@ -48,7 +59,6 @@ def list_edit_area(datadict, linedesc, blockdesc=""):
                                                 value=line_item[j][k],
                                                 on_change=lambda v,i=i,j=j,k=k: datadict[i][j].__setitem__(k, int(v.value)),
                                                 ).style('width: 60px')
-                            
                 with ui.column():
                     ui.button(f"{config.get_text('button_add')} {linedesc[1]}", on_click=lambda i=i: add_item_item(i))
                     if len(datadict[i]) > 0:
@@ -57,7 +67,7 @@ def list_edit_area(datadict, linedesc, blockdesc=""):
             ui.button(f"{config.get_text('button_add')} {linedesc[0]}", on_click=add_item)
             if len(datadict) > 0:
                 ui.button(f"{config.get_text('button_delete')} {linedesc[0]}", on_click=del_item, color="red")
-    
+ 
     def add_item():
         datadict.append([])
         item_list.refresh()
@@ -71,10 +81,16 @@ def list_edit_area(datadict, linedesc, blockdesc=""):
             datadict[item_ind].append(1)
         elif dim == 3:
             if subdim == 2:
-                datadict[item_ind].append([1, 1])
+                if has_switch:
+                    datadict[item_ind].append([1, 1, True])
+                else:
+                    datadict[item_ind].append([1, 1])
             elif subdim == 3:
-                datadict[item_ind].append([1, 1, 1])
-            
+                if has_switch:
+                    datadict[item_ind].append([1, 1, 1, True])
+                else:
+                    datadict[item_ind].append([1, 1, 1])
+        
         item_list.refresh()
     
     def del_item_item(item_ind):

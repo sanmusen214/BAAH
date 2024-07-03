@@ -128,6 +128,9 @@ class EventQuest(Task):
     def on_run(self) -> None:
         # 按level执行
         for level in self.level_list:
+            if level[-1] == 'false' or level[-1] == False or level[-1] == 0 : # 开关关闭
+                logging.info(f"活动关{level[0]+1}设置为关, 忽略")
+                continue
             level_ind = level[0]
             repeat_times = level[1]
             while True:
