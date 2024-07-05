@@ -96,7 +96,7 @@
     "email_account":"邮件账号/QQ号",
     "email_pwd":"SMTP授权码",
     "get_email_pwd":"如何获取授权码",
-    "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
+    "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后重新打开GUI编辑",
     "enable_diff_touch":"是否识别人物的位置点击",
     "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）。点击编辑后，左键拖拽截图；右键点击确定坐标点",
     "cafe_collect_desc":"咖啡馆是否收集",
@@ -125,6 +125,8 @@
     "config_buy_ap_attention":"购买体力时请确保有足够的钻石",
     "config_buy_ap_max_price":"体力单价的最大值（包含）",
     "config_buy_ap_add_times":"购买体力组数",
+    "config_pre_command":"任务开始前执行命令, 留空忽略",
+    "config_post_command":"任务结束后执行命令, 留空忽略",
 
 
     "config_server_jp":"日服",

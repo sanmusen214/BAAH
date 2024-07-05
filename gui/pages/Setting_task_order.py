@@ -46,7 +46,16 @@ def set_task_order(config, real_taskname_to_show_taskname):
         config.userconfigdict["TASK_ACTIVATE"].pop(i)
         task_order.refresh()
     
+    
+    # pre-run command
+    with ui.row():
+        ui.input(config.get_text("config_pre_command"), placeholder='start cmd /c "BAAH.exe config2.json"').bind_value(config.userconfigdict, 'PRE_COMMAND').style('width: 300px')
+    
     task_order()
+    
+    # post-run command
+    with ui.row():
+        ui.input(config.get_text("config_post_command")).bind_value(config.userconfigdict, 'POST_COMMAND').style('width: 300px')
     
     # with ui.row():
     #     ui.link_target("NEXT_CONFIG")

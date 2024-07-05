@@ -176,6 +176,17 @@ def BAAH_open_target_app():
             return True
     raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
+def BAAH_run_pre_command():
+    if len(config.userconfigdict["PRE_COMMAND"]) > 0:
+        logging.info({"zh_CN": "运行前置命令", "en_US": "Running pre command"})
+        sleep(1.5)
+        subprocess.Popen(config.userconfigdict["PRE_COMMAND"], shell=True)
+
+def BAAH_run_post_command():
+    if len(config.userconfigdict["POST_COMMAND"]) > 0:
+        logging.info({"zh_CN": "运行后置命令", "en_US": "Running post command"})
+        sleep(1.5)
+        subprocess.Popen(config.userconfigdict["POST_COMMAND"], shell=True)
 
 def BAAH_kill_emulator():
     """
@@ -290,6 +301,7 @@ def BAAH_main():
         # TODO: 加任务执行前后bash脚本
         config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
         print_BAAH_start()
+        BAAH_run_pre_command()
         BAAH_release_adb_port()
         BAAH_start_emulator()
         BAAH_check_adb_connect()
@@ -304,7 +316,10 @@ def BAAH_main():
         BAAH_send_email()
         print_BAAH_finish()
         BAAH_rm_pic()
+        BAAH_run_post_command()
+        
         BAAH_auto_quit()
+
         
     except Exception as e:
         logging.error({"zh_CN": "运行出错", "en_US": "Error occurred"})

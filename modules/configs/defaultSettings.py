@@ -143,6 +143,10 @@ defaultUserDict = {
     # 购买体力的最高单价价格，包含
     "BUY_AP_MAX_PRICE":{"d":30},
     "BUY_AP_ADD_TIMES":{"d":1},
+    
+    # 任务运行前后的命令
+    "PRE_COMMAND":{"d":""},
+    "POST_COMMAND":{"d":""},
 }
 
 # 软件的config里的默认值
