@@ -77,8 +77,11 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
         item_list.refresh()
     
     def add_item_item(item_ind):
-        if dim == 2:
-            datadict[item_ind].append(1)
+        if dim == 2: 
+            if len(datadict[item_ind]) >= 1:
+                datadict[item_ind].append(int(datadict[item_ind][-1]) + 1)
+            else:
+                datadict[item_ind].append(1)
         elif dim == 3:
             if subdim == 2:
                 if has_switch:
