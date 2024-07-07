@@ -15,5 +15,5 @@ def set_timetable(config):
     smart_area.bind_visibility_from(config.userconfigdict, "SMART_TIMETABLE")
     
     with ui.column() as edit_area:
-        list_edit_area(config.userconfigdict["TIMETABLE_TASK"], [config.get_text("config_location"), config.get_text("config_room")], config.get_text("config_desc_timetable"),has_switch=True)
+        list_edit_area(config.userconfigdict["TIMETABLE_TASK"], [config.get_text("config_location"), config.get_text("config_room")], config.get_text("config_desc_timetable"))
     edit_area.bind_visibility_from(config.userconfigdict, "SMART_TIMETABLE", backward=lambda x: not x)

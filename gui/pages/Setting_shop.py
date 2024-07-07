@@ -34,4 +34,4 @@ def set_shop(config):
     
 
 
-    list_edit_area(config.userconfigdict["SHOP_CONTEST"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit") ,has_switch=True)
+    list_edit_area(config.userconfigdict["SHOP_CONTEST"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit"))

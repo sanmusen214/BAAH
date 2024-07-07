@@ -37,9 +37,7 @@ class InTimeTable(Task):
                                   "en_US": "Schedule/Time Sheet No Ticket, exit this task"})
                     break
                 # 如果这一location没有任务，就不点进去
-                if len(config.userconfigdict['TIMETABLE_TASK'][i]) == 0 or config.userconfigdict['TIMETABLE_TASK'][i][-1] ==False :
-                    logging.info({"zh_CN": f"课程表/时间表 第{i}个location设置为跳过",
-                                  "en_US": f"Schedule/Time Sheet The {i}th location is set to skip"})
+                if len(config.userconfigdict['TIMETABLE_TASK'][i]) == 0:
                     continue
                 LocationSelect(location=i, classrooms=config.userconfigdict['TIMETABLE_TASK'][i]).run()
         self.back_to_home()
