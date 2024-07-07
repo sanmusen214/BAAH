@@ -57,6 +57,8 @@ class LocationSelect(Task):
         )
         for classroom in self.classrooms:
             # 序号转下标
+            if isinstance (classroom, bool):
+                continue
             classroom -= 1
             # 每个classroom都从出现3x3的教室选择页面的地方开始循环
             if not match(popup_pic(PopupName.POPUP_TIMETABLE_ALL)):
