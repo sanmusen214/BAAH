@@ -72,6 +72,8 @@
     "config_shop_normal": "普通のショップ",
     "config_shop_contest": "競技場のショップ",
     "config_refresh": "リフレッシュ",
+    "config_shop_normal_switch":"ショップのスイッチ",
+    "config_shop_contest_switch":"競技場のショップのスイッチ",
     "config_row": "行",
     "config_column": "列",
     "config_desc_shop_edit": "行数は普通のショップの右側のアイテムの行数を指し、列はその行の左から右に並んだ4つのアイテムを指します。特定の行のアイテムを買わない場合は、その行にアイテムを追加しないでください。",

@@ -30,12 +30,22 @@ class BuyItems(Task):
         # 总共购买的物品数量
         totalbuy = 0
         for i in range(len(self.buyitems)):
+            if self.buyitems[i][-1] == False:
+                logging.warn({"zh_CN": f"第{i + 1}行设置为跳过",
+                              "en_US": f"Line {i + 1} is set to skip"})
+                # 往下翻一行
+                if i != 0:
+                    click(Page.MAGICPOINT)
+                    ScrollSelect.compute_swipe(930, 532, 260, responsey)
+                continue
             lineitems = self.buyitems[i]
             # 第一行不用翻页
             if i == 0:
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
                         itemind = lineitems[j] - 1
+                        if isinstance (lineitems[j], bool):
+                            continue
                         # 判断itemind是否在clickable_xs有效范围内
                         if itemind < 0 or itemind > 3:
                             logging.warn({"zh_CN": f"第{i + 1}行第{itemind + 1}个物品不在有效范围内，跳过",
@@ -51,6 +61,8 @@ class BuyItems(Task):
                 if len(lineitems) != 0:
                     for j in range(len(lineitems)):
                         itemind = lineitems[j] - 1
+                        if isinstance (lineitems[j], bool):
+                            continue
                         # 判断itemind是否在clickable_xs有效范围内
                         if itemind < 0 or itemind > 3:
                             logging.warn({"zh_CN": f"第{i + 1}行第{itemind + 1}个物品不在有效范围内，跳过",

@@ -26,6 +26,12 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
             with ui.row():
                 for j in range(len(line_item)):
                     if len(linedesc) == 2:
+                        if j==len(line_item)-1 and isinstance(line_item[-1] , bool):
+                            with ui.column():
+                                ui.label(config.get_text("button_enable"))
+                                ui.switch(value=line_item[j],on_change=lambda v,i=i,j=j:datadict[i].__setitem__(j, bool(v.value)))
+                                #ui.switch(value=line_item[-1] , on_change=lambda v : line_item.__setitem__(-1, bool(v.value)))
+                            continue
                         # 第几个教室
                         ui.number(f'{linedesc[1]}',
                                     min=1,
@@ -58,6 +64,7 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
                                                 format="%.0f",
                                                 value=line_item[j][k],
                                                 on_change=lambda v,i=i,j=j,k=k: datadict[i][j].__setitem__(k, int(v.value)),
+                
                                                 ).style('width: 60px')
                 with ui.column():
                     ui.button(f"{config.get_text('button_add')} {linedesc[1]}", on_click=lambda i=i: add_item_item(i))
@@ -77,8 +84,22 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
         item_list.refresh()
     
     def add_item_item(item_ind):
-        if dim == 2:
-            datadict[item_ind].append(1)
+        if dim == 2: 
+            if len(datadict[item_ind]) > 1:
+                if isinstance(datadict[item_ind][-1], bool):
+                    _bool_stustus = datadict[item_ind][-1]
+                    datadict[item_ind][-1]=(int(datadict[item_ind][-2]) + 1)
+                    datadict[item_ind].append(_bool_stustus)
+                else:
+                    datadict[item_ind].append(int(datadict[item_ind][-1]) + 1)
+                    datadict[item_ind].append(True)
+            elif len(datadict[item_ind]) == 1:
+                datadict[item_ind].append(int(datadict[item_ind][-1]) + 1)
+                datadict[item_ind].append(True)
+            else:
+                datadict[item_ind].append(1)
+                datadict[item_ind].append(True)
+
         elif dim == 3:
             if subdim == 2:
                 if has_switch:
@@ -94,7 +115,12 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
         item_list.refresh()
     
     def del_item_item(item_ind):
-        datadict[item_ind].pop()
+        if subdim == 0 and len(datadict[item_ind]) >=2 and  isinstance(datadict[item_ind][-1] , bool):
+            datadict[item_ind].pop(-2)
+            if len(datadict[item_ind]) == 1:
+                datadict[item_ind].pop()
+        else:
+            datadict[item_ind].pop()
         item_list.refresh()
 
     item_list()
