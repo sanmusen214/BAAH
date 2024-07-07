@@ -76,13 +76,13 @@ class Task:
         logging.info({"zh_CN": "尝试返回主页", "en_US":"Try back to homepage"})
         can_back_home = False
         for i in range(times):
-            click(Page.MAGICPOINT)
-            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT, sleeptime=0.1)
+            click(Page.MAGICPOINT, sleeptime=0.2)
             screenshot()
             if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
                 click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=3)
                 can_back_home = True
-            screenshot()
+                screenshot()
             if(Page.is_page(PageName.PAGE_HOME)):
                 logging.info({"zh_CN": "返回主页成功", "en_US":"Successfully returned to the home page"})
                 return True
