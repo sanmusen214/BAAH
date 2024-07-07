@@ -71,6 +71,8 @@
     "config_desc_timetable":"其中地区指课程表/日程右侧那些列表的不同选项卡（夏莱办公室，夏莱居住区等）\n房间指课程表/日程每个学院里的房间，从左往右从上往下数，数字从1到9\n如果某个地区没有设置点击的房间则会跳过那个地区",
     "config_shop_normal":"普通商店",
     "config_shop_contest":"竞技场商店",
+    "config_shop_normal_switch":"普通商店购买开关",
+    "config_shop_contest_switch":"竞技场商店购买开关",
     "config_refresh":"刷新",
     "config_row":"行",
     "config_column":"列",
