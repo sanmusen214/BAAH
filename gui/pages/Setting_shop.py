@@ -16,7 +16,7 @@ def set_shop(config):
             max=3
             ).bind_value(config.userconfigdict, 'SHOP_NORMAL_REFRESH_TIME', forward=lambda v: int(v)).style('width: 400px')
     
-    list_edit_area(config.userconfigdict["SHOP_NORMAL"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit"))
+    list_edit_area(config.userconfigdict["SHOP_NORMAL"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit"), has_switch=True)
     
     with ui.row():
         ui.link_target("SHOPCONTEST")
@@ -34,4 +34,4 @@ def set_shop(config):
     
 
 
-    list_edit_area(config.userconfigdict["SHOP_CONTEST"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit"))
+    list_edit_area(config.userconfigdict["SHOP_CONTEST"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit"), has_switch=True)

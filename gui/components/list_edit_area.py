@@ -7,7 +7,7 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
         [str1, str2] 或 [str1, str2, [str3, str4]] 或 [str1, str2, [str3, str4, str5]]
     linedesc: 二维或三维列表的描述，长度代表列表维度
     blockdesc: 对于这个块的描述
-    has_switch: 是否有功能开关
+    has_switch: 是否有单个元素的功能开关，有功能开关的话，二维列表会升三维，三维列表的最后一维会多一个值 表示开关
     """
     dim = len(linedesc)
     # 对列表的最后一维的元素的文字描述的数量
@@ -26,8 +26,25 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
             with ui.row():
                 for j in range(len(line_item)):
                     if len(linedesc) == 2:
-                        # 第几个教室
-                        ui.number(f'{linedesc[1]}',
+                        # 第i个地区的第j个教室, or 商店里的第i行第j个物品
+                        if isinstance(datadict[i][j], tuple) or isinstance(datadict[i][j], list):
+                            # 如果该元素是个元组或者列表，那么该元素应当包含一个开关
+                            # [值，开关boolean]
+                            with ui.card():
+                                ui.number(f'{linedesc[1]}',
+                                    min=1,
+                                    step=1,
+                                    precision=0,
+                                    format="%.0f",
+                                    value=line_item[j][0],
+                                    on_change=lambda v,i=i,j=j: datadict[i][j].__setitem__(0, int(v.value)),
+                                    ).style('width: 60px')
+                                if len(line_item[j]) == 2 and has_switch:
+                                    ui.label(config.get_text("button_enable"))
+                                    ui.switch(value=line_item[j][1],on_change=lambda v,i=i,j=j:datadict[i][j].__setitem__(1, bool(v.value)))
+                        else:
+                            # 否则就按照单个数字渲染
+                            ui.number(f'{linedesc[1]}',
                                     min=1,
                                     step=1,
                                     precision=0,
@@ -75,24 +92,43 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
     def del_item():
         datadict.pop()
         item_list.refresh()
+        
+    def get_num_of_last_item(mylist):
+        """
+        给定一个列表，返回最后一个元素的实际值
+        
+        如果该元素为number类型，返回number。如果该元素为list类型，返回list的第一个元素
+        """
+        if len(mylist) == 0:
+            return 0
+        item = mylist[-1]
+        if isinstance(item, list) or isinstance(item, tuple):
+            return item[0]
+        else:
+            return item
     
     def add_item_item(item_ind):
         if dim == 2: 
-            if len(datadict[item_ind]) >= 1:
-                datadict[item_ind].append(int(datadict[item_ind][-1]) + 1)
+            if has_switch:
+                # 有单个元素的开关的话，升维
+                datadict[item_ind].append([int(get_num_of_last_item(datadict[item_ind]) + 1), True])
             else:
-                datadict[item_ind].append(1)
+                datadict[item_ind].append(int(get_num_of_last_item(datadict[item_ind]) + 1))
         elif dim == 3:
-            if subdim == 2:
-                if has_switch:
-                    datadict[item_ind].append([1, 1, True])
-                else:
-                    datadict[item_ind].append([1, 1])
-            elif subdim == 3:
-                if has_switch:
-                    datadict[item_ind].append([1, 1, 1, True])
-                else:
-                    datadict[item_ind].append([1, 1, 1])
+            sublist = [1 for _ in range(subdim)]
+            if has_switch:
+                sublist.append(True)
+            datadict[item_ind].append(sublist)
+            # if subdim == 2:
+            #     if has_switch:
+            #         datadict[item_ind].append([1, 1, True])
+            #     else:
+            #         datadict[item_ind].append([1, 1])
+            # elif subdim == 3:
+            #     if has_switch:
+            #         datadict[item_ind].append([1, 1, 1, True])
+            #     else:
+            #         datadict[item_ind].append([1, 1, 1])
         
         item_list.refresh()
     
