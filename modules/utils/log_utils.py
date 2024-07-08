@@ -1,5 +1,7 @@
+import sys
 from time import strftime
 from modules.configs.MyConfig import config
+from modules.utils.I18nstr import EN, CN, JP
 
 import hashlib
 
@@ -30,6 +32,11 @@ class MyLogger:
         if isinstance(msg, dict):
             if self.lang in msg:
                 msg = msg[self.lang]
+            else:
+                # 没有对应语言的情况下，使用英文
+                # 目前EN = "en_US"，与传入的json的代表英语的key是对应的
+                if EN in msg:
+                    msg = msg[EN]
         return f"{strftime('%d-%b-%y %H:%M:%S')} - {level} : {str(msg)}"
     
     def colorful_print(self, msg, level):
@@ -49,6 +56,9 @@ class MyLogger:
         # else:
         #     print(msg)
         print(msg)
+        # flush
+        sys.stdout.flush()
+        
     
     def info(self, msg):
         formatted_msg = self.format_msg(msg, self.INFO)

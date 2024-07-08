@@ -31,6 +31,19 @@ class BuyItems(Task):
         totalbuy = 0
         for i in range(len(self.buyitems)):
             lineitems = self.buyitems[i]
+            # 重塑linetimes，兼容内部单个物品的元素存储了 数字 或【数字，开关】两种情况
+            # 移除开关为False的元素，开关打开的元素只保留数字
+            for j in range(len(lineitems)-1, -1, -1):
+                if (isinstance(lineitems[j], list) or isinstance(lineitems[j], tuple)):
+                    # 元素存储了开关，是列表形式
+                    if not lineitems[j][-1]:
+                        # 开关关闭，移除该元素
+                        lineitems.pop(j)
+                    else:
+                        # 如果开关打开，那么只保留该元素的数字
+                        lineitems[j] = lineitems[j][0]
+            # 此时lineitems应该是一个一维数字列表
+            logging.info("lineitems: " + str(lineitems))
             # 第一行不用翻页
             if i == 0:
                 if len(lineitems) != 0:

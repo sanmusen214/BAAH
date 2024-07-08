@@ -46,12 +46,21 @@ def set_task_order(config, real_taskname_to_show_taskname):
         config.userconfigdict["TASK_ACTIVATE"].pop(i)
         task_order.refresh()
     
+    
+    # pre-run command
+    with ui.row():
+        ui.input(config.get_text("config_pre_command"), placeholder='start cmd /c "BAAH.exe config2.json"').bind_value(config.userconfigdict, 'PRE_COMMAND').style('width: 300px')
+    
     task_order()
     
+    # post-run command
     with ui.row():
-        ui.link_target("NEXT_CONFIG")
-        ui.label(config.get_text("setting_next_config")).style('font-size: x-large')
+        ui.input(config.get_text("config_post_command")).bind_value(config.userconfigdict, 'POST_COMMAND').style('width: 300px')
     
-    ui.label(config.get_text("config_desc_next_config")).style('color: red')
+    # with ui.row():
+    #     ui.link_target("NEXT_CONFIG")
+    #     ui.label(config.get_text("setting_next_config")).style('font-size: x-large')
+    
+    # ui.label(config.get_text("config_desc_next_config")).style('color: red')
         
-    ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+    # ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')

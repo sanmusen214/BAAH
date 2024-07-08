@@ -26,7 +26,7 @@ def get_hearts_of_rooms() -> dict:
                     heart_count += 1
             # 序号从1开始
             total_counts[j * 3 + i + 1] = heart_count
-    print("爱心数量", total_counts)
+    # print("爱心数量", total_counts)
     
     return total_counts
 
@@ -57,6 +57,6 @@ def get_open_status_of_rooms() -> dict:
             total_counts[j * 3 + i + 1] = 1
             if match_pixel((x, y), COLOR_OPEN):
                 total_counts[j * 3 + i + 1] = 0
-    print(f"房间开启状态：{total_counts}")
+    # print(f"房间开启状态：{total_counts}")
     return total_counts
     

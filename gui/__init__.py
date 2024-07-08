@@ -3,6 +3,7 @@ from nicegui import ui, run
 import requests
 
 import os
+from gui.components.run_baah_in_gui import run_baah_task
 from gui.pages.Setting_BAAH import set_BAAH
 from gui.pages.Setting_cafe import set_cafe
 from gui.pages.Setting_emulator import set_emulator
@@ -21,6 +22,8 @@ from gui.pages.Setting_notification import set_notification
 from gui.pages.Setting_vpn import set_vpn
 from gui.pages.Setting_Assault import set_assault
 from gui.pages.Setting_BuyAP import set_buyAP
+
+
 
 @ui.refreshable
 def show_GUI(load_jsonname, config, shared_softwareconfig):
@@ -61,7 +64,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
     # =============================================
 
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
-        with ui.column().style('height:80vh;min-width: 200px; overflow: auto;flex-grow: 1; position: sticky; top: 0px;'):
+        with ui.column().style('height:80vh;min-width: 200px; width: 10vw; overflow: auto;flex-grow: 1; position: sticky; top: 0px;'):
             with ui.card().style('overflow: auto;'):
                 ui.link("BAAH", '#BAAH')
                 ui.link(config.get_text("setting_emulator"), '#EMULATOR')
@@ -69,7 +72,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("setting_vpn"), '#VPN')
                 ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
                 ui.link(config.get_text("setting_notification"), '#NOTIFICATION')
-                ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
+                # ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
                 ui.link(config.get_text("task_cafe"), '#CAFE')
                 ui.link(config.get_text("task_timetable"), '#TIME_TABLE')
                 ui.link(config.get_text("task_shop"), '#SHOP_NORMAL')
@@ -84,7 +87,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("setting_other"), '#TOOL_PATH')
 
 
-        with ui.column().style('flex-grow: 4;'):
+        with ui.column().style('flex-grow: 4; width: 50vw;'):
             
             set_BAAH(config, shared_softwareconfig)
             
@@ -138,6 +141,19 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             
             # 其他设置
             set_other(config, load_jsonname)
+
+        msg_obj = {
+            "msg": "",
+            "stop_signal": 0,
+            "runing_signal": 0
+        }
+        
+        @ui.refreshable
+        def output_area():
+            with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
+                with ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;'):
+                    ui.html(f'<span>{msg_obj.get("msg", "")}</span>')
+        output_area()
         
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             
@@ -148,18 +164,23 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.notify(config.get_text("notice_save_success"))
             ui.button(config.get_text("button_save"), on_click=save_and_alert)
 
-            def save_and_alert_and_run():
+            async def save_and_alert_and_run():
                 config.save_user_config(load_jsonname)
                 config.save_software_config()
                 shared_softwareconfig.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
                 ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
-                if os.path.exists("BAAH.exe"):
-                    os.system(f'start BAAH.py "{load_jsonname}"')
-                else:
-                    os.system(f'start python main.py "{load_jsonname}"')
-            ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run)
+                # os.system(f'start BAAH.exe "{load_jsonname}"')
+                msg_obj["runing_signal"] = 1
+                await run.io_bound(run_baah_task, msg_obj, output_area, config)
+            ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run).bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0)
+            
+            async def stop_run() -> None:
+                msg_obj["stop_signal"] = 1
+            ui.button(config.get_text("notice_finish_run"), on_click=stop_run, color='red').bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 1)
+            
+            ui.button("...").bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0.25)
         
     # 加载完毕保存一下config，应用最新的对config的更改
     config.save_user_config(load_jsonname)

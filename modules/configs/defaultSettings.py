@@ -87,7 +87,10 @@ defaultUserDict = {
         }
     },
     "SHOP_NORMAL_REFRESH_TIME":{"d": 0},
+    'SHOP_NORMAL_SWITCH':{"d":True},
     "SHOP_CONTEST_REFRESH_TIME":{"d": 0},
+    'SHOP_CONTEST_SWITCH':{"d":True},
+
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},
     "AUTO_EVENT_STORY_PUSH":{"d":False},
@@ -143,6 +146,10 @@ defaultUserDict = {
     # 购买体力的最高单价价格，包含
     "BUY_AP_MAX_PRICE":{"d":30},
     "BUY_AP_ADD_TIMES":{"d":1},
+    
+    # 任务运行前后的命令
+    "PRE_COMMAND":{"d":""},
+    "POST_COMMAND":{"d":""},
 }
 
 # 软件的config里的默认值
