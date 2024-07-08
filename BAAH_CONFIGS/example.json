@@ -252,5 +252,7 @@
     "BUY_AP_MAX_PRICE": 30,
     "BUY_AP_ADD_TIMES": 1,
     "PRE_COMMAND": "",
-    "POST_COMMAND": ""
+    "POST_COMMAND": "",
+    "SHOP_NORMAL_SWITCH": true,
+    "SHOP_CONTEST_SWITCH": true
 }

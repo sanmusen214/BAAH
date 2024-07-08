@@ -90,7 +90,7 @@ class SmartSelect(Task):
                 screenshot()
                 current_area_data = cut_location_name_area()
                 similar = 1 - np.sum(np.abs(initial_area_data - current_area_data)) / np.sum(initial_area_data)
-                print(f"与第一个地区的相似度：{similar}")
+                logging.info(f"similar: {similar}")
                 # 如果回到了第一个地区
                 if similar > 0.99:
                     break

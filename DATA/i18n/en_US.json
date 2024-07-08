@@ -37,6 +37,7 @@
     "notice_fail": "Fail",
     "notice_save_success": "Save Successful",
     "notice_start_run": "Start Execution",
+    "notice_finish_run":"Stop Execution",
     "notice_get_new_version": "Latest Version Released",
     "notice_no_new_version":"No New Version",
     "notice_download_version":"Download Version",

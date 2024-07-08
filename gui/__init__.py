@@ -178,7 +178,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             
             async def stop_run() -> None:
                 msg_obj["stop_signal"] = 1
-            ui.button(config.get_text("停止运行"), on_click=stop_run, color='red').bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 1)
+            ui.button(config.get_text("notice_finish_run"), on_click=stop_run, color='red').bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 1)
             
             ui.button("...").bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0.25)
         

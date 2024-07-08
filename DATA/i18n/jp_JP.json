@@ -37,6 +37,7 @@
     "notice_fail": "失敗",
     "notice_save_success": "保存に成功しました",
     "notice_start_run": "実行を開始します",
+    "notice_finish_run":"実行を停止します",
     "notice_get_new_version": "現在の最新バージョン",
     "notice_no_new_version": "現在、新しいバージョンはありません",
     "notice_download_version": "バージョンをダウンロードしています",
