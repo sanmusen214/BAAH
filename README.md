@@ -12,6 +12,11 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 
 ---
 
+<img src="./DATA/assets/GUI_CN.png" />
+<img src="./DATA/assets/GUI_EN.png" />
+<img src="./DATA/assets/GUI_JP.png" />
+
+
 # Support
 
 Systems supported/支持的操作系统:
