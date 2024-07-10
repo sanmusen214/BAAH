@@ -128,9 +128,12 @@ class EventQuest(Task):
     def on_run(self) -> None:
         # 按level执行
         for level in self.level_list:
-            if level[-1] == 'false' or level[-1] == False or level[-1] == 0 : # 开关关闭
-                logging.info(f"活动关{level[0]+1}设置为关, 忽略")
-                continue
+            if not self.explore:
+                # 如果不是推图模式，判断下扫荡次数是否为0，为0则跳过
+                # 推图模式会传固定的times为0，因此不做这个判断
+                if level[-1] == 'false' or level[-1] == False or level[-1] == 0 : # 开关关闭
+                    logging.info(f"level {level[0]+1} swap times is 0 or not enabled, skip")
+                    continue
             level_ind = level[0]
             repeat_times = level[1]
             while True:
