@@ -43,7 +43,8 @@
     "notice_download_version":"Download Version",
 
     "button_save": "Save",
-    "button_save_and_run": "Save and Execute",
+    "button_save_and_run_gui":"Save and execute (GUI, experimental)",
+    "button_save_and_run_terminal":"Save and execute (Terminal)",
     "button_check_version": "Check for Updates and Download(Make sure BAAH is not running)",
     "button_select_all": "Select All",
     "button_select_none": "Deselect All",

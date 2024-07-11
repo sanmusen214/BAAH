@@ -163,7 +163,18 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 shared_softwareconfig.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
             ui.button(config.get_text("button_save"), on_click=save_and_alert)
+            
+            def save_and_alert_and_run_in_terminal():
+                config.save_user_config(load_jsonname)
+                config.save_software_config()
+                shared_softwareconfig.save_software_config()
+                ui.notify(config.get_text("notice_save_success"))
+                ui.notify(config.get_text("notice_start_run"))
+                # 打开同目录中的BAAH.exe，传入当前config的json文件名
+                os.system(f'start BAAH.exe "{load_jsonname}"')
+            ui.button(config.get_text("button_save_and_run_terminal"), on_click=save_and_alert_and_run_in_terminal)
 
+            # ======Run in GUI======
             async def save_and_alert_and_run():
                 config.save_user_config(load_jsonname)
                 config.save_software_config()
@@ -174,13 +185,15 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 # os.system(f'start BAAH.exe "{load_jsonname}"')
                 msg_obj["runing_signal"] = 1
                 await run.io_bound(run_baah_task, msg_obj, output_area, config)
-            ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run).bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0)
+            ui.button(config.get_text("button_save_and_run_gui"), on_click=save_and_alert_and_run).bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0)
             
             async def stop_run() -> None:
                 msg_obj["stop_signal"] = 1
             ui.button(config.get_text("notice_finish_run"), on_click=stop_run, color='red').bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 1)
             
             ui.button("...").bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0.25)
+            
+            # ================
         
     # 加载完毕保存一下config，应用最新的对config的更改
     config.save_user_config(load_jsonname)
