@@ -143,17 +143,15 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             set_other(config, load_jsonname)
 
         msg_obj = {
-            "msg": "",
             "stop_signal": 0,
             "runing_signal": 0
         }
         
-        @ui.refreshable
-        def output_area():
-            with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
-                with ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;'):
-                    ui.html(f'<span>{msg_obj.get("msg", "")}</span>')
-        output_area()
+        # GUI运行BAAH打印日志的区域
+        with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
+            output_card = ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;')
+            with output_card:
+                logArea = ui.log(max_lines=1000).classes('w-full h-full')
         
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             
@@ -184,7 +182,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
                 # os.system(f'start BAAH.exe "{load_jsonname}"')
                 msg_obj["runing_signal"] = 1
-                await run.io_bound(run_baah_task, msg_obj, output_area, config)
+                await run.io_bound(run_baah_task, msg_obj, logArea, config)
             ui.button(config.get_text("button_save_and_run_gui"), on_click=save_and_alert_and_run).bind_visibility_from(msg_obj, "runing_signal", backward=lambda x:x == 0)
             
             async def stop_run() -> None:

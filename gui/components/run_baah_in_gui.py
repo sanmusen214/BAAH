@@ -7,7 +7,7 @@ from nicegui import ui, run
 
 # 显示命令行输出的地方
 
-def run_baah_task(msg_obj, output_area, config):
+def run_baah_task(msg_obj, logArea, config):
 
     # 启动子进程并执行命令行程序
     # cd D:\myCode\PYTHON_file\碧蓝档案自动每日\BAAH1.2.0\BAAH.exe
@@ -28,8 +28,7 @@ def run_baah_task(msg_obj, output_area, config):
     # 运行BAAH_main()方法
     command = ["BAAH.exe", config.nowuserconfigname]
     print("RUN")
-    msg_obj["msg"] = "<br>" + f"{config.nowuserconfigname}" + "<br>" + msg_obj["msg"]
-    output_area.refresh()
+    logArea.push(config.nowuserconfigname)
     # 使用subprocess.Popen来运行外部程序
     try:
         with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1) as process:
@@ -49,8 +48,7 @@ def run_baah_task(msg_obj, output_area, config):
                     output = None
 
                 if output:
-                    msg_obj["msg"] = output + "<br>" + msg_obj.get("msg", "")
-                    output_area.refresh()
+                    logArea.push(output.strip())
                     
                 # 检查子进程是否已经结束
                 if process.poll() is not None:
@@ -71,5 +69,4 @@ def run_baah_task(msg_obj, output_area, config):
 
     msg_obj["runing_signal"] = 0
     print("Process finished.")
-    msg_obj["msg"] = "<br>" + f"{config.nowuserconfigname}" + "<br>" + msg_obj["msg"]
-    output_area.refresh()
+    logArea.push(f"Finished: {config.nowuserconfigname}")
