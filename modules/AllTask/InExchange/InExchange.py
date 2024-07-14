@@ -5,7 +5,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0,match_pixel
 from modules.utils.log_utils import logging
 import time
 import numpy as np
@@ -53,6 +53,10 @@ class InExchange(Task):
         if not caninexchange:
             logging.warn({"zh_CN": "无法打开交换页面，任务退出", "en_US": "Can't open exchange page, task quit"})
             self.back_to_home()
+            return
+        # TODO 点位位置待修改
+        if config.userconfigdict["EXCHANGE_EVENT_STATUS"] and not match_pixel((224, 266), Page.COLOR_PINK,printit=True):
+            logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
             return
         for each_target in target_info:
             # check whether there is a ticket

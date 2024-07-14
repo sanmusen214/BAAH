@@ -7,7 +7,7 @@ def set_special(config):
         ui.label(config.get_text("task_special")).style('font-size: x-large')
     
     ui.label(config.get_text("config_desc_times"))
-    ui.switch(config.get_text("config_event_status")).bind_value(config.userconfigdict, "SPEICAL_EVENT_STATUS") 
+    ui.switch(config.get_text("config_event_status")).bind_value(config.userconfigdict, "NORMAL_QUEST_STATUS") 
     list_edit_area(
         config.userconfigdict["SPECIAL_HIGHTEST_LEVEL"], 
         [

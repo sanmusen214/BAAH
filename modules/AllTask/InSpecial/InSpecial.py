@@ -58,7 +58,7 @@ class InSpecial(Task):
         #用颜色判断是否在活动中
         # 国际服试了可用，其他待测试
         if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((130, 111), Page.COLOR_PINK,printit=True):
-            logging.warn({"zh_CN": "今天不在活动中，跳过", "en_US":"Today is not in the activity, skip"})
+            logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
             return
         # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
