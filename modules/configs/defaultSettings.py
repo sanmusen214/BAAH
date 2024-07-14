@@ -108,6 +108,11 @@ defaultUserDict = {
     "CAFE_INVITE":{"d":True},
     "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
     
+    # 多倍活动状态相关
+    "SPEICAL_EVENT_STATUS":{"d":True},
+    
+
+
     # 邮件相关
     "MAIL_USER":{"d":""},
     "MAIL_PASS":{"d":""},

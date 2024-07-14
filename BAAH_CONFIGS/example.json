@@ -254,5 +254,6 @@
     "PRE_COMMAND": "",
     "POST_COMMAND": "",
     "SHOP_NORMAL_SWITCH": true,
-    "SHOP_CONTEST_SWITCH": true
+    "SHOP_CONTEST_SWITCH": true,
+    "SPEICAL_EVENT_STATUS": false
 }

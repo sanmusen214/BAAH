@@ -10,7 +10,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InSpecial.RunSpecialFight import RunSpecialFight
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel
 
 import numpy as np
 
@@ -39,7 +39,6 @@ class InSpecial(Task):
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
         target_info=[[each[0]-1, each[1]-1, *each[2:]] for each in target_info]
-        # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
@@ -54,6 +53,14 @@ class InSpecial(Task):
             logging.warning("Can't open special page, task quit")
             self.back_to_home()
             return
+     
+            
+        #用颜色判断是否在活动中
+        # 国际服试了可用，其他待测试
+        if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((130, 111), Page.COLOR_PINK,printit=True):
+            logging.warn({"zh_CN": "今天不在活动中，跳过", "en_US":"Today is not in the activity, skip"})
+            return
+        # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
