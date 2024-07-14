@@ -10,7 +10,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InSpecial.RunSpecialFight import RunSpecialFight
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel,screenshot
 
 import numpy as np
 
@@ -57,9 +57,15 @@ class InSpecial(Task):
             
         #用颜色判断是否在活动中
         # 国际服试了可用，其他待测试
-        if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((130, 111), Page.COLOR_PINK,printit=True):
+        # 点击进去比色，3个服务器都在同一个位置
+        click((863, 280))
+        sleep(2)
+        screenshot()
+        if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((195, 218), Page.COLOR_PINK,printit=True):
             logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
             return
+        click(Page.TOPLEFTBACK)
+        sleep(2)
         # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
