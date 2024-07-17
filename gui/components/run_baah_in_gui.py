@@ -3,6 +3,7 @@ import time
 import subprocess
 import threading
 import queue
+import locale
 from nicegui import ui, run
 
 # 显示命令行输出的地方
@@ -31,7 +32,9 @@ def run_baah_task(msg_obj, logArea, config):
     logArea.push(config.nowuserconfigname)
     # 使用subprocess.Popen来运行外部程序
     try:
-        with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1) as process:
+        prefered_encoding = locale.getpreferredencoding()
+        print("Use encoding: ", prefered_encoding)
+        with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1, encoding=prefered_encoding) as process:
             # 创建队列来保存子进程输出
             stdout_queue = queue.Queue()
 
