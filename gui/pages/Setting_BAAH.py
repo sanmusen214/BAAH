@@ -1,5 +1,5 @@
 from nicegui import ui
-from gui.components.check_update import check_newest_version
+from gui.components.check_update import get_newest_version
 
 def set_BAAH(config, shared_softwareconfig):
     
@@ -22,7 +22,7 @@ def set_BAAH(config, shared_softwareconfig):
 
         ui.label(config.get_text("BAAH_get_version"))
 
-        ui.button(config.get_text("button_check_version"), on_click=lambda e, c=config:check_newest_version(c))
+        ui.button(config.get_text("button_check_version"), on_click=lambda e, c=config:get_newest_version(c))
         
         web_url = {
                     "github": "https://github.com/sanmusen214/BAAH",

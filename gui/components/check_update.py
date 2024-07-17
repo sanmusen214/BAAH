@@ -50,7 +50,8 @@ async def only_check_version(config):
     return resultdict
 
 # 检查更新
-async def check_newest_version(config):
+async def get_newest_version(config):
+    """检查最新版本并下载更新包"""
     ui.notify(config.get_text("button_check_version"))
     resultdict = await only_check_version(config)
     ui.notify(resultdict["msg"])
