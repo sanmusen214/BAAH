@@ -70,7 +70,9 @@ Japanese server support from [@LLL1997](https://github.com/LLL1997)
 
 CN server support from [@子墨](https://space.bilibili.com/11179370)
 
-Fully English logging support from [@ly5519](https://github.com/ly5519)
+Fully English logging support and function enhancement from [@ly5519](https://github.com/ly5519)
+
+Linux platform suitable by [@lonzzi](https://github.com/lonzzi)
 
 [opencv-python](https://github.com/opencv/opencv)
 

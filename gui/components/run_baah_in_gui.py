@@ -22,6 +22,7 @@ def run_baah_task(msg_obj, logArea, config):
             for line in iter(pipe.readline, ''):
                 queue.put(line)
             pipe.close()
+            print("enqueue_output finished.")
         except Exception as e:
             print(e)
 
@@ -66,6 +67,7 @@ def run_baah_task(msg_obj, logArea, config):
                     process.wait()
                     break
                 time.sleep(0.1)
+            stdout_thread.join()
     except Exception as e:
         import traceback
         traceback.print_exc()
