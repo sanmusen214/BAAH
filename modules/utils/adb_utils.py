@@ -7,6 +7,7 @@ from modules.utils.subprocess_helper import subprocess_run
 import time
 import numpy as np
 import cv2
+import platform
 
 
 def getNewestSeialNumber(use_config=None):
@@ -81,7 +82,8 @@ def screen_shot_to_global(use_config=None):
     with open("./{}".format(filename),"wb") as out:
        subprocess_run([get_config_adb_path(target_config), "-s", getNewestSeialNumber(target_config), "shell", "screencap", "-p"], stdout=out)
     #adb 命令有时直接截图保存到电脑出错的解决办法-加下面一段即可
-    convert_img("./{}".format(filename))
+    if (platform.system() != "Linux"):
+        convert_img("./{}".format(filename))
 
     # 方法二，使用cv2提取PIPE管道中的数据
 
