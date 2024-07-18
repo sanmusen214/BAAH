@@ -88,4 +88,4 @@ if __name__ in {"__main__", "__mp_main__"}:
     except Exception as e:
         import traceback
         traceback.print_exc()
-        input("按任意键退出")
+        input("Press Enter to quit...")

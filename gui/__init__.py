@@ -22,6 +22,7 @@ from gui.pages.Setting_notification import set_notification
 from gui.pages.Setting_vpn import set_vpn
 from gui.pages.Setting_Assault import set_assault
 from gui.pages.Setting_BuyAP import set_buyAP
+from gui.pages.Setting_UserTask import set_usertask
 
 
 
@@ -57,6 +58,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "普通推图":config.get_text("push_normal"),
         "困难推图":config.get_text("push_hard"),
         "主线剧情":config.get_text("push_main_story"),
+        "自定义任务":config.get_text("task_user_def_task"),
     }
 
     # =============================================
@@ -84,6 +86,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("task_assault"), '#ASSAULT')
                 ui.link(config.get_text("task_hard"), '#HARD')
                 ui.link(config.get_text("task_normal"), '#NORMAL')
+                ui.link(config.get_text("task_user_def_task"), '#USER_DEF_TASK')
                 ui.link(config.get_text("setting_other"), '#TOOL_PATH')
 
 
@@ -138,6 +141,9 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             
             # 普通关卡
             set_normal(config)
+            
+            # 用户定义任务
+            set_usertask(config)
             
             # 其他设置
             set_other(config, load_jsonname)

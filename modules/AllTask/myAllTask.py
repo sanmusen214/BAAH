@@ -29,6 +29,7 @@ task_dict= {
     "困难推图":[InQuest, {'types':["push-hard"]}],
     "主线剧情":[AutoStory,{}],
     "购买AP":[BuyAP,{}],
+    "自定义任务":[UserTask,{}],
 }
 
 class AllTask:
