@@ -50,6 +50,14 @@ class InWanted(Task):
             lambda: click((741, 440)),
             lambda: Page.is_page(PageName.PAGE_WANTED),
         )
+        if Page.is_page(PageName.PAGE_WANTED_SUB):
+            # 点多了，进入到了子页面，此时点击左上角返回一次
+            click(Page.TOPLEFTBACK, 1)
+            caninwanted = self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: Page.is_page(PageName.PAGE_WANTED)
+            )
+            
         if not caninwanted:
             logging.warn({"zh_CN": "无法打开通缉页面，任务退出", "en_US": "Can't open wanted page, task quit"})
             self.back_to_home()
