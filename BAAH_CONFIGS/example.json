@@ -258,5 +258,6 @@
     "SPEICAL_EVENT_STATUS": false,
     "NORMAL_QUEST_EVENT_STATUS": false,
     "HARD_QUEST_EVENT_STATUS": false,
-    "EXCHANGE_EVENT_STATUS": false
+    "EXCHANGE_EVENT_STATUS": false,
+    "NORMAL_QUEST_STATUS": false
 }

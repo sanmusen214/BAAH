@@ -58,10 +58,11 @@ class InExchange(Task):
         click((930, 240))
         sleep(2)
         screenshot()
-        click(Page.TOPLEFTBACK)
-        # TODO 点位位置待修改
-        if config.userconfigdict["EXCHANGE_EVENT_STATUS"] and not match_pixel((224, 266), Page.COLOR_PINK,printit=True):
+        #click(Page.TOPLEFTBACK)
+
+        if config.userconfigdict["EXCHANGE_EVENT_STATUS"] and not match_pixel((198, 251), Page.COLOR_PINK,printit=True):
             logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
+            self.back_to_home()
             return
         click(Page.TOPLEFTBACK)
         sleep(2)

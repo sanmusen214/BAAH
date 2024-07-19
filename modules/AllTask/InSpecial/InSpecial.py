@@ -61,10 +61,12 @@ class InSpecial(Task):
         click((863, 280))
         sleep(2)
         screenshot()
-        if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((195, 218), Page.COLOR_PINK,printit=True):
+        if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
             logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
+            self.back_to_home()
             return
         click(Page.TOPLEFTBACK)
+        
         sleep(2)
         # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
