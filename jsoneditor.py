@@ -66,15 +66,24 @@ if __name__ in {"__main__", "__mp_main__"}:
                 for i,tab_panel in enumerate(alljson_tab_list):
                     with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
                         show_GUI(alljson_list[i], MyConfigger(), shared_softwareconfig)
-
+        check_times = 0
         async def check_version():
+            """check the version, show the update message"""
+            global check_times
+            # if users have opened multi pages, this function will be called multi times
+            if check_times > 0:
+                return
+            check_times = 1
             result = await only_check_version(shared_softwareconfig)
             if not result["status"]:
                 return
             ui.notify(result["msg"], close_button=True, type="info")
+            with updateTextBox:
+                ui.link(result["msg"], "https://github.com/sanmusen214/BAAH/releases", new_tab=True).style("color: red; border: 1px solid blue; border-radius: 5px; font-size: 20px;z-index: 9999;")
         
         # 更新提示
         app.on_connect(check_version)
+        updateTextBox = ui.row().style("position: fixed;z-index: 9999;")
         # Tab栏区域
         tab_area()
 
