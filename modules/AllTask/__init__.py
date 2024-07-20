@@ -22,6 +22,8 @@ from .AutoAssault.AutoAssault import AutoAssault
 
 from .BuyAP.BuyAP import BuyAP
 
+from .InCraft.InCraft import InCraft
+
 from .UserTask.UserTask import UserTask
 
 from .PostAllTask.PostAllTask import PostAllTask

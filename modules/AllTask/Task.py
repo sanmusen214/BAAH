@@ -215,3 +215,10 @@ class Task:
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             times=15,
         )
+    
+    @staticmethod
+    def has_popup():
+        """
+        判断是否有弹窗
+        """
+        return not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
