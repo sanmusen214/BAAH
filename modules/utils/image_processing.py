@@ -160,6 +160,10 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
     axis in image is x: from left to right, y: from top to bottom
     
     """
+    fromx = int(fromx)
+    fromy = int(fromy)
+    tox = int(tox)
+    toy = int(toy)
     def replace_mis(ocr_text):
         """
         替换容易识别错误的字符
@@ -196,6 +200,8 @@ def match_pixel_color_range(imageurl, x, y, low_range, high_range, printit = Fal
     return True if the color is between the range
     """
     img = cv2.imread(imageurl)
+    x = int(x)
+    y = int(y)
     pixel = img[y, x][:3]
     if printit:
         print("Pixel color at ({}, {}): {}".format(x, y, pixel))
@@ -214,16 +220,16 @@ def compare_diff(img1, img2, xfocus, yfocus):
         图片1
     img2 : np.ndarray
         图片2
-    xignore : List[int]
+    xfocus : List[int]
         关注的x范围, 图片坐标
-    yignore : List[int]
+    yfocus : List[int]
         关注的y范围, 图片坐标
     """
     # 忽略UI部分
     # xs = [1, 1279]
     # ys = [124, 568]
-    xs=xfocus
-    ys=yfocus
+    xs=[int(each) for each in xfocus]
+    ys=[int(each) for each in yfocus]
     
     img1 = img1[ys[0]:ys[1], xs[0]:xs[1]]
     img2 = img2[ys[0]:ys[1], xs[0]:xs[1]]
