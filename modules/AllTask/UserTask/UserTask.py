@@ -16,7 +16,7 @@ class UserTask(Task):
 
      
     def pre_condition(self) -> bool:
-        return self.back_to_home()
+        return True
     
      
     def on_run(self) -> None:
@@ -25,4 +25,4 @@ class UserTask(Task):
 
      
     def post_condition(self) -> bool:
-        return self.back_to_home()
+        return True
