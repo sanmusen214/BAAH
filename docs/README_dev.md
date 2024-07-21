@@ -27,6 +27,14 @@
 
 自动脚本项目从main.py作为入口，从命令行读取用户指定的用户配置文件，然后通过AllTask下的myAllTask类解析此用户配置文件的每日任务，为每个任务创建相应的Task实例为一个列表，在BAAH.py里按序运行这些Task实例。
 
+# 项目打包
+
+使用pyinstaller打包，打包命令为
+
+```python
+python package.py
+```
+
 # 关键类
 
 ## modules/configs/Configger类

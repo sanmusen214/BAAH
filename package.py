@@ -6,6 +6,41 @@ import subprocess
 from pathlib import Path
 import nicegui
 import time
+import pponnxcr
+import platform
+import requests
+
+def package_download_adb(platformstr = None):
+    
+    target_adb_path = os.path.join(os.getcwd(), "tools", "adb")
+    downloadurls = {
+        "Windows": "https://dl.google.com/android/repository/platform-tools-latest-windows.zip",
+        "Darwin": "https://dl.google.com/android/repository/platform-tools-latest-darwin.zip",
+        "Linux": "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+    }
+    if not os.path.exists(target_adb_path):
+        if platformstr and platformstr in downloadurls.keys():
+            url = downloadurls[platformstr]
+        elif platform.system() in downloadurls.keys():
+            url = downloadurls[platform.system()]
+        else:
+            print(f"Unknown platform: {platform.system()}")
+            return
+        
+        # download zip
+        r = requests.get(url)
+        with open("platform-tools-latest.zip", "wb") as f:
+            f.write(r.content)
+        target_adb_path_parent_folder = os.path.dirname(target_adb_path)
+        # unzip to target_adb_path, rename the upper folder "playform-tools" to "adb"
+        with zipfile.ZipFile("platform-tools-latest.zip", 'r') as z:
+            z.extractall(target_adb_path_parent_folder)
+        print(f"adb downloaded to: {target_adb_path_parent_folder}")
+        package_rename(os.path.join(target_adb_path_parent_folder, "platform-tools"), target_adb_path)
+        
+        
+    else:
+        print(f"adb already exists: {target_adb_path}")
 
 def package_copyfolder(src, dst):
     try:
@@ -50,6 +85,9 @@ def package_remove_folder(path):
 
 config_version = config.NOWVERSION
 
+# mainly for windows, download adb
+package_download_adb(platformstr="Windows")
+
 package_remove_folder("./dist")
 
 # 打包main.py，名字为BAAH
@@ -58,6 +96,7 @@ baahcmd = [
     'main.py',
     '-n', 'BAAH',
     '--icon', './DATA/assets/kei.ico',
+    '--add-data', f'{Path(pponnxcr.__file__).parent}{os.pathsep}pponnxcr',
     '-y'
 ]
 subprocess.call(baahcmd)
