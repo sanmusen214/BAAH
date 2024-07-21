@@ -166,7 +166,8 @@ def page_pic(picname):
     """
     给定页面的图片名称，得到图片的路径
     """
-    return get_config_pic_path() + "/PAGE" + f"/{picname}.png"
+    # get_config_pic_path() + "/PAGE" + f"/{picname}.png"
+    return os.path.join(get_config_pic_path(), "PAGE", f"{picname}.png")
 
 def button_pic(buttonname):
     """
@@ -175,7 +176,8 @@ def button_pic(buttonname):
     # 如果是反和谐，就把按钮名称改成反和谐的
     if config.userconfigdict["FANHEXIE"] and buttonname == "BUTTON_CFIGHT_START":
         buttonname = "BUTTON_CFIGHT_START_FANHEXIE"
-    return get_config_pic_path() + "/BUTTON" + f"/{buttonname}.png"
+    # get_config_pic_path() + "/BUTTON" + f"/{buttonname}.png"
+    return os.path.join(get_config_pic_path(), "BUTTON", f"{buttonname}.png")
 
 def popup_pic(popupname):
     """
@@ -184,7 +186,8 @@ def popup_pic(popupname):
     # 如果是反和谐，就把名称改成反和谐的
     if config.userconfigdict["FANHEXIE"] and popupname == "POPUP_MOMOTALK":
         popupname = "POPUP_MOMOTALK_FANHEXIE"
-    return get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
+    # get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
+    return os.path.join(get_config_pic_path(), "POPUP", f"{popupname}.png")
 
 def get_grid_solution_json(location, level, ishard=False):
     # 读取DATA/grid_config/quest/里的文件
