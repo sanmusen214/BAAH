@@ -21,7 +21,19 @@ class UserTask(Task):
      
     def on_run(self) -> None:
         content = config.userconfigdict["USER_DEF_TASKS"]
-        ExecCode(content).run()
+        runCode = ExecCode(content)
+        runCode.run()
+        if runCode.status == Task.STATUS_SUCCESS:
+            logging.info(istr({
+                CN: "自定义任务执行成功",
+                EN: "Defined task success",
+            }))
+        elif runCode.status == Task.STATUS_ERROR:
+            logging.error(istr({
+                CN: "自定义任务执行错误，尝试返回游戏主页",
+                EN: "Defined task error, try to return to the game homepage",
+            }))
+            self.back_to_home()
 
      
     def post_condition(self) -> bool:

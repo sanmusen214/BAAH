@@ -27,12 +27,14 @@ class ExecCode(Task):
             }))
         try:
             exec(self.content)
+            self.status = self.STATUS_SUCCESS
         except Exception as e:
             logging.error(istr({
                 CN: "自定义任务执行错误",
                 EN: "Defined task error",
             }))
             logging.error(e)
+            self.status = self.STATUS_ERROR
 
      
     def post_condition(self) -> bool:
