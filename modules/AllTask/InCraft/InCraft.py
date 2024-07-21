@@ -17,14 +17,16 @@ class InCraft(Task):
     STATUS_CRAFT_DONE = 2
     def __init__(self, name="InCraft") -> None:
         super().__init__(name)
-        self.COLOR_CRAFT_NOTHING = ((230, 230, 228), (235, 235, 235))
+        self.COLOR_CRAFT_NOTHING = ((226, 228, 228), (235, 235, 235))
         self.COLOR_CRAFT_DOING = ((250, 215, 110), (255, 222, 115))
-        self.COLOR_CRAFT_DONE = ((70, 228, 240), (77, 236, 250))
+        self.COLOR_CRAFT_DONE = ((60, 220, 240), (77, 236, 250))
         self.BUTTON_CRAFT = (1029, 678)
         self.COLOR_BUTTON_CRAFT_YELLOW = self.COLOR_CRAFT_DONE
         # 制造材料清单从上到下三个点的位置
+        # 国服下方没有一键收集按钮，因此三个点偏下
+        offsetY = 20 if "CN" in config.userconfigdict["SERVER_TYPE"] else 0
         items_ys = np.linspace(285, 530, 3, dtype=int)
-        self.items_pos = [(1130, y) for y in items_ys]
+        self.items_pos = [(1130, y+offsetY) for y in items_ys]
      
     def pre_condition(self) -> bool:
         return self.back_to_home()
