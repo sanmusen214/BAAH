@@ -48,7 +48,7 @@ class InWanted(Task):
         # 进入悬赏通缉页面
         caninwanted = self.run_until(
             lambda: click((741, 440)),
-            lambda: Page.is_page(PageName.PAGE_WANTED),
+            lambda: Page.is_page(PageName.PAGE_WANTED) or Page.is_page(PageName.PAGE_WANTED_SUB),
         )
         if Page.is_page(PageName.PAGE_WANTED_SUB):
             # 点多了，进入到了子页面，此时点击左上角返回一次
