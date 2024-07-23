@@ -130,7 +130,9 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor',
     break
 
 package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
-package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
+
+# pytinstall的时候已经把pponnxcr和nicegui文件拷贝进去了
+# package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
 
 # 挪i18n进去创建下DATA文件夹
 package_copyfolder("./DATA/i18n", "./dist/BAAH/DATA/i18n")
