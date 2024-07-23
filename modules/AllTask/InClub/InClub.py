@@ -21,8 +21,8 @@ class InClub(Task):
     
      
     def on_run(self) -> None:
-        if config.userconfigdict["SERVER_TYPE"]=="JP":
-            # 日服适配新界面
+        if config.userconfigdict["SERVER_TYPE"] in ["JP", "GLOBAL", "GLOBAL_EN"]:
+            # 日服, 国际服适配新界面
             click((565, 669), sleeptime=3)
             click((299, 330), sleeptime=3)
         else:
