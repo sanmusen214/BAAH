@@ -20,6 +20,7 @@
     "push_hard":"Explore Hard Quest",
     "push_main_story":"Explore Eposide",
     "task_assault": "Assault",
+    "task_user_def_task": "User Defined Task",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",

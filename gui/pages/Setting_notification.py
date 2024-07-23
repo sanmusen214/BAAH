@@ -56,4 +56,4 @@ def set_notification(config, shared_softwareconfig):
             
             # 官网
             ui.link("PushPlus", "http://www.pushplus.plus/", new_tab=True)
-            ui.link("ServerChan", "http://sc.ftqq.com/3.version", new_tab=True)
+            ui.link("ServerChan", "https://sct.ftqq.com/r/13283", new_tab=True)

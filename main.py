@@ -14,14 +14,20 @@ if __name__ in ["__main__", "__mp_main__"]:
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
         from modules.configs.MyConfig import config
 
+        logging.info({"zh_CN": f"当前运行目录: {os.getcwd()}", "en_US": f"Current running directory: {os.getcwd()}"})
+        now_config_files = config.get_all_user_config_names()
+        logging.info({"zh_CN": "BAAH_CONFIGS可用的配置文件: " + ", ".join(now_config_files), "en_US": "Available BAAH_CONFIGS config files: " + ", ".join(now_config_files)})
+
         if len(sys.argv) > 1:
             config_name = sys.argv[1]
             logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
+            if config_name not in now_config_files:
+                logging.error({"zh_CN": "输入的配置文件名不在可用配置文件列表中", "en_US": "The entered config file name is not in the list of available config files"})
+                raise FileNotFoundError(f"config file {config_name} not found")
+
             config.parse_user_config(config_name)
         else:
             logging.warn({"zh_CN": "启动程序时没有指定配置文件", "en_US": "No config file specified when starting the program"})
-            now_config_files = config.get_all_user_config_names()
-            logging.info({"zh_CN": "可用的配置文件: " + ", ".join(now_config_files), "en_US": "Available config files: " + ", ".join(now_config_files)})
             if len(now_config_files) == 1:
                 logging.info({"zh_CN": "自动读取唯一的配置文件", "en_US": "Automatically read the only config file"})
                 config_name = now_config_files[0]

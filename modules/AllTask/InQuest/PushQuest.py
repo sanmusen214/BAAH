@@ -14,8 +14,7 @@ from modules.AllTask.SubTask.GridQuest import GridQuest
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
                            match_pixel)
 from modules.utils.grid_analyze import GridAnalyzer
-from .Questhelper import (jump_to_page, close_popup_until_see, judge_whether_3star, quest_has_easy_tab, easy_tab_pos_R,
-                          center_tab_pos_L)
+from .Questhelper import (jump_to_page, close_popup_until_see, judge_whether_3star, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L)
 
 
 class PushQuest(Task):
@@ -203,6 +202,7 @@ class PushQuest(Task):
                     self.level_ind += 1
             logging.info({"zh_CN": f"一个战斗完成，更新关卡下标为{self.level_ind}",
                           "en_US": f"One battle completed, update level subscript to {self.level_ind}"})
+            sleep(6) # 等待6秒：可能的新章节解锁动画
 
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_QUEST_SEL)

@@ -10,4 +10,4 @@ And write the relationship of it in task_dict in `myAllTask.py`
 模板文件ataskformat.py
 
 All task modules named as a folder are all designed to run from the main page.
-所有文件夹命名的任务模块都默认从主页开始运行
+所有文件夹命名的任务模块应当都默认从主页开始运行

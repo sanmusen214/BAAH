@@ -298,7 +298,6 @@ def BAAH_main():
     执行BAAH主程序，在此之前config应该已经被单独import然后解析为用户指定的配置文件->随后再导入my_AllTask以及其他依赖config的模块
     """
     try:
-        # TODO: 加任务执行前后bash脚本
         config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
         print_BAAH_start()
         BAAH_run_pre_command()
@@ -329,8 +328,3 @@ def BAAH_main():
         BAAH_send_err_mail(e)
         print_BAAH_finish()
         BAAH_auto_quit(forcewait=True)
-
-
-if __name__ in ["__main__", "__mp_main__"]:
-    # 不带GUI运行
-    BAAH_main()

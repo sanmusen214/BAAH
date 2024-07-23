@@ -17,7 +17,8 @@ if __name__ in {"__main__", "__mp_main__"}:
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
 
         from gui import show_GUI
-        from nicegui import native, ui, run
+        from gui.components.check_update import only_check_version
+        from nicegui import native, ui, run, app
 
         alljson_list = get_json_list()
         alljson_tab_list = [None for i in alljson_list]
@@ -65,7 +66,24 @@ if __name__ in {"__main__", "__mp_main__"}:
                 for i,tab_panel in enumerate(alljson_tab_list):
                     with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
                         show_GUI(alljson_list[i], MyConfigger(), shared_softwareconfig)
-
+        check_times = 0
+        async def check_version():
+            """check the version, show the update message"""
+            global check_times
+            # if users have opened multi pages, this function will be called multi times
+            if check_times > 0:
+                return
+            check_times = 1
+            result = await only_check_version(shared_softwareconfig)
+            if not result["status"]:
+                return
+            ui.notify(result["msg"], close_button=True, type="info")
+            with updateTextBox:
+                ui.link(result["msg"], "https://github.com/sanmusen214/BAAH/releases", new_tab=True).style("color: red; border: 1px solid blue; border-radius: 5px; font-size: 20px;z-index: 9999;")
+        
+        # 更新提示
+        app.on_connect(check_version)
+        updateTextBox = ui.row().style("position: fixed;z-index: 9999;")
         # Tab栏区域
         tab_area()
 
@@ -79,4 +97,4 @@ if __name__ in {"__main__", "__mp_main__"}:
     except Exception as e:
         import traceback
         traceback.print_exc()
-        input("按任意键退出")
+        input("Press Enter to quit...")

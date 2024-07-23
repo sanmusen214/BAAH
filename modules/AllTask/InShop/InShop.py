@@ -29,6 +29,7 @@ class InShop(Task):
      
     def on_run(self) -> None:
         # 进入商店
+        # 可能这边不需要区分服务器
         if config.userconfigdict["SERVER_TYPE"]=="JP":
             # 适配日服新界面
             self.run_until(

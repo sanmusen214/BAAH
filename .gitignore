@@ -9,6 +9,7 @@ compact_log.txt
 /_internal
 /BAAH.exe
 /BAAH_GUI.exe
+/platform-tools-latest.zip
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
