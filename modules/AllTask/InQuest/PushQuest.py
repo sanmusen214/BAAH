@@ -143,7 +143,7 @@ class PushQuest(Task):
                     return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
-            ocr_s = ocr_area((327 + offsetx, 257 + offsety), (353 + offsetx, 288 + offsety))
+            ocr_s = ocr_area((327 + offsetx, 257 + offsety), (370 + offsetx, 288 + offsety))
             # 如果有简易攻略
             if has_easy_tab:
                 if self.is_normal:
