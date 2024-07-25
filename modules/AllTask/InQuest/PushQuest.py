@@ -158,7 +158,8 @@ class PushQuest(Task):
                     click(center_tab_pos_L)
 
             walk_grid = None
-            if ocr_s[0].upper() != "S":
+            logging.info(ocr_s[0].upper())
+            if "S" not in ocr_s[0].upper():
                 logging.info({"zh_CN": "未识别到S等级，判断为普通战斗",
                               "en_US": "S grade not recognized, judged as normal battle"})
                 walk_grid = False
