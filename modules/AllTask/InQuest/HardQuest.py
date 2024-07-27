@@ -30,7 +30,7 @@ class HardQuest(Task):
             lambda: click((1064, 161)),
             lambda: match(button_pic(ButtonName.BUTTON_HARD))
         )
-        if config.userconfigdict["HARD_QUEST_EVENT_STATUS"] and not match_pixel((224, 266), Page.COLOR_PINK,printit=True):
+        if config.userconfigdict["HARD_QUEST_EVENT_STATUS"] and not match_pixel((155, 266), Page.COLOR_PINK,printit=True):
             logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
             return
         # after switch to hard, go to the page
