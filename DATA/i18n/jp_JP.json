@@ -132,6 +132,7 @@
     "config_buy_ap_add_times":"APを購入する回数",
     "config_pre_command":"タスク開始前に実行するコマンド",
     "config_post_command":"タスク終了後に実行するコマンド",
+    "config_use_simple_explore":"簡易攻略を使用する",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

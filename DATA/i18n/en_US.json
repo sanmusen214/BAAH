@@ -132,6 +132,7 @@
     "config_buy_ap_add_times":"Number of times to buy AP",
     "config_pre_command":"Command before task start, leave blank to ignore",
     "config_post_command":"Command after task end, leave blank to ignore",
+    "config_use_simple_explore":"Use simple explore",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

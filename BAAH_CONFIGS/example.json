@@ -255,5 +255,7 @@
     "POST_COMMAND": "",
     "SHOP_NORMAL_SWITCH": true,
     "SHOP_CONTEST_SWITCH": true,
-    "USER_DEF_TASKS": ""
+    "USER_DEF_TASKS": "",
+    "PUSH_NORMAL_USE_SIMPLE": false,
+    "PUSH_HARD_USE_SIMPLE": false
 }
