@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-Before you raise this issue, make sure it is not duplicated / 在你提出该issue之前，请确保它从未出现过.
+Before you raise this issue, plz make sure it is not duplicated / 在你提出该issue之前，请确保它以前从未被提及过.
 
-**Describe the bug / 简要描述bug**
-[ What the bug is and what the script did / 描述bug发生时的状况 ]
+**Describe the bug / 描述bug**
+[ What you want to do and what the script did / 你想要脚本做什么，而它做了什么出乎意料的事 ]
 
 **Screenshots / 截图**
-[ Any screenshot of emulator or logs / 提供相关日志以及模拟器截图 ]
+[ Plz attach any screenshots of emulator or logs / 请提供相关日志以及模拟器的截图 ]
 
 **Please complete the following information / 请填写以下信息**
  - BlueArchive Server / 你的游戏服务器: [e.g. Global]
