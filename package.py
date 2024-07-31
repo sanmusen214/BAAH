@@ -112,6 +112,14 @@ guicmd = [
 ]
 subprocess.call(guicmd)
 
+# 打包update.py，名字为BAAH_UPDATE
+updatecmd = [
+    'pyinstaller',
+    'update.py',
+    '--n', 'BAAH_UPDATE',
+    '-y'
+]
+subprocess.call(updatecmd)
 
 # 当前目录
 print("当前目录：", os.getcwd())
@@ -152,6 +160,7 @@ package_copyfolder("./DATA/assets_cn", "./dist/BAAH/DATA/assets_cn")
 package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en")
 package_copyfolder("./DATA/grid_solution", "./dist/BAAH/DATA/grid_solution")
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
+package_copyfile("./dist/BAAH_UPDATE/BAAH_UPDATE.exe", "./dist/BAAH/BAAH_UPDATE.exe")
 
 time.sleep(2)
 
