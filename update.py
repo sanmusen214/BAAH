@@ -1,4 +1,5 @@
 import hashlib
+import json
 import shutil
 import subprocess
 import traceback
@@ -6,9 +7,24 @@ import requests
 import os
 import zipfile
 import time
-from modules.configs.MyConfig import config
-#TODO: 这里有个问题是MyConfig版本号变化会导致update哈希值变化，从而导致文件覆写错误，需要解耦
+
 print("This Updator Version: 0.1.0")
+
+def get_one_version_num(versionstr=None):
+    """
+    将版本号字符串转换成数字
+    
+    如 1.4.10 -> 10410
+    """
+
+    try:
+        if not versionstr:
+            versionstr = self.NOWVERSION
+        versionlist = versionstr.split(".")
+        return int(versionlist[0])*10000+int(versionlist[1])*100+int(versionlist[2])
+    except Exception as e:
+        print(e)
+        return -1
 
 class VersionInfo:
     def __init__(self):
@@ -69,10 +85,12 @@ def whether_has_new_version():
     fastestkey = min(eachtime, key=eachtime.get)
     newest_tag = eachnewesttag[fastestkey]
     
-    # 这里读取sessiondict，也就是software_config.json实际存储的字符串
-    # softwaredict里的NOWVERSION会被当前update.py文件的版本号覆盖，不能用
-    current_version_num = config.get_one_version_num(config.sessiondict["READ_SOFTWARE_VERSION"])
-    new_version_num = config.get_one_version_num(newest_tag)
+    # 这里读取software_config.json实际存储的字符串
+    # DATA/CONFIGS/software_config.json里的NOWVERSION字段
+    with open(os.path.join("DATA", "CONFIGS", "software_config.json"), "r") as f:
+        confile = json.load(f)
+    current_version_num = get_one_version_num(confile["NOWVERSION"])
+    new_version_num = get_one_version_num(newest_tag)
     
     if new_version_num > current_version_num:
         vi = VersionInfo()
@@ -119,7 +137,7 @@ def check_and_update():
         except Exception as e:
             print("Downloading new version: Failed")
             print(f"Error downloading file: {e}")
-            return
+            raise Exception("Failed to download the ZIP file.")
     else:
         print(f"Update ZIP file: {targetfilename} already exists.")
     
@@ -133,8 +151,11 @@ def check_and_update():
             subprocess.run(f'taskkill /f /im {process}', shell=True, check=True)
             print(f"Terminated process: {process}")
         except subprocess.CalledProcessError as e:
+            # but thats fine, maybe it is not running
             print(f"Failed to terminate process {process}: {e}")
-    
+    # 之后重新启动GUI
+    global open_GUI_again
+    open_GUI_again = True
     # Extract the downloaded ZIP file
     # 解压下载下来的zip文件
     try:
@@ -177,30 +198,32 @@ def check_and_update():
                     print(f"Skipped {file}, this is not start with BAAH{version_info.version_str}/ in zip")
         print(f"\nUpdate successful, {total_sub_files_extracted} files extracted.\n")
     except zipfile.BadZipFile:
-        print("Failed to extract the ZIP file. Bad ZIP file.")
+        raise Exception("Failed to extract the ZIP file. Bad ZIP file.")
+        
         
     # 删除下载的zip文件
     os.remove(targetfilename)
     print(f"Deleted the downloaded ZIP file: {targetfilename}.")
-    
-    # 重新启动BAAH_GUI.exe
-    # 注意这里CREATE_NEW_CONSOLE即使把本文件关了，也不会影响BAAH_GUI.exe的运行
-
-    try:
-        # Windows only
-        subprocess.Popen(["BAAH_GUI.exe"], creationflags=subprocess.CREATE_NEW_CONSOLE, close_fds=True)
-        print("BAAH_GUI.exe started.")
-    except Exception as e:
-        print(f"Failed to start BAAH_GUI.exe: {e}")
         
-
+open_GUI_again = False
 if __name__ == "__main__":
     try:
         check_and_update()
-        print("========== [SUCCESS] =========")
+        print("========== [UPDATE SUCCESS] =========")
     except Exception as e:
         traceback.print_exc()
         print("========== ERROR! =========")
-        if "BAAH_UPDATE.exe" in str(e):
+        if "BAAH_UPDATE.exe" in str(e) and "Permission denied" in str(e):
             print(">>> You can not use this script to replace itself. Please unzip the zip manually. <<<")
-    input("Press Enter to exit.")
+    
+    # 重新启动BAAH_GUI.exe
+    # 注意这里CREATE_NEW_CONSOLE即使把本文件关了，也不会影响BAAH_GUI.exe的运行
+    if open_GUI_again:
+        try:
+            # Windows only
+            subprocess.Popen(["BAAH_GUI.exe"], creationflags=subprocess.CREATE_NEW_CONSOLE, close_fds=True)
+            print("BAAH_GUI.exe started.")
+        except Exception as e:
+            print(f"Failed to start BAAH_GUI.exe: {e}")
+
+    input("Press Enter to exit the updater.")

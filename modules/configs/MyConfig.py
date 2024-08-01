@@ -66,8 +66,6 @@ class MyConfigger:
         # 检查缺失的配置
         self._check_software_config()
         # 强制设定VERSION
-        # 保存读取的json里的旧版本号
-        self.sessiondict["READ_SOFTWARE_VERSION"] = self.softwareconfigdict["NOWVERSION"]
         self.softwareconfigdict["NOWVERSION"] = self.NOWVERSION
         # 输出
         # print("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))

@@ -192,6 +192,5 @@ defaultSessionDict = {
     "INFO_DICT":{"d":{}},
     "INFO_LIST":{"d":[]},
     # 截图文件读取失败的次数
-    "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
-    "READ_SOFTWARE_VERSION":{"d":""},
+    "SCREENSHOT_READ_FAIL_TIMES":{"d":0}
 }

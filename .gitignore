@@ -1,7 +1,7 @@
 tools/
 test.spec
 jsoneditor.spec
-update.spec
+BAAH_UPDATE.spec
 BAAH.spec
 compact_log.txt
 /*.png
