@@ -8,6 +8,7 @@ import os
 import zipfile
 import time
 
+# 本文件内容不要频繁变更
 print("This Updator Version: 0.1.0")
 
 def get_one_version_num(versionstr=None):
@@ -62,10 +63,11 @@ def whether_has_new_version():
     eachtime = {}
     eachnewesttag = {} # 存放各个平台上最新的版本号 如 1.5.3
     eachdownloadurl = {} # 存放各个平台上最新的下载链接
-    
+    print("Checking for new version...")
     for key in urls:
         nowtime = time.time()
         try:
+            print(f"Checking: {key}...")
             response = requests.get(urls[key], timeout=5)
             if response.status_code == 200:
                 eachtime[key] = time.time() - nowtime
@@ -81,7 +83,8 @@ def whether_has_new_version():
         vi = VersionInfo()
         vi.msg = "Failed to check time spent for accessing github nor gitee."
         return vi
-    
+    print(eachtime)
+    print(eachnewesttag)
     fastestkey = min(eachtime, key=eachtime.get)
     newest_tag = eachnewesttag[fastestkey]
     
@@ -214,7 +217,7 @@ if __name__ == "__main__":
         traceback.print_exc()
         print("========== ERROR! =========")
         if "BAAH_UPDATE.exe" in str(e) and "Permission denied" in str(e):
-            print(">>> You can not use this script to replace itself. Please unzip the zip manually. <<<")
+            print(">>> You can not use this script to replace itself. Please unpack the zip manually. <<<")
     
     # 重新启动BAAH_GUI.exe
     # 注意这里CREATE_NEW_CONSOLE即使把本文件关了，也不会影响BAAH_GUI.exe的运行
