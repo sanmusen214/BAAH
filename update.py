@@ -220,7 +220,7 @@ if __name__ == "__main__":
             print(">>> You can not use this script to replace itself. Please unpack the zip manually. <<<")
     
     # 重新启动BAAH_GUI.exe
-    # 注意这里CREATE_NEW_CONSOLE即使把本文件关了，也不会影响BAAH_GUI.exe的运行
+    # 注意这里CREATE_NEW_CONSOLE即使把本文件命令行窗口关了，也不会影响BAAH_GUI.exe的运行
     if open_GUI_again:
         try:
             # Windows only

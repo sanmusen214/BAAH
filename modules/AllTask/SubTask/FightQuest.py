@@ -102,16 +102,20 @@ class FightQuest(Task):
                     sleeptime=2
                 )
                 # 1. 如果是白色UI，进入战斗
-                if match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE):
+                if match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True):
                     # 战斗中
                     logging.info({"zh_CN": "战斗中...", "en_US": "Fighting"})
                     break
+                else:
+                    logging.info({"zh_CN": "无法匹配右上暂停", "en_US": "Cannot match the upper right fight pause"})
                 # 2. 如果是剧情，跳过剧情
                 if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
                     logging.info({"zh_CN": "剧情中...", "en_US": "In the plot..."})
                     SkipStory(pre_times=3).run()
                     # 跳过剧情后，重新判断是否进入了战斗
                     continue
+                else:
+                    logging.info({"zh_CN": "无法匹配剧情按钮", "en_US": "Cannot match the story pause button"})
             # 切换AUTO
             logging.info({"zh_CN": "切换AUTO...", "en_US": "Toggle Auto..."})
             self.run_until(
@@ -151,9 +155,11 @@ class FightQuest(Task):
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(
-                button_pic(ButtonName.BUTTON_CONFIRMY) or self.backtopic(), threshold=0.8),
-            times=90,
-            sleeptime=2
+                        button_pic(ButtonName.BUTTON_CONFIRMY),
+                        threshold=0.8
+                    ) or self.backtopic(),
+                    times=90,
+                    sleeptime=2
         )
         if self.backtopic():
             # 此处返回到backtopic，意味着错误进入了战斗
