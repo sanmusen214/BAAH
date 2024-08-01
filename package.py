@@ -116,7 +116,7 @@ subprocess.call(guicmd)
 updatecmd = [
     'pyinstaller',
     'update.py',
-    '--n', 'BAAH_UPDATE',
+    '-n', 'BAAH_UPDATE',
     '--icon', './DATA/assets/kayoko.ico',
     '-y'
 ]
