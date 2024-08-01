@@ -1,4 +1,5 @@
-from nicegui import ui
+import subprocess
+from nicegui import ui, app
 from gui.components.check_update import get_newest_version
 
 def set_BAAH(config, shared_softwareconfig):
@@ -22,7 +23,17 @@ def set_BAAH(config, shared_softwareconfig):
 
         ui.label(config.get_text("BAAH_get_version"))
 
+        # 下载更新包
         ui.button(config.get_text("button_check_version"), on_click=lambda e, c=config:get_newest_version(c))
+        
+        # 一键更新，唤起更新程序，结束gui进程
+        def update_advance():
+            try:
+                subprocess.Popen(["BAAH_UPDATE.exe"], creationflags=subprocess.CREATE_NEW_CONSOLE, close_fds=True)
+                app.shutdown()
+            except Exception as e:
+                ui.notify(f"Failed to start BAAH_UPDATE.exe: {e}", type="warning")
+        ui.button(config.get_text("button_update_advance"), on_click=update_advance)
         
         web_url = {
                     "github": "https://github.com/sanmusen214/BAAH",
