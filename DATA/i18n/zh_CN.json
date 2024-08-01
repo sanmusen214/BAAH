@@ -21,6 +21,7 @@
     "push_main_story":"推主线剧情",
     "task_assault":"总力战",
     "task_user_def_task": "自定义任务",
+    "task_craft":"制造",
 
     "setting_emulator":"模拟器配置",
     "setting_server":"服务器配置",
@@ -134,6 +135,8 @@
     "config_pre_command":"任务开始前执行命令, 留空忽略",
     "config_post_command":"任务结束后执行命令, 留空忽略",
     "config_use_simple_explore":"使用简易攻略",
+    "config_craft_desc":"制造任务目前只能一个节点，且不支持指定物品的优先级，等国服实装一键制造后会通过一键制造来支持",
+    "config_craft_max_times":"尝试制造次数",
 
 
     "config_server_jp":"日服",

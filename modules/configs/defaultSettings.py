@@ -155,6 +155,8 @@ defaultUserDict = {
     
     # 自定义任务
     "USER_DEF_TASKS":{"d":""},
+    
+    "CRAFT_TIMES":{"d":1},
 }
 
 # 软件的config里的默认值

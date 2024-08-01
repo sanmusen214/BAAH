@@ -257,5 +257,6 @@
     "SHOP_CONTEST_SWITCH": true,
     "USER_DEF_TASKS": "",
     "PUSH_NORMAL_USE_SIMPLE": false,
-    "PUSH_HARD_USE_SIMPLE": false
+    "PUSH_HARD_USE_SIMPLE": false,
+    "CRAFT_TIMES": 1
 }

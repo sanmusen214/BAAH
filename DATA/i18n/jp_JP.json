@@ -21,6 +21,7 @@
     "push_main_story": "メインストーリーの進行",
     "task_assault": "総力戦",
     "task_user_def_task": "ユーザー定義タスク",
+    "task_craft":"クラフト",
 
     "setting_emulator": "エミュレータ設定",
     "setting_server": "サーバー設定",
@@ -134,6 +135,8 @@
     "config_pre_command":"タスク開始前に実行するコマンド",
     "config_post_command":"タスク終了後に実行するコマンド",
     "config_use_simple_explore":"簡易攻略を使用する",
+    "config_craft_desc":"現在、クラフトタスクは1つのノードのみをサポートし、指定されたアイテムの優先順位をサポートしていません。国内サーバーがワンクリック製造を実装した後、ワンクリック製造を使用してサポートする予定です",
+    "config_craft_max_times":"最大製造回数",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
