@@ -108,6 +108,7 @@ class FightQuest(Task):
                     break
                 else:
                     logging.info({"zh_CN": "无法匹配右上暂停", "en_US": "Cannot match the upper right fight pause"})
+                    logging.warn({"zh_CN": "请确认游戏设置：战斗时上下黑边 为 关", "en_US": "Please confirm the game settings: Black edges during battle are off"})
                 # 2. 如果是剧情，跳过剧情
                 if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
                     logging.info({"zh_CN": "剧情中...", "en_US": "In the plot..."})
