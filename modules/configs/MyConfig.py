@@ -10,7 +10,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.5.2"
+    NOWVERSION="1.5.5"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -86,7 +86,11 @@ class MyConfigger:
         """
         获取所有用户配置文件名
         """
-        return [f for f in os.listdir(os.path.join(os.getcwd(), MyConfigger.USER_CONFIG_FOLDER)) if f.endswith(".json")]
+        user_config_folder = os.path.join(os.getcwd(), MyConfigger.USER_CONFIG_FOLDER)
+        whetherHasFolder = os.path.exists(user_config_folder)
+        if not whetherHasFolder:
+            return []
+        return [f for f in os.listdir(user_config_folder) if f.endswith(".json")]
 
     def _read_config_file(self, file_path):
         """
@@ -109,8 +113,8 @@ class MyConfigger:
                 # os.makedirs(path, exist_ok=True)
                 # with open(file_path, 'w', encoding="utf8") as f:
                 #     json.dump({}, f, indent=4, ensure_ascii=False)
-                print(f'试图读取的配置文件不存在，这里使用预设的默认值代替')
-                print(f'请传入正确的配置文件名')
+                print(f'试图读取的配置文件 {file_path} 不存在，这里使用预设的默认值代替')
+                print(f'no such file: {file_path}, use default value instead')
                 return {}
             else:
                 raise Exception(f'文件不存在： {file_path}')

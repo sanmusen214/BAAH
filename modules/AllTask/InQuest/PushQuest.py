@@ -14,8 +14,7 @@ from modules.AllTask.SubTask.GridQuest import GridQuest
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
                            match_pixel)
 from modules.utils.grid_analyze import GridAnalyzer
-from .Questhelper import (jump_to_page, close_popup_until_see, judge_whether_3star, quest_has_easy_tab, easy_tab_pos_R,
-                          center_tab_pos_L)
+from .Questhelper import (jump_to_page, close_popup_until_see, judge_whether_3star, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L)
 
 
 class PushQuest(Task):
@@ -144,7 +143,7 @@ class PushQuest(Task):
                     return
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
-            ocr_s = ocr_area((327 + offsetx, 257 + offsety), (353 + offsetx, 288 + offsety))
+            ocr_s = ocr_area((327 + offsetx, 257 + offsety), (370 + offsetx, 288 + offsety))
             # 如果有简易攻略
             if has_easy_tab:
                 if self.is_normal:
@@ -159,7 +158,8 @@ class PushQuest(Task):
                     click(center_tab_pos_L)
 
             walk_grid = None
-            if ocr_s[0].upper() != "S":
+            logging.info(ocr_s[0].upper())
+            if "S" not in ocr_s[0].upper():
                 logging.info({"zh_CN": "未识别到S等级，判断为普通战斗",
                               "en_US": "S grade not recognized, judged as normal battle"})
                 walk_grid = False
@@ -203,6 +203,7 @@ class PushQuest(Task):
                     self.level_ind += 1
             logging.info({"zh_CN": f"一个战斗完成，更新关卡下标为{self.level_ind}",
                           "en_US": f"One battle completed, update level subscript to {self.level_ind}"})
+            sleep(6) # 等待6秒：可能的新章节解锁动画
 
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_QUEST_SEL)

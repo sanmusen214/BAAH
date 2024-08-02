@@ -235,7 +235,7 @@
     "AUTO_ASSAULT": false,
     "AUTO_ASSAULT_LEVEL": 4,
     "RUN_UNTIL_TRY_TIMES": 9,
-    "RUN_UNTIL_WAIT_TIME": 0.7,
+    "RUN_UNTIL_WAIT_TIME": 0.5,
     "ADB_DIRECT_USE_SERIAL_NUMBER": false,
     "ADB_SEIAL_NUMBER": "emulator-5554",
     "IS_AUTO_ASSAULT_STUDENT_HELP": false,
@@ -255,9 +255,13 @@
     "POST_COMMAND": "",
     "SHOP_NORMAL_SWITCH": true,
     "SHOP_CONTEST_SWITCH": true,
+<<<<<<< HEAD
     "SPEICAL_EVENT_STATUS": false,
     "NORMAL_QUEST_EVENT_STATUS": false,
     "HARD_QUEST_EVENT_STATUS": false,
     "EXCHANGE_EVENT_STATUS": false,
     "NORMAL_QUEST_STATUS": false
+=======
+    "USER_DEF_TASKS": ""
+>>>>>>> a4e42c1d65095ee4bff4ae6327314368a68bbb40
 }

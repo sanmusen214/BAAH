@@ -158,6 +158,9 @@ defaultUserDict = {
     # 任务运行前后的命令
     "PRE_COMMAND":{"d":""},
     "POST_COMMAND":{"d":""},
+    
+    # 自定义任务
+    "USER_DEF_TASKS":{"d":""},
 }
 
 # 软件的config里的默认值

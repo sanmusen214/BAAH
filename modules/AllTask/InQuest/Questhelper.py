@@ -12,7 +12,7 @@ def jump_to_page(to_num: int) -> bool:
     return Task.run_until(
         lambda: jump_to_neighbour_page(to_num),
         lambda: ocr_area((122, 179), (165, 211))[0] == str(to_num),
-        sleeptime=0.5
+        sleeptime=0.6
     )
      
 def jump_to_neighbour_page(to_num: int) -> bool:

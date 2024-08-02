@@ -10,6 +10,9 @@ from modules.utils.log_utils import logging
 
 
 class Task:
+    STATUS_SUCCESS = 0
+    STATUS_ERROR = 1
+    STATUS_SKIP = 2
     # 父类
     def __init__(self, name, pre_times = 2, post_times = 4) -> None:
         self.name = name
@@ -17,6 +20,7 @@ class Task:
         self.post_times = post_times
         self.click_magic_when_run = True
         """运行时是否点击魔法点重置窗口状态到Page级别"""
+        self.status = self.STATUS_SUCCESS
         
     def pre_condition(self) -> bool:
         """
@@ -215,3 +219,10 @@ class Task:
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             times=15,
         )
+    
+    @staticmethod
+    def has_popup():
+        """
+        判断是否有弹窗
+        """
+        return not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)

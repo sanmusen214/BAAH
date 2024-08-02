@@ -3,6 +3,7 @@ import time
 import subprocess
 import threading
 import queue
+import locale
 from nicegui import ui, run
 
 # 显示命令行输出的地方
@@ -21,6 +22,7 @@ def run_baah_task(msg_obj, logArea, config):
             for line in iter(pipe.readline, ''):
                 queue.put(line)
             pipe.close()
+            print("enqueue_output finished.")
         except Exception as e:
             print(e)
 
@@ -31,7 +33,9 @@ def run_baah_task(msg_obj, logArea, config):
     logArea.push(config.nowuserconfigname)
     # 使用subprocess.Popen来运行外部程序
     try:
-        with subprocess.Popen(command, stdout=subprocess.PIPE, text=True, bufsize=1) as process:
+        prefered_encoding = locale.getpreferredencoding()
+        print("Use encoding: ", prefered_encoding)
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1, encoding=prefered_encoding) as process:
             # 创建队列来保存子进程输出
             stdout_queue = queue.Queue()
 
@@ -39,6 +43,10 @@ def run_baah_task(msg_obj, logArea, config):
             stdout_thread = threading.Thread(target=enqueue_output, args=(process.stdout, stdout_queue))
             stdout_thread.daemon = True
             stdout_thread.start()
+            
+            stderr_thread = threading.Thread(target=enqueue_output, args=(process.stderr, stdout_queue))
+            stderr_thread.daemon = True
+            stderr_thread.start()
 
             while True:
                 # 尝试从stdout_queue中获取数据
@@ -63,6 +71,8 @@ def run_baah_task(msg_obj, logArea, config):
                     process.wait()
                     break
                 time.sleep(0.1)
+            stdout_thread.join()
+            stderr_thread.join()
     except Exception as e:
         import traceback
         traceback.print_exc()
