@@ -14,7 +14,7 @@ def set_server(config):
         "CN_BILI":config.get_text("config_server_cn_b")},
                       value=config.userconfigdict['SERVER_TYPE'], on_change=lambda a:set_server_info(a.value)).props('inline')
 
-    fanhexie = ui.checkbox("如果游戏开了反和谐请勾选此项").bind_value(config.userconfigdict, "FANHEXIE").bind_visibility_from(config.userconfigdict, "SERVER_TYPE", lambda x: x in ["CN", "CN_BILI"])
+    fanhexie = ui.checkbox('如果游戏开了反和谐请勾选此项（手机显示“momotalk”勾选，手机显示“桃信”不要勾）').bind_value(config.userconfigdict, "FANHEXIE").bind_visibility_from(config.userconfigdict, "SERVER_TYPE", lambda x: x in ["CN", "CN_BILI"])
     
     def set_server_info(servername):
         config.userconfigdict['SERVER_TYPE'] = servername

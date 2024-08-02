@@ -112,7 +112,7 @@ def get_now_running_app(use_config=None):
             # 找到当前运行的app那行
             output = sentence
             if "null" in output:
-                logging.warn({"zh_CN": "MUMU模拟器需要设置里关闭保活！",
+                logging.warn({"zh_CN": ">>> MUMU模拟器需要设置里关闭保活！ <<<",
                               "en_US": "If you are using MUMU emulator, please turn off the keep alive in the settings!"})
             break
     # 截取app activity

@@ -229,8 +229,10 @@ def check_connect():
             logging.info({"zh_CN":"adb与模拟器连接正常" , "en_US":"The connection between adb and the emulator is normal"})
             # 检查图片长和宽
             img = cv2.imread(f"./{get_config_screenshot_name()}")
+            if img is None:
+                logging.error({"zh_CN": "图片读取失败，多次出现请尝试重启模拟器", "en_US":"Image read failed, try restart emulator if encountered multiple times"})
             # 第一维度是高，第二维度是宽
-            if img.shape[0] == 720 and img.shape[1] == 1280:
+            elif img.shape[0] == 720 and img.shape[1] == 1280:
                 logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
                 return True
             elif img.shape[0] == 1280 and img.shape[1] == 720:

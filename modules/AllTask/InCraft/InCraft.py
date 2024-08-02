@@ -59,6 +59,8 @@ class InCraft(Task):
                 CN: "点击制造失败",
                 EN: "Failed to click craft button"
             }))
+            # 没制造材料，跳过之后的制造任务
+            self.status=Task.STATUS_SKIP
             return
         # 点击开放按钮
         click(self.BUTTON_CRAFT)
@@ -114,6 +116,7 @@ class InCraft(Task):
         # 获取当前制造状态
         status_list = self.getNowCraftStatus()
         logging.info(status_list)
+        now_craft_number = 0
         for ind, item in enumerate(status_list):
             # 处理每一个位置
             if item == self.STATUS_CRAFT_DOING:
@@ -134,6 +137,19 @@ class InCraft(Task):
                 lambda: not Page.is_page(PageName.PAGE_CRAFT)
             )
             self.dealing_with_craft()
+            if self.status == Task.STATUS_SKIP:
+                logging.warn(istr({
+                    CN: "制造材料不足，跳过之后的制造任务",
+                    EN: "Insufficient crafting materials, skip subsequent crafting tasks"
+                }))
+                return 
+            now_craft_number += 1
+            if now_craft_number >= config.userconfigdict["CRAFT_TIMES"]:
+                logging.info(istr({
+                    CN: f"制造次数已达上限 {config.userconfigdict['CRAFT_TIMES']}",
+                    EN: f"The number of crafting has reached the upper limit  {config.userconfigdict['CRAFT_TIMES']}"
+                }))
+                return
                 
 
      

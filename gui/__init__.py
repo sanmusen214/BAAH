@@ -5,6 +5,7 @@ import requests
 import os
 from gui.components.run_baah_in_gui import run_baah_task
 from gui.pages.Setting_BAAH import set_BAAH
+from gui.pages.Setting_Craft import set_craft
 from gui.pages.Setting_cafe import set_cafe
 from gui.pages.Setting_emulator import set_emulator
 from gui.pages.Setting_event import set_event
@@ -43,6 +44,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "咖啡馆只摸头":config.get_text("task_cafe_deprecated"), # 为了兼容以前的配置里的咖啡馆只摸头，这里只改显示名
         "课程表":config.get_text("task_timetable"),
         "社团":config.get_text("task_club"),
+        "制造":config.get_text("task_craft"),
         "商店":config.get_text("task_shop"),
         "购买AP":config.get_text("task_buy_ap"),
         "悬赏通缉":config.get_text("task_wanted"),
@@ -77,6 +79,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 # ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
                 ui.link(config.get_text("task_cafe"), '#CAFE')
                 ui.link(config.get_text("task_timetable"), '#TIME_TABLE')
+                ui.link(config.get_text("task_craft"), '#CRAFT')
                 ui.link(config.get_text("task_shop"), '#SHOP_NORMAL')
                 ui.link(config.get_text("task_buy_ap"), '#BUY_AP')
                 ui.link(config.get_text("task_wanted"), '#WANTED')
@@ -114,6 +117,9 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             
             # 课程表
             set_timetable(config)
+            
+            # 制造
+            set_craft(config)
                 
             # 商店
             set_shop(config)
