@@ -85,7 +85,8 @@ def BAAH_start_emulator():
         try:
             # 以列表形式传命令行参数
             logging.info({"zh_CN": "启动模拟器", "en_US": "Starting the emulator"})
-            emulator_process = subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'].split(" "), isasync=True)
+            # 不能用shell，否则得到的是shell的pid
+            emulator_process = subprocess_run(config.userconfigdict['TARGET_EMULATOR_PATH'], isasync=True)
             logging.info({"zh_CN": "模拟器pid: " + str(emulator_process.pid),
                           "en_US": "The emulator pid: " + str(emulator_process.pid)})
             time.sleep(5)
