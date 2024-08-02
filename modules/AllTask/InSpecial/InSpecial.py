@@ -54,10 +54,7 @@ class InSpecial(Task):
             self.back_to_home()
             return
      
-            
-        #用颜色判断是否在活动中
-        # 国际服试了可用，其他待测试
-        # 点击进去比色，3个服务器都在同一个位置
+        #点击第一个来方便比较色彩
         click((863, 280))
         sleep(2)
         screenshot()
