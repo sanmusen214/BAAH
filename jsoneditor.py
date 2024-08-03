@@ -25,8 +25,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         from fastapi import Request
         from fastapi.responses import RedirectResponse
         from starlette.middleware.base import BaseHTTPMiddleware
-        
-        import bcrypt
+
         import argparse
 
         unrestricted_page_routes = {'/login'}
@@ -39,7 +38,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         args = parser.parse_args()
 
         passwords = {
-            args.username: bcrypt.hashpw(args.password.encode('utf-8'), bcrypt.gensalt()),
+            args.username: args.password,
         }
         
 
@@ -55,14 +54,7 @@ if __name__ in {"__main__", "__mp_main__"}:
                         app.storage.user['referrer_path'] = request.url.path  # remember where the user wanted to go
                         return RedirectResponse('/login')
                 return await call_next(request)
-            
-            
-        def authenticate(username, password):
-            if username in passwords:
-                hashed_password = passwords[username]
-                if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
-                    return True
-            return False
+
 
         if (open_state["OPEN_IN_WEB"] and args.auth):
             app.add_middleware(AuthMiddleware)
@@ -73,7 +65,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         @ui.page('/login')
         def login() -> Optional[RedirectResponse]:
             def try_login() -> None:  # local function to avoid passing username and password as arguments
-                if authenticate(username.value, password.value):
+                if passwords.get(username.value) == password.value:
                     app.storage.user.update({'username': username.value, 'authenticated': True})
                     ui.open('/')  # go back to where the user wanted to go
                 else:

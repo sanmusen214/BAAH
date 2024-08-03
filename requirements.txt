@@ -70,4 +70,3 @@ vbuild==0.8.2
 watchfiles==0.21.0
 websockets==12.0
 wsproto==1.2.0
-bcrypt==4.2.0
