@@ -1,7 +1,5 @@
 import json
 import os
-import random
-import string
 import time
 from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict, defaultSessionDict
 from modules.configs.settingMaps import configname2screenshotname
@@ -17,7 +15,6 @@ class MyConfigger:
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
     SOFTWARE_CONFIG_NAME="software_config.json"
-    STORAGE_SECRET="PLEASE_CHANGE_ME"
     # 读取config这个py里面的配置
     def __init__(self):
         self.current_dir = os.getcwd()
@@ -70,10 +67,6 @@ class MyConfigger:
         self._check_software_config()
         # 强制设定VERSION
         self.softwareconfigdict["NOWVERSION"] = self.NOWVERSION
-        # 添加STORAGE_SECRET
-        if "STORAGE_SECRET" not in self.softwareconfigdict:
-            self.softwareconfigdict["STORAGE_SECRET"] = ''.join(random.choice(string.ascii_letters) for _ in range(16))
-        MyConfigger.STORAGE_SECRET = self.softwareconfigdict["STORAGE_SECRET"]
         # 输出
         # print("software config字典内容: "+ ",".join([k for k in self.softwareconfigdict]))
         # 加载语言包
