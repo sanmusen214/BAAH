@@ -54,18 +54,6 @@ class InExchange(Task):
             logging.warn({"zh_CN": "无法打开交换页面，任务退出", "en_US": "Can't open exchange page, task quit"})
             self.back_to_home()
             return
-        #点击第一个来方便找色
-        click((930, 240))
-        sleep(2)
-        screenshot()
-        #click(Page.TOPLEFTBACK)
-
-        if config.userconfigdict["EXCHANGE_EVENT_STATUS"] and not match_pixel((198, 251), Page.COLOR_PINK,printit=True):
-            logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
-            self.back_to_home()
-            return
-        click(Page.TOPLEFTBACK)
-        sleep(2)
         for each_target in target_info:
             # check whether there is a ticket
             # 使用PageName.PAGE_EXCHANGE的坐标判断是国服还是其他服
@@ -84,6 +72,10 @@ class InExchange(Task):
                 lambda: click((963, points[each_target[0]])),
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
+            # 判断是否在活动开启期间
+            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
+                logging.warn({"zh_CN": "设置为没有活动不进行，跳过", "en_US":"event is not open, skip"})
+                break
             # 扫荡对应的level
             RunExchangeFight(levelnum = each_target[1], runtimes = each_target[2]).run()
             # 如果是回到SUB界面之后，点击一下返回，如果是回到EXCHANGE界面，就不用点击了

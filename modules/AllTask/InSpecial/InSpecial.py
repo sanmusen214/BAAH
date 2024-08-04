@@ -54,17 +54,7 @@ class InSpecial(Task):
             self.back_to_home()
             return
      
-        #点击第一个来方便比较色彩
-        click((863, 280))
-        sleep(2)
-        screenshot()
-        if config.userconfigdict["SPEICAL_EVENT_STATUS"] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
-            logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
-            self.back_to_home()
-            return
-        click(Page.TOPLEFTBACK)
-        
-        sleep(2)
+
         # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
@@ -83,6 +73,10 @@ class InSpecial(Task):
                 # 重复使用关卡目录这个pattern
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
+            # 判断是否在活动开启期间
+            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
+                logging.warn({"zh_CN": "设置为没有活动不进行，跳过", "en_US":"event is not open, skip"})
+                break
             # 扫荡对应的level
             RunSpecialFight(levelnum = each_target[1], runtimes = each_target[2]).run()
             # 回到SUB界面之后，点击一下返回
