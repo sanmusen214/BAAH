@@ -24,8 +24,10 @@ defaultUserDict = {
     "TASK_ORDER": {"d":["登录游戏"]},
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
+    "PUSH_NORMAL_USE_SIMPLE": {"d":False},
     "PUSH_NORMAL_QUEST": {"d":0},
     "PUSH_NORMAL_QUEST_LEVEL": {"d":1},
+    "PUSH_HARD_USE_SIMPLE": {"d":False},
     "PUSH_HARD_QUEST": {"d":0},
     "PUSH_HARD_QUEST_LEVEL": {"d":1},
     "TASK_ACTIVATE": {"d":[True]},
@@ -161,6 +163,8 @@ defaultUserDict = {
     
     # 自定义任务
     "USER_DEF_TASKS":{"d":""},
+    
+    "CRAFT_TIMES":{"d":1},
 }
 
 # 软件的config里的默认值
@@ -198,5 +202,5 @@ defaultSessionDict = {
     "INFO_DICT":{"d":{}},
     "INFO_LIST":{"d":[]},
     # 截图文件读取失败的次数
-    "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
+    "SCREENSHOT_READ_FAIL_TIMES":{"d":0}
 }

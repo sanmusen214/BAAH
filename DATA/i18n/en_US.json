@@ -21,6 +21,7 @@
     "push_main_story":"Explore Eposide",
     "task_assault": "Assault",
     "task_user_def_task": "User Defined Task",
+    "task_craft":"Craft",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",
@@ -47,6 +48,7 @@
     "button_save_and_run_gui":"Save and execute (GUI, experimental)",
     "button_save_and_run_terminal":"Save and execute (Terminal)",
     "button_check_version": "Check for Updates and Download(Make sure BAAH is not running)",
+    "button_update_advance":"One Click to update to the latest version (experimental)",
     "button_select_all": "Select All",
     "button_select_none": "Deselect All",
     "button_enable": "Enable",
@@ -132,6 +134,9 @@
     "config_buy_ap_add_times":"Number of times to buy AP",
     "config_pre_command":"Command before task start, leave blank to ignore",
     "config_post_command":"Command after task end, leave blank to ignore",
+    "config_use_simple_explore":"Use simple explore",
+    "config_craft_desc":"Currently, the craft task only supports one node and does not support the priority of specified items. After the Chinese server implements one-click manufacturing, it will be supported through one-click manufacturing",
+    "config_craft_max_times":"Maximum times of craft",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

@@ -81,7 +81,6 @@ class PushQuest(Task):
             # 此时应该看到扫荡弹窗
             # 判断是否有简易攻略tab
 
-            has_easy_tab = quest_has_easy_tab()
             # 向右翻self.level_ind次
             logging.info({"zh_CN": "尝试翻到关卡 {}".format(self.level_ind + 1),
                           "en_US": "Try flipping to level {}".format(self.level_ind + 1)})
@@ -92,6 +91,8 @@ class PushQuest(Task):
             if match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
                 logging.info({"zh_CN": "关卡弹窗消失，结束此任务","en_US": "Level popup disappears, end this task"})
                 return
+            # 此时判断是否有简易攻略tab
+            has_easy_tab = quest_has_easy_tab()
             # 当前关卡就是这次需要推图的关卡
             # 国服弹窗往右偏移了50
             offsetx = 0
@@ -144,21 +145,25 @@ class PushQuest(Task):
             # ===========正式开始推图===================
             # 看到弹窗，ocr是否有S
             ocr_s = ocr_area((327 + offsetx, 257 + offsety), (370 + offsetx, 288 + offsety))
-            # 如果有简易攻略
+            # 如果有简易攻略tab，有简易攻略tab存在，这个图肯定默认是格子图
             if has_easy_tab:
-                if self.is_normal:
-                    logging.info({"zh_CN": "使用简易攻略", "en_US": "Easy to use guide"})
+                if (self.is_normal and config.userconfigdict["PUSH_NORMAL_USE_SIMPLE"]) or (not self.is_normal and config.userconfigdict["PUSH_HARD_USE_SIMPLE"]):
+                    logging.info({"zh_CN": "使用简易攻略", "en_US": "Use simple explore"})
                     click(easy_tab_pos_R)
                     click(easy_tab_pos_R)
-                    ocr_s = "easy"
+                    # 简易攻略的话，把ocr_s设为_，让后面不要走格子(no "S")
+                    ocr_s = ["_", 1.0]
                 else:
-                    logging.info({"zh_CN": "困难图，走格子拿钻石",
-                                  "en_US": "Difficulty diagram, walk the grid to get the diamond"})
+                    logging.info({"zh_CN": "不使用简易攻略",
+                                  "en_US": "Do not use simple explore"})
                     click(center_tab_pos_L)
                     click(center_tab_pos_L)
+                    # 切换到集中指挥tab后，才会出现s标签，没有必要再次识别
+                    ocr_s = ["S", 1.0]
+
 
             walk_grid = None
-            logging.info(ocr_s[0].upper())
+            logging.info("OCR: "+ocr_s[0].upper())
             if "S" not in ocr_s[0].upper():
                 logging.info({"zh_CN": "未识别到S等级，判断为普通战斗",
                               "en_US": "S grade not recognized, judged as normal battle"})

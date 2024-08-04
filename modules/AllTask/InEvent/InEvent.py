@@ -225,8 +225,8 @@ class InEvent(Task):
         logging.info({"zh_CN": "成功进入Event页面", "en_US": "Successfully entered the Event page"})
         today = time.localtime().tm_mday
 
-        # 检测并跳过剧情
-        if config.userconfigdict["AUTO_EVENT_STORY_PUSH"]:
+        # 检测并跳过剧情，如果已经进入过活动一次了，就不用再跳过剧情了
+        if config.userconfigdict["AUTO_EVENT_STORY_PUSH"] and not config.sessiondict["HAS_ENTER_EVENT"]:
             EventStory().run()
         # 推图任务，如果已经进入过活动一次了，就不用再推图了
         if config.userconfigdict["AUTO_PUSH_EVENT_QUEST"] and not config.sessiondict["HAS_ENTER_EVENT"]:

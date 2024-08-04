@@ -10,7 +10,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.5.5"
+    NOWVERSION="1.6.0"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -199,24 +199,35 @@ class MyConfigger:
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.softwareconfigdict, f, indent=4, ensure_ascii=False)
     
-    def get_one_version_num(self, versionstr="nothing"):
+    def get_one_version_num(self, versionstr=None):
         """
         将版本号字符串转换成数字
+        
+        如 1.4.10 -> 10410
         """
-        if versionstr == "nothing":
-            versionstr = self.NOWVERSION
-        versionlist = versionstr.split(".")
-        if len(versionlist) != 3:
-            return -1
-        return int(versionlist[0])*10000+int(versionlist[1])*100+int(versionlist[2])
 
-    def get_version_str(self, versionnum=-1):
+        try:
+            if not versionstr:
+                versionstr = self.NOWVERSION
+            versionlist = versionstr.split(".")
+            return int(versionlist[0])*10000+int(versionlist[1])*100+int(versionlist[2])
+        except Exception as e:
+            print(e)
+            return -1
+
+    def get_version_str(self, versionnum=None):
         """
         将版本号数字转换成字符串
         """
-        if versionnum == -1:
-            versionnum = self.get_one_version_num()
-        return f"{int(versionnum/10000)}.{int(versionnum%10000/100)}.{versionnum%100}"
+        if versionnum is None:
+            return self.NOWVERSION
+        try:
+            assert isinstance(versionnum, int)
+            assert versionnum > 0
+            return f"{int(versionnum/10000)}.{int(versionnum%10000/100)}.{versionnum%100}"
+        except Exception as e:
+            print(e)
+            return "0.0.0"
 
 
 
