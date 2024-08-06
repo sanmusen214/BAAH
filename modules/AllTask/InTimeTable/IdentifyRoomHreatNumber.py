@@ -39,12 +39,12 @@ def get_open_status_of_rooms() -> dict:
     # 每个房间右上部分空白处， x：[445, 788, 1133], y: [270, 422, 574]
     baseX = np.linspace(445, 1133, 3, dtype=int)
     baseY = np.linspace(270, 574, 3, dtype=int)
-    # 白色部分的BGR值 [255 255 255]
-    COLOR_OPEN = [[254, 254, 254], [255, 255, 255]]
+    # 白色部分的BGR值 [253 255 255]
+    COLOR_OPEN = [[250, 250, 250], [255, 255, 255]]
     # 未解锁部分的BGR值  [41 42 42]
-    COLOR_LOCK = [[40, 40, 40], [43, 43, 43]]
+    COLOR_LOCK = [[38, 38, 38], [45, 45, 45]]
     # 不存在教室的BGR值 [205 207 207]
-    COLOR_NOROOM = [[204, 205, 205], [206, 209, 209]]
+    COLOR_NOROOM = [[200, 200, 200], [210, 210, 210]]
     
     total_counts = dict()
     
