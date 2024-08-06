@@ -4,14 +4,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         import requests
         import sys
         from modules.configs.MyConfig import MyConfigger, config
-        # 是否以网页形式运行
-        open_state = {
-            "OPEN_IN_WEB": True
-        }
         print("参数：", sys.argv)
-        if len(sys.argv) > 1:
-            if sys.argv[1] == "window":
-                open_state["OPEN_IN_WEB"] = False
         # 获取到user config文件夹下以json为后缀的文件
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
@@ -115,11 +108,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             showContentArea()
         
         # 运行GUI
-        print(open_state)
-        if open_state["OPEN_IN_WEB"]:
-            ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host=args.host, port=args.port, storage_secret=shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
-        else:
-            ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host={args.host}, port=args.port, storage_secret=shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
+        ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host=args.host, port=args.port, storage_secret=shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
 
     except Exception as e:
         import traceback
