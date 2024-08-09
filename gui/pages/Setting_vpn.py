@@ -1,4 +1,5 @@
 from nicegui import ui, run
+from gui.components.cut_screenshot import cut_screenshot
 from modules.utils import connect_to_device, get_now_running_app,  get_now_running_app_entrance_activity, screen_shot_to_global, screencut_tool
 
 def set_vpn(config):
@@ -41,14 +42,12 @@ def set_vpn(config):
             """
             设置点击位置
             """
-            connect_to_device(use_config=config)
-            screen_shot_to_global(use_config=config)
-            screenshotname = config.userconfigdict['SCREENSHOT_NAME']
-            click_and_wait_list[lineind][0] = await run.io_bound(
-                screencut_tool,
+            await cut_screenshot(
+                inconfig=config, 
+                resultdict=click_and_wait_list[lineind], 
+                resultkey=0,
                 left_click=True,
                 right_click=True,
-                img_path=screenshotname,
                 quick_return=True
             )
             show_table.refresh()
