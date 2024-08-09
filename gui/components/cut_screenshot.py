@@ -37,6 +37,5 @@ async def cut_screenshot(inconfig, resultdict=None, resultkey=None, left_click=T
     )
     if resultdict is not None and resultkey is not None:
         resultdict[resultkey] = result
-        print("Modify resultdict: ", resultdict)
     cut_lock = False
     return result
