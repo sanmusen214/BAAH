@@ -4,14 +4,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         import requests
         import sys
         from modules.configs.MyConfig import MyConfigger, config
-        # 是否以网页形式运行
-        open_state = {
-            "OPEN_IN_WEB": True
-        }
         print("参数：", sys.argv)
-        if len(sys.argv) > 1:
-            if sys.argv[1] == "window":
-                open_state["OPEN_IN_WEB"] = False
         # 获取到user config文件夹下以json为后缀的文件
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
@@ -19,10 +12,20 @@ if __name__ in {"__main__", "__mp_main__"}:
         from gui import show_GUI
         from gui.components.check_update import only_check_version
         from nicegui import native, ui, run, app
+        
+        import argparse
+
+        # 解析器
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--host", help="host address", default="127.0.0.1")
+        parser.add_argument("--port", help="host port", default=native.find_open_port())
+        parser.add_argument("--token", help="password", default=None)
+        args = parser.parse_args()
+
 
         alljson_list = get_json_list()
         alljson_tab_list = [None for i in alljson_list]
-        
+
         # 如果没有config.json文件且alljson_list长度为0，则创建一个
         if len(alljson_list)==0 and not os.path.exists(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json")):
             with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, "config.json"), "w") as f:
@@ -84,15 +87,28 @@ if __name__ in {"__main__", "__mp_main__"}:
         # 更新提示
         app.on_connect(check_version)
         updateTextBox = ui.row().style("position: fixed;z-index: 9999;")
-        # Tab栏区域
-        tab_area()
 
+        @ui.refreshable
+        def showContentArea() -> None:
+            """
+            主要内容区域
+            """
+            if args.token and args.token != app.storage.user.get("token"):
+                # token输入页面
+                with ui.card().classes('absolute-center'):
+                    ui.input('Token', password=True, password_toggle_button=True,
+                    on_change=lambda e: [app.storage.user.update({"token": e.value}), showContentArea.refresh() if e.value == args.token else None])
+            else:
+                # Tab栏区域
+                tab_area()
+
+        # 放进页面，提供app.storage.user存储能力
+        @ui.page('/')
+        def MainPage() -> None:
+            showContentArea()
+        
         # 运行GUI
-        print(open_state)
-        if open_state["OPEN_IN_WEB"]:
-            ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host="127.0.0.1", port=native.find_open_port())
-        else:
-            ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host="127.0.0.1", port=native.find_open_port())
+        ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host=args.host, port=args.port, storage_secret=shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
 
     except Exception as e:
         import traceback

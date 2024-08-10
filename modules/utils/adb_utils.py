@@ -182,6 +182,15 @@ def open_app(activity_path: str):
     appname = activity_path.split("/")[0]
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)
 
+def get_dpi(use_config=None):
+    """
+    获取屏幕dpi结果，例如 Physical density: 320
+    """
+    if not use_config:
+        use_config = config
+    dpires = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density"]).stdout
+    return dpires
+
 # NO_NEED = "NO_NEED"
 # ERROR = "ERROR"
 # FAILED = "FAILED"

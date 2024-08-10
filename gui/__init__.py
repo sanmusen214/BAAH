@@ -143,7 +143,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             set_assault(config)
                 
             # 困难关卡
-            set_hard(config)
+            set_hard(config, shared_softwareconfig)
             
             # 普通关卡
             set_normal(config)
