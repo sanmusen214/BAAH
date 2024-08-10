@@ -57,6 +57,8 @@
     "button_get_now_app":"获取当前页面",
     "button_get_now_app_enter":"获取当前应用的入口页面",
     "button_edit":"编辑",
+    "button_show":"显示",
+    "button_hide":"隐藏",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
     "config_camera_full":"进入咖啡馆时视角为最高",
@@ -137,7 +139,7 @@
     "config_use_simple_explore":"使用简易攻略",
     "config_craft_desc":"制造任务目前只能一个节点，且不支持指定物品的优先级，等国服实装一键制造后会通过一键制造来支持",
     "config_craft_max_times":"尝试制造次数",
-
+    "desc_note":"备注",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",
