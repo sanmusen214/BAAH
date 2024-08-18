@@ -258,5 +258,9 @@
     "USER_DEF_TASKS": "",
     "PUSH_NORMAL_USE_SIMPLE": false,
     "PUSH_HARD_USE_SIMPLE": false,
-    "CRAFT_TIMES": 1
+    "CRAFT_TIMES": 1,
+    "SPEICAL_EVENT_STATUS": false,
+    "NORMAL_QUEST_EVENT_STATUS": false,
+    "HARD_QUEST_EVENT_STATUS": false,
+    "EXCHANGE_EVENT_STATUS": false
 }

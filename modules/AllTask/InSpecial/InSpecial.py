@@ -39,6 +39,7 @@ class InSpecial(Task):
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
         target_info=[[each[0]-1, each[1]-1, *each[2:]] for each in target_info]
+        # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
@@ -55,7 +56,6 @@ class InSpecial(Task):
             return
      
 
-        # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭

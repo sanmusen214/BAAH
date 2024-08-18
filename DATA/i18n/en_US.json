@@ -148,8 +148,6 @@
     "config_server_global_en" : "Global Server (English)",
 
 
-
-
     "config_event_status": "Execute only when the event is active",
 
 
@@ -159,6 +157,7 @@
 
 
 
+    
 
     "status_finish": "All Tasks Completed"
 }
