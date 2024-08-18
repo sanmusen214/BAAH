@@ -10,7 +10,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InSpecial.RunSpecialFight import RunSpecialFight
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel,screenshot
 
 import numpy as np
 
@@ -54,6 +54,8 @@ class InSpecial(Task):
             logging.warning("Can't open special page, task quit")
             self.back_to_home()
             return
+     
+
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
@@ -71,6 +73,10 @@ class InSpecial(Task):
                 # 重复使用关卡目录这个pattern
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
+            # 判断是否在活动开启期间
+            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
+                logging.warn({"zh_CN": "设置为没有活动不进行，跳过", "en_US":"event is not open, skip"})
+                break
             # 扫荡对应的level
             RunSpecialFight(levelnum = each_target[1], runtimes = each_target[2]).run()
             # 回到SUB界面之后，点击一下返回

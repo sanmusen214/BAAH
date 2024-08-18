@@ -110,6 +110,14 @@ defaultUserDict = {
     "CAFE_INVITE":{"d":True},
     "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
     
+    # 多倍活动开启状态相关
+    "SPEICAL_EVENT_STATUS":{"d":False},
+    "NORMAL_QUEST_EVENT_STATUS":{"d":False},
+    "HARD_QUEST_EVENT_STATUS":{"d":False},
+    "EXCHANGE_EVENT_STATUS":{"d":False},
+
+
+
     # 邮件相关
     "MAIL_USER":{"d":""},
     "MAIL_PASS":{"d":""},
@@ -175,7 +183,11 @@ defaultSoftwareDict = {
             "from": "LANGUAGE", # map功能必须要有from字段，这里充当占位符
             # 使用现在的时间戳作为加密key，长度截取最后五位，字符串！
             "map": lambda x:  str(int(time()))[-5:]
-        }}
+        }},
+    # 用户在GUI里的各种备注
+    "NOTE":{"d":{
+        "HARD_NOTE":"",
+    }}
 }
 
 # sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict
