@@ -11,55 +11,55 @@
         "initial_teams": [
             {
                 "name": "A",
-                "type": "purple",
-                "position": "left-down"
+                "type": "yellow",
+                "position": "right-up"
             },
             {
                 "name": "B",
-                "type": "yellow",
-                "position": "right-up"
+                "type": "purple",
+                "position": "left-down"
             }
         ],
         "fight_plan": [
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "left-up"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 }
             ],
             [
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 },
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "left-up"
                 }
             ],
             [
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "right-up"
                 },
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 }
             ],
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 }

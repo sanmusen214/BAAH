@@ -1,4 +1,5 @@
 from nicegui import ui, run
+from gui.components.cut_screenshot import cut_screenshot
 from gui.components.list_edit_area import list_edit_area
 import os
 
@@ -63,15 +64,12 @@ def set_other(config, load_jsonname):
     #         ui.button("测试截图/screencut test", on_click=lambda: os.system(f'start screencut.exe "{load_jsonname}"'))
     
     async def test_screencut():
-        connect_to_device(use_config=config)
-        screen_shot_to_global(use_config=config)
-        screenshotname = config.userconfigdict['SCREENSHOT_NAME']
-        await run.io_bound(
-            screencut_tool,
+        await cut_screenshot(
+            inconfig=config,
             left_click=True,
             right_click=True,
-            img_path=screenshotname
-        )
+            quick_return=False
+            )
     
     # 将截图功能内嵌进GUI
     with ui.row():

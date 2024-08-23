@@ -57,6 +57,8 @@
     "button_get_now_app":"Get Current App Activity",
     "button_get_now_app_enter":"Get Current App Enter Activity",
     "button_edit":"Edit",
+    "button_show":"Show",
+    "button_hide":"Hide",
 
     "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
@@ -137,6 +139,7 @@
     "config_use_simple_explore":"Use simple explore",
     "config_craft_desc":"Currently, the craft task only supports one node and does not support the priority of specified items. After the Chinese server implements one-click manufacturing, it will be supported through one-click manufacturing",
     "config_craft_max_times":"Maximum times of craft",
+    "desc_note":"Note",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

@@ -57,7 +57,7 @@ class BuyItems(Task):
                         else:
                             logging.info({"zh_CN": f"购买第{i + 1}行第{itemind + 1}个物品",
                                           "en_US": f"Purchase item {itemind + 1} on line {i + 1}"})
-                            click((clickable_xs[itemind], 246))
+                            click((clickable_xs[itemind], 200))
                             totalbuy += 1
             else:
                 # 其他行不管点不点都翻页
@@ -73,7 +73,7 @@ class BuyItems(Task):
                         else:
                             logging.info({"zh_CN": f"购买第{i + 1}行第{itemind + 1}个物品",
                                           "en_US": f"Purchase item {itemind + 1} on line {i + 1}"})
-                            click((clickable_xs[itemind], 508))
+                            click((clickable_xs[itemind], 450))
                             totalbuy += 1
                 # 往下翻一行
                 click(Page.MAGICPOINT)
