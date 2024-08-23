@@ -55,7 +55,6 @@ class InSpecial(Task):
             return
      
 
-        # 从主页进入战斗池页面
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
