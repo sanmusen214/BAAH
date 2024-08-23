@@ -72,40 +72,12 @@ class InExchange(Task):
                 lambda: click((963, points[each_target[0]])),
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
-            # 判断是否在活动开启期间  # 日服位置过于靠上，需要测试
             if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not ( match_pixel((113, 252), Page.COLOR_PINK,printit=True) or
-                                                                                                         match_pixel((195, 251), Page.COLOR_PINK,printit=True) or
-                                                                                                         match_pixel((142, 222), Page.COLOR_PINK,printit=True) or
-                                                                                                         match_pixel((142, 222), Page.COLOR_PINK,printit=True)):
-                '''
-                国际服
-                113, 252
-                195, 251
-                
-                '''
+                                                                                                         match_pixel((195, 251), Page.COLOR_PINK,printit=True)):
+
                 logging.warn({"zh_CN": "设置为没有活动不进行，跳过", "en_US":"event is not open, skip"})
-                            # 用opencv打开截图，并在图中标记点，并返回个窗口界面作为调试
-                import cv2
-                from modules.utils import get_config_screenshot_name
-                img = cv2.imread(f"./{get_config_screenshot_name()}",)
-                cv2.circle(img, (113, 252), radius=3, color=(0, 0, 255), thickness=-1)
-                cv2.circle(img, (195, 251), radius=3, color=(0, 0, 255), thickness=-1)
-                cv2.circle(img, (195, 221), radius=2, color=(0, 0, 255), thickness=-1)
-                cv2.circle(img, (142, 222), radius=2, color=(0, 0, 255), thickness=-1)
-                cv2.imshow('test', img)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
                 break
-            import cv2
-            from modules.utils import get_config_screenshot_name
-            img = cv2.imread(f"./{get_config_screenshot_name()}",)
-            cv2.circle(img, (113, 252), radius=3, color=(0, 0, 255), thickness=-1)
-            cv2.circle(img, (195, 251), radius=3, color=(0, 0, 255), thickness=-1)
-            cv2.circle(img, (195, 221), radius=2, color=(0, 0, 255), thickness=-1)
-            cv2.circle(img, (142, 222), radius=2, color=(0, 0, 255), thickness=-1)
-            cv2.imshow('test', img)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
+     
 
             # 扫荡对应的level
             RunExchangeFight(levelnum = each_target[1], runtimes = each_target[2]).run()

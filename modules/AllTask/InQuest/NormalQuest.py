@@ -30,19 +30,10 @@ class NormalQuest(Task):
             lambda: click((798, 159)),
             lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
         )
-        if config.userconfigdict["NORMAL_QUEST_EVENT_STATUS"] and not match_pixel((155, 266), Page.COLOR_PINK, printit=True):
+        if config.userconfigdict["HARD_QUEST_EVENT_STATUS"] and not (match_pixel((155, 266), Page.COLOR_PINK,printit=True) or
+                                                                     match_pixel((224, 265), Page.COLOR_PINK,printit=True)):
             logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
             return
-        import cv2
-        from modules.utils import get_config_screenshot_name
-        img = cv2.imread(f"./{get_config_screenshot_name()}",)
-        cv2.circle(img, (155, 266), radius=3, color=(0, 0, 255), thickness=-1)
-        cv2.circle(img, (195, 251), radius=3, color=(0, 0, 255), thickness=-1)
-        cv2.circle(img, (195, 221), radius=2, color=(0, 0, 255), thickness=-1)
-        cv2.circle(img, (142, 222), radius=2, color=(0, 0, 255), thickness=-1)
-        cv2.imshow('test', img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
         # after switch to normal, go to the page
         for each_quest in self.questlist:
             to_page_num = each_quest[0]+1
