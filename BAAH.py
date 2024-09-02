@@ -19,8 +19,7 @@ def print_BAAH_info():
     print("||" + "".center(80, " ") + "||")
     print("+" + "".center(80, "=") + "+")
 
-def print_BAAH_start():
-    print_BAAH_info()
+def print_BAAH_config_info():
     # 打印config信息
     logging.info({"zh_CN": f"读取的配置文件: {config.nowuserconfigname}", "en_US": f"Read config file: {config.nowuserconfigname}"})
     logging.info({"zh_CN": f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}",
@@ -257,12 +256,19 @@ def BAAH_send_email():
         logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
         logging.error(e)
 
-def BAAH_auto_quit(forcewait = False):
+def BAAH_auto_quit(forcewait = False, key_map_func = None):
     """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
     # 用于GUI识别是否结束的关键字
     print("GUI_BAAH_TASK_END")
+    # 默认值空字典
+    if key_map_func is None:
+        key_map_func = dict()
     if forcewait or not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
-        input("Press Enter to exit/回车退出:")
+        user_input = input(f"Press Enter to exit/回车退出, [{key_map_func.keys()}]:")
+        for k in key_map_func:
+            if user_input.upper() == k.upper():
+                key_map_func[k]()
+                break
     else:
         logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
         sleep(10)
@@ -301,7 +307,8 @@ def BAAH_main():
     """
     try:
         config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
-        print_BAAH_start()
+        print_BAAH_info()
+        print_BAAH_config_info()
         BAAH_run_pre_command()
         BAAH_release_adb_port()
         BAAH_start_emulator()
@@ -319,6 +326,7 @@ def BAAH_main():
         BAAH_rm_pic()
         BAAH_run_post_command()
         
+        print_BAAH_config_info()
         BAAH_auto_quit()
 
         
@@ -329,4 +337,8 @@ def BAAH_main():
         traceback.print_exc()
         BAAH_send_err_mail(e)
         print_BAAH_finish()
-        BAAH_auto_quit(forcewait=True)
+        
+        print_BAAH_config_info()
+        BAAH_auto_quit(forcewait=True, key_map_func={
+            "R": lambda: [config.parse_user_config(config.nowuserconfigname), BAAH_main()]
+        })
