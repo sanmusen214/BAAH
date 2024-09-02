@@ -234,11 +234,16 @@ def check_connect():
             # 第一维度是高，第二维度是宽
             elif img.shape[0] == 720 and img.shape[1] == 1280:
                 logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
-                if "240" not in get_dpi():
-                    raise Exception(istr({
+                dpi_res = get_dpi()
+                logging.info(f"DPI: {dpi_res}")
+                if "240" not in dpi_res:
+                    logging.warn(istr({
                         CN: "请设置模拟器dpi为240",
                         EN: "Please set the emulator dpi to 240"
                     }))
+                    # auto fix
+                    set_dpi(240)
+                    return False
                 return True
             elif img.shape[0] == 1280 and img.shape[1] == 720:
                 logging.warn({"zh_CN": "图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug", "en_US":"The resolution is 720*1280, it may be the wrong setting of the emulator, or it may be a bug of the emulator"})

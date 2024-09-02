@@ -191,6 +191,17 @@ def get_dpi(use_config=None):
     dpires = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density"]).stdout
     return dpires
 
+def set_dpi(target_dpi, use_config=None):
+    """
+    set DPI
+    """
+    if not use_config:
+        use_config = config
+    if isinstance(target_dpi, float):
+        target_dpi = int(target_dpi)
+    subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density", str(target_dpi)], isasync=True)
+    
+
 # NO_NEED = "NO_NEED"
 # ERROR = "ERROR"
 # FAILED = "FAILED"
