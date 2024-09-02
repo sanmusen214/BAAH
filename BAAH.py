@@ -250,7 +250,8 @@ def BAAH_send_email():
             info_str += f"{info}\n"
         content.append(info_str)
         # 发送
-        notificationer.send("\n".join(content))
+        fullcontent = "\r\n".join(content)
+        notificationer.send(fullcontent)
         logging.info({"zh_CN": "通知发送结束", "en_US": "Finished sending notification"})
     except Exception as e:
         logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
