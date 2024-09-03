@@ -37,7 +37,7 @@ class MyLogger:
                 # 目前EN = "en_US"，与传入的json的代表英语的key是对应的
                 if EN in msg:
                     msg = msg[EN]
-        return f"{strftime('%d-%b-%y %H:%M:%S')} - {level} : {str(msg)}"
+        return f"{config.NOWVERSION} - {strftime('%M:%S')} - {level} : {str(msg)}"
     
     def colorful_print(self, msg, level):
         """
