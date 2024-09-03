@@ -190,7 +190,7 @@ def BAAH_run_post_command():
 
 def BAAH_kill_emulator():
     """
-    杀掉模拟器的用户可见窗口进程
+    杀掉模拟器进程
     """
     if (config.userconfigdict["TARGET_EMULATOR_PATH"] and
             config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_BAAH"]):
