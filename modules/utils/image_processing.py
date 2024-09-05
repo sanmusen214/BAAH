@@ -153,6 +153,10 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         return (True, (center_x, center_y), max_val)
     return (False, (0, 0), max_val)
 
+def filter_num(input: str):
+    """filter the number in the string"""
+    return "".join(filter(str.isdigit, input))
+
 def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
     """
     get the string in the image area
