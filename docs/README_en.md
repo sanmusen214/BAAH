@@ -46,17 +46,20 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 ## 0. How to Update BAAH
 
-Download BAAH1.x.xx_update.zip, then extract all contents to overwrite the existing files in the BAAH folder.
+Download BAAH1.x.xx_update.zip on [Github releases](https://github.com/sanmusen214/BAAH/releases/) or by clicking the update button in the GUI, then extract all contents to overwrite the existing files in the BAAH folder.
+
+Or just double click `UPDATE.exe` to update BAAH.
 
 ## 1. How to Provide Feedback
 
 Please:
 
 0. Check if the issue is already listed in the FAQs.
-1. Describe your game server, BAAH version.
-2. Describe your purpose.
-3. Describe the behavior of BAAH before and after the error occurred or provide a recording.
-4. Provide logs of BAAH.exe before and after the error occurred.
+1. Check whether the BAAH is the latest version. You can update BAAH through the update button in the GUI.
+2. Describe your game server, BAAH version.
+3. Describe your purpose.
+4. Describe the behavior of BAAH before and after the error occurred or provide a recording.
+5. Provide logs of BAAH.exe before and after the error occurred.
 
 ## 2. ADB Connection Failed, Screenshot Size is 0kb, or Game Continuously Detected as Not Opened
 
@@ -64,11 +67,13 @@ Please check if the adb port number in your configuration file matches the adb p
 
 Please verify if your server selection in the configuration file is correct.
 
-## 3. How to View the Port Number of Mumu Emulator
+## 3. How to View the ADB Port Number of Mumu Emulator
 
 Click the three horizontal lines in the upper right corner of the emulator, open problem detection, scroll to the bottom, and the adb port number will be displayed.
 
 ## 4. How to View the Port Number of LDPlayer Emulator
+
+You can click the `using serial number` box on the right side of the adb port input box when connecting to the LDPlayer emulator, then enter `emulator-5554`, or try `emulator-5556`, `emulator-5558`, etc., until the connection is successful.
 
 Click Multi-player on the right side of the emulator to find out the current emulator's ID number. The port number is: 5555 + ID * 2.
 
@@ -84,6 +89,8 @@ This issue usually occurs in CN server official BAs. Unbind the swipe trigger di
 
 Switch to different configuration files in the GUI interface, then click Save and Run in the bottom right corner separately.
 
+BAAH can be run through the command line, just cd to the BAAH folder, and execute `BAAH.exe your_config.json`. By combining the Windows Task Scheduler, you can run BAAH automatically at a specific time.
+
 If you are using a bat command or Windows Task Scheduler, make sure to cd to the BAAH folder, then execute `BAAH.exe config1.json` followed by `BAAH.exe config2.json`.
 
 ## 8. Can BAAH be Run Multi-opened with Other Scripts?
@@ -91,7 +98,7 @@ If you are using a bat command or Windows Task Scheduler, make sure to cd to the
 BAAH is compatible with ALAS and MAA, but:
 
 1. Please do not attempt to run BAAH and ALAS or MAA on the same multi-opened emulator/same emulator port simultaneously, as they will compete for screenshots. Please set up multiple multi-opened emulators.
-2. Please be careful not to let the automation scripts restart the adb service frequently.
+2. Please be careful not to let the automation scripts restart the adb service, BAAH will not try to shut down the adb daemon, you should start BAAH after other automation tools.
 
 ## 9. After Extracting, BAAH.exe Disappears
 
