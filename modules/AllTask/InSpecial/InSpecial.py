@@ -39,7 +39,6 @@ class InSpecial(Task):
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
         target_info=[[each[0]-1, each[1]-1, *each[2:]] for each in target_info]
-        # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
             lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
@@ -74,7 +73,8 @@ class InSpecial(Task):
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
             # 判断是否在活动开启期间
-            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
+            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not ( match_pixel((195, 221), Page.COLOR_PINK,printit=True) or
+                                                                                                         match_pixel((142, 222), Page.COLOR_PINK,printit=True)):
                 logging.warn({"zh_CN": "设置为没有活动不进行，跳过", "en_US":"event is not open, skip"})
                 break
             # 扫荡对应的level
