@@ -73,7 +73,7 @@ class InExchange(Task):
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
             # 判断是否在活动开启期间
-            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not ( match_pixel((195, 221), Page.COLOR_PINK,printit=True) or
+            if config.userconfigdict["EXCHANGE_EVENT_STATUS"] and each_target == target_info[0] and not ( match_pixel((195, 221), Page.COLOR_PINK,printit=True) or
                                                                                                          match_pixel((113, 252), Page.COLOR_PINK,printit=True) or
                                                                                                          match_pixel((195, 251), Page.COLOR_PINK,printit=True)):
 
