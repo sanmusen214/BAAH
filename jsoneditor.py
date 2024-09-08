@@ -9,7 +9,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
 
-        from gui import show_GUI
+        from gui import show_gui
         from gui.components.check_update import only_check_version
         from nicegui import native, ui, run, app
         
@@ -68,7 +68,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
                 for i,tab_panel in enumerate(alljson_tab_list):
                     with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
-                        show_GUI(alljson_list[i], MyConfigger(), shared_softwareconfig)
+                        show_gui(alljson_list[i], MyConfigger(), shared_softwareconfig)
         check_times = 0
         async def check_version():
             """check the version, show the update message"""

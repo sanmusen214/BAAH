@@ -26,15 +26,14 @@ from gui.pages.Setting_BuyAP import set_buyAP
 from gui.pages.Setting_UserTask import set_usertask
 
 
-
 @ui.refreshable
-def show_GUI(load_jsonname, config, shared_softwareconfig):
+def show_gui(load_json_name, config, shared_software_config):
     
-    # 如果是example.json，则大字提醒
-    if load_jsonname == "example.json":
+    # wish users do not use example.json, so use bigger and red font to remind users
+    if load_json_name == "example.json":
         ui.label(config.get_text("notice_example_json")).style("font-size: 30px; color: red;")
         
-    config.parse_user_config(load_jsonname)
+    config.parse_user_config(load_json_name)
 
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
@@ -95,7 +94,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
 
         with ui.column().style('flex-grow: 4; width: 50vw;'):
             
-            set_BAAH(config, shared_softwareconfig)
+            set_BAAH(config, shared_software_config)
             
             # 模拟器配置
             set_emulator(config)
@@ -110,7 +109,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             set_task_order(config, real_taskname_to_show_taskname)
             
             # 通知
-            set_notification(config, shared_softwareconfig)
+            set_notification(config, shared_software_config)
             
             # 咖啡馆
             set_cafe(config)
@@ -143,7 +142,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             set_assault(config)
                 
             # 困难关卡
-            set_hard(config, shared_softwareconfig)
+            set_hard(config, shared_software_config)
             
             # 普通关卡
             set_normal(config)
@@ -152,7 +151,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             set_usertask(config)
             
             # 其他设置
-            set_other(config, load_jsonname)
+            set_other(config, load_json_name)
 
         msg_obj = {
             "stop_signal": 0,
@@ -168,27 +167,27 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         with ui.column().style('width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
             
             def save_and_alert():
-                config.save_user_config(load_jsonname)
+                config.save_user_config(load_json_name)
                 config.save_software_config()
-                shared_softwareconfig.save_software_config()
+                shared_software_config.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
             ui.button(config.get_text("button_save"), on_click=save_and_alert)
             
             def save_and_alert_and_run_in_terminal():
-                config.save_user_config(load_jsonname)
+                config.save_user_config(load_json_name)
                 config.save_software_config()
-                shared_softwareconfig.save_software_config()
+                shared_software_config.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
                 ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
-                os.system(f'start BAAH.exe "{load_jsonname}"')
+                os.system(f'start BAAH.exe "{load_json_name}"')
             ui.button(config.get_text("button_save_and_run_terminal"), on_click=save_and_alert_and_run_in_terminal)
 
             # ======Run in GUI======
             async def save_and_alert_and_run():
-                config.save_user_config(load_jsonname)
+                config.save_user_config(load_json_name)
                 config.save_software_config()
-                shared_softwareconfig.save_software_config()
+                shared_software_config.save_software_config()
                 ui.notify(config.get_text("notice_save_success"))
                 ui.notify(config.get_text("notice_start_run"))
                 # 打开同目录中的BAAH.exe，传入当前config的json文件名
@@ -206,5 +205,5 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             # ================
         
     # 加载完毕保存一下config，应用最新的对config的更改
-    config.save_user_config(load_jsonname)
+    config.save_user_config(load_json_name)
     config.save_software_config()
