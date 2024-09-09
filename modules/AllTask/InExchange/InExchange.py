@@ -5,7 +5,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0,match_pixel,screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0, match_pixel, screenshot
 from modules.utils.log_utils import logging
 import time
 import numpy as np
@@ -73,9 +73,14 @@ class InExchange(Task):
                 lambda: Page.is_page(PageName.PAGE_EXCHANGE_SUB),
             )
             # 判断是否在活动开启期间
-            if config.userconfigdict["SPEICAL_EVENT_STATUS"] and each_target == target_info[0] and not match_pixel((195, 221), Page.COLOR_PINK,printit=True):
+            if config.userconfigdict["EXCHANGE_EVENT_STATUS"] and each_target == target_info[0] and not ( match_pixel((195, 221), Page.COLOR_PINK,printit=True) or
+                                                                                                         match_pixel((113, 252), Page.COLOR_PINK,printit=True) or
+                                                                                                         match_pixel((195, 251), Page.COLOR_PINK,printit=True)):
+
                 logging.warn({"zh_CN": "设置为没有活动不进行，跳过", "en_US":"event is not open, skip"})
                 break
+     
+
             # 扫荡对应的level
             RunExchangeFight(levelnum = each_target[1], runtimes = each_target[2]).run()
             # 如果是回到SUB界面之后，点击一下返回，如果是回到EXCHANGE界面，就不用点击了

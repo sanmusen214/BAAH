@@ -8,7 +8,13 @@ BAAH可以帮助你在模拟器内自动完成碧蓝档案（国际服，日服�
 
 BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server, CN server) in emulator automatically.
 
-[[English Document](./docs/README_en.md) | [中文文档](./docs/README_cn.md)]
+---
+
+[项目文档 | Project Document](./README.md) <-- You are here | 你在这里
+
+[中文使用文档](./docs/README_cn.md) | [English Usage Document](./docs/README_en.md)
+
+[中文开发文档](./docs/README_dev.md) | [English Dev Document](./docs/README_dev_en.md)
 
 ---
 
@@ -19,23 +25,23 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 
 # Support
 
-Systems supported/支持的操作系统:
+支持的操作系统/Systems supported:
 
 - Windows (executable file, source code)
 - MacOS (source code)
 
-Supported BA servers/支持的BA游戏服务器：
+支持的BA游戏服务器/Supported BA servers：
 
-- Global Server 国际服
-- Japanese Server 日服
-- CN Server 国服
-- CN Bilibili Server B服
+- 国际服 Global Server 
+- 日服 Japanese Server 
+- 国服 CN Server 
+- B服 CN Bilibili Server 
 
 # Functions
 
 支持的功能:
 
-- 自动打开模拟器，自动执行
+- 自动打开模拟器，自动执行，自定义添加启动加速器任务，自动关闭模拟器
 - 领取（咖啡馆产出/邀请/摸头，社团签到，每日任务奖励，邮件，活动，战术大赛，总力战）
 - 消耗体力/票卷进行扫荡（课程表，普通关，困难关，活动关，悬赏通缉，特殊任务，学院交流会，战术大赛，总力战）
 - 购买（每日商店购买，竞技场商店购买）
@@ -51,16 +57,16 @@ Supported Functions：
 
 # Star
 
-Please star if you like it, ^ ^.
+如果觉得本项目对你有帮助，请点一点网页右上角的Star⭐ / Please star⭐ if you like it, ^ ^.
 
 [![Stargazers over time](https://starchart.cc/sanmusen214/BAAH.svg?variant=adaptive)](https://starchart.cc/sanmusen214/BAAH)
 
 
 # Usage
 
-使用请详见文档 / Get to know how to use BAAH by reading documents
+如何使用请见使用文档 / Get to know how to use BAAH by reading usage documents
 
-[[English Document](./docs/README_en.md) | [中文文档](./docs/README_cn.md)]
+[中文使用文档](./docs/README_cn.md) | [English Usage Document](./docs/README_en.md)
 
 # Thank
 
@@ -74,6 +80,10 @@ Fully English logging support and function enhancement from [@ly5519](https://gi
 
 Linux platform suitable by [@lonzzi](https://github.com/lonzzi)
 
+Besides, many of them had joined the continues development of BAAH, thanks.
+
+Packages used in this project:
+
 [opencv-python](https://github.com/opencv/opencv)
 
 [pponnxcr](https://github.com/hgjazhgj/pponnxcr)
@@ -84,12 +94,6 @@ Linux platform suitable by [@lonzzi](https://github.com/lonzzi)
 
 Other scripts about BlueArchive
 
-1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): 碧蓝档案国际服自动脚本
-2. [MBA](https://github.com/MaaAssistantArknights/MBA): MAA架构的碧蓝档案助手
-3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script): 蔚蓝档案简中服脚本
-
-# Dev
-
-You can see the develop document to know how to code this project.
-
-[[English Dev Document](./docs/README_dev_en.md) | [中文开发文档](./docs/README_dev.md)]
+1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto)
+2. [MBA](https://github.com/MaaAssistantArknights/MBA)
+3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script)

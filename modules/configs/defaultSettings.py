@@ -165,6 +165,10 @@ defaultUserDict = {
     "USER_DEF_TASKS":{"d":""},
     
     "CRAFT_TIMES":{"d":1},
+    
+    # 竞技场优先级、
+    "CONTEST_LEVEL_PRIORITY":{"d":10},
+    "CONTEST_RANK_PRIORITY":{"d":10},
 }
 
 # 软件的config里的默认值
