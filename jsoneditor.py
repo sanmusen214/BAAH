@@ -33,9 +33,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             # 重新构造alljson_list和alljson_tab_list
             alljson_list = get_json_list()
             alljson_tab_list = [None for i in alljson_list]
-        
-        # 构造一个config，用于在tab间共享softwareconfigdict
-        shared_softwareconfig = MyConfigger()
+
 
         async def add_new_config():
             """
@@ -68,7 +66,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
                 for i,tab_panel in enumerate(alljson_tab_list):
                     with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
-                        show_gui(alljson_list[i], MyConfigger(), shared_softwareconfig)
+                        show_gui(alljson_list[i])
         check_times = 0
         async def check_version():
             """check the version, show the update message"""
@@ -77,7 +75,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             if check_times > 0:
                 return
             check_times = 1
-            result = await only_check_version(shared_softwareconfig)
+            result = await only_check_version()
             if not result["status"]:
                 return
             ui.notify(result["msg"], close_button=True, type="info")
@@ -106,9 +104,9 @@ if __name__ in {"__main__", "__mp_main__"}:
         @ui.page('/')
         def MainPage() -> None:
             showContentArea()
-        
+
         # 运行GUI
-        ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host=args.host, port=args.port, storage_secret=shared_softwareconfig.softwareconfigdict["ENCRYPT_KEY"])
+        ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, host=args.host, port=args.port)
 
     except Exception as e:
         import traceback

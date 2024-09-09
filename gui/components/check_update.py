@@ -1,9 +1,12 @@
+from ..define import gui_shared_config
+
 from nicegui import ui, run
 import time
 import requests
 import os
 
-async def only_check_version(config):
+
+async def only_check_version():
     # 比较访问https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest和https://api.github.com/repos/sanmusen214/BAAH/releases/latest哪一个快
     urls={
         "gitee":"https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest",
@@ -31,22 +34,22 @@ async def only_check_version(config):
     resultdict = {}
     # 如果两个网站都访问失败
     if len(eachtime) == 0:
-        ui.notify(config.get_text("notice_fail"))
+        ui.notify(gui_shared_config.get_text("notice_fail"))
         resultdict["status"] = False
-        resultdict["msg"] = f'{config.get_text("notice_fail")} Fail to connect Github/Gitee'
+        resultdict["msg"] = f'{gui_shared_config.get_text("notice_fail")} Fail to connect Github/Gitee'
         return resultdict
     # 找到访问时间最短的网站key
     fastestkey = min(eachtime, key=eachtime.get)
     # 判断是否需要更新
-    if config.get_one_version_num(eachnewesttag[fastestkey]) > config.get_one_version_num():
-        ui.notify(f'{config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
+    if gui_shared_config.get_one_version_num(eachnewesttag[fastestkey]) > gui_shared_config.get_one_version_num():
+        ui.notify(f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
         resultdict["status"] = True
-        resultdict["msg"] = f'{config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
+        resultdict["msg"] = f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
         resultdict["urls"] = eachdowloadurl[fastestkey]
     else:
-        ui.notify(config.get_text("notice_no_new_version"))
+        ui.notify(gui_shared_config.get_text("notice_no_new_version"))
         resultdict["status"] = False
-        resultdict["msg"] = config.get_text("notice_no_new_version")
+        resultdict["msg"] = gui_shared_config.get_text("notice_no_new_version")
     return resultdict
 
 # 检查更新
