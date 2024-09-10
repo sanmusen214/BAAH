@@ -27,7 +27,7 @@ import os
 from nicegui import ui, run
 
 
-def show_gui(load_json_name):
+def show_gui(load_json_name: str):
     """
     the func redner the gui
     Args:
@@ -46,7 +46,7 @@ def show_gui(load_json_name):
 
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
-        "登录游戏": config.get_text("task_login_game"),
+        TaskName.LOGIN_GAME.value: config.get_text("task_login_game"),
         "清momotalk": config.get_text("task_clear_momotalk"),
         "咖啡馆": config.get_text("task_cafe"),
         "咖啡馆只摸头": config.get_text("task_cafe_deprecated"),  # 为了兼容以前的配置里的咖啡馆只摸头，这里只改显示名
