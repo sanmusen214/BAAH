@@ -1,4 +1,7 @@
 from modules.configs.settingMaps import *
+
+from define import TaskName
+
 from time import time
 
 # 用户的脚本config里的默认值以及可选值
@@ -21,7 +24,7 @@ defaultUserDict = {
     "EVENT_QUEST_LEVEL": {"d":[]},
     "HARD": {"d":[]},
     "NORMAL": {"d":[]},
-    "TASK_ORDER": {"d":["登录游戏"]},
+    "TASK_ORDER": {"d": [TaskName.LOGIN_GAME.value]},
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
     "PUSH_NORMAL_USE_SIMPLE": {"d":False},

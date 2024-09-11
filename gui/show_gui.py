@@ -22,6 +22,7 @@ from .pages.Setting_UserTask import set_usertask
 from .define import *
 
 from modules.configs.MyConfig import MyConfigger
+from define import TaskName
 
 import os
 from nicegui import ui, run
@@ -47,28 +48,28 @@ def show_gui(load_json_name: str):
     # myAllTask里面的key与GUI显示的key的映射
     real_taskname_to_show_taskname = {
         TaskName.LOGIN_GAME.value: config.get_text("task_login_game"),
-        "清momotalk": config.get_text("task_clear_momotalk"),
-        "咖啡馆": config.get_text("task_cafe"),
-        "咖啡馆只摸头": config.get_text("task_cafe_deprecated"),  # 为了兼容以前的配置里的咖啡馆只摸头，这里只改显示名
-        "课程表": config.get_text("task_timetable"),
-        "社团": config.get_text("task_club"),
-        "制造": config.get_text("task_craft"),
-        "商店": config.get_text("task_shop"),
-        "购买AP": config.get_text("task_buy_ap"),
-        "悬赏通缉": config.get_text("task_wanted"),
-        "特殊任务": config.get_text("task_special"),
-        "学园交流会": config.get_text("task_exchange"),
-        "战术大赛": config.get_text("task_contest"),
-        "困难关卡": config.get_text("task_hard"),
-        "活动关卡": config.get_text("task_event"),
-        "总力战": config.get_text("task_assault"),
-        "每日任务": config.get_text("task_daily"),
-        "邮件": config.get_text("task_mail"),
-        "普通关卡": config.get_text("task_normal"),
-        "普通推图": config.get_text("push_normal"),
-        "困难推图": config.get_text("push_hard"),
-        "主线剧情": config.get_text("push_main_story"),
-        "自定义任务": config.get_text("task_user_def_task"),
+        TaskName.MOMOTALK.value: config.get_text("task_clear_momotalk"),
+        TaskName.CAFE.value: config.get_text("task_cafe"),
+        TaskName.CAFE_ONLY_TOUCH.value: config.get_text("task_cafe_deprecated"),  # 为了兼容以前的配置里的咖啡馆只摸头，这里只改显示名
+        TaskName.TIMETABLE.value: config.get_text("task_timetable"),
+        TaskName.CLUB.value: config.get_text("task_club"),
+        TaskName.MANUFACTURE.value: config.get_text("task_craft"),
+        TaskName.STORE.value: config.get_text("task_shop"),
+        TaskName.BUY_AP.value: config.get_text("task_buy_ap"),
+        TaskName.BOUNTY.value: config.get_text("task_wanted"),
+        TaskName.SPECIAL.value: config.get_text("task_special"),
+        TaskName.SCHOOL_EXCHANGE_MEETING.value: config.get_text("task_exchange"),
+        TaskName.TACTICAL_CHALLENGE.value: config.get_text("task_contest"),
+        TaskName.HARD.value: config.get_text("task_hard"),
+        TaskName.EVENT.value: config.get_text("task_event"),
+        TaskName.ASSAULT.value: config.get_text("task_assault"),
+        TaskName.DAILY.value: config.get_text("task_daily"),
+        TaskName.MAIL.value: config.get_text("task_mail"),
+        TaskName.NORMAL.value: config.get_text("task_normal"),
+        TaskName.PUSH_NORMAL.value: config.get_text("push_normal"),
+        TaskName.PUSH_HARD.value: config.get_text("push_hard"),
+        TaskName.MAIN_STORY.value: config.get_text("push_main_story"),
+        TaskName.CUSTOM.value: config.get_text("task_user_def_task"),
     }
 
     # =============================================
