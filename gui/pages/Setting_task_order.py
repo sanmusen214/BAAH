@@ -1,4 +1,4 @@
-from define import TaskName
+from common import TaskName
 
 from nicegui import ui
 

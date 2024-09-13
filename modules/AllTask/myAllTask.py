@@ -6,7 +6,7 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 
-from define import TaskName
+from common import TaskName
 
 
 # 用户config里的 任务名称 和 任务类 的对应关系

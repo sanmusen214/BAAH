@@ -1,6 +1,6 @@
 from modules.configs.settingMaps import *
 
-from define import TaskName
+from common import TaskName
 
 from time import time
 

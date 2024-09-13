@@ -22,7 +22,6 @@ from .pages.Setting_UserTask import set_usertask
 from .define import *
 
 from modules.configs.MyConfig import MyConfigger
-from define import TaskName
 
 import os
 from nicegui import ui, run
@@ -44,37 +43,7 @@ def show_gui(load_json_name: str):
         ui.label(config.get_text("notice_example_json")).style("font-size: 30px; color: red;")
 
     config.parse_user_config(load_json_name)
-
-    # myAllTask里面的key与GUI显示的key的映射
-    real_taskname_to_show_taskname = {
-        TaskName.LOGIN_GAME.value: config.get_text("task_login_game"),
-        TaskName.MOMOTALK.value: config.get_text("task_clear_momotalk"),
-        TaskName.CAFE.value: config.get_text("task_cafe"),
-        TaskName.CAFE_ONLY_TOUCH.value: config.get_text("task_cafe_deprecated"),  # 为了兼容以前的配置里的咖啡馆只摸头，这里只改显示名
-        TaskName.TIMETABLE.value: config.get_text("task_timetable"),
-        TaskName.CLUB.value: config.get_text("task_club"),
-        TaskName.MANUFACTURE.value: config.get_text("task_craft"),
-        TaskName.STORE.value: config.get_text("task_shop"),
-        TaskName.BUY_AP.value: config.get_text("task_buy_ap"),
-        TaskName.BOUNTY.value: config.get_text("task_wanted"),
-        TaskName.SPECIAL.value: config.get_text("task_special"),
-        TaskName.SCHOOL_EXCHANGE_MEETING.value: config.get_text("task_exchange"),
-        TaskName.TACTICAL_CHALLENGE.value: config.get_text("task_contest"),
-        TaskName.HARD.value: config.get_text("task_hard"),
-        TaskName.EVENT.value: config.get_text("task_event"),
-        TaskName.ASSAULT.value: config.get_text("task_assault"),
-        TaskName.DAILY.value: config.get_text("task_daily"),
-        TaskName.MAIL.value: config.get_text("task_mail"),
-        TaskName.NORMAL.value: config.get_text("task_normal"),
-        TaskName.PUSH_NORMAL.value: config.get_text("push_normal"),
-        TaskName.PUSH_HARD.value: config.get_text("push_hard"),
-        TaskName.MAIN_STORY.value: config.get_text("push_main_story"),
-        TaskName.CUSTOM.value: config.get_text("task_user_def_task"),
-    }
-
-    # =============================================
-
-    # =============================================
+    task_name_map = get_task_name_map_dict(config)
 
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
         with ui.column().style(
@@ -115,7 +84,7 @@ def show_gui(load_json_name: str):
             set_vpn(config)
 
             # 任务执行顺序，后续配置文件
-            set_task_order(config, real_taskname_to_show_taskname)
+            set_task_order(config, task_name_map)
 
             # 通知
             set_notification(config, gui_shared_config)
