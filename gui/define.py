@@ -5,6 +5,42 @@ from common import TaskName
 gui_shared_config = MyConfigger()
 
 
+class TaskStr:
+    def __init__(self, task_enum: TaskName, json_key_name: str):
+        self.task_enum = task_enum
+        self.json_key_name = json_key_name
+
+
+CURR_TASK_LIST: list[TaskStr] = [
+    TaskStr(TaskName.LOGIN_GAME, "task_login_game"),
+    TaskStr(TaskName.MOMOTALK, "task_clear_momotalk"),
+    TaskStr(TaskName.CAFE, "task_cafe"),
+
+    # compatibility, just changed display name
+    TaskStr(TaskName.TACTICAL_CHALLENGE, "task_cafe_deprecated"),
+
+    TaskStr(TaskName.TIMETABLE, "task_timetable"),
+    TaskStr(TaskName.CLUB, "task_club"),
+    TaskStr(TaskName.MANUFACTURE, "task_craft"),
+    TaskStr(TaskName.STORE, "task_shop"),
+    TaskStr(TaskName.BUY_AP, "task_buy_ap"),
+    TaskStr(TaskName.BOUNTY, "task_wanted"),
+    TaskStr(TaskName.SPECIAL, "task_special"),
+    TaskStr(TaskName.SCHOOL_EXCHANGE_MEETING, "task_exchange"),
+    TaskStr(TaskName.TACTICAL_CHALLENGE, "task_contest"),
+    TaskStr(TaskName.HARD, "task_hard"),
+    TaskStr(TaskName.EVENT, "task_event"),
+    TaskStr(TaskName.ASSAULT, "task_assault"),
+    TaskStr(TaskName.DAILY, "task_daily"),
+    TaskStr(TaskName.MAIL, "task_mail"),
+    TaskStr(TaskName.NORMAL, "task_normal"),
+    TaskStr(TaskName.PUSH_NORMAL, "push_normal"),
+    TaskStr(TaskName.PUSH_HARD, "push_hard"),
+    TaskStr(TaskName.MAIN_STORY, "push_main_story"),
+    TaskStr(TaskName.CUSTOM, "task_user_def_task"),
+]
+
+
 def get_task_name_map_dict(config_cls: MyConfigger) -> dict:
     """
     can get a map of task_name(in code) to task_name(diff language from config file set that one)
@@ -13,31 +49,4 @@ def get_task_name_map_dict(config_cls: MyConfigger) -> dict:
     Returns:
         a dict that key:val is code task name: language task name
     """
-    return {
-        TaskName.LOGIN_GAME.value: config_cls.get_text("task_login_game"),
-        TaskName.MOMOTALK.value: config_cls.get_text("task_clear_momotalk"),
-        TaskName.CAFE.value: config_cls.get_text("task_cafe"),
-
-        # compatibility just change show name
-        TaskName.CAFE_ONLY_TOUCH.value: config_cls.get_text("task_cafe_deprecated"),
-
-        TaskName.TIMETABLE.value: config_cls.get_text("task_timetable"),
-        TaskName.CLUB.value: config_cls.get_text("task_club"),
-        TaskName.MANUFACTURE.value: config_cls.get_text("task_craft"),
-        TaskName.STORE.value: config_cls.get_text("task_shop"),
-        TaskName.BUY_AP.value: config_cls.get_text("task_buy_ap"),
-        TaskName.BOUNTY.value: config_cls.get_text("task_wanted"),
-        TaskName.SPECIAL.value: config_cls.get_text("task_special"),
-        TaskName.SCHOOL_EXCHANGE_MEETING.value: config_cls.get_text("task_exchange"),
-        TaskName.TACTICAL_CHALLENGE.value: config_cls.get_text("task_contest"),
-        TaskName.HARD.value: config_cls.get_text("task_hard"),
-        TaskName.EVENT.value: config_cls.get_text("task_event"),
-        TaskName.ASSAULT.value: config_cls.get_text("task_assault"),
-        TaskName.DAILY.value: config_cls.get_text("task_daily"),
-        TaskName.MAIL.value: config_cls.get_text("task_mail"),
-        TaskName.NORMAL.value: config_cls.get_text("task_normal"),
-        TaskName.PUSH_NORMAL.value: config_cls.get_text("push_normal"),
-        TaskName.PUSH_HARD.value: config_cls.get_text("push_hard"),
-        TaskName.MAIN_STORY.value: config_cls.get_text("push_main_story"),
-        TaskName.CUSTOM.value: config_cls.get_text("task_user_def_task"),
-    }
+    return {i.task_enum.value: config_cls.get_text(i.json_key_name) for i in CURR_TASK_LIST}
