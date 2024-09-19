@@ -6,6 +6,11 @@ import requests
 import os
 
 
+UPDATE_TEXT_BOX = ui.row().style("position: fixed;z-index: 9999;")
+
+g_check_times = 0
+
+
 async def only_check_version():
     # 比较访问https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest和https://api.github.com/repos/sanmusen214/BAAH/releases/latest哪一个快
     urls={
@@ -52,6 +57,7 @@ async def only_check_version():
         resultdict["msg"] = gui_shared_config.get_text("notice_no_new_version")
     return resultdict
 
+
 # 检查更新
 async def get_newest_version(config):
     """检查最新版本并下载更新包"""
@@ -91,3 +97,19 @@ async def get_newest_version(config):
             return
     # 下载完成后解压
     # 将压缩包内BAAH文件夹内的文件解压到当前目录
+
+
+async def check_version():
+    """check the version, show the update message"""
+    global g_check_times
+    # if users have opened multi pages, this function will be called multi times
+    if g_check_times > 0:
+        return
+    g_check_times = 1
+    result = await only_check_version()
+    if not result["status"]:
+        return
+    ui.notify(result["msg"], close_button=True, type="info")
+    with UPDATE_TEXT_BOX:
+        ui.link(result["msg"], "https://github.com/sanmusen214/BAAH/releases", new_tab=True).style(
+            "color: red; border: 1px solid blue; border-radius: 5px; font-size: 20px;z-index: 9999;")
