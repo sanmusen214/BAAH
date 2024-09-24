@@ -80,7 +80,7 @@ Fully English logging support and function enhancement from [@ly5519](https://gi
 
 Linux platform suitable by [@lonzzi](https://github.com/lonzzi)
 
-Besides, many of them had joined the continues development of BAAH, thanks.
+Besides, many of them have joined the continues development of BAAH, thanks.
 
 Packages used in this project:
 
