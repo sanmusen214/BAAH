@@ -61,8 +61,8 @@ class InContest(Task):
             sleeptime=4
         )
         # 进入竞技场
-        # 适配日服
-        if config.userconfigdict["SERVER_TYPE"] == "JP":
+        # 适配日服，国际服
+        if config.userconfigdict["SERVER_TYPE"] in ["JP", "GLOBAL", "GLOBAL_EN"]:
             canincontest = self.run_until(
                 lambda: click((878, 595)),
                 lambda: Page.is_page(PageName.PAGE_CONTEST)
