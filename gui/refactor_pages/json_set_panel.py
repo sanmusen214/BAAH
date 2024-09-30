@@ -1,3 +1,4 @@
+from ..components.exec_arg_parse import get_token
 from ..pages.Setting_BAAH import set_BAAH
 from ..pages.Setting_Craft import set_craft
 from ..pages.Setting_cafe import set_cafe
@@ -21,7 +22,7 @@ from ..pages.Setting_UserTask import set_usertask
 from ..define import get_task_name_map_dict
 from modules.configs.MyConfig import MyConfigger
 
-from nicegui import ui
+from nicegui import ui, app
 from typing import Callable
 
 
@@ -65,6 +66,8 @@ def get_config_list(lst_config: MyConfigger) -> list:
 
 @ui.page('/panel/{json_file_name}')
 def show_json_panel(json_file_name: str):
+    if get_token() != app.storage.user.get("token"):
+        return
     curr_config: MyConfigger = MyConfigger()
     curr_config.parse_user_config(json_file_name)
     config_choose_list: list[ConfigPanel] = get_config_list(curr_config)
