@@ -1,4 +1,5 @@
 from ..components.exec_arg_parse import get_token
+from ..components.run_baah_in_gui import run_baah_task
 from ..pages.Setting_BAAH import set_BAAH
 from ..pages.Setting_Craft import set_craft
 from ..pages.Setting_cafe import set_cafe
@@ -21,9 +22,11 @@ from ..pages.Setting_BuyAP import set_buyAP
 from ..pages.Setting_UserTask import set_usertask
 from ..define import get_task_name_map_dict
 from modules.configs.MyConfig import MyConfigger
+from ..define import gui_shared_config
 
-from nicegui import ui, app
+from nicegui import ui, app, run
 from typing import Callable
+import os
 
 
 class ConfigPanel:
@@ -34,9 +37,6 @@ class ConfigPanel:
 
     def set_tab(self, tab: ui.tab):
         self.tab = tab
-
-
-gui_shared_config = MyConfigger()
 
 
 def get_config_list(lst_config: MyConfigger) -> list:
@@ -66,7 +66,7 @@ def get_config_list(lst_config: MyConfigger) -> list:
 
 @ui.page('/panel/{json_file_name}')
 def show_json_panel(json_file_name: str):
-    if get_token() != app.storage.user.get("token"):
+    if get_token() is not None and get_token() != app.storage.user.get("token"):
         return
     curr_config: MyConfigger = MyConfigger()
     curr_config.parse_user_config(json_file_name)
@@ -85,3 +85,65 @@ def show_json_panel(json_file_name: str):
                 for cls in config_choose_list:
                     with ui.tab_panel(cls.tab):
                         cls.func()
+
+
+        msg_obj = {
+            "stop_signal": 0,
+            "runing_signal": 0
+        }
+
+        with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
+            output_card = ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;')
+            with output_card:
+                logArea = ui.log(max_lines=1000).classes('w-full h-full')
+
+
+        with ui.column().style(
+                'width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
+            def save_and_alert():
+                curr_config.save_user_config(json_file_name)
+                curr_config.save_software_config()
+                gui_shared_config.save_software_config()
+                ui.notify(curr_config.get_text("notice_save_success"))
+
+            ui.button(curr_config.get_text("button_save"), on_click=save_and_alert)
+
+            def save_and_alert_and_run_in_terminal():
+                curr_config.save_user_config(json_file_name)
+                curr_config.save_software_config()
+                gui_shared_config.save_software_config()
+                ui.notify(curr_config.get_text("notice_save_success"))
+                ui.notify(curr_config.get_text("notice_start_run"))
+                # 打开同目录中的BAAH.exe，传入当前config的json文件名
+                os.system(f'start BAAH.exe "{json_file_name}"')
+
+            ui.button(curr_config.get_text("button_save_and_run_terminal"), on_click=save_and_alert_and_run_in_terminal)
+
+            # ======Run in GUI======
+            async def save_and_alert_and_run():
+                curr_config.save_user_config(json_file_name)
+                curr_config.save_software_config()
+                gui_shared_config.save_software_config()
+                ui.notify(curr_config.get_text("notice_save_success"))
+                ui.notify(curr_config.get_text("notice_start_run"))
+                # 打开同目录中的BAAH.exe，传入当前config的json文件名
+                # os.system(f'start BAAH.exe "{load_jsonname}"')
+                msg_obj["runing_signal"] = 1
+                await run.io_bound(run_baah_task, msg_obj, logArea, curr_config)
+
+            ui.button(curr_config.get_text("button_save_and_run_gui"), on_click=save_and_alert_and_run).bind_visibility_from(
+                msg_obj, "runing_signal", backward=lambda x: x == 0)
+
+            async def stop_run() -> None:
+                msg_obj["stop_signal"] = 1
+
+            ui.button(curr_config.get_text("notice_finish_run"), on_click=stop_run, color='red').bind_visibility_from(
+                msg_obj, "runing_signal", backward=lambda x: x == 1)
+
+            ui.button("...").bind_visibility_from(msg_obj, "runing_signal", backward=lambda x: x == 0.25)
+
+            # ================
+
+    # 加载完毕保存一下config，应用最新的对config的更改
+    curr_config.save_user_config(json_file_name)
+    curr_config.save_software_config()

@@ -19,7 +19,7 @@ def get_token() -> str:
 
 
 def check_token_dialog(refresh_page):
-    if len(g_token) != 0 and g_token != app.storage.user.get("token"):
+    if g_token is not None and len(g_token) != 0 and g_token != app.storage.user.get("token"):
         with ui.card().classes('absolute-center'):
             ui.input('Token', password=True, password_toggle_button=True,
                      on_change=lambda e: [app.storage.user.update({"token": e.value}),

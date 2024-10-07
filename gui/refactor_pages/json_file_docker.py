@@ -1,4 +1,3 @@
-from ..show_gui import show_gui
 from modules.configs.MyConfig import MyConfigger
 
 from nicegui import ui
@@ -39,10 +38,6 @@ def tab_area():
         # 新建配置，用加号添加
         ui.button("+", on_click=add_new_config).style(
             "width: 30px; height: 30px; line-height: 30px; text-align: center; cursor: pointer;")
-    with ui.tab_panels(tabs, value=alljson_list[0]).classes('w-full'):
-        for i, tab_panel in enumerate(alljson_tab_list):
-            with ui.tab_panel(tab_panel).style("height: 88vh; overflow: auto;"):
-                show_gui(alljson_list[i])
 
 
 async def add_new_config():
