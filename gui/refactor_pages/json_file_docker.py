@@ -23,21 +23,6 @@ def get_json_list():
 
 
 alljson_list = get_json_list()
-alljson_tab_list: list[ui.tab] = []
-
-
-@ui.refreshable
-def tab_area():
-    """
-    start render the web components, use alljson_list to create, have one create one
-    """
-    global alljson_tab_list
-    with ui.tabs().classes('w-full') as tabs:
-        for json_name in alljson_list:
-            alljson_tab_list.append(ui.tab(json_name, label=json_name).style(LETTERS_NOT_UPPER_STYLE))
-        # 新建配置，用加号添加
-        ui.button("+", on_click=add_new_config).style(
-            "width: 30px; height: 30px; line-height: 30px; text-align: center; cursor: pointer;")
 
 
 async def add_new_config():
@@ -57,6 +42,6 @@ async def add_new_config():
         await ui.alert("配置名已存在/Config name already exists")
     else:
         # 创建一个新的json文件，延长alljson_list和alljson_tab_list
-        alljson_list.append(response)
-        alljson_tab_list.append(None)
-        tab_area.refresh()
+        with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, response), 'w') as f:
+            f.write("{}")
+        await ui.run_javascript('location.reload()')
