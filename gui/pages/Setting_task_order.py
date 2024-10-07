@@ -1,4 +1,7 @@
+from common import TaskName
+
 from nicegui import ui
+
 
 def set_task_order(config, real_taskname_to_show_taskname):
     with ui.row():
@@ -25,9 +28,8 @@ def set_task_order(config, real_taskname_to_show_taskname):
             with ui.row():
                 ui.label(f'{config.get_text("config_task")} {i+1}:')
                 atask = ui.select(real_taskname_to_show_taskname,
-                            value=config.userconfigdict["TASK_ORDER"][i],
-                            on_change=lambda v,i=i: config.userconfigdict["TASK_ORDER"].__setitem__(i, v.value),
-                            )
+                                  value=config.userconfigdict["TASK_ORDER"][i],
+                                  on_change=lambda v: config.userconfigdict["TASK_ORDER"].__setitem__(i, v.value))
                 acheck = ui.checkbox(config.get_text("button_enable"), value=config.userconfigdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.userconfigdict["TASK_ACTIVATE"].__setitem__(i, v.value))
                 if i==0:
                     atask.set_enabled(False)
@@ -37,7 +39,7 @@ def set_task_order(config, real_taskname_to_show_taskname):
                     ui.button(f'{config.get_text("button_delete")} {config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
 
     def add_task(i):
-        config.userconfigdict["TASK_ORDER"].insert(i, "邮件")
+        config.userconfigdict["TASK_ORDER"].insert(i, TaskName.MAIL.value)
         config.userconfigdict["TASK_ACTIVATE"].insert(i, True)
         task_order.refresh()
     

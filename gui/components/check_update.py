@@ -1,9 +1,17 @@
+from ..define import gui_shared_config
+
 from nicegui import ui, run
 import time
 import requests
 import os
 
-async def only_check_version(config):
+
+UPDATE_TEXT_BOX = ui.row().style("position: fixed;z-index: 9999;")
+
+g_check_times = 0
+
+
+async def only_check_version():
     # 比较访问https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest和https://api.github.com/repos/sanmusen214/BAAH/releases/latest哪一个快
     urls={
         "gitee":"https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest",
@@ -31,23 +39,24 @@ async def only_check_version(config):
     resultdict = {}
     # 如果两个网站都访问失败
     if len(eachtime) == 0:
-        ui.notify(config.get_text("notice_fail"))
+        ui.notify(gui_shared_config.get_text("notice_fail"))
         resultdict["status"] = False
-        resultdict["msg"] = f'{config.get_text("notice_fail")} Fail to connect Github/Gitee'
+        resultdict["msg"] = f'{gui_shared_config.get_text("notice_fail")} Fail to connect Github/Gitee'
         return resultdict
     # 找到访问时间最短的网站key
     fastestkey = min(eachtime, key=eachtime.get)
     # 判断是否需要更新
-    if config.get_one_version_num(eachnewesttag[fastestkey]) > config.get_one_version_num():
-        ui.notify(f'{config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
+    if gui_shared_config.get_one_version_num(eachnewesttag[fastestkey]) > gui_shared_config.get_one_version_num():
+        ui.notify(f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
         resultdict["status"] = True
-        resultdict["msg"] = f'{config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
+        resultdict["msg"] = f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
         resultdict["urls"] = eachdowloadurl[fastestkey]
     else:
-        ui.notify(config.get_text("notice_no_new_version"))
+        ui.notify(gui_shared_config.get_text("notice_no_new_version"))
         resultdict["status"] = False
-        resultdict["msg"] = config.get_text("notice_no_new_version")
+        resultdict["msg"] = gui_shared_config.get_text("notice_no_new_version")
     return resultdict
+
 
 # 检查更新
 async def get_newest_version(config):
@@ -88,3 +97,19 @@ async def get_newest_version(config):
             return
     # 下载完成后解压
     # 将压缩包内BAAH文件夹内的文件解压到当前目录
+
+
+async def check_version():
+    """check the version, show the update message"""
+    global g_check_times
+    # if users have opened multi pages, this function will be called multi times
+    if g_check_times > 0:
+        return
+    g_check_times = 1
+    result = await only_check_version()
+    if not result["status"]:
+        return
+    ui.notify(result["msg"], close_button=True, type="info")
+    with UPDATE_TEXT_BOX:
+        ui.link(result["msg"], "https://github.com/sanmusen214/BAAH/releases", new_tab=True).style(
+            "color: red; border: 1px solid blue; border-radius: 5px; font-size: 20px;z-index: 9999;")

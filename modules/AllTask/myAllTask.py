@@ -6,31 +6,34 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 
+from common import TaskName
+
+
 # 用户config里的 任务名称 和 任务类 的对应关系
-task_dict= {
-    "登录游戏":[EnterGame,{}],
-    "清momotalk":[InMomotalk,{}],
-    "咖啡馆":[InCafe,{}],
-    "咖啡馆只摸头":[InCafe,{}], # 此方法弃用，现在所有咖啡馆参数通过config调整
-    "课程表":[InTimeTable,{}],
-    "社团":[InClub,{}],
-    "制造":[InCraft,{}],
-    "商店":[InShop,{}],
-    "悬赏通缉":[InWanted,{}],
-    "特殊任务":[InSpecial,{}],
-    "学园交流会":[InExchange,{}],
-    "战术大赛":[InContest, {'collect':False}],
-    "总力战":[AutoAssault,{}],
-    "困难关卡":[InQuest, {'types':["hard"]}],
-    "活动关卡":[InEvent,{}],
-    "每日任务":[CollectDailyRewards,{}],
-    "邮件":[CollectMails,{}],
-    "普通关卡":[InQuest, {'types':["normal"]}],
-    "普通推图":[InQuest, {'types':["push-normal"]}],
-    "困难推图":[InQuest, {'types':["push-hard"]}],
-    "主线剧情":[AutoStory,{}],
-    "购买AP":[BuyAP,{}],
-    "自定义任务":[UserTask,{}],
+task_dict = {
+    TaskName.LOGIN_GAME.value: [EnterGame, {}],
+    TaskName.MOMOTALK.value: [InMomotalk, {}],
+    TaskName.CAFE.value: [InCafe, {}],
+    TaskName.CAFE_ONLY_TOUCH.value: [InCafe, {}],  # 此方法弃用，现在所有咖啡馆参数通过config调整
+    TaskName.TIMETABLE.value: [InTimeTable, {}],
+    TaskName.CLUB.value: [InClub, {}],
+    TaskName.MANUFACTURE.value: [InCraft, {}],
+    TaskName.STORE.value: [InShop, {}],
+    TaskName.BOUNTY.value: [InWanted, {}],
+    TaskName.SPECIAL.value: [InSpecial, {}],
+    TaskName.SCHOOL_EXCHANGE_MEETING.value: [InExchange, {}],
+    TaskName.TACTICAL_CHALLENGE.value: [InContest, {'collect': False}],
+    TaskName.ASSAULT.value: [AutoAssault, {}],
+    TaskName.HARD.value: [InQuest, {'types': ["hard"]}],
+    TaskName.EVENT.value: [InEvent, {}],
+    TaskName.DAILY.value: [CollectDailyRewards, {}],
+    TaskName.MAIL.value: [CollectMails, {}],
+    TaskName.NORMAL.value: [InQuest, {'types': ["normal"]}],
+    TaskName.PUSH_NORMAL.value: [InQuest, {'types': ["push-normal"]}],
+    TaskName.PUSH_HARD.value: [InQuest, {'types': ["push-hard"]}],
+    TaskName.MAIN_STORY.value: [AutoStory, {}],
+    TaskName.BUY_AP.value: [BuyAP, {}],
+    TaskName.CUSTOM.value: [UserTask, {}],
 }
 
 class AllTask:
@@ -57,7 +60,7 @@ class AllTask:
                 if config.userconfigdict['TASK_ACTIVATE'][i] == False:
                     continue
                 self.add_task(task_dict[task_name][0](**task_dict[task_name][1]))
-                if task_name == "战术大赛":
+                if task_name == TaskName.TACTICAL_CHALLENGE.value:
                     last_contest = self.taskpool[-1]
             # 将最后一次战术大赛的收集奖励设置为True
             if last_contest:

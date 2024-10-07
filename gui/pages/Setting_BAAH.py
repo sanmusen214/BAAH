@@ -2,6 +2,7 @@ import subprocess
 from nicegui import ui, app
 from gui.components.check_update import get_newest_version
 
+
 def set_BAAH(config, shared_softwareconfig):
     
     def select_language(value):
