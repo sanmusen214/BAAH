@@ -128,8 +128,8 @@ defaultUserDict = {
     
     "AUTO_ASSAULT_LEVEL":{"d":4},
     
-    "RUN_UNTIL_TRY_TIMES":{"d":6},
-    "RUN_UNTIL_WAIT_TIME":{"d":1.5},
+    "RUN_UNTIL_TRY_TIMES":{"d":9},
+    "RUN_UNTIL_WAIT_TIME":{"d":0.6},
     
     # 是否直接使用emulator-5554这种序列号
     "ADB_DIRECT_USE_SERIAL_NUMBER":{"d":False},

@@ -55,15 +55,10 @@ class HardQuest(Task):
                           "en_US": "Click on level {} from the top down ".format(level_ind+1)})
             ScrollSelect(level_ind, 190, 306, 630, 1116,
                          lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)).run()
-            if quest_has_easy_tab():
+            has_easy_tab = quest_has_easy_tab()
+            if has_easy_tab:
                 # 适配日服简易攻略
                 click((385, 183))
-                screenshot()
-                if not match(popup_pic(PopupName.POPUP_EASY_QUEST)):
-                    # 匹配简易攻略弹窗失败
-                    logging.warn({"zh_CN": "简易攻略：未能匹配到扫荡弹窗，跳过",
-                                  "en_US": "Easy Quest: Cannot match the raid popup, skip"})
-                    break
             else:
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_TASK_INFO)):
@@ -71,7 +66,7 @@ class HardQuest(Task):
                     logging.warn({"zh_CN": "未能匹配到扫荡弹窗，跳过", "en_US": "Cannot match the raid popup, skip"})
                     break
             # 扫荡
-            RaidQuest(repeat_times, has_easy_tab=config.userconfigdict["SERVER_TYPE"] == "JP").run()
+            RaidQuest(repeat_times, has_easy_tab=has_easy_tab).run()
 
             # 关闭弹窗，直到看到hard按钮
             close_popup_until_see(button_pic(ButtonName.BUTTON_HARD))

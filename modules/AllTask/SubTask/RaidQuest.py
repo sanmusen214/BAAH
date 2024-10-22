@@ -23,7 +23,7 @@ class RaidQuest(Task):
     recall_close：function
         回调函数，用于后续关闭弹窗，通常建议将关闭操作放在此class外部
     has_easy_tab: bool
-        是否有简易攻略tab，用于适配日服简易攻略扫荡弹窗
+        是否有简易攻略tab，用于适配简易攻略扫荡弹窗
     """
 
     def __init__(self, raidtimes, recall_close=None, has_easy_tab=False, name="RaidQuest") -> None:

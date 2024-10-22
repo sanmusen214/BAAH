@@ -53,15 +53,10 @@ class NormalQuest(Task):
             click(Page.MAGICPOINT)
             ScrollSelect(level_ind, 190, 288, 628, 1115, lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)).run()
             # 如果匹配到弹窗，看看是不是扫荡的弹窗，
-            
-            if quest_has_easy_tab():
+            has_easy_tab = quest_has_easy_tab()
+            if has_easy_tab:
                 # 适配简易攻略
                 click((385, 183))
-                screenshot()
-                if not match(popup_pic(PopupName.POPUP_EASY_QUEST)):
-                    # 匹配简易攻略弹窗失败
-                    logging.warn({"zh_CN": "简易攻略：未能匹配到扫荡弹窗，跳过", "en_US":"Easy Quest: Cannot match the raid popup, skip"})
-                    break
             else:
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_TASK_INFO)):
@@ -69,7 +64,7 @@ class NormalQuest(Task):
                     logging.warn({"zh_CN": "未能匹配到扫荡弹窗，跳过", "en_US":"Cannot match the raid popup, skip"})
                     break
             # 扫荡
-            RaidQuest(repeat_times, has_easy_tab=config.userconfigdict["SERVER_TYPE"]=="JP").run()
+            RaidQuest(repeat_times, has_easy_tab=has_easy_tab).run()
             # 清除所有弹窗
             close_popup_until_see(button_pic(ButtonName.BUTTON_NORMAL))
         # 清除所有弹窗
