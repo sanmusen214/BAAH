@@ -27,8 +27,8 @@ class MyLogger:
         """得到字符串的哈希值"""
         return hashlib.md5(data.encode(encoding='UTF-8')).hexdigest()
     
-    def format_msg(self, msg, level):
-        """加入时间，错误级别"""
+    def get_i18n_sentence(self, msg):
+        """从dict中得到当前i18n语言"""
         if isinstance(msg, dict):
             if self.lang in msg:
                 msg = msg[self.lang]
@@ -37,6 +37,11 @@ class MyLogger:
                 # 目前EN = "en_US"，与传入的json的代表英语的key是对应的
                 if EN in msg:
                     msg = msg[EN]
+        return msg
+
+    def format_msg(self, msg, level):
+        """解析dict或str，加入时间，错误级别"""
+        msg = self.get_i18n_sentence(msg)
         return f"{config.NOWVERSION} - {strftime('%M:%S')} - {level} : {str(msg)}"
     
     def colorful_print(self, msg, level):
