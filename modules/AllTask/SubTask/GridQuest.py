@@ -13,7 +13,7 @@ from modules.AllTask.Task import Task
 import json
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
-                           get_screenshot_cv_data, match_pixel)
+                           get_screenshot_cv_data, match_pixel, istr, CN, EN)
 
 from modules.utils.grid_analyze import GridAnalyzer
 
@@ -247,7 +247,18 @@ class GridQuest(Task):
             )
             return False
         logging.info({"zh_CN": f"成功读取关卡文件{self.grider.jsonfilename}，开始执行",
-                      "en_US": f"The level file {self.grider.jsonfilename} is successfully read and executed"})
+                      "en_US": f"The level file {self.grider.jsonfilename} is successfully read and will be executed"})
+        # 关闭左上角任务目标 防止造成遮挡
+        self.clear_popup()
+        close_task_target_box = self.run_until(
+            lambda: click((100, 154)),
+            lambda: not match_pixel((273, 154), Page.COLOR_WHITE),
+            times=3
+        )
+        logging.info(istr({
+            CN: "关闭任务目标弹窗" + ("成功" if close_task_target_box else "失败"),
+            EN: "close task target " + ("successful" if close_task_target_box else "failed")
+        }))
         # 设置队伍数量
         self.team_names = [item["name"] for item in self.grider.get_initialteams(self.require_type)]
         # ========== 配队 ============

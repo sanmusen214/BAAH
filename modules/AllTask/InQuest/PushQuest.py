@@ -107,8 +107,10 @@ class PushQuest(Task):
             left_up = ocr_area((139 + offsetx, 197 + offsety), (216 + offsetx, 232 + offsety))
             page_level = left_up[0].split(" ")[0].replace("|", "").replace("[", "").replace("]", "").strip().split("-")
             try:
+                # 如16-4这种数字组合都能够成功分割
                 logging.info({"zh_CN": f"分割后的关卡序号：{page_level}",
                               "en_US": f"Split Level Sequence: {page_level}"})
+                assert len(page_level)==2
                 # 这一步更新这次推图的实际章节和关卡下标
                 page_num = int(page_level[0])
                 self.page_ind = page_num - 1
@@ -125,11 +127,12 @@ class PushQuest(Task):
                     logging.info({"zh_CN": "格子关卡：{}-{}，开始推图".format(page_num, level_num),
                                   "en_US": "Grid level: {} - {}, start thumbnail".format(page_num, level_num)})
             except:
+                # 如果遇到支线关，分割失败；有时候24-A这种偶尔也会分割失败，
                 logging.warn({"zh_CN": f"OCR关卡序号识别失败({left_up[0]})",
                               "en_US": f"Failing to recognize the level number({left_up[0]})"})
                 if not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
-                    if "A" in left_up[0] or "B" in left_up[0] or "C" in left_up[0]:
-                        # 如果匹配到数字A,B,C，说明是章节末尾关卡，打完后不会消失
+                    if self.level_ind == 5 and ("A" in left_up[0] or "B" in left_up[0] or "C" in left_up[0]):
+                        # 如果 关卡下标为 五并且匹配到数字A,B,C，说明是章节末尾关卡，打完后不会消失
                         logging.info({"zh_CN": "判断为章节末尾关卡",
                                       "en_US": "Judged as a level at the end of the chapter"})
                     else:

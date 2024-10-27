@@ -30,7 +30,7 @@
                     "target": "center"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "right"
                 }
