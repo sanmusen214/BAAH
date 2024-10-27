@@ -60,7 +60,16 @@ class InShop(Task):
         switchres = self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
             lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),
+            times=3
         )
+        if not switchres:
+            # 尝试滑动左侧列表往下
+            swipe((100, 467),(100, 192), durationtime=0.5)
+            switchres = self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
+                lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),
+                times=3
+            )
         if not switchres:
             logging.error({"zh_CN": "切换到竞技场商店失败，中止任务", "en_US":"Switch to contest shop failed, abort task"})
             return
