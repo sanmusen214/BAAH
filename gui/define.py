@@ -7,6 +7,15 @@ curr_config = MyConfigger()
 
 
 class TaskStr:
+    """
+    连接配置文件里的task任务名称与i18n包里对应的翻译文字key
+
+    task_enum: 
+        配置文件里的task任务名称
+    json_key_name:
+        i18n包里的翻译文字key
+
+    """
     def __init__(self, task_enum: TaskName, json_key_name: str):
         self.task_enum = task_enum
         self.json_key_name = json_key_name
