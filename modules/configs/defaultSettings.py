@@ -44,7 +44,21 @@ defaultUserDict = {
         }
     },
     "TARGET_EMULATOR_PATH":{"d":""},
-    "CLOSE_EMULATOR_BAAH":{"d":False},
+    "CLOSE_EMULATOR_BAAH":{"d":False}, # deprecate
+    "CLOSE_EMULATOR_FINISH":{
+        "d": False,
+        "m": {
+            "from": "CLOSE_EMULATOR_BAAH",
+            "map": lambda x: x
+        }
+    },
+    "CLOSE_BAAH_FINISH":{
+        "d": False,
+        "m": {
+            "from": "CLOSE_EMULATOR_BAAH",
+            "map": lambda x: x
+        }
+    },
     "PIC_PATH":{
         "d":"./DATA/assets",
         "s":[
