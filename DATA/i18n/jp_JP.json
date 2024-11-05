@@ -50,7 +50,7 @@
     "button_save_and_run_gui": "保存して実行（GUI、実験的）",
     "button_save_and_run_terminal": "保存して実行（ターミナル）",
     "button_check_version": "更新を確認してダウンロードする（BAAHが実行されていないことを確認してください）",
-    "button_update_advance":"最新バージョンに一括更新（実験的）",
+    "button_update_advance":"最新バージョンに一括更新（推薦する）",
     "button_select_all": "すべて選択",
     "button_select_none": "選択解除",
     "button_enable": "有効にする",
