@@ -25,10 +25,8 @@ CURR_TASK_LIST: list[TaskStr] = [
     TaskStr(TaskName.LOGIN_GAME, "task_login_game"),
     TaskStr(TaskName.MOMOTALK, "task_clear_momotalk"),
     TaskStr(TaskName.CAFE, "task_cafe"),
-
     # compatibility, just changed display name
-    TaskStr(TaskName.TACTICAL_CHALLENGE, "task_cafe_deprecated"),
-
+    TaskStr(TaskName.CAFE, "task_cafe_deprecated"),
     TaskStr(TaskName.TIMETABLE, "task_timetable"),
     TaskStr(TaskName.CLUB, "task_club"),
     TaskStr(TaskName.MANUFACTURE, "task_craft"),
