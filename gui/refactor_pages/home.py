@@ -4,13 +4,18 @@ from .json_file_docker import add_new_config
 from nicegui import ui
 
 from ..components.exec_arg_parse import check_token_dialog
+from ..define import gui_shared_config
 
 @ui.refreshable
 def render_json_list():
     if check_token_dialog(render_json_list):
+        
+        ui.label(gui_shared_config.get_text("config_file")).style("font-size: xx-large")
 
-        for i in get_json_list():
-            ui.link(i, f"/panel/{i}")
+        for config_name in get_json_list():
+            with ui.link(target = f"/panel/{config_name}"):
+                with ui.card().props('flat bordered'):
+                    ui.label(config_name)
 
         ui.button("+", on_click=add_new_config).style(
             "width: 30px; height: 30px; line-height: 30px; text-align: center; cursor: pointer;")

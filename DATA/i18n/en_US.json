@@ -1,4 +1,6 @@
 {
+    "config_file":"Config File",
+
     "task_login_game": "Login Game",
     "task_clear_momotalk": "Clear Momotalk",
     "task_cafe": "Cafe",

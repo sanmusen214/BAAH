@@ -72,8 +72,11 @@ def show_json_panel(json_file_name: str):
     curr_config.parse_user_config(json_file_name)
     config_choose_list: list[ConfigPanel] = get_config_list(curr_config)
 
-    with ui.splitter(value=15).classes('w-full') as splitter:
+    # 设置splitter高度使其占满全屏，减去2rem是content这个class的内边距
+    with ui.splitter(value=15).classes('w-full h-full').style("height: calc(100vh - 2rem);") as splitter:
         with splitter.before:
+            ui.button("<-", on_click=lambda: ui.run_javascript('window.history.back()'))
+
             with ui.tabs().props('vertical').classes('w-full') as tabs:
                 tmp = ui.tab(config_choose_list[0].name)
                 config_choose_list[0].set_tab(tmp)

@@ -1,4 +1,6 @@
 {
+    "config_file":"配置文件",
+
     "task_login_game":"登录游戏",
     "task_clear_momotalk":"清momotalk",
     "task_cafe":"咖啡馆",

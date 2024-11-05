@@ -41,7 +41,7 @@ async def add_new_config():
     if response in alljson_list:
         await ui.alert("配置名已存在/Config name already exists")
     else:
-        # 创建一个新的json文件，延长alljson_list和alljson_tab_list
+        # 创建一个新的json文件
         with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, response), 'w') as f:
             f.write("{}")
         await ui.run_javascript('location.reload()')
