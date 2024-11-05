@@ -2,6 +2,7 @@ import subprocess
 from nicegui import ui, app
 from gui.components.check_update import get_newest_version
 
+
 def set_BAAH(config, shared_softwareconfig):
     
     def select_language(value):
@@ -15,7 +16,7 @@ def set_BAAH(config, shared_softwareconfig):
     
     with ui.column():
         ui.link_target("BAAH")
-        ui.label(f"Blue Archive Aris Helper {config.NOWVERSION}").style('font-size: xx-large')
+        ui.label(f"Blue Archive Aris Helper {config.NOWVERSION} ==> ({config.nowuserconfigname})").style('font-size: xx-large')
         
         ui.toggle({"zh_CN":"中文", "en_US":"English", "jp_JP":"日本語"}, value=shared_softwareconfig.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(shared_softwareconfig.softwareconfigdict, "LANGUAGE")
 

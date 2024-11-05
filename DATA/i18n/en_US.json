@@ -1,4 +1,6 @@
 {
+    "config_file":"Config File",
+
     "task_login_game": "Login Game",
     "task_clear_momotalk": "Clear Momotalk",
     "task_cafe": "Cafe",
@@ -48,7 +50,7 @@
     "button_save_and_run_gui":"Save and execute (GUI, experimental)",
     "button_save_and_run_terminal":"Save and execute (Terminal)",
     "button_check_version": "Check for Updates and Download(Make sure BAAH is not running)",
-    "button_update_advance":"One Click to update to the latest version (experimental)",
+    "button_update_advance":"One Click to update to the latest version (recommend)",
     "button_select_all": "Select All",
     "button_select_none": "Deselect All",
     "button_enable": "Enable",
@@ -66,6 +68,8 @@
     "config_kill_port": "Whether force to kill the port before starting emulator",
     "config_emulator_path": "Emulator Path",
     "config_close_emulator_and_baah": "Close Emulator and BAAH After Execution",
+    "config_close_emulator_when_finish" : "Close Emulator After Execution",
+    "config_close_BAAH_when_finish" : "Close BAAH After Execution", 
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",
     "config_nth": "The",
     "config_day": "Day",

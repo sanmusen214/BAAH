@@ -193,7 +193,7 @@ def BAAH_kill_emulator():
     杀掉模拟器进程
     """
     if (config.userconfigdict["TARGET_EMULATOR_PATH"] and
-            config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_BAAH"]):
+            config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_FINISH"]):
         try:
             if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                 logging.error({"zh_CN": "未能获取到模拟器进程，跳过关闭模拟器",
@@ -263,7 +263,7 @@ def BAAH_auto_quit(forcewait = False, key_map_func = None):
     # 默认值空字典
     if key_map_func is None:
         key_map_func = dict()
-    if forcewait or not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+    if forcewait or not config.userconfigdict["CLOSE_BAAH_FINISH"]:
         user_input = input(f"Press Enter to exit/回车退出, [{key_map_func.keys()}]:")
         for k in key_map_func:
             if user_input.upper() == k.upper():
