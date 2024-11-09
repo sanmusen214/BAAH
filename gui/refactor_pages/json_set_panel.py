@@ -30,6 +30,16 @@ import os
 
 
 class ConfigPanel:
+    """
+    连接子页面的i18n名称 与 渲染页面的函数
+
+    Parameters
+    ==========
+    name: str
+        子页面标题
+    func: 
+        子页面渲染函数
+    """
     def __init__(self, name: str, func: Callable[[], None]):
         self.name = name
         self.func = func

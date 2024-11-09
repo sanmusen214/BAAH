@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class TaskName(Enum):
+    """
+    配置文件里的task任务名称
+    """
     LOGIN_GAME = "登录游戏"
     MOMOTALK = "清momotalk"
     CAFE = "咖啡馆"
