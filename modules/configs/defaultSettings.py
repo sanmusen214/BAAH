@@ -115,7 +115,7 @@ defaultUserDict = {
     "AUTO_EVENT_STORY_PUSH":{"d":False},
     "EXPLORE_RAINBOW_TEAMS":{"d":False},
     "ENABLE_MAIL_NOTI":{"d":False},
-    "CAFE_TOUCH_WAY_DIFF":{"d":False},
+    "CAFE_TOUCH_WAY_DIFF":{"d":True},
     "USE_VPN":{"d":False},
     "VPN_CONFIG":{"d":{
         "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
@@ -164,7 +164,7 @@ defaultUserDict = {
     "USE_MEMORY_IMAGE":{"d":False},
     
     # 时间表是否自动选择
-    "SMART_TIMETABLE":{"d":False},
+    "SMART_TIMETABLE":{"d":True},
     # 时间表各项权重
     "TIMETABLE_WEIGHT_OF_REWARD":{"d":10},
     "TIMETABLE_WEIGHT_OF_HEART":{"d":20},

@@ -25,23 +25,19 @@ def get_json_list():
 alljson_list = get_json_list()
 
 
-async def add_new_config():
+async def add_new_config(configname):
     """
     点击加号后，添加一个新的json配置文件到alljson_list和alljson_tab_list里，然后让Configger类去新建这个json文件
     """
-    response = await ui.run_javascript('''
-        return await window.prompt("请输入新配置名/Please input new config name")
-    ''', timeout=60.0)
-    if not response:
-        print("未输入配置名/No config name input")
-        return
-    print("输入的配置名/Input config name:", response)
-    response = response.strip().replace(".json", "")
-    response = response + ".json"
-    if response in alljson_list:
-        await ui.alert("配置名已存在/Config name already exists")
+    configname = configname.strip()
+    if not configname:
+        ui.notify("配置名为空！/Config name is None!")
     else:
-        # 创建一个新的json文件
-        with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, response), 'w') as f:
-            f.write("{}")
-        await ui.run_javascript('location.reload()')
+        configname = configname.replace(".json", "") + ".json"
+        if configname in alljson_list:
+            ui.notify("配置名已存在/Config name already exists")
+        else:
+            # 创建一个新的json文件
+            with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, configname), 'w') as f:
+                f.write("{}")
+            ui.run_javascript('window.location.reload()')
