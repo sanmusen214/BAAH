@@ -26,6 +26,7 @@ def render_json_list():
         ui.toggle({"zh_CN":"中文", "en_US":"English", "jp_JP":"日本語"}, value=gui_shared_config.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(gui_shared_config.softwareconfigdict, "LANGUAGE")
 
         ui.label(gui_shared_config.get_text("BAAH_desc"))
+        ui.label("新QQ群：715586983, 另外请关注QQ频道: BAAH 防止走失").style('font-size: xx-large; color: red;')
 
         ui.label(gui_shared_config.get_text("BAAH_get_version"))
 

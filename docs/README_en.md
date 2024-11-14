@@ -6,7 +6,7 @@
 
 ## Discussion Group
 
-QQ: 441069156
+QQ: 715586983
 
 Discord: https://discord.com/invite/7cEvvfcd
 

@@ -15,7 +15,7 @@ def print_BAAH_info():
     print("||" + f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ") + "||")
     print("||" + "Bilibili: https://space.bilibili.com/7331920".center(80, " ") + "||")
     print("||" + "Github: https://github.com/sanmusen214/BAAH".center(80, " ") + "||")
-    print("||" + "QQ group: 441069156".center(80, " ") + "||")
+    print("||" + "QQ group: 715586983".center(80, " ") + "||")
     print("||" + "".center(80, " ") + "||")
     print("+" + "".center(80, "=") + "+")
 
@@ -32,7 +32,7 @@ def print_BAAH_config_info():
 
 def print_BAAH_finish():
     print_BAAH_info()
-    print("\n程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
+    print("\n程序运行结束，如有问题请反馈，在Github上检查下是否有版本更新")
     print("https://github.com/sanmusen214/BAAH")
 
 def BAAH_release_adb_port(justDoIt=False):
