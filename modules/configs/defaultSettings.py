@@ -186,6 +186,11 @@ defaultUserDict = {
     # 竞技场优先级、
     "CONTEST_LEVEL_PRIORITY":{"d":10},
     "CONTEST_RANK_PRIORITY":{"d":10},
+
+    # 游戏启动超时时间，秒。防止意料之外的错误判断（超时会触发error），默认超时时间设长点
+    "GAME_LOGIN_TIMEOUT":{"d":600},
+    # 游戏卡启动时的重新启动模拟器最多尝试次数
+    "MAX_RESTART_EMULATOR_TIMES":{"d":0},
 }
 
 # 软件的config里的默认值
@@ -227,5 +232,7 @@ defaultSessionDict = {
     "INFO_DICT":{"d":{}},
     "INFO_LIST":{"d":[]},
     # 截图文件读取失败的次数
-    "SCREENSHOT_READ_FAIL_TIMES":{"d":0}
+    "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
+    # 当前尝试重启模拟器次数
+    "RESTART_EMULATOR_TIMES":{"d":0},
 }

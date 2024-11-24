@@ -1,4 +1,4 @@
- 
+import time
 
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
@@ -9,7 +9,7 @@ from modules.AllTask.Task import Task
 
 from modules.utils.log_utils import logging
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN
 
 # =====
 
@@ -24,8 +24,21 @@ class Loginin(Task):
         return True
     
 
-    @staticmethod
-    def try_jump_useless_pages():
+    def try_jump_useless_pages(self):
+        # 判断超时
+        if time.time() - self.task_start_time > config.userconfigdict["GAME_LOGIN_TIMEOUT"]:
+            if config.sessiondict["RESTART_EMULATOR_TIMES"] >= config.userconfigdict["MAX_RESTART_EMULATOR_TIMES"]:
+                # 无重启次数剩余
+                raise Exception(istr({
+                    CN: "超时：无法进入游戏主页，无剩余重启次数",
+                    EN: "Timeout: Fail to login to the game homepage, no restart chances left"
+                }))
+            else:
+                # 有重启次数剩余，尝试重启
+                raise EmulatorBlockError(istr({
+                    CN: "模拟器卡顿，重启模拟器",
+                    EN: "Emulator blocked, try to restart emulator"
+                }))
         # 确认处在游戏界面
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
             open_app(config.userconfigdict['ACTIVITY_PATH'])
@@ -48,6 +61,7 @@ class Loginin(Task):
     
      
     def on_run(self) -> None:
+        self.task_start_time = time.time()
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
         self.run_until(self.try_jump_useless_pages, 
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
