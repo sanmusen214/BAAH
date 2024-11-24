@@ -126,7 +126,7 @@ def check_and_update():
     # 根据update.zip结尾的url下载文件
     target_url = version_info.update_zip_url
     targetfilename = os.path.basename(target_url)
-    print("Dowloading...Please wait")
+    print("Downloading...Please wait")
     # 不存在zip文件则下载
     if not os.path.exists(targetfilename):
         try:
