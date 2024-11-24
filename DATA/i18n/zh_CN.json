@@ -144,6 +144,8 @@
     "config_craft_desc":"制造任务目前只能一个节点，且不支持指定物品的优先级，等国服实装一键制造后会通过一键制造来支持",
     "config_craft_max_times":"尝试制造次数",
     "desc_note":"备注",
+    "config_login_timeout":"登录游戏超时时间（秒）",
+    "config_max_emulator_restart_times": "登录超时后模拟器最多重启次数，0为不重启",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

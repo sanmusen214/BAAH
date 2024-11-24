@@ -26,7 +26,7 @@ class Loginin(Task):
 
     def try_jump_useless_pages(self):
         # 判断超时
-        if time.time() - self.task_start_time > config.userconfigdict["RESTART_EMULATOR_TIMEOUT"]:
+        if time.time() - self.task_start_time > config.userconfigdict["GAME_LOGIN_TIMEOUT"]:
             if config.sessiondict["RESTART_EMULATOR_TIMES"] >= config.userconfigdict["MAX_RESTART_EMULATOR_TIMES"]:
                 # 无重启次数剩余
                 raise Exception(istr({
@@ -34,7 +34,7 @@ class Loginin(Task):
                     EN: "Timeout: Fail to login to the game homepage, no restart chances left"
                 }))
             else:
-                # 尝试重启
+                # 有重启次数剩余，尝试重启
                 raise EmulatorBlockError(istr({
                     CN: "模拟器卡顿，重启模拟器",
                     EN: "Emulator blocked, try to restart emulator"
