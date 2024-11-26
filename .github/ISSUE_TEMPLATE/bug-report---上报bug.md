@@ -17,4 +17,5 @@ Before you raise this issue, plz make sure it is not duplicated / 在你提出�
 
 **Please complete the following information / 请填写以下信息**
  - BlueArchive Server / 你的游戏服务器: [e.g. Global]
+ - Emulator Resolution and DPI / 你的模拟器分辨率和DPI: 
  - BAAH version / 你的BAAH版本号: [e.g. 1.5.4]
