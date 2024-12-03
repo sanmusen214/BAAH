@@ -21,7 +21,7 @@ class MyLogger:
         self.warn_list = []
         self.error_list = []
         self.lang = config.softwareconfigdict["LANGUAGE"]
-        print("使用语言/Use language: ", self.lang)
+        print("Use language: ", self.lang)
         
     def hash_str(self, data):
         """得到字符串的哈希值"""

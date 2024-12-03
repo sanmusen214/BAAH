@@ -115,7 +115,7 @@ class SmartSelect(Task):
             # 往后翻页
             click((1248, 362), sleeptime=1)
         # 此时回到第一个地区
-        # print(rooms_scores)
+        # logging.info(rooms_scores)
         # 大到小排序, 取前tickets个
         rooms_scores.sort(key=lambda x: x[2], reverse=True)
         rooms_scores = rooms_scores[:tickets]
@@ -128,7 +128,7 @@ class SmartSelect(Task):
             if i not in timetable_dict:
                 timetable_dict[i] = []
             timetable_dict[i].append(room_num)
-        print(timetable_dict)
+        logging.info(timetable_dict)
         # 点击
         for i in range(max_location_ind + 1):
             # 处理i地区

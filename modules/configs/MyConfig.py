@@ -100,7 +100,7 @@ class MyConfigger:
         """
         try:
             if os.path.getsize(file_path) == 0:
-                raise FileNotFoundError("文件为空")
+                raise FileNotFoundError(f"No Such File: {file_path}")
             with open(file_path, 'r', encoding="utf8") as f:
                 dictconfig = json.load(f)
                 # print("读取{}文件成功, 读取了{}个配置".format(file_path, len(dictconfig)))
