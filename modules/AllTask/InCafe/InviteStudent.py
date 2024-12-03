@@ -26,7 +26,7 @@ class InviteStudent(Task):
         # 打开邀请界面
         open_momo = self.run_until(
             lambda: click((834, 652)),
-            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)),
+            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)) or match(popup_pic(PopupName.POPUP_MOMOTALK_FANHEXIE)),
             times=3
         )
         if not open_momo:

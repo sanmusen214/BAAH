@@ -86,8 +86,8 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             raise Exception("由于卡顿或其他原因，截图文件损坏，请尝试清理电脑内存后重启程序")
         return default_response
     # 检查图片是否存在
-    if not exists(sourcepic):
-        logging.error({"zh_CN": "匹配的模板图片 文件不存在: {}".format(sourcepic), "en_US":"The pattern picture file does not exist: {}".format(sourcepic)})
+    if not exists(patternpic):
+        logging.error({"zh_CN": "匹配的模板图片 文件不存在: {}".format(patternpic), "en_US":"The pattern picture file does not exist: {}".format(patternpic)})
         return default_response
     pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
     have_alpha=False

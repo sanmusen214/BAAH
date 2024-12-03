@@ -98,11 +98,14 @@ class RaidQuest(Task):
                 click(self.add_pos)
         # 扫荡按钮点击后，有三个可能，一个是弹出确认提示，一个是弹出购买体力的提示，还有个是购买困难扫荡券的提示
         screenshot()
-        if not match(button_pic(ButtonName.BUTTON_CFIGHT_START)):
-            logging.warn({"zh_CN": "扫荡（快速战斗）按钮匹配失败，请检查配置文件中的服务器语言，以及是否有反和谐",
+
+        # 考虑国服识别反和谐扫荡按钮
+        if not (match(button_pic(ButtonName.BUTTON_CFIGHT_START)) or match(button_pic(ButtonName.BUTTON_CFIGHT_START_FANHEXIE))):
+            logging.error({"zh_CN": "扫荡（快速战斗）按钮匹配失败，请检查配置文件中的服务器语言，以及是否有反和谐",
                           "en_US": "Failed to match raid button, please check the server language in config file"})
+
         self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)),
+            lambda: click(button_pic(ButtonName.BUTTON_CFIGHT_START)) or click(button_pic(ButtonName.BUTTON_CFIGHT_START_FANHEXIE)),
             lambda: match(popup_pic(PopupName.POPUP_NOTICE)) or
                         match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9) or
                         match(popup_pic(PopupName.POPUP_USE_DIAMOND))

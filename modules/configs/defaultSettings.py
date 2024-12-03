@@ -75,7 +75,7 @@ defaultUserDict = {
     "GRID_SOL_PATH":{
       "d":"./DATA/grid_solution"  
     },
-    "FANHEXIE":{"d":False},
+    # "FANHEXIE":{"d":False}, # 于1.7.5弃用反和谐设置，对于反和谐差异图片进行动态匹配
     "ACTIVITY_PATH":{
         "d":"com.nexon.bluearchive/.MxUnityPlayerActivity",
         "s":[
