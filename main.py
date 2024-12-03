@@ -33,8 +33,8 @@ if __name__ in ["__main__", "__mp_main__"]:
                 config_name = now_config_files[0]
             else:
                 while(1):
-                    logging.info({"zh_CN": "请手动输入要运行的配置文件名(包含.json后缀)", "en_US": "Please enter the config file name to run (including .json suffix)"})
-                    config_name = input(": ")
+                    logging.info({"zh_CN": "请手动输入要运行的配置文件名(不包含.json后缀)", "en_US": "Please enter the config file name to run (excluding .json suffix)"})
+                    config_name = input(": ").replace(".json", "") + ".json"
                     if config_name in now_config_files:
                         break
                     else:
@@ -44,10 +44,10 @@ if __name__ in ["__main__", "__mp_main__"]:
         # 按照该配置文件，运行BAAH
         # 加载my_AllTask，BAAH_main，create_notificationer
         # 以这时的config构建任务列表
-        from BAAH import BAAH_main, my_AllTask, create_notificationer
+        from BAAH import BAAH_core_process
 
         # 不带GUI运行
-        BAAH_main()
+        BAAH_core_process()
     
     except Exception as e:
         import traceback
