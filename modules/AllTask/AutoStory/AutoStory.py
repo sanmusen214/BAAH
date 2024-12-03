@@ -121,7 +121,7 @@ class AutoStory(Task):
         self.scroll_to_right()
         screenshot()
         lines = ocr_area((212, 296), (793, 574), multi_lines=True)
-        print("ocr结果", lines)
+        logging.info(f"ocr: {lines}")
         maxnum = 0
         for line in lines:
             if len(line[0]) >= 5 and line[0][3] == "." and line[0][4].isdigit():

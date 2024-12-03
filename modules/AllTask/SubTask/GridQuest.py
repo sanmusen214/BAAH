@@ -451,7 +451,7 @@ class GridQuest(Task):
                         need_click_position = [int(target_team_position[1]+offset_pos[1]),
                                                int(target_team_position[0]+offset_pos[0] + offset_from_cnn_to_real)]
                 except Exception as e:
-                    print(e)
+                    logging.info(e)
                     logging.warn({"zh_CN": "队伍位置识别失败", "en_US": "Failed to recognize the position of the team"})
                     if (action["team"] == self.lastaction["team"] and
                             action["action"] == "portal" and

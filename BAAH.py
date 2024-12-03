@@ -1,8 +1,10 @@
-def BAAH_core_process(reread_config_name = None):
+def BAAH_core_process(reread_config_name = None, must_auto_quit = False):
     """
     运行BAAH核心流程
-
     RUN CORE BAAH PROCESS
+
+    @param reread_config_name: 是否重新解析config名
+    @param must_auto_quit: 是否运行结束时自动退出
     """
     from modules.configs.MyConfig import config
     if reread_config_name is not None:
@@ -13,13 +15,13 @@ def BAAH_core_process(reread_config_name = None):
     from modules.AllTask.myAllTask import my_AllTask
 
     def print_BAAH_info():
-        print("+" + "BAAH".center(80, "="), "+")
-        print("||" + f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ") + "||")
-        print("||" + "Bilibili: https://space.bilibili.com/7331920".center(80, " ") + "||")
-        print("||" + "Github: https://github.com/sanmusen214/BAAH".center(80, " ") + "||")
-        print("||" + "QQ group: 715586983".center(80, " ") + "||")
-        print("||" + "".center(80, " ") + "||")
-        print("+" + "".center(80, "=") + "+")
+        logging.info("+" + "BAAH".center(80, "="), "+")
+        logging.info("||" + f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ") + "||")
+        logging.info("||" + "Bilibili: https://space.bilibili.com/7331920".center(80, " ") + "||")
+        logging.info("||" + "Github: https://github.com/sanmusen214/BAAH".center(80, " ") + "||")
+        logging.info("||" + "QQ group: 715586983".center(80, " ") + "||")
+        logging.info("||" + "".center(80, " ") + "||")
+        logging.info("+" + "".center(80, "=") + "+")
 
     def print_BAAH_config_info():
         # 打印config信息
@@ -34,8 +36,8 @@ def BAAH_core_process(reread_config_name = None):
 
     def print_BAAH_finish():
         print_BAAH_info()
-        print("\n程序运行结束，如有问题请反馈，在Github上检查下是否有版本更新")
-        print("https://github.com/sanmusen214/BAAH")
+        logging.info("\n程序运行结束，如有问题请反馈，在Github上检查下是否有版本更新")
+        logging.info("https://github.com/sanmusen214/BAAH")
 
     def BAAH_release_adb_port(justDoIt=False):
         """
@@ -150,7 +152,7 @@ def BAAH_core_process(reread_config_name = None):
                         continue
                     logging.info({"zh_CN": f"点击{click_pos}, 等待{sleep_time}秒",
                                 "en_US": f"Cilck {click_pos}, wait {sleep_time} seconds"})
-                    print(type(sleep_time))
+                    logging.info(type(sleep_time))
                     click(click_pos, sleeptime=sleep_time)
             except Exception as e:
                 logging.error({"zh_CN": "启动加速器失败, 可能是配置有误",
@@ -289,10 +291,12 @@ def BAAH_core_process(reread_config_name = None):
     def BAAH_auto_quit(forcewait = False, key_map_func = None):
         """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
         # 用于GUI识别是否结束的关键字
-        print("GUI_BAAH_TASK_END")
+        logging.info("GUI_BAAH_TASK_END")
         # 默认值空字典
         if key_map_func is None:
             key_map_func = dict()
+        if must_auto_quit:
+            return
         if forcewait or not config.userconfigdict["CLOSE_BAAH_FINISH"]:
             user_input = input(f"Press Enter to exit/回车退出, [{key_map_func.keys()}]:")
             for k in key_map_func:
@@ -337,7 +341,7 @@ def BAAH_core_process(reread_config_name = None):
                     CN: "错误信息: " + str(e),
                     EN: "Error Message: " + str(e),
                 }))
-                print(notificationer.send("\n".join(content), title=istr({CN: "BAAH任务失败", EN: "BAAH Error"})))
+                logging.info(notificationer.send("\n".join(content), title=istr({CN: "BAAH任务失败", EN: "BAAH Error"})))
                 logging.info({"zh_CN": "邮件发送结束", "en_US": "The email has been sent"})
             except Exception as eagain:
                 logging.error({"zh_CN": "发送邮件失败", "en_US": "Failed to send email"})
@@ -394,7 +398,7 @@ def BAAH_core_process(reread_config_name = None):
 
             
         except Exception as e:
-            logging.error({"zh_CN": "运行出错", "en_US": "Error occurred"})
+            logging.error({"zh_CN": f"运行出错: {e}", "en_US": f"Error occurred: {e}"})
             # 打印完整的错误信息
             import traceback
             traceback.print_exc()

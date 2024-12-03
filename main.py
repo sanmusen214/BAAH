@@ -53,5 +53,5 @@ if __name__ in ["__main__", "__mp_main__"]:
         import traceback
         traceback.print_exc()
         # 用于GUI识别是否结束的关键字
-        print("GUI_BAAH_TASK_END")
+        logging.info("GUI_BAAH_TASK_END")
         input("Error, Enter to exit/错误，回车退出:")
