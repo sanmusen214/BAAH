@@ -95,15 +95,22 @@ class InMomotalk(Task):
         # 点击打开momotalk界面
         openmomo = self.run_until(
             lambda: click((172, 174)),
-            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
+            lambda: match(popup_pic(PopupName.POPUP_MOMOTALK)) or match(popup_pic(PopupName.POPUP_MOMOTALK_FANHEXIE))
         )
         if not openmomo:
             logging.info({"zh_CN": "未检测到momotalk弹窗，跳过此任务",
                           "en_US": "The momotalk popup is not detected. Skip this task"})
             self.back_to_home()
             return
+        # 分辨是POPUP_MOMOTALK 还是 POPUP_MOMOTALK_FANHEXIE
+        momotalk_popup_fpath = PopupName.POPUP_MOMOTALK
+        """
+        动态匹配的标题： momotalk 或 桃信
+        """
+        if match(popup_pic(PopupName.POPUP_MOMOTALK_FANHEXIE)):
+            momotalk_popup_fpath = PopupName.POPUP_MOMOTALK_FANHEXIE
         # 记住momotalk标题位置
-        self.momo_title_pos = match(popup_pic(PopupName.POPUP_MOMOTALK), returnpos=True)[1]
+        self.momo_title_pos = match(popup_pic(momotalk_popup_fpath), returnpos=True)[1]
         # 切换到对话界面
         click((170, 299), 1)
         click((170, 299), 1)
@@ -132,12 +139,12 @@ class InMomotalk(Task):
             # 剧情过完可能会有个得到回忆大厅的弹窗
             self.run_until(
                 lambda: click(self.momo_title_pos),
-                lambda: match(popup_pic(PopupName.POPUP_MOMOTALK))
+                lambda: match(popup_pic(momotalk_popup_fpath))
             )
         logging.info({"zh_CN": "momotalk处理完毕，返回主页", "en_US": "momotalk finished, go back to homepage"})
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: not match(popup_pic(PopupName.POPUP_MOMOTALK))
+            lambda: not match(popup_pic(momotalk_popup_fpath))
         )
         self.back_to_home()
         # 递归

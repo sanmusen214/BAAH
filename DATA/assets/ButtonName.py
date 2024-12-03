@@ -1,5 +1,9 @@
 class ButtonName:
     BUTTON_CFIGHT_START = "BUTTON_CFIGHT_START"
+    """
+    注意考虑国服扫荡按钮反和谐
+    """
+    BUTTON_CFIGHT_START_FANHEXIE = "BUTTON_CFIGHT_START_FANHEXIE"
     # 扫荡时
     BUTTON_CONFIRMB = "BUTTON_CONFIRMB"
     # 购买时
