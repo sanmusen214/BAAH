@@ -1,21 +1,25 @@
-def BAAH_core_process(reread_config_name = None, must_auto_quit = False):
+def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_queue = None):
     """
     运行BAAH核心流程
     RUN CORE BAAH PROCESS
 
     @param reread_config_name: 是否重新解析config名
     @param must_auto_quit: 是否运行结束时自动退出
+    @param msg_queue: log输出管道
     """
     from modules.configs.MyConfig import config
     if reread_config_name is not None:
         config.parse_user_config(reread_config_name)
-    import os
+    
     from modules.utils.log_utils import logging
+    logging.set_log_queue(msg_queue)
+
+    import os
     from modules.utils import subprocess_run, time, disconnect_this_device, sleep, check_connect, open_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
     from modules.AllTask.myAllTask import my_AllTask
 
     def print_BAAH_info():
-        logging.info("+" + "BAAH".center(80, "="), "+")
+        logging.info("+" + "BAAH".center(80, "=") + "+")
         logging.info("||" + f"Version: {config.softwareconfigdict['NOWVERSION']}".center(80, " ") + "||")
         logging.info("||" + "Bilibili: https://space.bilibili.com/7331920".center(80, " ") + "||")
         logging.info("||" + "Github: https://github.com/sanmusen214/BAAH".center(80, " ") + "||")

@@ -21,7 +21,11 @@ class MyLogger:
         self.warn_list = []
         self.error_list = []
         self.lang = config.softwareconfigdict["LANGUAGE"]
+        self.logqueue = None
         print("Use language: ", self.lang)
+    
+    def set_log_queue(self, queue):
+        self.logqueue = queue
         
     def hash_str(self, data):
         """得到字符串的哈希值"""
@@ -42,7 +46,8 @@ class MyLogger:
     def format_msg(self, msg, level):
         """解析dict或str，加入时间，错误级别"""
         msg = self.get_i18n_sentence(msg)
-        return f"{config.NOWVERSION} - {strftime('%M:%S')} - {level} : {str(msg)}"
+        output_line = f"{config.NOWVERSION} - {strftime('%M:%S')} - {level} : {str(msg)}"
+        return output_line
     
     def colorful_print(self, msg, level):
         """
@@ -61,6 +66,12 @@ class MyLogger:
         # else:
         #     print(msg)
         print(msg)
+        if self.logqueue:
+            try:
+                self.logqueue.put(msg)
+            except Exception as e:
+                print(f"log queue exception: {e}")
+                self.logqueue = None
         # flush
         sys.stdout.flush()
         
