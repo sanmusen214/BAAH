@@ -40,7 +40,7 @@
     "notice_success":"成功",
     "notice_fail":"失败",
     "notice_save_success":"保存成功",
-    "notice_start_run":"开始执行",
+    "notice_start_run":"执行中...",
     "notice_finish_run":"停止执行",
     "notice_get_new_version":"目前发布的最新版本",
     "notice_no_new_version":"目前没有新版本",

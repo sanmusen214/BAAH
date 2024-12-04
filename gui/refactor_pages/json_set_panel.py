@@ -1,5 +1,6 @@
 from ..components.exec_arg_parse import get_token
-from ..components.run_baah_in_gui import run_baah_task
+from ..components.manage_baah_in_gui import run_baah_task_and_bind_log, stop_baah_task
+from ..components.running_task_pool import RunningBAAHProcess_instance
 from ..pages.Setting_BAAH import set_BAAH
 from ..pages.Setting_Craft import set_craft
 from ..pages.Setting_cafe import set_cafe
@@ -27,6 +28,7 @@ from ..define import gui_shared_config
 from nicegui import ui, app, run
 from typing import Callable
 import os
+import time
 
 
 class ConfigPanel:
@@ -100,16 +102,11 @@ def show_json_panel(json_file_name: str):
                         cls.func()
 
 
-        msg_obj = {
-            "stop_signal": 0,
-            "runing_signal": 0
-        }
 
         with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
             output_card = ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;')
             with output_card:
                 logArea = ui.log(max_lines=1000).classes('w-full h-full')
-
 
         with ui.column().style(
                 'width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):
@@ -139,16 +136,20 @@ def show_json_panel(json_file_name: str):
                 gui_shared_config.save_software_config()
                 ui.notify(curr_config.get_text("notice_save_success"))
                 ui.notify(curr_config.get_text("notice_start_run"))
-                # 打开同目录中的BAAH.exe，传入当前config的json文件名
-                # os.system(f'start BAAH.exe "{load_jsonname}"')
-                msg_obj["runing_signal"] = 1
-                await run.io_bound(run_baah_task, msg_obj, logArea, curr_config)
+                await run.io_bound(run_baah_task_and_bind_log, logArea, json_file_name)
+
+            # log recovery
+            msg_obj = RunningBAAHProcess_instance.get_status_obj(configname=json_file_name)
+            print(f"This config's ({json_file_name}) msg obj is {msg_obj}")
+            # 如果此config相关任务正在运行，使用save_and_alert_and_run绑定日志输出到GUI日志窗口内
+            if msg_obj["runing_signal"] == 1:
+                track_logger_timer = ui.timer(0.5, save_and_alert_and_run, once=True)
 
             ui.button(curr_config.get_text("button_save_and_run_gui"), on_click=save_and_alert_and_run).bind_visibility_from(
                 msg_obj, "runing_signal", backward=lambda x: x == 0)
 
             async def stop_run() -> None:
-                msg_obj["stop_signal"] = 1
+                stop_baah_task(logArea, json_file_name)
 
             ui.button(curr_config.get_text("notice_finish_run"), on_click=stop_run, color='red').bind_visibility_from(
                 msg_obj, "runing_signal", backward=lambda x: x == 1)
@@ -156,6 +157,7 @@ def show_json_panel(json_file_name: str):
             ui.button("...").bind_visibility_from(msg_obj, "runing_signal", backward=lambda x: x == 0.25)
 
             # ================
+
 
     # 加载完毕保存一下config，应用最新的对config的更改
     curr_config.save_user_config(json_file_name)
