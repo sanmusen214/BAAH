@@ -210,7 +210,7 @@ class AllTask:
 
     # 单例
     def __init__(self) -> None:
-        self.parse_task()
+        pass
         
     def parse_task(self) -> None:
         """
@@ -246,6 +246,8 @@ class AllTask:
         """
         运行任务
         """
+        # 运行任务前解析
+        self.parse_task()
         for task in self.taskpool:
             task.run()
     
