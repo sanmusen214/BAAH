@@ -13,7 +13,7 @@ from ..pages.Setting_other import set_other
 from ..pages.Setting_server import set_server
 from ..pages.Setting_shop import set_shop
 from ..pages.Setting_special import set_special
-from ..pages.Setting_task_order import set_task_order
+from ..pages.Setting_task_order import set_task_order # 此方法内有个导入myAllTask，可能导致下述异常
 from ..pages.Setting_timetable import set_timetable
 from ..pages.Setting_wanted import set_wanted
 from ..pages.Setting_notification import set_notification
@@ -21,7 +21,7 @@ from ..pages.Setting_vpn import set_vpn
 from ..pages.Setting_Assault import set_assault
 from ..pages.Setting_BuyAP import set_buyAP
 from ..pages.Setting_UserTask import set_usertask
-from modules.AllTask.myAllTask import task_instances_map
+from modules.AllTask.myAllTask import task_instances_map # 这里导入myAllTask可能会导致其内my_AllTask单例值异常，目前通过在run()里使用前再读取config的任务列表解决此bug
 from modules.configs.MyConfig import MyConfigger
 from ..define import gui_shared_config
 
