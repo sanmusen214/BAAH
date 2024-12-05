@@ -3,10 +3,11 @@ import os
 import time
 from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict, defaultSessionDict
 from modules.configs.settingMaps import configname2screenshotname
-# 程序入口应当先import这个类，然后调用parse_user_config方法解析该config实例
-# 然后程序入口再import其他模块，在其他模块中import这个类，就可以直接使用这个类的实例了
+# 程序入口先import这个实例，然后调用parse_user_config方法解析该config实例
+# 然后在其他模块中import这个实例，就可以直接使用这个类的实例了，所有使用（变量的获取/设置）应当放在运行时而不是导入时
 
-# TODO: 在没有运行parse_user_config的时候，userconfigdict里是空的
+# TODO: 介于以上问题，此种模式的单例在依赖同单例模式的config时会在使用时出现bug：比如 如果此方法的单例m（myAllTask）是在初始化时读取config值并存储。一段代码先导入实例m，随后对config实例做出parse，再使用实例m，此时实例m存储的依旧是config修改前的值
+
 class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
