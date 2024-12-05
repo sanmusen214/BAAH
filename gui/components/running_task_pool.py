@@ -51,11 +51,20 @@ class RunningBAAHProcess:
         
     def stop_task(self, configname):
         if self.check_is_running(configname):
-            process = self.__name2process[configname]
-            if process.is_alive():
-                process.terminate()
-            queue = self.__name2queue[configname]
-            queue.close()
+            # close process
+            try:
+                process = self.__name2process[configname]
+                if process.is_alive():
+                    process.terminate()
+            except Exception as e:
+                print(f"Error when terminate process of {configname}: {e}")
+            # close queue
+            try:
+                queue = self.__name2queue[configname]
+                queue.close()
+            except Exception as e:
+                print(f"Error when close queue of {configname}: {e}")
+            
 
         # 更新status
         this_status = self.get_status_obj(configname)

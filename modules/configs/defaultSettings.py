@@ -1,7 +1,5 @@
 from modules.configs.settingMaps import *
 
-from common import TaskName
-
 from time import time
 
 # 用户的脚本config里的默认值以及可选值
@@ -14,7 +12,7 @@ from time import time
 # from: map value的来源key
 # map: map value的映射函数
 
-# selective value作为提醒值存在，主要的map映射值应当在settingMaps里
+# selective value作为提醒值存在，主要的map映射值应当在settingMaps里，-》myAllTask.parse_task
 
 defaultUserDict = {
     "TIMETABLE_TASK": {"d":[]},
@@ -24,7 +22,7 @@ defaultUserDict = {
     "EVENT_QUEST_LEVEL": {"d":[]},
     "HARD": {"d":[]},
     "NORMAL": {"d":[]},
-    "TASK_ORDER": {"d": [TaskName.LOGIN_GAME.value]},
+    "TASK_ORDER": {"d": ["登录游戏"]}, #  也就是TaskName.LOGIN_GAME，防止循环import
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
     "PUSH_NORMAL_USE_SIMPLE": {"d":False},
