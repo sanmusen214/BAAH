@@ -1,4 +1,4 @@
-from common import TaskName
+from modules.AllTask.myAllTask import TaskName
 
 from nicegui import ui
 
@@ -39,7 +39,7 @@ def set_task_order(config, real_taskname_to_show_taskname):
                     ui.button(f'{config.get_text("button_delete")} {config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
 
     def add_task(i):
-        config.userconfigdict["TASK_ORDER"].insert(i, TaskName.MAIL.value)
+        config.userconfigdict["TASK_ORDER"].insert(i, TaskName.MAIL)
         config.userconfigdict["TASK_ACTIVATE"].insert(i, True)
         task_order.refresh()
     

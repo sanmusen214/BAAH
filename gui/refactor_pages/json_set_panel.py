@@ -21,7 +21,7 @@ from ..pages.Setting_vpn import set_vpn
 from ..pages.Setting_Assault import set_assault
 from ..pages.Setting_BuyAP import set_buyAP
 from ..pages.Setting_UserTask import set_usertask
-from ..define import get_task_name_map_dict
+from modules.AllTask.myAllTask import task_instances_map
 from modules.configs.MyConfig import MyConfigger
 from ..define import gui_shared_config
 
@@ -57,7 +57,7 @@ def get_config_list(lst_config: MyConfigger) -> list:
         ConfigPanel(lst_config.get_text("setting_emulator"), lambda: set_emulator(lst_config)),
         ConfigPanel(lst_config.get_text("setting_server"), lambda: set_server(lst_config)),
         ConfigPanel(lst_config.get_text("setting_vpn"), lambda: set_vpn(lst_config)),
-        ConfigPanel(lst_config.get_text("setting_task_order"), lambda: set_task_order(lst_config, get_task_name_map_dict(lst_config))),
+        ConfigPanel(lst_config.get_text("setting_task_order"), lambda: set_task_order(lst_config, task_instances_map.task_config_name_2_i18n_name)),
         ConfigPanel(lst_config.get_text("setting_notification"), lambda: set_notification(lst_config, gui_shared_config)),
         ConfigPanel(lst_config.get_text("task_cafe"), lambda: set_cafe(lst_config)),
         ConfigPanel(lst_config.get_text("task_timetable"), lambda: set_timetable(lst_config)),
