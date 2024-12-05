@@ -220,7 +220,7 @@ class AllTask:
         # 用于保存最后一次战术大赛的任务实例
         last_contest = None
         # GUI为了显示TaskName也会导入此文件，从而创建AllTask的实例，这边判断下如果config没有解析json就跳过
-        if "TASK_ORDER" in config.userconfigdict and ["TASK_ORDER"] in config.userconfigdict:
+        if "TASK_ORDER" in config.userconfigdict and "TASK_ACTIVATE" in config.userconfigdict:
             # 把config的任务列表转换成任务实例列表
             for i in range(len(config.userconfigdict['TASK_ORDER'])):
                 task_name = config.userconfigdict['TASK_ORDER'][i]
@@ -236,7 +236,7 @@ class AllTask:
             if last_contest:
                 last_contest.set_collect(True)
         else:
-            logging.warn({"zh_CN": "配置文件无TASK_ORDER和TASK_ORDER解析", "en_US":"NO TASK_ORDER and TASK_ORDER in config file"})
+            logging.warn({"zh_CN": "配置文件无TASK_ORDER和TASK_ACTIVATE解析", "en_US":"NO TASK_ORDER and TASK_ACTIVATE in config file"})
         # 任务列表末尾添加一个PostAllTask任务，用于统计资源
         self.add_task(PostAllTask())
         
