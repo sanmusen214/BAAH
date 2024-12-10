@@ -25,17 +25,22 @@ async def cut_screenshot(inconfig, resultdict=None, resultkey=None, left_click=T
         print("Multiple cut_screenshot is not allowed")
         return
     cut_lock = True
-    connect_to_device(use_config=inconfig)
-    screen_shot_to_global(use_config=inconfig)
-    screenshotname = inconfig.userconfigdict['SCREENSHOT_NAME']
-    result = await run.io_bound(
-        screencut_tool,
-        left_click=left_click,
-        right_click=right_click,
-        img_path=screenshotname,
-        quick_return=quick_return
-    )
-    if resultdict is not None and resultkey is not None:
-        resultdict[resultkey] = result
-    cut_lock = False
+    result = None
+    try:
+        connect_to_device(use_config=inconfig)
+        screen_shot_to_global(use_config=inconfig)
+        screenshotname = inconfig.userconfigdict['SCREENSHOT_NAME']
+        result = await run.io_bound(
+            screencut_tool,
+            left_click=left_click,
+            right_click=right_click,
+            img_path=screenshotname,
+            quick_return=quick_return
+        )
+        if resultdict is not None and resultkey is not None:
+            resultdict[resultkey] = result
+    except Exception as e:
+        print(e.__traceback__)
+    finally:
+        cut_lock = False
     return result
