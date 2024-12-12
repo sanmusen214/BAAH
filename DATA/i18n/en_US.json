@@ -68,6 +68,7 @@
     "config_kill_port": "Whether force to kill the port before starting emulator",
     "config_emulator_path": "Emulator Path",
     "config_close_emulator_and_baah": "Close Emulator and BAAH After Execution",
+    "config_close_game_when_finish" : "Close Game After Execution",
     "config_close_emulator_when_finish" : "Close Emulator After Execution",
     "config_close_BAAH_when_finish" : "Close BAAH After Execution", 
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",

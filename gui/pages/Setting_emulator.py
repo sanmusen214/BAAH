@@ -72,6 +72,7 @@ def set_emulator(config):
                     ).bind_value(config.userconfigdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')
     
     ui.checkbox(config.get_text("config_close_emulator_when_finish")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_FINISH')
+    ui.checkbox(config.get_text("config_close_game_when_finish")).bind_value(config.userconfigdict, 'CLOSE_GAME_FINISH')
     ui.checkbox(config.get_text("config_close_BAAH_when_finish")).bind_value(config.userconfigdict, 'CLOSE_BAAH_FINISH')
 
     # 登录超时重启模拟器

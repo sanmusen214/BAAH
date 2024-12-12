@@ -184,6 +184,22 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 return True
         raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
+    def BAAH_close_target_app():
+        """
+        关闭游戏
+        """
+        if (config.userconfigdict["CLOSE_GAME_FINISH"]):
+            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+                logging.info({"zh_CN": "检测到游戏已关闭", "en_US": "Detected that the game is already killing"})
+                return True
+            for i in range(40):
+                logging.info({"zh_CN": f"关闭游戏{i}/30", "en_US": f"Try to close the game {i}/30"})
+                close_app(config.userconfigdict['ACTIVITY_PATH'])
+                sleep(3)
+                if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+                    logging.info({"zh_CN": "游戏已关闭", "en_US": "Game is already killing"})
+                    return True
+                    
     def BAAH_run_pre_command():
         if len(config.userconfigdict["PRE_COMMAND"]) > 0:
             logging.info({"zh_CN": "运行前置命令", "en_US": "Running pre command"})
@@ -371,6 +387,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.info({"zh_CN": "运行任务", "en_US": "start running tasks"})
             my_AllTask.run()
             logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
+            BAAH_close_target_app()
             BAAH_kill_emulator()
             BAAH_send_email()
             print_BAAH_finish()

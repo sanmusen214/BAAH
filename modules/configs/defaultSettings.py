@@ -50,6 +50,13 @@ defaultUserDict = {
             "map": lambda x: x
         }
     },
+    "CLOSE_GAME_FINISH":{
+        "d": False,
+        "m": {
+            "from": "CLOSE_EMULATOR_BAAH",
+            "map": lambda x: x
+        }
+    },
     "CLOSE_BAAH_FINISH":{
         "d": False,
         "m": {
