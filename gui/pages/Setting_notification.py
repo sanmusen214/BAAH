@@ -46,7 +46,8 @@ def set_notification(config, shared_softwareconfig):
             # 提供一些自动填充按钮
             mapdict = {
                 "PushPlus":"http://www.pushplus.plus/send?token=[token]&title=[title]&content=[content]&template=txt",
-                "ServerChan":"https://sctapi.ftqq.com/[token].send?title=[title]&desp=[content]"
+                "ServerChan":"https://sctapi.ftqq.com/[token].send?title=[title]&desp=[content]",
+                "Telegram Bot":"https://api.telegram.org/bot[token]/sendMessage?chat_id=[chat_id]&text=[content]"
             }
             with ui.row():
                 for type in mapdict.keys():
@@ -57,3 +58,4 @@ def set_notification(config, shared_softwareconfig):
             # 官网
             ui.link("PushPlus", "http://www.pushplus.plus/", new_tab=True)
             ui.link("ServerChan", "https://sct.ftqq.com/r/13283", new_tab=True)
+            ui.link("Telegram Bot", "https://t.me/BotFather", new_tab=True)
