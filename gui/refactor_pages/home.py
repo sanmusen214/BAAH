@@ -37,7 +37,7 @@ def render_json_list():
         def update_advance():
             try:
                 subprocess.Popen(["BAAH_UPDATE.exe"], creationflags=subprocess.CREATE_NEW_CONSOLE, close_fds=True)
-                app.shutdown()
+                # app.shutdown()
             except Exception as e:
                 ui.notify(f"Failed to start BAAH_UPDATE.exe: {e}", type="warning")
         # 一键更新按钮
