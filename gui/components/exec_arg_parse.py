@@ -8,6 +8,7 @@ def parse_args():
     parser.add_argument("--host", help="host address", default="127.0.0.1")
     parser.add_argument("--port", help="host port", default=native.find_open_port())
     parser.add_argument("--token", help="password", default=None)
+    parser.add_argument('--no-show', action='store_false', dest='show', help='disable open browser')
     args = parser.parse_args()
     global g_token
     g_token = args.token

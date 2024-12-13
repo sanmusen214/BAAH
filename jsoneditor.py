@@ -13,7 +13,7 @@ def main():
     args = parse_args()
     app.on_connect(check_version)
     ui.run(title=f"BAAH{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn",
-           reload=False, host=args.host, port=args.port, storage_secret="32737")
+           reload=False, host=args.host, port=args.port, show=args.show, storage_secret="32737")
 
 if __name__ in {"__main__", "__mp_main__"}:
     main()
