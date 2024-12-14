@@ -72,30 +72,41 @@ def convert_img(path):
         f.write(bys_)
 
 
-def screen_shot_to_global(use_config=None):
-    """Take a screenshot and save it to the GlobalState."""
+def screen_shot_to_global(use_config=None, output_png=False):
+    """
+    Take a screenshot and save it to the GlobalState.
+    
+    Params
+    ------
+    use_config: 期望使用的config对象，为None则使用全局导入的config
+    output_png: 使用pipe截图方法时是否保存png图片。截图方法为png时永远会输出png
+    """
     target_config = config
     if use_config:
         target_config = use_config
-    # 方法一，重定向输出到文件
-    filename = target_config.userconfigdict['SCREENSHOT_NAME']
-    with open("./{}".format(filename),"wb") as out:
-       subprocess_run([get_config_adb_path(target_config), "-s", getNewestSeialNumber(target_config), "shell", "screencap", "-p"], stdout=out)
-    #adb 命令有时直接截图保存到电脑出错的解决办法-加下面一段即可
-    if (platform.system() != "Linux"):
-        convert_img("./{}".format(filename))
-
-    # 方法二，使用cv2提取PIPE管道中的数据
-
-    # # 使用subprocess的Popen调用adb shell命令，并将结果保存到PIPE管道中
-    # process = subprocess.run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "screencap", "-p"], stdout=subprocess.PIPE)
-    # # 读取管道中的数据
-    # screenshot = process.stdout
-    # # 将读取的字节流数据的回车换行替换成'\n'
-    # binary_screenshot = screenshot.replace(b'\r\n', b'\n')
-    # # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
-    # img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
-    # cv2.imwrite("./{}".format(config.userconfigdict['SCREENSHOT_NAME']), img_screenshot)
+    whether_pipe = target_config.userconfigdict["SCREENSHOT_METHOD"] == "pipe"
+    if not whether_pipe:
+        # 方法一，重定向输出到文件
+        filename = target_config.userconfigdict['SCREENSHOT_NAME']
+        with open("./{}".format(filename),"wb") as out:
+            subprocess_run([get_config_adb_path(target_config), "-s", getNewestSeialNumber(target_config), "shell", "screencap", "-p"], stdout=out)
+        #adb 命令有时直接截图保存到电脑出错的解决办法-加下面一段即可
+        if (platform.system() != "Linux"):
+            convert_img("./{}".format(filename))
+    else:
+        # 方法二，使用cv2提取PIPE管道中的数据
+        # 使用subprocess的Popen调用adb shell命令，并将结果保存到PIPE管道中
+        process = subprocess.run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "screencap", "-p"], stdout=subprocess.PIPE)
+        # 读取管道中的数据
+        screenshot = process.stdout
+        # 将读取的字节流数据的回车换行替换成'\n'
+        if (platform.system() != "Linux"):
+            binary_screenshot = screenshot.replace(b'\r\n', b'\n')
+        # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
+        img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
+        config.sessiondict["SCREENSHOT_DATA"] = img_screenshot
+        if output_png:
+            cv2.imwrite("./{}".format(config.userconfigdict['SCREENSHOT_NAME']), img_screenshot)
 
 
 def get_now_running_app(use_config=None):

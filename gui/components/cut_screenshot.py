@@ -28,7 +28,7 @@ async def cut_screenshot(inconfig, resultdict=None, resultkey=None, left_click=T
     result = None
     try:
         connect_to_device(use_config=inconfig)
-        screen_shot_to_global(use_config=inconfig)
+        screen_shot_to_global(use_config=inconfig, output_png=True)
         screenshotname = inconfig.userconfigdict['SCREENSHOT_NAME']
         result = await run.io_bound(
             screencut_tool,

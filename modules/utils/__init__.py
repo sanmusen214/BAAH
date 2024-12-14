@@ -1,3 +1,4 @@
+# 针对于单个BAAH任务实例的工具方法，默认截图内容为当前BAAH任务实例的模拟器截图
 import json
 from typing import Tuple, Union
 from .adb_utils import *
@@ -22,17 +23,14 @@ def get_config_screenshot_name():
 def get_config_pic_path():
     return config.userconfigdict['PIC_PATH']
 
-def get_pic_data(image_url):
-    """
-    通过url获取图像的内容
-    """
-    return cv2.imread(image_url)
-
 def get_screenshot_cv_data():
     """
     获取截图的内容数据
     """
-    return get_pic_data(get_config_screenshot_name())
+    if config.userconfigdict["SCREENSHOT_METHOD"] == "pipe":
+        return config.sessiondict["SCREENSHOT_DATA"]
+    else:
+        return cv2.imread(get_config_screenshot_name())
 
 def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -> bool:
     """
@@ -71,13 +69,13 @@ def swipe(item:Union[str, Tuple[float, float]], toitem: Union[str, Tuple[float, 
     topos = None
     # check if the item is a str
     if isinstance(item, str):
-        (res, pos) = match_pattern(item)
+        (res, pos) = match_pattern(sourcepic_mat=get_screenshot_cv_data() ,patternpic=item)
         if res:
             frompos = (pos[0], pos[1])
     else:
         frompos = (item[0], item[1])
     if isinstance(toitem, str):
-        (res, pos) = match_pattern(toitem)
+        (res, pos) = match_pattern(sourcepic_mat=get_screenshot_cv_data(), patternpic=toitem)
         if res:
             topos = (pos[0], pos[1])
     else:
@@ -108,9 +106,9 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     """
     # check if the item is a str
     if returnpos:
-        return match_pattern(f"./{get_config_screenshot_name()}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
+        return match_pattern(get_screenshot_cv_data(),imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
     else:
-        return match_pattern(f"./{get_config_screenshot_name()}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
+        return match_pattern(get_screenshot_cv_data(),imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
 def ocr_area(frompixel, topixel, multi_lines = False) -> Tuple[str, float]:
     """
@@ -123,7 +121,7 @@ def ocr_area(frompixel, topixel, multi_lines = False) -> Tuple[str, float]:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    ocr_result = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1], multi_lines=multi_lines)
+    ocr_result = ocr_pic_area(get_screenshot_cv_data(), lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1], multi_lines=multi_lines)
     return ocr_result
 
 def ocr_area_0(frompixel, topixel) -> bool:
@@ -137,7 +135,7 @@ def ocr_area_0(frompixel, topixel) -> bool:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    res_str = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
+    res_str = ocr_pic_area(get_screenshot_cv_data(), lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
     res_str = res_str.strip()
     allpossibles = ["0", "O", "o", "Q", "０"]
     # 如果长度为1，就判断它是不是0
@@ -161,7 +159,8 @@ def match_pixel(xy, color, printit = False):
         color: Page.COLOR_*
         axis is in image form
     """
-    return match_pixel_color_range(f"./{get_config_screenshot_name()}", xy[0], xy[1], color[0], color[1], printit=printit)
+    sc_mat_data = get_screenshot_cv_data()
+    return match_pixel_color_range(sc_mat_data, xy[0], xy[1], color[0], color[1], printit=printit)
 
 def page_pic(picname):
     """
@@ -198,15 +197,20 @@ def sleep(seconds:float):
     """
     time.sleep(seconds)
     
-def screenshot():
+def screenshot(output_png = False):
     """
     Task: take a screenshot
+
+    Params
+    ------
+    output_png:
+        是否强制保存到png图片
     """
-    start = time.time()
-    screen_shot_to_global()
-    end = time.time()
+    # start = time.time()
+    screen_shot_to_global(output_png = output_png)
+    # end = time.time()
     # 输出截图耗时小数点后两位
-    logging.debug("截图耗时{:.2f}秒".format(end-start))
+    # logging.debug("截图耗时{:.2f}秒".format(end-start))
     
 def check_connect():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
@@ -215,7 +219,7 @@ def check_connect():
         os.remove(f"./{get_config_screenshot_name()}")
     connect_to_device()
     # 尝试截图
-    screenshot()
+    screenshot(output_png=True)
     time.sleep(2)
     if os.path.exists(f"./{get_config_screenshot_name()}"):
         logging.info({"zh_CN": f"截图文件大小为{os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB", "en_US":f"The size of the screenshot file is {os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB"})
