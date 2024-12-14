@@ -15,7 +15,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
     logging.set_log_queue(msg_queue)
 
     import os
-    from modules.utils import subprocess_run, time, disconnect_this_device, sleep, check_connect, open_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
+    from modules.utils import subprocess_run, time, disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
     from modules.AllTask.myAllTask import my_AllTask
 
     def print_BAAH_info():
