@@ -69,6 +69,7 @@
     "config_emulator_path":"模拟器路径",
     "config_close_emulator_and_baah": "运行结束后关闭模拟器和BAAH",
     "config_close_emulator_when_finish" : "运行结束后关闭模拟器",
+    "config_close_game_when_finish": "运行结束后关闭游戏",
     "config_close_BAAH_when_finish" : "运行结束后关闭BAAH", 
     "config_desc_times":"关于次数的说明：4次就是扫荡4次，-1次即为扫荡max次（支持国服max次），-2次即为扫荡max-2次。",
     "config_nth":"第",

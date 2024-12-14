@@ -68,6 +68,7 @@
     "config_kill_port": "エミュレータ起動前にポートを強制解放する",
     "config_emulator_path": "エミュレータパス",
     "config_close_emulator_and_baah": "実行終了後、エミュレータとBAAHを閉じる",
+    "config_close_game_when_finish": "実行後、ゲームを終了する。",
     "config_close_emulator_when_finish" : "実行が終了したら、シミュレーターを閉じます",
     "config_close_BAAH_when_finish" : "実行が終了したら、BAAHを閉じます", 
     "config_desc_times": "回数に関する説明：4回は4回扫荡することを意味し、-1回は最大回数（中国版の最大回数をサポート）を意味します。-2回は最大回数から2回扫荡することを意味します。",
