@@ -1,5 +1,5 @@
 import multiprocessing
-from multiprocessing import Queue
+import multiprocessing.managers
 from BAAH import BAAH_core_process
 
 class RunningBAAHProcess:
@@ -7,6 +7,7 @@ class RunningBAAHProcess:
         self.__ctx = multiprocessing.get_context("spawn")
         self.__name2process:dict[str, multiprocessing.Process] = dict()
         self.__name2queue:dict[str, multiprocessing.Queue] = dict()
+        self.__name2manager:dict[str, multiprocessing.managers.SyncManager] = dict()
         self.__name2status:dict[str, dict] = dict()
     
     def get_status_obj(self, configname):
@@ -31,7 +32,9 @@ class RunningBAAHProcess:
     def run_task(self, configname):
         if not self.check_is_running(configname):
             # 用于共享消息
-            queue = multiprocessing.Queue()
+            manager = self.__ctx.Manager()
+            queue = manager.Queue()
+            self.__name2manager[configname] = manager
             self.__name2queue[configname] = queue
             # 启动进程
             p = self.__ctx.Process(target=BAAH_core_process, kwargs={
@@ -60,8 +63,8 @@ class RunningBAAHProcess:
                 print(f"Error when terminate process of {configname}: {e}")
             # close queue
             try:
-                queue = self.__name2queue[configname]
-                queue.close()
+                manager = self.__name2manager[configname]
+                manager.shutdown()
             except Exception as e:
                 print(f"Error when close queue of {configname}: {e}")
             

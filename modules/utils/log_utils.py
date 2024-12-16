@@ -68,7 +68,7 @@ class MyLogger:
         print(msg)
         if self.logqueue:
             try:
-                self.logqueue.put(msg)
+                self.logqueue.put_nowait(msg)
             except Exception as e:
                 print(f"log queue exception: {e}")
                 self.logqueue = None
