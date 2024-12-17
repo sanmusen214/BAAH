@@ -13,21 +13,25 @@ class RunningBAAHProcess:
     def get_status_obj(self, configname):
         if configname not in self.__name2status:
             self.__name2status[configname] = {
-                "stop_signal": 0,
                 "runing_signal": 0,
                 "now_logArea_id": 0 # 当前聚焦的日志窗口id，当新的窗口打开时，旧的窗口的监听日志的while循环会break
             }
         return self.__name2status[configname]
 
     def check_is_running(self, configname):
-        status = self.get_status_obj(configname)
-        return status["runing_signal"] == 1
+        process = self.get_process(configname)
+        if not process:
+            return False
+        return process.is_alive()
     
     def get_process(self, configname):
         return self.__name2process.get(configname, None)
 
     def get_queue(self, configname):
         return self.__name2queue.get(configname, None)
+    
+    def get_manager(self, configname):
+        return self.__name2manager.get(configname, None)
     
     def run_task(self, configname):
         if not self.check_is_running(configname):
@@ -48,30 +52,51 @@ class RunningBAAHProcess:
             # 更新status
             this_status = self.get_status_obj(configname)
             this_status["runing_signal"] = 1
-            this_status["stop_signal"] = 0
 
         return self.__name2queue[configname]
         
-    def stop_task(self, configname):
+    def stop_task(self, configname, logArea = None):
+        """terminate process and do side effect"""
+        def multiprint(sen):
+            logArea and logArea.push(sen)
+            print(sen)
+        
         if self.check_is_running(configname):
             # close process
+            multiprint(f"terminating {configname}...")
             try:
                 process = self.__name2process[configname]
                 if process.is_alive():
                     process.terminate()
             except Exception as e:
                 print(f"Error when terminate process of {configname}: {e}")
-            # close queue
-            try:
-                manager = self.__name2manager[configname]
-                manager.shutdown()
-            except Exception as e:
-                print(f"Error when close queue of {configname}: {e}")
-            
+        self.stop_task_side_effect(configname)
 
-        # 更新status
-        this_status = self.get_status_obj(configname)
-        this_status["runing_signal"] = 0
-        this_status["stop_signal"] = 0
+        # stop task副作用，清空queue，关掉manager，修改状态量
+
+        # clear queue
+        multiprint("clearing queue...")
+        try:
+            queue = self.get_queue(configname)
+            # 输出queue中剩余的信息
+            while(not queue.empty()):
+                output = queue.get_nowait()
+                logArea and logArea.push(output)
+        except BrokenPipeError as bpe:
+            print(f"broken pipe: {bpe}")
+        except Exception as e:
+            print(f"Exception when clear pipe: {e}")
+        # close queue/manager
+        multiprint("closing queue/manager...")
+        try:
+            manager = self.get_manager(configname)
+            manager.shutdown()
+        except Exception as e:
+            print(f"Error when close queue (manager) of {configname}: {e}")
+        # 更新status/按钮状态
+        msg_obj = self.get_status_obj(configname)
+        msg_obj["runing_signal"] = 0
+        multiprint(f"side effect of stopping {configname} done")
+        
         
 RunningBAAHProcess_instance = RunningBAAHProcess()

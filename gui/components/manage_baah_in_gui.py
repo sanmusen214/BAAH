@@ -12,7 +12,7 @@ def run_baah_task_and_bind_log(logArea, configname):
     logArea_ID = time.time()
     print(f"start log area thread id: {logArea_ID}")
     msg_obj["now_logArea_id"]=logArea_ID
-    while(msg_obj["runing_signal"] == 1 and msg_obj["now_logArea_id"]==logArea_ID):
+    while(msg_obj["runing_signal"] == 1 and msg_obj["now_logArea_id"]==logArea_ID and process.is_alive()):
         try:
             output = queue.get_nowait()
         except:
@@ -20,6 +20,13 @@ def run_baah_task_and_bind_log(logArea, configname):
         if output:
             logArea.push(output)
         time.sleep(0.01)
+    # 中断了queue和日志logArea的绑定时判断中断原因
+    if not process.is_alive():
+        # 如果是任务结束进程退出导致的中断
+        taskpool.stop_task_side_effect(configname=configname, logArea=logArea)
+    else:
+        # 如果是由于其他logArea抢占绑定
+        pass
     print(f"quit log area thread id: {logArea_ID}")
 
 def stop_baah_task(logArea, configname):
