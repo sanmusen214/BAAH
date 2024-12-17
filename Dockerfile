@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y libgl1
 COPY . .
 
 RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'git pull' >> /app/start.sh && \
     echo 'python jsoneditor.py --no-show' >> /app/start.sh && \
     chmod +x /app/start.sh
 
