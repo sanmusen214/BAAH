@@ -55,10 +55,11 @@ services:
     image: ghcr.io/sanmusen214/baah:latest
     volumes:
       - ./BAAH_CONFIGS:/app/BAAH_CONFIGS
-    # environment:
-    #   - HOST=0.0.0.0
-    #   - PORT=8000
-    #   - TOKEN=YOUR_TOKEN
+    environment:
+      - TZ=Asia/Shanghai
+      - HOST=0.0.0.0
+      - PORT=8000
+      # - TOKEN=YOUR_TOKEN
     ports:
       - 8000:8000
 ```
