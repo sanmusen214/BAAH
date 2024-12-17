@@ -42,6 +42,27 @@ Discord: https://discord.com/invite/7cEvvfcd
 6. 执行`python jsoneditor.py` 运行GUI，请在GUI的底部修改adb.exe的路径
 7. 执行`python main.py config.json`将会按照config.json配置开始执行BAAH
 
+### 通过docker运行
+
+1. 确认你有docker环境
+2. 可以通过以下几种方式运行：
+   - 本地编译通过 `git clone https://github.com/sanmusen214/BAAH.git`后，执行`docker compose up -d`。(如果没有合适网络的环境可以把docker-compose.yml文件中的`dockerfile: Dockerfile.CN`这行的注释取消)
+   - 通过获取由[Github Action](https://github.com/sanmusen214/BAAH/actions)构建的镜像，执行`docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`，或者使用以下提供的`docker-compose.yml`文件，执行`docker compose up -d`
+
+```yaml
+services:
+  baah:
+    image: ghcr.io/sanmusen214/baah:latest
+    volumes:
+      - ./BAAH_CONFIGS:/app/BAAH_CONFIGS
+    # environment:
+    #   - HOST=0.0.0.0
+    #   - PORT=8000
+    #   - TOKEN=YOUR_TOKEN
+    ports:
+      - 8000:8000
+```
+
 # 常见问题
 
 ## 0. 如何更新BAAH
