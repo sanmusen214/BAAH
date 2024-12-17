@@ -2,11 +2,15 @@ FROM python:3.10
 
 WORKDIR /app
 
+RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
+    pip config set install.trusted-host mirrors.aliyun.com
+
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-RUN apt-get update && apt-get install -y libgl1
+RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources && \
+    apt-get update && apt-get install -y libgl1
 
 COPY . .
 
