@@ -23,7 +23,7 @@ def run_baah_task_and_bind_log(logArea, configname):
     # 中断了queue和日志logArea的绑定时判断中断原因
     if not process.is_alive():
         # 如果是任务结束进程退出导致的中断
-        taskpool.stop_task_side_effect(configname=configname, logArea=logArea)
+        taskpool.stop_task(configname=configname, logArea=logArea)
     else:
         # 如果是由于其他logArea抢占绑定
         pass

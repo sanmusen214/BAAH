@@ -70,7 +70,6 @@ class RunningBAAHProcess:
                     process.terminate()
             except Exception as e:
                 print(f"Error when terminate process of {configname}: {e}")
-        self.stop_task_side_effect(configname)
 
         # stop task副作用，清空queue，关掉manager，修改状态量
 
