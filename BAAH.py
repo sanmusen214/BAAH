@@ -192,8 +192,8 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.info({"zh_CN": "检测到游戏已关闭", "en_US": "Detected that the game is already killing"})
                 return True
-            for i in range(40):
-                logging.info({"zh_CN": f"关闭游戏{i}/30", "en_US": f"Try to close the game {i}/30"})
+            for i in range(5):
+                logging.info({"zh_CN": f"关闭游戏{i}/5", "en_US": f"Try to close the game {i}/5"})
                 close_app(config.userconfigdict['ACTIVITY_PATH'])
                 sleep(3)
                 if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
