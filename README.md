@@ -29,7 +29,7 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 
 - Windows (executable file, source code)
 - MacOS (source code)
-- Linux (source code)
+- Linux (source code, docker)
 
 支持的BA游戏服务器/Supported BA servers：
 
