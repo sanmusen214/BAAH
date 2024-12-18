@@ -53,6 +53,7 @@ Discord: https://discord.com/invite/7cEvvfcd
 services:
   baah:
     image: ghcr.io/sanmusen214/baah:latest
+    container_name: BAAH
     volumes:
       - ./DATA/CONFIGS:/app/BAAH/DATA/CONFIGS
       - ./BAAH_CONFIGS:/app/BAAH/BAAH_CONFIGS

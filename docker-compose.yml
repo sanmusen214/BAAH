@@ -3,6 +3,7 @@ services:
     build:
       context: .
       # dockerfile: Dockerfile.CN
+    container_name: BAAH
     volumes:
       - ./DATA/CONFIGS:/app/BAAH/DATA/CONFIGS
       - ./BAAH_CONFIGS:/app/BAAH/BAAH_CONFIGS
