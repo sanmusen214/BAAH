@@ -54,7 +54,8 @@ services:
   baah:
     image: ghcr.io/sanmusen214/baah:latest
     volumes:
-      - ./BAAH_CONFIGS:/app/BAAH_CONFIGS
+      - ./DATA/CONFIGS:/app/BAAH/DATA/CONFIGS
+      - ./BAAH_CONFIGS:/app/BAAH/BAAH_CONFIGS
     environment:
       - TZ=Asia/Shanghai
       - HOST=0.0.0.0
