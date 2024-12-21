@@ -1,0 +1,16 @@
+services:
+  baah:
+    build:
+      context: .
+      # dockerfile: Dockerfile.CN
+    container_name: BAAH
+    volumes:
+      - ./DATA/CONFIGS:/app/BAAH/DATA/CONFIGS
+      - ./BAAH_CONFIGS:/app/BAAH/BAAH_CONFIGS
+    environment:
+      - TZ=Asia/Shanghai
+      - HOST=0.0.0.0
+      - PORT=8000
+      # - TOKEN=YOUR_TOKEN
+    ports:
+      - 8000:8000

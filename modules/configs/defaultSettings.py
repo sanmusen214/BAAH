@@ -50,6 +50,13 @@ defaultUserDict = {
             "map": lambda x: x
         }
     },
+    "CLOSE_GAME_FINISH":{
+        "d": False,
+        "m": {
+            "from": "CLOSE_EMULATOR_BAAH",
+            "map": lambda x: x
+        }
+    },
     "CLOSE_BAAH_FINISH":{
         "d": False,
         "m": {
@@ -189,6 +196,12 @@ defaultUserDict = {
     "GAME_LOGIN_TIMEOUT":{"d":600},
     # 游戏卡启动时的重新启动模拟器最多尝试次数
     "MAX_RESTART_EMULATOR_TIMES":{"d":0},
+
+    # 截图模式, png：保存/读取png图片，pipe读取/单例化管道内数据
+    "SCREENSHOT_METHOD":{
+        "d":"png",
+        "s":["png", "pipe"]
+    },
 }
 
 # 软件的config里的默认值
@@ -233,4 +246,6 @@ defaultSessionDict = {
     "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
     # 当前尝试重启模拟器次数
     "RESTART_EMULATOR_TIMES":{"d":0},
+    # 截图数据，当SCREENSHOT_METHOD为pipe时使用
+    "SCREENSHOT_DATA":{"d":None},
 }
