@@ -40,7 +40,7 @@ async def cut_screenshot(inconfig, resultdict=None, resultkey=None, left_click=T
         if resultdict is not None and resultkey is not None:
             resultdict[resultkey] = result
     except Exception as e:
-        print(e.__traceback__)
+        print(e)
     finally:
         cut_lock = False
     return result
