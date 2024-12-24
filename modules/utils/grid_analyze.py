@@ -273,7 +273,7 @@ class GridAnalyzer:
 
         # 切割UI部分
         xs = [50, 1279] # 左右
-        ys = [50, 640] # 上下
+        ys = [50, 590] # 上下
 
         image = ini_image[ys[0]:ys[1], xs[0]:xs[1]]
 
