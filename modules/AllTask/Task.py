@@ -82,12 +82,13 @@ class Task:
         can_back_home = False
         if not check_app_running(config.userconfigdict["ACTIVITY_PATH"]):
             open_app(config.userconfigdict["ACTIVITY_PATH"])
+        click(Page.MAGICPOINT)
         for i in range(times):
-            Task.clear_popup()
+            screenshot()
             if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
-                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=3)
+                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=2.5)
                 can_back_home = True
-                Task.clear_popup()
+            Task.clear_popup()
             if(Page.is_page(PageName.PAGE_HOME)):
                 logging.info({"zh_CN": "返回主页成功", "en_US":"Successfully returned to the home page"})
                 return True
