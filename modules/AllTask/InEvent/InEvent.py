@@ -25,6 +25,7 @@ class InEvent(Task):
         self.next_sleep_time = 0.1
         # 是否有活动但是已经结束
         self.has_event_but_closed = False
+        self.quest_button_xy = (965, 98)
 
     def pre_condition(self) -> bool:
         # 通过get请求https://arona.diyigemt.com/api/v2/image?name=%E5%9B%BD%E9%99%85%E6%9C%8D%E6%B4%BB%E5%8A%A8
@@ -100,7 +101,7 @@ class InEvent(Task):
             return False
         # 图片匹配深色的QUEST标签
         matchpic = self.run_until(
-            lambda: click((965, 98)),
+            lambda: click(self.quest_button_xy),
             lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
             times=2
         )
@@ -111,6 +112,8 @@ class InEvent(Task):
                 lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED_LEFT)),
                 times=2
             )
+            if matchpic:
+                self.quest_button_xy = (922, 98)
         logging.info({"zh_CN": f"QUEST按钮匹配结果: {matchpic}",
                       "en_US": f"QUEST button matching result: {matchpic}"})
         if not matchpic:
@@ -238,8 +241,8 @@ class InEvent(Task):
         # 推图任务，如果已经进入过活动一次了，就不用再推图了
         if config.userconfigdict["AUTO_PUSH_EVENT_QUEST"] and not config.sessiondict["HAS_ENTER_EVENT"]:
             # 点击Quest标签
-            click((965, 98))
-            click((965, 98))
+            click(self.quest_button_xy)
+            click(self.quest_button_xy)
             logging.info({"zh_CN": "检查活动关卡是否推完", "en_US": "Check if the active level has been pushed"})
             maxquest = self.get_biggest_level()
             if maxquest == -1:
@@ -251,7 +254,7 @@ class InEvent(Task):
                 logging.info({"zh_CN": f"最大关卡: {maxquest}，开始检测是否需要推图",
                               "en_US": f"Max level: {maxquest}, start to detect whether the tweet is needed"})
                 # 设置一个推maxquest_ind关卡0次的任务
-                EventQuest([[maxquest_ind, 0]], explore=True, raid=False, collect=False).run()
+                EventQuest([[maxquest_ind, 0]], explore=True, raid=False, collect=False, quest_button_xy=self.quest_button_xy).run()
         # 扫荡任务
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
@@ -262,7 +265,7 @@ class InEvent(Task):
             # 序号转下标
             quest_list_2 = [[x[0] - 1, x[1], *x[2:]] for x in quest_list]
             # do Event QUEST
-            EventQuest(quest_list_2).run()
+            EventQuest(quest_list_2, quest_button_xy=self.quest_button_xy).run()
 
     def post_condition(self) -> bool:
         config.sessiondict["HAS_ENTER_EVENT"] = True
