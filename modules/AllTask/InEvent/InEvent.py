@@ -100,6 +100,7 @@ class InEvent(Task):
         if not Page.is_page(PageName.PAGE_EVENT):
             return False
         # 图片匹配深色的QUEST标签
+        self.quest_button_xy = (965, 98)
         matchpic = self.run_until(
             lambda: click(self.quest_button_xy),
             lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
@@ -107,13 +108,12 @@ class InEvent(Task):
         )
         # 修复国服白鸟区修复活动 关卡在tab最左侧匹配失败问题
         if not matchpic:
+            self.quest_button_xy = (922, 98)
             matchpic = self.run_until(
-                lambda: click((922, 98)),
+                lambda: click(self.quest_button_xy),
                 lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED_LEFT)),
                 times=2
-            )
-            if matchpic:
-                self.quest_button_xy = (922, 98)
+            ) 
         logging.info({"zh_CN": f"QUEST按钮匹配结果: {matchpic}",
                       "en_US": f"QUEST button matching result: {matchpic}"})
         if not matchpic:
