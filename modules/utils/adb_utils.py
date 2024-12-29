@@ -96,7 +96,7 @@ def screen_shot_to_global(use_config=None, output_png=False):
     else:
         # 方法二，使用cv2提取PIPE管道中的数据
         # 使用subprocess的Popen调用adb shell命令，并将结果保存到PIPE管道中
-        process = subprocess.run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "screencap", "-p"], stdout=subprocess.PIPE)
+        process = subprocess.run([get_config_adb_path(target_config), "-s", getNewestSeialNumber(target_config), "shell", "screencap", "-p"], stdout=subprocess.PIPE)
         # 读取管道中的数据
         screenshot = process.stdout
         # 将读取的字节流数据的回车换行替换成'\n'
@@ -104,9 +104,9 @@ def screen_shot_to_global(use_config=None, output_png=False):
             binary_screenshot = screenshot.replace(b'\r\n', b'\n')
         # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
         img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
-        config.sessiondict["SCREENSHOT_DATA"] = img_screenshot
+        target_config.sessiondict["SCREENSHOT_DATA"] = img_screenshot
         if output_png:
-            cv2.imwrite("./{}".format(config.userconfigdict['SCREENSHOT_NAME']), img_screenshot)
+            cv2.imwrite("./{}".format(target_config.userconfigdict['SCREENSHOT_NAME']), img_screenshot)
 
 
 def get_now_running_app(use_config=None):

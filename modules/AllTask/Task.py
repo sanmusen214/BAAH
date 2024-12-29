@@ -82,14 +82,13 @@ class Task:
         can_back_home = False
         if not check_app_running(config.userconfigdict["ACTIVITY_PATH"]):
             open_app(config.userconfigdict["ACTIVITY_PATH"])
+        click(Page.MAGICPOINT)
         for i in range(times):
-            click(Page.MAGICPOINT, sleeptime=0.1)
-            click(Page.MAGICPOINT, sleeptime=0.2)
             screenshot()
             if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
-                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=3)
+                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=2.5)
                 can_back_home = True
-                screenshot()
+            Task.clear_popup()
             if(Page.is_page(PageName.PAGE_HOME)):
                 logging.info({"zh_CN": "返回主页成功", "en_US":"Successfully returned to the home page"})
                 return True
@@ -217,15 +216,38 @@ class Task:
         """
         清除弹窗
         """
-        Task.run_until(
-            lambda: click(Page.MAGICPOINT),
-            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
-            times=15,
-        )
+        click(Page.MAGICPOINT)
+        screenshot()
+        if Page.is_page(PageName.PAGE_HOME):
+            # 当正处于主页时 清除商店登录弹窗
+            Task.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB))
+            )
+        else:
+            # 不处于主页时，直接用magicpoint判断白色像素点清除弹窗
+            Task.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                times=15,
+            )
+        
     
     @staticmethod
     def has_popup():
         """
-        判断是否有弹窗
+        判断是否有弹窗，只适用于非主页场景
         """
         return not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+    
+    @staticmethod
+    def has_cost_popup():
+        """
+        判断是否有消费类弹窗，例如消耗钻石，金币，等
+        """
+        if not Task.has_popup():
+            # 没有弹窗
+            return False
+        if match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_USE_DIAMOND)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
+            return True
+        return False

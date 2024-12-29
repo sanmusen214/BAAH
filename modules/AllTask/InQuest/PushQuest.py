@@ -12,7 +12,7 @@ from modules.AllTask.SubTask.FightQuest import FightQuest
 from modules.AllTask.SubTask.GridQuest import GridQuest
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
-                           match_pixel)
+                           match_pixel, istr, CN, EN)
 from modules.utils.grid_analyze import GridAnalyzer
 from .Questhelper import (jump_to_page, close_popup_until_see, judge_whether_3star, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L)
 
@@ -38,59 +38,67 @@ class PushQuest(Task):
         self.page_ind = page_ind  # 初始聚焦章节下标
         self.level_ind = level_ind  # 初始聚焦关卡下标
         self.require_type_ind = 0  # 当前需要完成的任务类型下标
+        self.start_from_level_popup = False # 此属性为True时，直接从挑战任务那跳转到的关卡弹窗页面开始本任务
+        self.challenge_only = False # 是否是为了挑战任务，此属性为True时，一关打完后不会往后推
 
     def pre_condition(self) -> bool:
+        if self.start_from_level_popup:
+            return True
         return Page.is_page(PageName.PAGE_QUEST_SEL)
 
     def on_run(self) -> None:
-        if self.is_normal:
-            logging.info({"zh_CN": "切换到普通关卡", "en_US": "switch to normal quest"})
-            self.run_until(
-                lambda: click((798, 159)),
-                lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
-            )
-        else:
-            logging.info({"zh_CN": "切换到困难任务", "en_US": "switch to hard quest"})
-            self.run_until(
-                lambda: click((1064, 161)),
-                lambda: match(button_pic(ButtonName.BUTTON_HARD))
-            )
+        if not self.start_from_level_popup:
+            if self.is_normal:
+                logging.info({"zh_CN": "切换到普通关卡", "en_US": "switch to normal quest"})
+                self.run_until(
+                    lambda: click((798, 159)),
+                    lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
+                )
+            else:
+                logging.info({"zh_CN": "切换到困难任务", "en_US": "switch to hard quest"})
+                self.run_until(
+                    lambda: click((1064, 161)),
+                    lambda: match(button_pic(ButtonName.BUTTON_HARD))
+                )
         while 1:
-            # ===========尝试定位要推图的章节和关卡===================
-            # 跳转到相应地区
-            logging.info({"zh_CN": "尝试跳转至页面 {}".format(self.page_ind + 1),
-                          "en_US": "Try jumping to page {}".format(self.page_ind + 1)})
-            jumpres = jump_to_page(self.page_ind + 1)  # 下标加1为实际页号数字
-            if not jumpres:
-                logging.error({"zh_CN": "跳转至页面 {} 失败，结束此任务".format(self.page_ind + 1),
-                               "en_US": "Cannot jump to page {}, end this task".format(self.page_ind + 1)})
-                return
-            click(Page.MAGICPOINT, sleeptime=1)
-            self.scroll_right_up()
-            sleep(3)
-            # 清除弹窗
-            self.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
-            )
-            # 点击第一个关卡
-            self.run_until(
-                lambda: click((1118, 240)),
-                lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
-            )
-            # 此时应该看到扫荡弹窗
-            # 判断是否有简易攻略tab
+            if not self.start_from_level_popup:
+                # ===========尝试定位要推图的章节和关卡===================
+                # 跳转到相应地区
+                logging.info({"zh_CN": "尝试跳转至页面 {}".format(self.page_ind + 1),
+                            "en_US": "Try jumping to page {}".format(self.page_ind + 1)})
+                jumpres = jump_to_page(self.page_ind + 1)  # 下标加1为实际页号数字
+                if not jumpres:
+                    logging.error({"zh_CN": "跳转至页面 {} 失败，结束此任务".format(self.page_ind + 1),
+                                "en_US": "Cannot jump to page {}, end this task".format(self.page_ind + 1)})
+                    return
+                click(Page.MAGICPOINT, sleeptime=1)
+                self.scroll_right_up()
+                sleep(3)
+                # 清除弹窗
+                self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+                )
+                # 点击第一个关卡
+                self.run_until(
+                    lambda: click((1118, 240)),
+                    lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+                )
+                # 此时应该看到扫荡弹窗
+                # 判断是否有简易攻略tab
 
-            # 向右翻self.level_ind次
-            logging.info({"zh_CN": "尝试翻到关卡 {}".format(self.level_ind + 1),
-                          "en_US": "Try flipping to level {}".format(self.level_ind + 1)})
-            for i in range(self.level_ind):
-                click((1171, 359), sleeptime=1)
-            screenshot()
-            # 如果匹配到弹窗消失
-            if match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
-                logging.info({"zh_CN": "关卡弹窗消失，结束此任务","en_US": "Level popup disappears, end this task"})
-                return
+                # 向右翻self.level_ind次
+                logging.info({"zh_CN": "尝试翻到关卡 {}".format(self.level_ind + 1),
+                            "en_US": "Try flipping to level {}".format(self.level_ind + 1)})
+                for i in range(self.level_ind):
+                    click((1171, 359), sleeptime=1)
+                screenshot()
+                # 如果匹配到弹窗消失
+                if match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
+                    logging.info({"zh_CN": "关卡弹窗消失，结束此任务","en_US": "Level popup disappears, end this task"})
+                    return
+            # 重置start_from_level_popup（只有第一次进入while时需要进行判断start_from_level_popup）
+            self.start_from_level_popup = False
             # 此时判断是否有简易攻略tab
             has_easy_tab = quest_has_easy_tab()
             # 当前关卡就是这次需要推图的关卡
@@ -178,12 +186,20 @@ class PushQuest(Task):
             if not walk_grid:
                 enteredit = self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
-                    lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
+                    lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)) or self.has_cost_popup()
                 )
+                if self.has_cost_popup():
+                    logging.info(istr({
+                        CN: "检测到消费弹窗，退出",
+                        EN: "Match cost popup, quit"
+                    }))
+                    self.status = self.STATUS_SKIP
+                    self.clear_popup()
+                    return
                 # 识别不到大的开始任务按钮，可能是支线任务
                 if not enteredit:
                     # 支线任务的开始任务按钮在中间，且比较小
-                    self.run_until(
+                    click_middle_button = self.run_until(
                         lambda: click((639, 516)),
                         lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
                     )
@@ -198,8 +214,16 @@ class PushQuest(Task):
                 click(button_pic(ButtonName.BUTTON_TASK_START), sleeptime=2)
                 self.run_until(
                     lambda: click(button_pic(ButtonName.BUTTON_TASK_START)),
-                    lambda: match(page_pic(PageName.PAGE_GRID_FIGHT))
+                    lambda: match(page_pic(PageName.PAGE_GRID_FIGHT)) or self.has_cost_popup()
                 )
+                if self.has_cost_popup():
+                    logging.info(istr({
+                        CN: "检测到消费弹窗，退出",
+                        EN: "Match cost popup, quit"
+                    }))
+                    self.status = self.STATUS_SKIP
+                    self.clear_popup()
+                    return
                 # 需求列表
                 require_types = list(grider.get_requires_list().keys())
                 GridQuest(grider=grider, backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL)),
@@ -209,8 +233,12 @@ class PushQuest(Task):
                 if self.require_type_ind >= len(require_types):
                     self.require_type_ind = 0
                     self.level_ind += 1
-            logging.info({"zh_CN": f"一个战斗完成，更新关卡下标为{self.level_ind}",
-                          "en_US": f"One battle completed, update level subscript to {self.level_ind}"})
+                    # 判断是否只打当前关
+                    if self.challenge_only:
+                        self.clear_popup()
+                        return
+            logging.info({"zh_CN": f"一个战斗完成，更新关卡下标为{self.level_ind}, 更新流程类型下标为{self.require_type_ind}",
+                          "en_US": f"One battle completed, update level subscript to {self.level_ind}, update process type index to {self.require_type_ind}"})
             sleep(6) # 等待6秒：可能的新章节解锁动画
 
     def post_condition(self) -> bool:

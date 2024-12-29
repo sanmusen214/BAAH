@@ -26,4 +26,6 @@ from .InCraft.InCraft import InCraft
 
 from .UserTask.UserTask import UserTask
 
+from .SolveChallenge.SolveChallenge import SolveChallenge
+
 from .PostAllTask.PostAllTask import PostAllTask

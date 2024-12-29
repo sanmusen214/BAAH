@@ -17,6 +17,8 @@ if __name__ in ["__main__", "__mp_main__"]:
         logging.info({"zh_CN": f"当前运行目录: {os.getcwd()}", "en_US": f"Current running directory: {os.getcwd()}"})
         now_config_files = config.get_all_user_config_names()
         logging.info({"zh_CN": "BAAH_CONFIGS可用的配置文件: " + ", ".join(now_config_files), "en_US": "Available BAAH_CONFIGS config files: " + ", ".join(now_config_files)})
+        for i in range(len(now_config_files)):
+            logging.info(f"{i}: {now_config_files[i]}")
 
         if len(sys.argv) > 1:
             config_name = sys.argv[1]
@@ -33,8 +35,10 @@ if __name__ in ["__main__", "__mp_main__"]:
                 config_name = now_config_files[0]
             else:
                 while(1):
-                    logging.info({"zh_CN": "请手动输入要运行的配置文件名(不包含.json后缀)", "en_US": "Please enter the config file name to run (excluding .json suffix)"})
-                    config_name = input(": ").replace(".json", "") + ".json"
+                    logging.info({"zh_CN": "请手动输入要运行的配置文件名(不包含.json后缀)或对应序号", "en_US": "Please enter the config file name to run (excluding .json suffix) or corresponding index number"})
+                    usr_input = input(": ").replace(".json", "")
+                    config_index = int(usr_input) if usr_input.isdigit() and int(usr_input)>=0 and int(usr_input)<len(now_config_files) else -1
+                    config_name = usr_input + ".json" if config_index == -1 else now_config_files[config_index]
                     if config_name in now_config_files:
                         break
                     else:
