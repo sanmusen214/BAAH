@@ -4,7 +4,7 @@ from modules.AllTask import *
 from modules.AllPage.Page import Page
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
-from modules.utils.log_utils import logging
+from modules.utils.log_utils import logging, CN, EN
 from modules.configs.MyConfig import config
 
 class TaskName():
@@ -64,7 +64,7 @@ class TaskInstanceMap:
                 TaskInstance(
                     task_config_name = TaskName.LOGIN_GAME,
                     i18n_key_name = "task_login_game",
-                    task_module = EnterGame,
+                    task_module = Task, # !EnterGame任务现在被config直接控制并添加在taskpool开头，忽略配置文件里的登录游戏任务，为了防止后面解析任务列表实例时缺少key导致exception，这里以空module Task代替
                     task_params = {}
                 ),
             TaskName.MOMOTALK: TaskInstance(
@@ -217,6 +217,8 @@ class AllTask:
         从config里解析任务列表，覆盖原有的任务列表
         """
         self.taskpool = []
+        if config.userconfigdict["OPEN_GAME_APP_TASK"]:
+            self.add_task(EnterGame())
         # 用于保存最后一次战术大赛的任务实例
         last_contest = None
         # GUI为了显示TaskName也会导入此文件，从而创建AllTask的实例，这边判断下如果config没有解析json就跳过
@@ -225,7 +227,11 @@ class AllTask:
             for i in range(len(config.userconfigdict['TASK_ORDER'])):
                 task_name = config.userconfigdict['TASK_ORDER'][i]
                 if task_name not in task_instances_map.taskmap:
-                    raise Exception(f"任务名:<{task_name}>不存在, 请检查config.py中的TASK_ORDER是否正确, 正确的任务名有: {list(task_instances_map.taskmap.keys())}")
+                    logging.error({
+                        CN: f"任务名:<{task_name}>无法解析, 已知的任务名有: {list(task_instances_map.taskmap.keys())}",
+                        EN: f"Task name : {task_name} can not be parsed, please check it is one of: {list(task_instances_map.taskmap.keys())}"
+                    })
+                    raise Exception("Task Name can not be recognized and parsed")
                 # 如果任务对应的TASK_ACTIVATE为False，则不添加任务
                 if config.userconfigdict['TASK_ACTIVATE'][i] == False:
                     continue
@@ -238,7 +244,8 @@ class AllTask:
         else:
             logging.warn({"zh_CN": "配置文件无TASK_ORDER和TASK_ACTIVATE解析", "en_US":"NO TASK_ORDER and TASK_ACTIVATE in config file"})
         # 任务列表末尾添加一个PostAllTask任务，用于统计资源
-        self.add_task(PostAllTask())
+        if config.userconfigdict["DO_POST_ALL_TASK"]:
+            self.add_task(PostAllTask())
         
         
     

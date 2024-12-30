@@ -202,6 +202,15 @@ defaultUserDict = {
         "d":"png",
         "s":["png", "pipe"]
     },
+
+    # 是否执行游戏登录任务（与游戏打开登录，统计消耗的体力，金币，钻石有关）
+    "OPEN_GAME_APP_TASK":{
+        "d":True
+    },
+    # 是否执行所有任务结束后的尾部任务（与统计消耗的体力，金币，钻石有关）
+    "DO_POST_ALL_TASK":{
+        "d":True
+    }
 }
 
 # 软件的config里的默认值
