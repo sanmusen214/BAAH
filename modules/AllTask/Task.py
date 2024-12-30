@@ -216,21 +216,31 @@ class Task:
         """
         清除弹窗
         """
+        at_home = False
+        def judge_now_page():
+            nonlocal at_home
+            # 判断当前是处于主页还是非主页
+            if Page.is_page(PageName.PAGE_HOME):
+                at_home = True
+            else:
+                at_home = False
+            click(Page.MAGICPOINT)
+        def judge_no_popup():
+            # 判断当前是否没有弹窗
+            nonlocal at_home
+            if at_home:
+                return not match(button_pic(ButtonName.BUTTON_CONFIRMB), threshold=0.93)
+            else:
+                return match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        
         click(Page.MAGICPOINT)
-        screenshot()
-        if Page.is_page(PageName.PAGE_HOME):
-            # 当正处于主页时 清除商店登录弹窗
-            Task.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB))
-            )
-        else:
-            # 不处于主页时，直接用magicpoint判断白色像素点清除弹窗
-            Task.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
-                times=15,
-            )
+        res = Task.run_until(
+            lambda: judge_now_page(),
+            lambda: judge_no_popup(),
+            times=15
+        )
+        if not res:
+            logging.info("Popup closed failed")
         
     
     @staticmethod

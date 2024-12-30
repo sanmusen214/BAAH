@@ -236,7 +236,7 @@ class GridAnalyzer:
     
     def get_requires_list(self):
         """
-        获取该关卡可以执行的策略方式名列表
+        获取该关卡可以执行的策略方式名dict
         """
         return self.level_data["requires"]
     
