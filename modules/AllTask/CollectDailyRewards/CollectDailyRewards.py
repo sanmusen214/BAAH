@@ -10,8 +10,10 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel
 
 class CollectDailyRewards(Task):
-    def __init__(self, name="CollectDailyRewards") -> None:
+    def __init__(self, need_back_home=True, name="CollectDailyRewards") -> None:
         super().__init__(name)
+        # 领取后是否返回主页
+        self.need_back_home = need_back_home
 
      
     def pre_condition(self) -> bool:
@@ -39,9 +41,12 @@ class CollectDailyRewards(Task):
             lambda: not match(button_pic(ButtonName.BUTTON_FINISH_9_DAILY))
         )
         
-        
-        self.back_to_home()
+        if self.need_back_home:
+            self.back_to_home()
 
      
     def post_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_HOME)
+        if self.need_back_home:
+            return Page.is_page(PageName.PAGE_HOME)
+        else:
+            return Page.is_page(PageName.PAGE_TASK_CENTER)

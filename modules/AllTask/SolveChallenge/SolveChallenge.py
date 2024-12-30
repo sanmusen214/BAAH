@@ -39,7 +39,7 @@ class SolveChallenge(Task):
                 CN: "领取任务奖励",
                 EN: "Collect task rewards"
             }))
-            CollectDailyRewards().run()
+            CollectDailyRewards(need_back_home=False).run()
             # 进入每日任务界面
             logging.info(istr({
                 CN: "进行挑战任务",
@@ -49,10 +49,6 @@ class SolveChallenge(Task):
                 CN: "你正在执行清理挑战任务，此任务会持续执行到无挑战任务为止！",
                 EN: "This task is clearing the challenge tasks, will keep clearing until no challenge tasks"
             }))
-            self.run_until(
-                lambda: click((66, 237)),
-                lambda: Page.is_page(PageName.PAGE_TASK_CENTER),
-            )
             self.clear_popup()
             # 点击挑战任务
             self.run_until(
