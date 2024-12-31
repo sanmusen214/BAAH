@@ -21,6 +21,7 @@ class SolveChallenge(Task):
 
      
     def pre_condition(self) -> bool:
+        self.total_completed_num = 0
         self.scroll_down_index = 0
         return self.back_to_home()
         

@@ -33,6 +33,7 @@ class TaskName():
     PUSH_NORMAL = "普通推图"
     PUSH_HARD = "困难推图"
     MAIN_STORY = "主线剧情"
+    SOLVE_CHALLENGE = "挑战任务"
     CUSTOM = "自定义任务"
 
 class TaskInstance:
@@ -193,6 +194,12 @@ class TaskInstanceMap:
                     task_module = AutoStory,
                     task_params = {}
                 ),
+            TaskName.SOLVE_CHALLENGE: TaskInstance(
+                    task_config_name = TaskName.SOLVE_CHALLENGE,
+                    i18n_key_name = "task_solve_challenge",
+                    task_module = SolveChallenge,
+                    task_params = {}
+            ),
             TaskName.CUSTOM: TaskInstance(
                     task_config_name = TaskName.CUSTOM,
                     i18n_key_name = "task_user_def_task",

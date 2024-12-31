@@ -24,6 +24,7 @@
     "task_assault":"总力战",
     "task_user_def_task": "自定义任务",
     "task_craft":"制造",
+    "task_solve_challenge":"挑战任务",
 
     "setting_emulator":"模拟器配置",
     "setting_server":"服务器配置",

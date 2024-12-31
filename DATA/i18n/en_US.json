@@ -24,6 +24,8 @@
     "task_assault": "Assault",
     "task_user_def_task": "User Defined Task",
     "task_craft":"Craft",
+    "task_solve_challenge":"Complete Challenge Task",
+
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",

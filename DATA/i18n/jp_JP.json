@@ -24,6 +24,7 @@
     "task_assault": "総力戦",
     "task_user_def_task": "ユーザー定義タスク",
     "task_craft":"クラフト",
+    "task_solve_challenge":"挑戦タスクを完了する",
 
     "setting_emulator": "エミュレータ設定",
     "setting_server": "サーバー設定",
