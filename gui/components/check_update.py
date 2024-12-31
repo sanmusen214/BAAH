@@ -4,13 +4,18 @@ from nicegui import ui, run
 import time
 import requests
 import os
+from datetime import datetime
 
 
 g_result = {}
+g_datetime = ""
 
 async def only_check_version():
-    global g_result
-    if g_result:
+    global g_result, g_datetime
+    datetime_now = datetime.now().strftime("%Y-%m-%d")
+    # 缓存判断日期，如果日期相同就不用再次请求
+    if datetime_now == g_datetime:
+        print(f"Use cached release info: {datetime_now}")
         return g_result
     # 比较访问https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest和https://api.github.com/repos/sanmusen214/BAAH/releases/latest哪一个快
     urls={
@@ -44,23 +49,23 @@ async def only_check_version():
         ui.notify(gui_shared_config.get_text("notice_fail"))
         resultdict["status"] = False
         resultdict["msg"] = f'{gui_shared_config.get_text("notice_fail")} Fail to connect Github/Gitee'
-        g_result = resultdict
-        return g_result
-    # 找到访问时间最短的网站key
-    fastestkey = min(eachtime, key=eachtime.get)
-    # 判断是否需要更新
-    if gui_shared_config.get_one_version_num(eachnewesttag[fastestkey]) > gui_shared_config.get_one_version_num():
-        ui.notify(f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
-        resultdict["status"] = True
-        resultdict["msg"] = f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
-        resultdict["urls"] = eachdowloadurl[fastestkey]
-        resultdict["body"] = eachbody.get(fastestkey, "")
     else:
-        ui.notify(gui_shared_config.get_text("notice_no_new_version"))
-        resultdict["status"] = False
-        resultdict["msg"] = gui_shared_config.get_text("notice_no_new_version")
-        resultdict["body"] = eachbody.get(fastestkey, "")
-    g_result = resultdict
+        # 找到访问时间最短的网站key
+        fastestkey = min(eachtime, key=eachtime.get)
+        # 判断是否需要更新
+        if gui_shared_config.get_one_version_num(eachnewesttag[fastestkey]) > gui_shared_config.get_one_version_num():
+            ui.notify(f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
+            resultdict["status"] = True
+            resultdict["msg"] = f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
+            resultdict["urls"] = eachdowloadurl[fastestkey]
+            resultdict["body"] = eachbody.get(fastestkey, "")
+        else:
+            ui.notify(gui_shared_config.get_text("notice_no_new_version"))
+            resultdict["status"] = False
+            resultdict["msg"] = gui_shared_config.get_text("notice_no_new_version")
+            resultdict["body"] = eachbody.get(fastestkey, "")
+    g_result = resultdict # 更新缓存值
+    g_datetime = datetime_now # 更新缓存判断值
     return g_result
 
 
