@@ -22,7 +22,7 @@ defaultUserDict = {
     "EVENT_QUEST_LEVEL": {"d":[]},
     "HARD": {"d":[]},
     "NORMAL": {"d":[]},
-    "TASK_ORDER": {"d": ["登录游戏"]}, #  也就是TaskName.LOGIN_GAME，防止循环import
+    "TASK_ORDER": {"d": []},
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
     "PUSH_NORMAL_USE_SIMPLE": {"d":False},
@@ -31,7 +31,7 @@ defaultUserDict = {
     "PUSH_HARD_USE_SIMPLE": {"d":False},
     "PUSH_HARD_QUEST": {"d":0},
     "PUSH_HARD_QUEST_LEVEL": {"d":1},
-    "TASK_ACTIVATE": {"d":[True]},
+    "TASK_ACTIVATE": {"d":[]},
     # new config in 1.2.x
     "SERVER_TYPE":{
         "d":"GLOBAL",

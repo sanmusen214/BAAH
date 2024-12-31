@@ -31,12 +31,12 @@ def set_task_order(config, real_taskname_to_show_taskname):
                                   value=config.userconfigdict["TASK_ORDER"][i],
                                   on_change=lambda v,i=i: config.userconfigdict["TASK_ORDER"].__setitem__(i, v.value))
                 acheck = ui.checkbox(config.get_text("button_enable"), value=config.userconfigdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.userconfigdict["TASK_ACTIVATE"].__setitem__(i, v.value))
-                if i==0:
-                    atask.set_enabled(False)
-                    acheck.set_enabled(False)
                 ui.button(f'{config.get_text("button_add")} {config.get_text("config_task")}', on_click=lambda i=i+1: add_task(i))
-                if len(config.userconfigdict["TASK_ORDER"]) > 0 and i > 0:
-                    ui.button(f'{config.get_text("button_delete")} {config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
+                ui.button(f'{config.get_text("button_delete")} {config.get_text("config_task")}', on_click=lambda i=i: del_task(i), color="red")
+        with ui.row():
+            # 最后一行添加上添加按钮和删除按钮
+            ui.button(f'{config.get_text("button_add")} {config.get_text("config_task")}', on_click=lambda: add_task(0))
+            ui.button(f'{config.get_text("button_delete")} {config.get_text("config_task")}', on_click=lambda: del_task(-1), color="red")
 
     def add_task(i):
         config.userconfigdict["TASK_ORDER"].insert(i, TaskName.MAIL)
@@ -44,6 +44,9 @@ def set_task_order(config, real_taskname_to_show_taskname):
         task_order.refresh()
     
     def del_task(i):
+        if len(config.userconfigdict["TASK_ORDER"]) == 0:
+            # 空列表的话不删除
+            return
         config.userconfigdict["TASK_ORDER"].pop(i)
         config.userconfigdict["TASK_ACTIVATE"].pop(i)
         task_order.refresh()
