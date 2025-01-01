@@ -1,4 +1,5 @@
 from nicegui import ui
+from gui.components.edit_team_strength import edit_the_team_strength_of_this_config
 from gui.components.list_edit_area import list_edit_area
 
 def set_normal(config):
@@ -23,14 +24,5 @@ def set_normal(config):
         config.get_text("config_desc_list_edit"),
         has_switch=True
     )
-    # explore
-    ui.label(config.get_text("push_normal")).style('font-size: x-large')
-    
-    ui.label(config.get_text("config_explore_attention"))
-    
-    with ui.card():
-        ui.checkbox(config.get_text("config_use_simple_explore")).bind_value(config.userconfigdict, "PUSH_NORMAL_USE_SIMPLE")
-        ui.checkbox(config.get_text("config_rainbow_teams_desc")).bind_value(config.userconfigdict, "EXPLORE_RAINBOW_TEAMS")
-        ui.number(config.get_text("config_push_normal_desc"), min=4, precision=0, step=1).bind_value(config.userconfigdict, "PUSH_NORMAL_QUEST", forward=lambda x: int(x)).style("width: 300px")
-        ui.number(config.get_text("config_level"), min=1, precision=0, step=1).bind_value(config.userconfigdict, "PUSH_NORMAL_QUEST_LEVEL", forward=lambda x:int(x)).style("width: 300px")
+
     

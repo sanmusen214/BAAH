@@ -33,6 +33,7 @@
     "setting_notification": "通知設定",
     "setting_other": "その他の設定",
     "setting_vpn": "VPN設定",
+    "setting_explore":"攻略設定",
 
     "BAAH_desc": "BAAHは、碧藍のアーカイブ/ウルトラブルーアーカイブの日本版、国際版、公式中国版、中国B版のデイリーミッションを自動的に実行します。設定ファイルはBAAH_CONFIGSフォルダに保存されます。",
     "BAAH_get_version": "最新バージョンはGithubからダウンロードするか、グループ内からダウンロードできます",
@@ -105,7 +106,7 @@
     "config_auto_event_push": "イベントステージを自動的に検出して攻略する",
     "config_push_normal_desc": "通常ステージ攻略の開始章",
     "config_push_hard_desc": "難関ステージ攻略の開始章",
-    "config_rainbow_teams_desc": "（高度な設定）攻略時にレインボーチームを使用するかどうか。この項目をチェックすると、攻略中にチームの組み合わせを待つ必要がなくなります。攻略タスクを開始する前に、自分で3つのレインボーチームを用意してください。",
+    "config_rainbow_teams_desc": "属性に応じて自動的にチームを選択します。チェックを外すと、毎回チームを手動で設定する必要があります",
     "config_explore_attention": "自分でレインボーチームを組むことをお勧めします。でないと、自分でチームを組むのは少し苦痛です。",
     "email_notification_desc": "メール通知を有効にするかどうかを選択します。デフォルトはQQメールです",
     "email_account": "メールアカウント/QQ番号",
@@ -148,6 +149,11 @@
     "desc_note":"備考",
     "config_login_timeout": "ゲームにログインするためのタイムアウト時間(秒)",
     "config_max_emulator_restart_times": "ログインタイムアウト後のエミュレータ再起動の最大数",
+    "desc_team_strength":"各編成の学生の攻撃属性比率を設定します。0から10の範囲で、属性の相性は考慮しません。例えば、1号隊が半分黄攻、半分赤攻の場合、黄攻と赤攻の強度をそれぞれ5に設定すれば大丈夫です。",
+    "team_red":"赤い攻撃",
+    "team_yellow":"黄の攻撃",
+    "team_blue":"青い攻撃",
+    "team_purple":"紫の攻撃",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

@@ -33,6 +33,7 @@
     "setting_notification":"通知设置",
     "setting_other":"其他设置",
     "setting_vpn":"加速器设置",
+    "setting_explore":"推图设置",
 
     "BAAH_desc":"BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务。配置文件存放于BAAH_CONFIGS文件夹内。",
     "BAAH_get_version":"获取最新版本可以到Github下载，或进群下载",
@@ -105,7 +106,7 @@
     "config_auto_event_push":"检测并自动推活动关卡",
     "config_push_normal_desc":"普通关卡推图起始章节",
     "config_push_hard_desc":"困难关卡推图起始章节",
-    "config_rainbow_teams_desc":"（高练度开启）推图是否是彩虹队伍，勾选此项后推图时不再等待配队，请先自己配好三只彩虹队再开启推图任务。",
+    "config_rainbow_teams_desc":"推图是否自动根据属性选择队伍，如果不勾选则需要手动配置队伍",
     "config_explore_attention":"建议自己配个彩虹队，要不然自己配队有点折磨",
     "email_notification_desc":"是否启用邮件通知，默认为QQ邮箱",
     "email_account":"邮件账号/QQ号",
@@ -148,6 +149,11 @@
     "desc_note":"备注",
     "config_login_timeout":"登录游戏超时时间（秒）",
     "config_max_emulator_restart_times": "登录超时后模拟器最多重启次数，0为不重启",
+    "desc_team_strength":"设置你的每只编队的学生的攻击属性比例，0到10，不需要考虑属性克制关系。比如一号队伍一半黄攻一半红攻，那么黄攻和红攻的强度都设置为5就可以。",
+    "team_red":"红攻",
+    "team_yellow":"黄攻",
+    "team_blue":"蓝攻",
+    "team_purple":"紫攻",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

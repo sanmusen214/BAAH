@@ -21,6 +21,7 @@ from ..pages.Setting_vpn import set_vpn
 from ..pages.Setting_Assault import set_assault
 from ..pages.Setting_BuyAP import set_buyAP
 from ..pages.Setting_UserTask import set_usertask
+from ..pages.Setting_explore import set_explore
 from modules.AllTask.myAllTask import task_instances_map # 这里导入myAllTask可能会导致其内my_AllTask单例值异常，目前通过在run()里使用前再读取config的任务列表解决此bug
 from modules.configs.MyConfig import MyConfigger
 from ..define import gui_shared_config, injectJSforTabs
@@ -42,10 +43,10 @@ class ConfigPanel:
     func: 
         子页面渲染函数
     lst_config: Config
-        传入时通过nameID找到对应i18n名字，为None时name=nameID
+        传入时通过nameID找到对应i18n名字作为name，为None时name=nameID
     """
-    def __init__(self, nameID: str, func: Callable[[], None], lst_config=None):
-        self.name = lst_config.get_text(nameID) if lst_config else nameID
+    def __init__(self, nameID: str, func: Callable[[], None], i18n_config=None):
+        self.name = i18n_config.get_text(nameID) if i18n_config else nameID
         self.func = func
         self.tab = None
         self.nameID = nameID
@@ -56,26 +57,27 @@ class ConfigPanel:
 
 def get_config_list(lst_config: MyConfigger) -> list:
     return [
-        ConfigPanel("BAAH", lambda: set_BAAH(lst_config, gui_shared_config), lst_config=None),
-        ConfigPanel("setting_emulator", lambda: set_emulator(lst_config), lst_config=lst_config),
-        ConfigPanel("setting_server", lambda: set_server(lst_config), lst_config=lst_config),
-        ConfigPanel("setting_task_order", lambda: set_task_order(lst_config, task_instances_map.task_config_name_2_i18n_name), lst_config=lst_config),
-        ConfigPanel("setting_vpn", lambda: set_vpn(lst_config), lst_config=lst_config),
-        ConfigPanel("setting_notification", lambda: set_notification(lst_config, gui_shared_config), lst_config=lst_config),
-        ConfigPanel("task_cafe", lambda: set_cafe(lst_config), lst_config=lst_config),
-        ConfigPanel("task_timetable", lambda: set_timetable(lst_config), lst_config=lst_config),
-        ConfigPanel("task_craft", lambda: set_craft(lst_config), lst_config=lst_config),
-        ConfigPanel("task_shop", lambda: set_shop(lst_config), lst_config=lst_config),
-        ConfigPanel("task_buy_ap", lambda: set_buyAP(lst_config), lst_config=lst_config),
-        ConfigPanel("task_wanted", lambda: set_wanted(lst_config), lst_config=lst_config),
-        ConfigPanel("task_special", lambda: set_special(lst_config), lst_config=lst_config),
-        ConfigPanel("task_exchange", lambda: set_exchange(lst_config), lst_config=lst_config),
-        ConfigPanel("task_event", lambda: set_event(lst_config), lst_config=lst_config),
-        ConfigPanel("task_assault", lambda: set_assault(lst_config), lst_config=lst_config),
-        ConfigPanel("task_hard", lambda: set_hard(lst_config, gui_shared_config), lst_config=lst_config),
-        ConfigPanel("task_normal", lambda: set_normal(lst_config), lst_config=lst_config),
-        ConfigPanel("task_user_def_task", lambda: set_usertask(lst_config), lst_config=lst_config),
-        ConfigPanel("setting_other", lambda: set_other(lst_config, lst_config.nowuserconfigname), lst_config=lst_config)
+        ConfigPanel("BAAH", lambda: set_BAAH(lst_config, gui_shared_config), i18n_config=None),
+        ConfigPanel("setting_emulator", lambda: set_emulator(lst_config), i18n_config=lst_config),
+        ConfigPanel("setting_server", lambda: set_server(lst_config), i18n_config=lst_config),
+        ConfigPanel("setting_task_order", lambda: set_task_order(lst_config, task_instances_map.task_config_name_2_i18n_name), i18n_config=lst_config),
+        ConfigPanel("setting_vpn", lambda: set_vpn(lst_config), i18n_config=lst_config),
+        ConfigPanel("setting_notification", lambda: set_notification(lst_config, gui_shared_config), i18n_config=lst_config),
+        ConfigPanel("task_cafe", lambda: set_cafe(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_timetable", lambda: set_timetable(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_craft", lambda: set_craft(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_shop", lambda: set_shop(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_buy_ap", lambda: set_buyAP(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_wanted", lambda: set_wanted(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_special", lambda: set_special(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_exchange", lambda: set_exchange(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_event", lambda: set_event(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_assault", lambda: set_assault(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_hard", lambda: set_hard(lst_config, gui_shared_config), i18n_config=lst_config),
+        ConfigPanel("task_normal", lambda: set_normal(lst_config), i18n_config=lst_config),
+        ConfigPanel("setting_explore", lambda: set_explore(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_user_def_task", lambda: set_usertask(lst_config), i18n_config=lst_config),
+        ConfigPanel("setting_other", lambda: set_other(lst_config, lst_config.nowuserconfigname), i18n_config=lst_config)
     ]
 
 
