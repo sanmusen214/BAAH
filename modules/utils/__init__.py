@@ -254,7 +254,7 @@ def check_connect():
                     }))
                 return True
             else:
-                logging.error({"zh_CN": "图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]), "en_US":"The resolution is not 1280*720, please set the resolution to 1280*720 (current {}*{})".format(img.shape[1], img.shape[1])})
+                logging.error({"zh_CN": "图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]), "en_US":"The resolution is not 1280*720, please set the resolution to 1280*720 (current {}*{})".format(img.shape[1], img.shape[0])})
                 raise Exception("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
     logging.error({"zh_CN": "adb与模拟器连接失败", "en_US":"Failed to connect to the emulator"})
     logging.info({"zh_CN": "请检查adb与模拟器连接端口号是否正确", "en_US":"Please check if the adb and emulator connection port number is correct"})
