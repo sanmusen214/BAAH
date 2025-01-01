@@ -210,6 +210,16 @@ defaultUserDict = {
     # 是否执行所有任务结束后的尾部任务（与统计消耗的体力，金币，钻石有关）
     "DO_POST_ALL_TASK":{
         "d":True
+    },
+    # 用户设置的现有配队的属性强度
+    # y一维列表，第一维表示队伍，元素是一个dict表示队伍的属性对应强度(0-10)，属性先认为是4种，{red, blue, yellow, purple}
+    "TEAM_SET_STRENGTH":{
+        "d": [
+            {"red":10, "blue":10, "yellow":10, "purple":10},
+            {"red":10, "blue":10, "yellow":10, "purple":10},
+            {"red":10, "blue":10, "yellow":10, "purple":10},
+            {"red":0, "blue":0, "yellow":0, "purple":0}
+        ]
     }
 }
 

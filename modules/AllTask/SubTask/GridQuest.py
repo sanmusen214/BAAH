@@ -64,6 +64,8 @@ class GridQuest(Task):
         }
         # 上一次为了队伍移动点击的位置
         self.last_click_position = [-1, -1]
+        # 推图文件队伍下标到实际队伍下标的映射
+        self.ind_map = self.grider.get_map_from_team_name2real_team_ind(self.require_type)
 
     def pre_condition(self) -> bool:
         click(Page.MAGICPOINT, 1)
@@ -354,7 +356,13 @@ class GridQuest(Task):
                                "en_US": "Can't recognize the edit team page, maybe the team start point is blocked and the recognition fails"})
                 self.print_team_config(now_need_team_set_list)
                 input("请按照以上要求手动出击队伍，然后返回至格子地图界面，回车以继续...")
-
+            # 选择队伍编号
+            left_team_x = 125
+            left_team_ys = [189, 266, 344, 422]
+            self.run_until(
+                lambda: click((left_team_x, left_team_ys[self.ind_map[focus_team_ind]])),
+                lambda: not match_pixel((left_team_x, left_team_ys[self.ind_map[focus_team_ind]]), Page.COLOR_WHITE)
+            )
             # 点击确定
             logging.info({"zh_CN": "点击出击", "en_US": "Tap to strike"})
             self.run_until(
@@ -386,6 +394,7 @@ class GridQuest(Task):
                 action = actions[action_ind]
                 # 循环回合的每一个action
                 target_team_ind = self.team_names.index(action["team"])
+                target_team_ind = self.ind_map[target_team_ind]
                 # 聚焦到目标队伍，每次都获取最新的当前聚焦队伍
                 while (self.get_now_focus_on_team() != target_team_ind):
                     click(self.BUTTON_SEE_OTHER_TEAM_POS, sleeptime=1)
