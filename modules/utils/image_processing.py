@@ -211,6 +211,9 @@ def match_pixel_color_range(image_mat, x, y, low_range, high_range, printit = Fa
     return True if the color is between the range
     """
     img = image_mat
+    if img is None:
+        logging.error("Image Matrix is None when trying to match pixel color")
+        return
     x = int(x)
     y = int(y)
     pixel = img[y, x][:3]

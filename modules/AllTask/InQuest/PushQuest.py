@@ -226,17 +226,29 @@ class PushQuest(Task):
                     return
                 # 需求列表
                 require_types = list(grider.get_requires_list().keys())
+                if self.challenge_only:
+                    # 如果只是为了挑战任务
+                    choose_types_ind = 0
+                    shortest_steps = float("inf")
+                    for ind in range(len(require_types)):
+                        # 选取靠后且fight_plan较短的
+                        type_name = require_types[ind]
+                        type_steps = grider.get_num_of_steps(type_name)
+                        if type_steps <= shortest_steps:
+                            choose_types_ind = ind
+                else:
+                    choose_types_ind = self.require_type_ind
                 GridQuest(grider=grider, backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL)),
-                          require_type=require_types[self.require_type_ind]).run()
+                          require_type=require_types[choose_types_ind]).run()
+                # 判断是否只打当前关
+                if self.challenge_only:
+                    self.clear_popup()
+                    return
                 # 任务完成后，往后切换需求类型下标，如果超出了需求类型列表，就回到0，且level下标+1
                 self.require_type_ind += 1
                 if self.require_type_ind >= len(require_types):
                     self.require_type_ind = 0
                     self.level_ind += 1
-                    # 判断是否只打当前关
-                    if self.challenge_only:
-                        self.clear_popup()
-                        return
             logging.info({"zh_CN": f"一个战斗完成，更新关卡下标为{self.level_ind}, 更新流程类型下标为{self.require_type_ind}",
                           "en_US": f"One battle completed, update level subscript to {self.level_ind}, update process type index to {self.require_type_ind}"})
             sleep(6) # 等待6秒：可能的新章节解锁动画

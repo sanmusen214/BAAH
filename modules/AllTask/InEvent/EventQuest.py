@@ -17,7 +17,7 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 
 
 class EventQuest(Task):
-    def __init__(self, level_list, explore=True, raid=True, collect=True, name="EventQuest") -> None:
+    def __init__(self, level_list, explore=True, raid=True, collect=True, quest_button_xy = (965, 98),name="EventQuest") -> None:
         super().__init__(name)
         self.level_list = level_list
         # 记录上次自动推图的关卡下标
@@ -28,6 +28,8 @@ class EventQuest(Task):
         self.raid = raid
         # 是否领取奖励
         self.collect = collect
+        # quest按钮位置
+        self.quest_button_xy = quest_button_xy
 
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_EVENT)
@@ -142,7 +144,7 @@ class EventQuest(Task):
                 # 视角会自动滚动到顶部，等3秒
                 click(Page.MAGICPOINT)
                 # 点击Quest标签
-                click((965, 98))
+                click(self.quest_button_xy)
                 self.scroll_right_up()
                 # 点击第一个level
                 click((1130, 200), sleeptime=2)

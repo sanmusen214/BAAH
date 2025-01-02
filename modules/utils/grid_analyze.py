@@ -236,7 +236,7 @@ class GridAnalyzer:
     
     def get_requires_list(self):
         """
-        获取该关卡可以执行的策略方式名列表
+        获取该关卡可以执行的策略方式名dict
         """
         return self.level_data["requires"]
     
@@ -257,6 +257,103 @@ class GridAnalyzer:
         获取require_type方案第step_ind回合的行动，step_ind从0开始
         """
         return self.level_data[require_type]["fight_plan"][step_ind]
+    
+    def get_map_from_team_name2real_team_ind(self, require_type):
+        """
+        从推图文件里将下标0的A，下标1的B，下标2的C映射到正确的队伍编号上
+
+        比如，A对应的红色队伍是编队2，B对应的蓝色队伍是编队3，C对应的是编队1
+
+        那么编队名列表（[A,B,C])的队伍对应实际队伍编号关系就应该是 [2,3,1]，取下标也就是 [1，2，0]
+        """
+        try:
+            matched_team_ind = set()
+            
+            # 需要的攻击类型之间的权重
+            weighted_matrix = {
+                "red":{
+                    "red": 4.0, "blue": 2.0, "yellow": 0.5, "purple": 2.0
+                },
+                "blue":{
+                    "red": 0.5, "blue": 4.0, "yellow": 2.0, "purple": 8.0
+                },
+                "yellow":{
+                    "red": 2.0, "blue": 0.5, "yellow": 4.0, "purple": 0.5
+                },
+                "purple":{
+                    "red": 0.5, "blue": 2.0, "yellow": 2.0, "purple": 4.0
+                }
+            }
+            # 队伍的强度表 red, blue, yellow, purple
+            team_strength = config.userconfigdict["TEAM_SET_STRENGTH"]
+            # 推图文件要求的队伍颜色 red, blue, yellow, purple, any
+            team_color_required = [each["type"] for each in self.get_initialteams(require_type)]
+            match_result_list = [0 for i in range(len(team_color_required))]
+            # 先计算归一化后的team_strength,
+            normalized_team_strength = []
+            summarize_team_strength = []
+            for ind,team in enumerate(team_strength):
+                team_sum = sum([team[color] for color in team])
+                # 小组长度为0的情况，就是没有配队
+                if team_sum == 0:
+                    matched_team_ind.add(ind)
+                    summarize_team_strength.append(0)
+                    normalized_team_strength.append({color:0 for color in team})
+                else:
+                    summarize_team_strength.append(team_sum)
+                    normalized_team_strength.append({color:team[color]/team_sum for color in team})
+            #? 找的时候，对于相同的优先级，使用靠前的队伍
+            #! 这样排出来的队伍，会优先照顾推图文件里靠前出现的color
+            def compute_similarity(team_weights_dict, color_weight):
+                """
+                team_weights_dict: 这个team的属性 {"red":8, "blue":4, "yellow":2, "purple":0}
+                color_weight: 目标颜色的权重 {"red": 4.0, "blue": 2.0, "yellow": 0.5, "purple": 2.0}
+                """
+                # print(team_weights_dict, color_weight)
+                manhattan_distance = 0
+                for color in team_weights_dict:
+                    manhattan_distance += team_weights_dict[color] * color_weight[color]
+                return manhattan_distance
+            # 1. 对于每个非any的required team,找到相似度最高的team_strength,匹配后记录下标到matched_team_ind
+            for c_ind, required_color in enumerate(team_color_required):
+                if required_color == "any":
+                    continue
+                # 计算相似度
+                max_similarity = -1
+                max_similarity_ind = 0
+                # !先不考虑归一化 normalized_team_strength or team_strength
+                for t_ind, user_team_weights in enumerate(team_strength):
+                    similarity_val = compute_similarity(user_team_weights, weighted_matrix[required_color])
+                    print(f"配对队伍颜色{required_color}与队伍{t_ind}的相似度是{similarity_val}")
+                    if similarity_val > max_similarity and t_ind not in matched_team_ind:
+                        max_similarity = similarity_val
+                        max_similarity_ind = t_ind
+                matched_team_ind.add(max_similarity_ind)
+                match_result_list[c_ind] = max_similarity_ind
+            
+            # 2. 对于那些any的required team，找到team_strength里没有匹配的曼哈顿长度最长的，匹配后记录下标到matched_team_ind
+            for c_ind, required_color in enumerate(team_color_required):
+                if required_color != "any":
+                    continue
+                # 计算相似度
+                max_similarity = -1
+                max_similarity_ind = 0
+                # !先不考虑归一化 normalized_team_strength or team_strength
+                for t_ind, user_team_weights in enumerate(team_strength):
+                    similarity_val = summarize_team_strength[t_ind]
+                    print(f"配对队伍颜色{required_color}与队伍{t_ind}的相似度是{similarity_val}")
+                    if similarity_val > max_similarity and t_ind not in matched_team_ind:
+                        max_similarity = similarity_val
+                        max_similarity_ind = t_ind
+                matched_team_ind.add(max_similarity_ind)
+                match_result_list[c_ind] = max_similarity_ind
+            # 返回
+            return match_result_list
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return [i for i in range(len(self.get_initialteams(require_type)))]
+
     
     def get_head_triangle(self, imgdata):
         """
