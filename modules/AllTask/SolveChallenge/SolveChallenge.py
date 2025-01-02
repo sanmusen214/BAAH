@@ -57,7 +57,7 @@ class SolveChallenge(Task):
                 lambda: not match_pixel((1195, 130), Page.COLOR_WHITE)
             )
             # 处理第n个挑战任务
-            scroll_task = ScrollSelect(self.scroll_down_index, 141, 273, 613, 1150, hasexpectimage=lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE), swipeoffsetx=-200)
+            scroll_task = ScrollSelect(self.scroll_down_index, 153, 285, 625, 1150, hasexpectimage=lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE), swipeoffsetx=-200)
             scroll_task.run()
             if not self.has_popup():
                 logging.warn(istr({
@@ -66,7 +66,7 @@ class SolveChallenge(Task):
                 }))
                 return
             blue_button_pos = scroll_task.wantclick_pos
-            click((blue_button_pos[0] + 36, blue_button_pos[1] - 72), sleeptime=3)
+            click((blue_button_pos[0] + 36, blue_button_pos[1] - 80), sleeptime=3)
             screenshot()
             # 通过识别弹窗后右侧像素颜色判断是困难还是普通
             pixel_r = match_pixel((1181,159), ((0,0,50), (30, 30, 80)))
