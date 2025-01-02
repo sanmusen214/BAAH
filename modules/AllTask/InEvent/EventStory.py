@@ -96,8 +96,8 @@ class EventStory(Task):
         # 将每一个字母尝试转换成数字，如果是数字就比较目前最大
         for res in reslist:
             try:
-                # 最大不过12
-                temp_max = min(max(temp_max, int(res[0])), 12)
+                # 最大不过14
+                temp_max = min(max(temp_max, int(res[0])), 14)
             except:
                 pass
         self.max_level = temp_max
