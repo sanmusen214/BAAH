@@ -66,7 +66,7 @@ class SolveChallenge(Task):
                 }))
                 return
             blue_button_pos = scroll_task.wantclick_pos
-            click((blue_button_pos[0] + 36, blue_button_pos[1] - 92), sleeptime=3)
+            click((blue_button_pos[0] + 36, blue_button_pos[1] - 72), sleeptime=3)
             screenshot()
             # 通过识别弹窗后右侧像素颜色判断是困难还是普通
             pixel_r = match_pixel((1181,159), ((0,0,50), (30, 30, 80)))
