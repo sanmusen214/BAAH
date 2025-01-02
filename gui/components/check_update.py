@@ -54,7 +54,7 @@ async def only_check_version():
         fastestkey = min(eachtime, key=eachtime.get)
         # 判断是否需要更新
         if gui_shared_config.get_one_version_num(eachnewesttag[fastestkey]) > gui_shared_config.get_one_version_num():
-            ui.notify(f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})')
+            ui.notify(f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})', type="info")
             resultdict["status"] = True
             resultdict["msg"] = f'{gui_shared_config.get_text("notice_get_new_version")}: {eachnewesttag[fastestkey]} ({fastestkey})'
             resultdict["urls"] = eachdowloadurl[fastestkey]
