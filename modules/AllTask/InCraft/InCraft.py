@@ -24,7 +24,7 @@ class InCraft(Task):
         self.COLOR_BUTTON_CRAFT_YELLOW = self.COLOR_CRAFT_DONE
         # 制造材料清单从上到下三个点的位置
         # 国服下方没有一键收集按钮，因此三个点偏下
-        offsetY = 20 if "CN" in config.userconfigdict["SERVER_TYPE"] else 0
+        offsetY = 0
         items_ys = np.linspace(285, 530, 3, dtype=int)
         self.items_pos = [(1130, y+offsetY) for y in items_ys]
      
