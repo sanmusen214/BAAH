@@ -4,6 +4,7 @@ from gui.components.edit_team_strength import edit_the_team_strength_of_this_con
 def set_explore(config):
     ui.label(config.get_text("setting_explore")).style('font-size: x-large')
     ui.label(config.get_text("desc_team_strength"))
+    ui.checkbox(config.get_text("config_rainbow_teams_desc")).bind_value(config.userconfigdict, "EXPLORE_RAINBOW_TEAMS")
     with ui.card():
         edit_the_team_strength_of_this_config(config, "TEAM_SET_STRENGTH")
 

@@ -324,7 +324,7 @@ class GridAnalyzer:
                 # !先不考虑归一化 normalized_team_strength or team_strength
                 for t_ind, user_team_weights in enumerate(team_strength):
                     similarity_val = compute_similarity(user_team_weights, weighted_matrix[required_color])
-                    print(f"配对队伍颜色{required_color}与队伍{t_ind}的相似度是{similarity_val}")
+                    print(f"Team: {t_ind} with {required_color} : {similarity_val}")
                     if similarity_val > max_similarity and t_ind not in matched_team_ind:
                         max_similarity = similarity_val
                         max_similarity_ind = t_ind
@@ -341,13 +341,14 @@ class GridAnalyzer:
                 # !先不考虑归一化 normalized_team_strength or team_strength
                 for t_ind, user_team_weights in enumerate(team_strength):
                     similarity_val = summarize_team_strength[t_ind]
-                    print(f"配对队伍颜色{required_color}与队伍{t_ind}的相似度是{similarity_val}")
+                    print(f"Team: {t_ind} with {required_color} : {similarity_val}")
                     if similarity_val > max_similarity and t_ind not in matched_team_ind:
                         max_similarity = similarity_val
                         max_similarity_ind = t_ind
                 matched_team_ind.add(max_similarity_ind)
                 match_result_list[c_ind] = max_similarity_ind
             # 返回
+            print(f"Color strength mapping (index list): {match_result_list}")
             return match_result_list
         except Exception as e:
             import traceback
