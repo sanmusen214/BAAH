@@ -52,8 +52,6 @@ class GridQuest(Task):
         self.grider = grider
         self.require_type = require_type
 
-        # 当前关注的队伍下标
-        self.now_focus_on_team = 0
         # 用于本策略的队伍名字，字母列表，["A","B","C"...]， 其内涵的潜在关系是队伍“A"对应的下标为0，队伍编号为1
         self.team_names = []
         # 上一次action
@@ -221,7 +219,6 @@ class GridQuest(Task):
                                     "down during the battle, and turn on the skip battle option "
                                     "in the lower right corner of the grid"})
             raise Exception("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
-        self.now_focus_on_team = nowteam_ind
         return nowteam_ind
 
     def print_team_config(self, _now_need_team_set):
@@ -393,13 +390,13 @@ class GridQuest(Task):
             for action_ind in range(len(actions)):
                 action = actions[action_ind]
                 # 循环回合的每一个action
-                target_team_ind = self.team_names.index(action["team"])
-                target_team_ind = self.ind_map[target_team_ind]
+                target_team_ind = self.team_names.index(action["team"]) # 队伍名字A在team_names ["A", "B"] 中的下标
+                target_team_ind = self.ind_map[target_team_ind] # 队伍名字对应的实际队伍编号-1
                 # 聚焦到目标队伍，每次都获取最新的当前聚焦队伍
                 while (self.get_now_focus_on_team() != target_team_ind):
                     click(self.BUTTON_SEE_OTHER_TEAM_POS, sleeptime=1)
-                logging.info({"zh_CN": f"当前聚焦队伍{self.team_names[self.now_focus_on_team]}",
-                              "en_US": f"Current focus team {self.team_names[self.now_focus_on_team]}"})
+                logging.info({"zh_CN": f"当前聚焦队伍{target_team_ind + 1}",
+                              "en_US": f"Current focus team {target_team_ind + 1}"})
                 logging.info({"zh_CN": f'执行step:{step_ind} action:{action_ind} '
                                        f'队伍{action["team"]}->{action["action"]} {action["target"]}',
                               "en_US": f'exec step:{step_ind} action:{action_ind} '
