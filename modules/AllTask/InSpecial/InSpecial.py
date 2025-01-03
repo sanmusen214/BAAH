@@ -60,12 +60,8 @@ class InSpecial(Task):
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
                 logging.info(f"特殊作战{each_target[0]+1}-{each_target[1]+1}设置为关, 忽略")
                 continue
-            # 使用PageName.PAGE_SPECIAL的坐标判断是国服还是其他服
-            if match(page_pic(PageName.PAGE_SPECIAL), returnpos=True)[1][1]>133:
-                points = np.linspace(276, 415, 2)
-            else:
-                # 可点击的一列点
-                points = np.linspace(213, 315, 2)
+            # 可点击的一列点
+            points = np.linspace(213, 315, 2)
             # 点击location
             self.run_until(
                 lambda: click((959, points[each_target[0]])),

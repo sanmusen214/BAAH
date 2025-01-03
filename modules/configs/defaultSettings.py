@@ -4,15 +4,17 @@ from time import time
 
 # 用户的脚本config里的默认值以及可选值
 # 如果用户的config里没有某个值，先看能否用settingMaps里映射出来，如果不能，就用默认值代替
-# 注意引用链
+# 注意解析链：(default/map/read) -> post parse
+
 
 # d: default value 默认值
 # s: selective value 可选值
 # m: map value 映射方法
-# from: map value的来源key
-# map: map value的映射函数
+    # from: map value的来源key
+    # map: map value的映射函数，默认是 lambda x=parsedjson[from]: ...
+# p: post parse action 后解析方法，默认是lambda value, parsedjson: ...，如果需要在解析后对值执行一些固定的判断和替换，可以在这重写
 
-# selective value作为提醒值存在，主要的map映射值应当在settingMaps里，-》myAllTask.parse_task
+# selective value作为提醒值存在，主要的map映射应当在settingMaps里，-》myAllTask.parse_task
 
 defaultUserDict = {
     "TIMETABLE_TASK": {"d":[]},
@@ -108,7 +110,8 @@ defaultUserDict = {
         "m":{
             "from": "SERVER_TYPE",
             "map": lambda x: server2respond[x] if x in server2respond else 40
-        }
+        },
+        "p": lambda val, parsedjson: server2respond[parsedjson["SERVER_TYPE"]] if parsedjson["LOCK_SERVER_TO_RESPOND_Y"] and parsedjson["SERVER_TYPE"] in server2respond else val # 如果开启了跟随服务器版本，则一直使用服务器版本映射出的y响应坐标
     },
     "SHOP_NORMAL_REFRESH_TIME":{"d": 0},
     'SHOP_NORMAL_SWITCH':{"d":True},

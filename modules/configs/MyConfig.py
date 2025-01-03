@@ -12,7 +12,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.8.7"
+    NOWVERSION="1.8.8"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -123,6 +123,16 @@ class MyConfigger:
                 raise Exception(f'文件不存在： {file_path}')
         except Exception as e:
             raise Exception(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)}')
+    
+    def _do_post_parse_action(self, defaultmap, selfmap, key):
+        """
+        执行post parse action 对读取/map/default解析后的值进行处理
+
+        postparse function 的两个入参是value, parsedjson
+        """
+        if "p" in defaultmap[key]:
+            postparse = defaultmap[key]["p"]
+            selfmap[key] = postparse(selfmap[key], selfmap)
 
     def _fill_by_map_or_default(self, defaultmap, selfmap, key, print_warn = True):
         """
@@ -167,6 +177,9 @@ class MyConfigger:
             # 如果用户的config里没有这个值
             if shouldKey not in self.userconfigdict:
                 self._fill_by_map_or_default(defaultUserDict, self.userconfigdict, shouldKey)
+        for shouldKey in defaultUserDict:
+            # 确保值存在后，执行post parse action
+            self._do_post_parse_action(defaultUserDict, self.userconfigdict, shouldKey)
 
     def _check_software_config(self):
         """
@@ -176,6 +189,9 @@ class MyConfigger:
             # 如果用户的config里没有这个值
             if shouldKey not in self.softwareconfigdict:
                 self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
+        for shouldKey in defaultSoftwareDict:
+            # 确保值存在后，执行post parse action
+            self._do_post_parse_action(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
     
     def _check_session_config(self):
         """
@@ -185,6 +201,9 @@ class MyConfigger:
             # 如果没有这个值
             if shouldKey not in self.sessiondict:
                 self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey, print_warn=False)
+        for shouldKey in defaultSessionDict:
+            # 确保值存在后，执行post parse action
+            self._do_post_parse_action(defaultSessionDict, self.sessiondict, shouldKey)
 
     def get_text(self, text_id):
         """
