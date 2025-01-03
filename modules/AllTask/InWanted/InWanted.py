@@ -69,13 +69,8 @@ class InWanted(Task):
                 continue
             # check whether there is a ticket
             # 使用PageName.PAGE_WANTED的坐标判断是国服还是其他服
-            if match(page_pic(PageName.PAGE_WANTED), returnpos=True)[1][1] > 133:
-                # 如果右侧Title较低，说明是老版本的国服
-                logging.info({"zh_CN": "点击较低的三个定位点", "en_US": "Click on the lower three anchors"})
-                points = np.linspace(265, 544, 3)
-            else:
-                # 可点击的一列点
-                points = np.linspace(206, 422, 3)
+            # 可点击的一列点
+            points = np.linspace(206, 422, 3)
             # 点击location
             self.run_until(
                 lambda: click((959, points[each_target[0]])),
