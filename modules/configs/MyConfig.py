@@ -127,6 +127,8 @@ class MyConfigger:
     def _do_post_parse_action(self, defaultmap, selfmap, key):
         """
         执行post parse action 对读取/map/default解析后的值进行处理
+
+        postparse function 的两个入参是value, parsedjson
         """
         if "p" in defaultmap[key]:
             postparse = defaultmap[key]["p"]
