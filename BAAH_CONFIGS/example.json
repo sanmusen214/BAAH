@@ -159,7 +159,7 @@
     "Warning": "下方内容一般无需更改",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "e2419474.png",
-    "RESPOND_Y": 60,
+    "RESPOND_Y": 40,
     "NEXT_CONFIG": "",
     "TARGET_IP_PATH": "127.0.0.1",
     "SHOP_NORMAL": [
@@ -266,5 +266,37 @@
     "CONTEST_LEVEL_PRIORITY": 10,
     "CONTEST_RANK_PRIORITY": 10,
     "CLOSE_EMULATOR_FINISH": true,
-    "CLOSE_BAAH_FINISH": true
+    "CLOSE_BAAH_FINISH": true,
+    "CLOSE_GAME_FINISH": true,
+    "GAME_LOGIN_TIMEOUT": 600,
+    "MAX_RESTART_EMULATOR_TIMES": 0,
+    "SCREENSHOT_METHOD": "png",
+    "OPEN_GAME_APP_TASK": true,
+    "DO_POST_ALL_TASK": true,
+    "TEAM_SET_STRENGTH": [
+        {
+            "red": 10,
+            "blue": 10,
+            "yellow": 10,
+            "purple": 10
+        },
+        {
+            "red": 10,
+            "blue": 10,
+            "yellow": 10,
+            "purple": 10
+        },
+        {
+            "red": 10,
+            "blue": 10,
+            "yellow": 10,
+            "purple": 10
+        },
+        {
+            "red": 0,
+            "blue": 0,
+            "yellow": 0,
+            "purple": 0
+        }
+    ]
 }
