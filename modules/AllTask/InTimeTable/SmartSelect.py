@@ -107,8 +107,12 @@ class SmartSelect(Task):
                 if room_num not in opendict or opendict[room_num] == 1:
                     # 不存在的房间 或 房间未解锁，结束
                     break
+                elif opendict[room_num] == 0.5:
+                    # 已经点击过的房间，跳过
+                    continue
                 else:
-                    lockednum = sum(opendict.values())
+                    # 对于解锁且未被点击的房间计算分数 
+                    lockednum = list(opendict.values()).count(1)
                     rooms_scores.append([i, room_num, self.evaluate_score(room_num, heartdict[room_num], lockednum)])
             # 清除弹窗
             self.clear_popup()
