@@ -102,12 +102,9 @@ class PushQuest(Task):
             # 此时判断是否有简易攻略tab
             has_easy_tab = quest_has_easy_tab()
             # 当前关卡就是这次需要推图的关卡
-            # 国服弹窗往右偏移了50
             offsetx = 0
             # 往下偏移了30，由于简易攻略tab
             offsety = 0
-            if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
-                offsetx = 50
             if has_easy_tab:
                 logging.info({"zh_CN": "存在简易攻略", "en_US": "There is a short guide"})
                 offsety = 30
