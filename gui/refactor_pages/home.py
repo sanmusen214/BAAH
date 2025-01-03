@@ -59,7 +59,7 @@ def render_json_list():
                         ui.link(gui_shared_config.get_text("notice_QA"), how_to_use_url[gui_shared_config.softwareconfigdict["LANGUAGE"]], new_tab=True)
 
                     # 重要设置提醒
-                    ui.label(gui_shared_config.get_text("BAAH_attention")).style('color: red; font-size: x-large')
+                    ui.label(gui_shared_config.get_text("BAAH_attention")).style('font-size: x-large')
 
 
 

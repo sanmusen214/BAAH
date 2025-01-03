@@ -98,7 +98,7 @@
     "config_wait_time_after_click":"点击后等待时间",
     "config_desc_response_y":"滑动过头此项调小60->40，滑动距离不够此项调大40->60",
     "config_response_y":"滑动触发距离",
-    "config_bind_response_to_server":"与区服绑定(国服官服60，其他40)",
+    "config_bind_response_to_server":"与区服绑定(40)",
     "config_ip_root":"模拟器监听IP地址（此项不包含端口号）",
     "config_adb_path":"ADB路径",
     "config_screenshot_name":"截图文件名",

@@ -60,13 +60,8 @@ class InExchange(Task):
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
                 logging.info(f"交流会{each_target}设置为关, 忽略这关扫荡")
                 continue
-            if match(page_pic(PageName.PAGE_EXCHANGE), returnpos=True)[1][1]>133:
-                # 如果右侧Title较低，说明是老版本的国服
-                logging.info({"zh_CN": "点击较低的三个定位点", "en_US": "Click on the three lower anchor points"})
-                points = np.linspace(265, 544, 3)
-            else:
-                # 可点击的一列点
-                points = np.linspace(206, 422, 3)
+            # 可点击的一列点
+            points = np.linspace(206, 422, 3)
             # 点击location
             self.run_until(
                 lambda: click((963, points[each_target[0]])),
