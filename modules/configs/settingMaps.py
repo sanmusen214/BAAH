@@ -25,7 +25,7 @@ server2respond = {
     "JP":40,
     "GLOBAL":40,
     "GLOBAL_EN":40,
-    "CN":60,
+    "CN":40,
     "CN_BILI":40
 }
 
