@@ -12,7 +12,7 @@ g_datetime = ""
 
 async def only_check_version():
     global g_result, g_datetime
-    datetime_now = datetime.now().strftime("%Y-%m-%d")
+    datetime_now = datetime.now().strftime("%Y-%m-%d %H")
     # 缓存判断日期，如果日期相同就不用再次请求
     if datetime_now == g_datetime:
         print(f"Use cached release info: {datetime_now}")
