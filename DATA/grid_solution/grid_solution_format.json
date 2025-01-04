@@ -12,7 +12,8 @@
             {
                 "name":"A",
                 "type":"any",
-                "position":"up"
+                "position":"up",
+                "click":[756, 142]
             },
             {
                 "name":"B",
