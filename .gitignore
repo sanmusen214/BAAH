@@ -1,8 +1,5 @@
 tools/
-test.spec
-jsoneditor.spec
-BAAH_UPDATE.spec
-BAAH.spec
+*.spec
 compact_log.txt
 /*.png
 /DATA/CONFIGS/software_config.json

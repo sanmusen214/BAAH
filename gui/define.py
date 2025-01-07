@@ -2,7 +2,7 @@ from modules.configs.MyConfig import MyConfigger
 
 # 构造一个config，用于在tab间共享softwareconfigdict
 gui_shared_config = MyConfigger()
-
+gui_shared_config.save_software_config() # 保存下全局的softwareconfigdict，以记录版本变更
 # 用于注入到配置页面的js，使tab内容间滚动
 injectJSforTabs = """
 <script>
