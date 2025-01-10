@@ -152,16 +152,19 @@ class FightQuest(Task):
                 sleeptime=2
             )
         logging.info({"zh_CN": "等待战斗结束...", "en_US": "Waiting for the battle to end..."})
-        # 点魔法点直到战斗结束 或匹配到应当返回的界面
+        skip_story = SkipStory()
+        # 点魔法点直到战斗结束 或匹配到应当返回的界面，或匹配到story界面
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) or match(
                         button_pic(ButtonName.BUTTON_CONFIRMY),
                         threshold=0.8
-                    ) or self.backtopic(),
+                    ) or self.backtopic() or skip_story.pre_condition(),
                     times=90,
                     sleeptime=2
         )
+        if skip_story.pre_condition():
+            skip_story.run()
         if self.backtopic():
             # 此处返回到backtopic，意味着错误进入了战斗
             click(Page.MAGICPOINT)

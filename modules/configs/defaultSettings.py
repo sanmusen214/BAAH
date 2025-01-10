@@ -132,7 +132,10 @@ defaultUserDict = {
     "AUTO_PUSH_EVENT_QUEST":{"d":True},
     "CAFE_COLLECT":{"d":True},
     "CAFE_TOUCH":{"d":True},
-    "CAFE_INVITE":{"d":True},
+    "CAFE_INVITE":{
+        "d":True,
+        "p": lambda val, parsedjson: True # 1.8.10 deprecated
+    },
     "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
     
     # 多倍活动开启状态相关
@@ -223,7 +226,12 @@ defaultUserDict = {
             {"red":10, "blue":10, "yellow":10, "purple":10},
             {"red":0, "blue":0, "yellow":0, "purple":0}
         ]
-    }
+    },
+
+    # 咖啡馆设置
+    # 要邀请的学生在momotalk中的序号，从1开始
+    "CAFE1_INVITE_SEQ":{"d":1},
+    "CAFE2_INVITE_SEQ":{"d":2},
 }
 
 # 软件的config里的默认值

@@ -47,7 +47,8 @@ class InCafe(Task):
             TouchHead().run()
             if self.invite:
                 config.sessiondict["CAFE_HAD_INVITED"] = False
-                InviteStudent(0).run()
+                if config.userconfigdict["CAFE1_INVITE_SEQ"] > 0:
+                    InviteStudent(config.userconfigdict["CAFE1_INVITE_SEQ"]-1).run()
                 if config.sessiondict["CAFE_HAD_INVITED"]:
                     TouchHead(try_touch_epoch=1).run()
                 else:
@@ -75,7 +76,8 @@ class InCafe(Task):
                 TouchHead().run()
                 if self.invite:
                     config.sessiondict["CAFE_HAD_INVITED"] = False
-                    InviteStudent(1).run()
+                    if config.userconfigdict["CAFE2_INVITE_SEQ"] > 0:
+                        InviteStudent(config.userconfigdict["CAFE2_INVITE_SEQ"]-1).run()
                     if config.sessiondict["CAFE_HAD_INVITED"]:
                         TouchHead(try_touch_epoch=1).run()
                     else:

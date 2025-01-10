@@ -117,7 +117,7 @@
     "vpn_desc":"If you want to use VPN application",
     "cafe_collect_desc":"Whether collect in cafe",
     "cafe_touch_desc":"Whether touch in cafe",
-    "cafe_invite_desc":"Whether invite in cafe (the first or second in the invitation list)",
+    "cafe_invite_desc":"cafe invite which student (0 means no invite)",
     "raise_error_if_can_not_push_event_level": "Raise error if can not push event level",
     "config_email_advaned":"Advanced Email Configuration",
     "config_email_sender":"Sender Email",
