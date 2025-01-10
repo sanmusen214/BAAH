@@ -132,7 +132,10 @@ defaultUserDict = {
     "AUTO_PUSH_EVENT_QUEST":{"d":True},
     "CAFE_COLLECT":{"d":True},
     "CAFE_TOUCH":{"d":True},
-    "CAFE_INVITE":{"d":True},
+    "CAFE_INVITE":{
+        "d":True,
+        "p": lambda val, parsedjson: True # 1.8.10 deprecated
+    },
     "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
     
     # 多倍活动开启状态相关
