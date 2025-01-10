@@ -265,7 +265,7 @@ class InEvent(Task):
             # 序号转下标
             quest_list_2 = [[x[0] - 1, x[1], *x[2:]] for x in quest_list]
             # do Event QUEST
-            EventQuest(quest_list_2, quest_button_xy=self.quest_button_xy).run()
+            EventQuest(quest_list_2, explore=False, raid=True, collect=True, quest_button_xy=self.quest_button_xy).run()
 
     def post_condition(self) -> bool:
         config.sessiondict["HAS_ENTER_EVENT"] = True
