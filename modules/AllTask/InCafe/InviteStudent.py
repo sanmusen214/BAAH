@@ -37,7 +37,7 @@ class InviteStudent(Task):
             return
         # 打开确认弹窗
         # 默认邀请第一个学生
-        click_pos = (787, 225)
+        click_pos = [787, 225]
         # 如果邀请第n个学生
         for i in range(self.stuind):
             click_pos[1] += 78
