@@ -9,7 +9,7 @@ import zipfile
 import time
 import sys
 
-updater_version = "0.2.0"
+updater_version = "0.2.1"
 print(f"This Updator Version: {updater_version}")
 
 def copy_to_temp_and_run():
@@ -23,7 +23,7 @@ def copy_to_temp_and_run():
     # print(os.path.realpath(sys.argv[0]))
     path = os.path.realpath(sys.executable)
     # print(os.path.dirname(os.path.realpath(sys.argv[0])))
-    print(f"This exe file path is: {os.path.dirname(path)}")
+    print(f"This exe file path is: {path}")
     temp_update_name = "update_temp.exe"
     if not path.endswith(temp_update_name):
         # 复制此文件并且粘贴为temp.exe
