@@ -81,6 +81,8 @@ Fully English logging support and function enhancement from [@ly5519](https://gi
 
 Linux platform suitable by [@lonzzi](https://github.com/lonzzi)
 
+Docker support by [@rote66](https://github.com/rote66)
+
 Besides, many of them have joined the continues development of BAAH, thanks.
 
 Packages used in this project:

@@ -69,6 +69,6 @@ All the Task folders in the modules/AllTask directory with the same name as the 
 2. Register this pattern in ButtonName.py, PageName.py, or PopupName.py under DATA/assets using the file name.
 3. Create a new folder for this task in modules/AllTask/ and create a same-named .py file inside it. Copy and paste the contents of ataskformat.py into it, and modify the class name and the default attribute of the constructor's name to your task name. Import this task class in modules/AllTask/__init__.
 4. Modify the content of this new task's .py file.
-5. In the task_dict of modules/AllTask/myAllTask.py, add a mapping between the task name in the user configuration file and an instance of this new task.
+5. Locate the `TaskName` in modules/AllTask/myAllTask.py, add a task name that will be stored in the config. And add corresponding `i18n_key_name` and `task_module` in `TaskInstanceMap` of this `task_config_name`
 6. In real_taskname_to_show_taskname in gui/__init__, add a correspondence between the task name in the user configuration file and the text displayed in the GUI.
 7. Add corresponding text in DATA/i18n.
