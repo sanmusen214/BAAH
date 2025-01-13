@@ -10,7 +10,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
-                           match_pixel)
+                           match_pixel, istr, CN, EN)
 
 
 class EventStory(Task):
@@ -133,6 +133,11 @@ class EventStory(Task):
                 logging.info({"zh_CN": "需要推最后一关剧情",
                               "en_US": "Need to push the last stage of the plot"})
                 self.do_view()
+            else:
+                logging.info(istr({
+                    CN: "无法匹配首次标签，结束",
+                    EN: "Unable to match the first reward tag, end"
+                }))
             # 如果没有需要看的剧情了，那么就结束
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
