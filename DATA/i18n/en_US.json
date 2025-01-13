@@ -37,7 +37,7 @@
 
     "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. All config files are in the BAAH_CONFIGS folder.",
     "BAAH_get_version": "To get the latest version, download from Github or join the group to download",
-    "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI! Game settings: the skill animation off, graph resolution low, black bars during battles off",
+    "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI! Game settings: the skill animation off, black bars during battles off",
 
     "notice_success": "Success",
     "notice_fail": "Fail",
