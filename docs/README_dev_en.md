@@ -20,6 +20,7 @@
 - BAAH.py Executes tasks specified by a user configuration file
 - jsoneditor.py Entry point for the GUI
 - main.py Entry point for the main program
+- package.py is the package file
 - requirements.txt All dependencies
 ```
 
@@ -70,5 +71,5 @@ All the Task folders in the modules/AllTask directory with the same name as the 
 3. Create a new folder for this task in modules/AllTask/ and create a same-named .py file inside it. Copy and paste the contents of ataskformat.py into it, and modify the class name and the default attribute of the constructor's name to your task name. Import this task class in modules/AllTask/__init__.
 4. Modify the content of this new task's .py file.
 5. Locate the `TaskName` in modules/AllTask/myAllTask.py, add a task name that will be stored in the config. And add corresponding `i18n_key_name` and `task_module` in `TaskInstanceMap` of this `task_config_name`
-6. In real_taskname_to_show_taskname in gui/__init__, add a correspondence between the task name in the user configuration file and the text displayed in the GUI.
+6. Modify the `get_config_list` in gui/refactor_pages/json_set_panel.py, add a correspondence between the task name in the user configuration file and the text displayed in the GUI.
 7. Add corresponding text in DATA/i18n.
