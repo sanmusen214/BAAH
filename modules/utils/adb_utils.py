@@ -206,7 +206,8 @@ def get_dpi(use_config=None):
     """
     if not use_config:
         use_config = config
-    dpires = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density"]).stdout
+    # only focus on last line (Physical density, Override density)
+    dpires = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density"]).stdout.strip().split("\n")[-1]
     return dpires
 
 def set_dpi(target_dpi, use_config=None):
