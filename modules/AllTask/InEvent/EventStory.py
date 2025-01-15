@@ -10,7 +10,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
-                           match_pixel)
+                           match_pixel, istr, CN, EN)
 
 
 class EventStory(Task):
@@ -20,11 +20,11 @@ class EventStory(Task):
     靠蒙版是否存在判断剧情是否看过，默认有9关剧情
     """
 
-    def __init__(self, name="EventStory") -> None:
+    def __init__(self, max_level = 9, name="EventStory") -> None:
         super().__init__(name)
         self.last_fight_level_ind = -1
         # 最大关卡数，这里不是下标，是关卡序号
-        self.max_level = 9
+        self.max_level = max_level
 
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_EVENT)
@@ -81,32 +81,10 @@ class EventStory(Task):
             return "yes"
         return "no"
 
-    def get_biggest_level(self):
-        """
-        通过下滑到底ocr获取最大关卡数
-
-        -1表示没有找到
-        """
-        self.scroll_right_down()
-        sleep(1)
-        screenshot()
-        reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
-        temp_max = -1
-        logging.info({"zh_CN": "ocr结果：" + str(reslist), "en_US": "ocr result: " + str(reslist)})
-        # 将每一个字母尝试转换成数字，如果是数字就比较目前最大
-        for res in reslist:
-            try:
-                # 最大不过14
-                temp_max = min(max(temp_max, int(res[0])), 14)
-            except:
-                pass
-        self.max_level = temp_max
-        return temp_max
-
     def on_run(self) -> None:
         # 点击Story标签
         click((766, 98))
-        max_level = self.get_biggest_level()
+        max_level = self.max_level
         if max_level == -1:
             logging.warn({"zh_CN": "无法获取最大关卡数，结束", "en_US": "Failed to get the max level, end"})
             return
@@ -155,6 +133,11 @@ class EventStory(Task):
                 logging.info({"zh_CN": "需要推最后一关剧情",
                               "en_US": "Need to push the last stage of the plot"})
                 self.do_view()
+            else:
+                logging.info(istr({
+                    CN: "无法匹配首次标签，结束",
+                    EN: "Unable to match the first reward tag, end"
+                }))
             # 如果没有需要看的剧情了，那么就结束
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)

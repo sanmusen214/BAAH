@@ -20,6 +20,7 @@
 - BAAH.py 执行某一个用户配置的任务文件
 - jsoneditor.py 为gui的入口文件
 - main.py 为主程序的入口文件
+- package.py 为打包文件
 - requirements.txt 所有依赖
 ```
 
@@ -69,7 +70,7 @@ post_condition是任务的后置判断，主要判断此任务结束时的位置
 2. 在DATA/assets/下的ButtonName.py或PageName.py或PopupName.py内用文件名注册此pattern。
 3. 在modules/AllTask/下新建此任务的文件夹，并在其内部新建同名py文件，将ataskformat.py内的内容复制粘贴进去，修改类名与构造函数的name默认属性为你的task名字。在modules/AllTask/__init__内导入此任务类
 4. 修改此新任务的py文件内容
-5. 在modules/AllTask/myAllTask.py的task_dict里添加 用户配置项目文件内的任务名 与 此新任务的 实例间映射关系
-6. 在gui/__init__的real_taskname_to_show_taskname里添加 用户配置项目文件内的任务名 与 gui里显示的文本间的对应关系
+5. 在modules/AllTask/myAllTask.py的`TaskName`里添加 用户配置项目文件内的任务名, 在`TaskInstanceMap`里添加 `task_config_name` 对应的 `i18n_key_name`, `task_module`映射关系
+6. 在gui/refactor_pages/json_set_panel.py的get_config_list里添加 用户配置项目文件内的任务名 与 gui里显示的文本间的对应关系
 7. 在DATA/i18n里添加对应文本
 8. 如要添加配置项，在modules/configs/defaultSettings.py里添加配置默认值以及映射函数，在modules/configs/settingMaps定义映射关系即可。

@@ -20,7 +20,7 @@ Discord: https://discord.com/invite/7cEvvfcd
    - If you are using Mumu emulator, please disable background activity running at the bottom of the settings.
 2. BA Game Settings:
    - Game: Turn off skill animations;
-   - Graphics: Set to low resolution; Turn off black bars at the top and bottom during battles,
+   - Graphics: Turn off black bars at the top and bottom during battles,
    - In the café, manually adjust the camera angle to the highest and stack all furniture on the right side of the screen if possible.
 
 ## Usage
@@ -127,3 +127,21 @@ BAAH is compatible with ALAS and MAA, but:
 ## 9. After Extracting, BAAH.exe Disappears
 
 Please set the BAAH folder as an exception in your antivirus software, then extract it again. BAAH is completely open source.
+
+
+## 10. How to let BAAH run automatically
+
+BAAH itself is an excutable application, you can cd to the BAAH folder and run `BAAH.exe urconfig.json` in cmd to run script. After getting in touch with the Windows task scheduled (google), you can set a task and let it run automatically.
+
+
+## 11. GUI parameters
+
+You can set more parameters before BAAH_GUI running to enable more settings. For example, run "BAAH_GUI.exe --token 123456" will protect your GUI webpage with a password. Following is the paremeter table that GUI can use:
+
+
+| Param | Desc | Default |
+|-|-|-|
+| --host | GUI will bind on this IP | 127.0.0.1 |
+| --port | GUI will bind on this port | 8000, auto find |
+| --token | GUI password | None |
+| --no-show | Switch, will not open explorer when GUI is started if it is given | |

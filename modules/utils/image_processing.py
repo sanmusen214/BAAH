@@ -311,7 +311,7 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
         # 截图
         global start_x, start_y, drawing, quick_return_data
         if right_click and event == cv2.EVENT_RBUTTONDOWN:  # 检查是否是鼠标右键键点击事件
-            print(f"点击位置: ({x}, {y})", f"BGR 数组: {screenshot[y, x]}")
+            print(f"click: [{x}, {y}]", f"BGR: {[p for p in screenshot[y, x]]}")
             bgr_result[0].append(screenshot[y, x][0])
             bgr_result[1].append(screenshot[y, x][1])
             bgr_result[2].append(screenshot[y, x][2])
