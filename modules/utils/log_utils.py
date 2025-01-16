@@ -1,4 +1,5 @@
 import sys
+import os
 from time import strftime
 from modules.configs.MyConfig import config
 from modules.utils.I18nstr import EN, CN, JP
@@ -23,6 +24,22 @@ class MyLogger:
         self.lang = config.softwareconfigdict["LANGUAGE"]
         self.logqueue = None
         print("Use language: ", self.lang)
+        # create log file
+        try:
+            if config.userconfigdict["SAVE_LOG_TO_FILE"]:
+                now_timestr = strftime("%Y-%m-%d-%H-%M-%S")
+                self.logfile = open(os.path.join(config.LOG_FOLDER, f"log_{now_timestr}.txt"), "w", encoding="utf-8")
+            else:
+                self.logfile = None
+        except Exception as e:
+            print(f"Create log file error: {e}")
+            self.logfile = None
+
+    # 析构函数
+    def __del__(self):
+        if self.logfile:
+            self.logfile.close()
+            self.logfile = None
     
     def set_log_queue(self, queue):
         self.logqueue = queue
@@ -66,6 +83,13 @@ class MyLogger:
         # else:
         #     print(msg)
         print(msg)
+        if self.logfile:
+            try:
+                self.logfile.write(msg + "\n")
+                self.logfile.flush()
+            except Exception as e:
+                print(f"log file exception: {e}")
+                self.logfile = None
         if self.logqueue:
             try:
                 self.logqueue.put_nowait(msg)
