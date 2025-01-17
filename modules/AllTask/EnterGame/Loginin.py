@@ -57,7 +57,8 @@ class Loginin(Task):
             click(button_pic(ButtonName.BUTTON_QUIT_LAST))
         elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)):
             # 点掉B站登录按钮
-            click(button_pic(ButtonName.BUTTON_LOGIN_BILI))
+            # 防止点到上方横幅右侧切换账号按钮，这里睡4s等待横幅消失
+            click(button_pic(ButtonName.BUTTON_LOGIN_BILI), sleeptime=4)
         else:
             # 活动弹窗
             click((1250, 40))
