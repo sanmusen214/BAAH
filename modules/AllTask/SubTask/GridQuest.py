@@ -177,7 +177,8 @@ class GridQuest(Task):
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+            times=12
         )
         logging.info({"zh_CN": "尝试呼出弹窗", "en_US": "Try Callout Popup"})
         # 出弹窗
@@ -191,7 +192,8 @@ class GridQuest(Task):
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
-            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+            times=12
         )
 
     def get_now_focus_on_team(self):
@@ -289,6 +291,7 @@ class GridQuest(Task):
             config.sessiondict["LAST_TEAM_SET"] = now_need_team_set_list
             logging.info({"zh_CN": "配队信息已更新", "en_US": "Dispatch information has been updated"})
         else:
+            self.print_team_config(now_need_team_set_list)
             # 不需要用户配队的话就继续用上次的队伍
             display_str = " ".join([self.TEAM_TYPE_NAME.get(item) for item in last_team_set_list])
             logging.info({"zh_CN": f"使用上次的队伍配置: {display_str}",
