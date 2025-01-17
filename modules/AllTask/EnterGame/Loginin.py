@@ -55,6 +55,9 @@ class Loginin(Task):
         elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
             # 点掉放弃上次战斗进度按钮
             click(button_pic(ButtonName.BUTTON_QUIT_LAST))
+        elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)):
+            # 点掉B站登录按钮
+            click(button_pic(ButtonName.BUTTON_LOGIN_BILI))
         else:
             # 活动弹窗
             click((1250, 40))
