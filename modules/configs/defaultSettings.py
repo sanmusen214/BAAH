@@ -205,7 +205,7 @@ defaultUserDict = {
 
     # 截图模式, png：保存/读取png图片，pipe读取/单例化管道内数据
     "SCREENSHOT_METHOD":{
-        "d":"png",
+        "d":"pipe",
         "s":["png", "pipe"]
     },
 

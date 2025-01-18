@@ -13,6 +13,10 @@ def set_other(config, load_jsonname):
     ui.label(config.get_text("config_warn_change")).style('color: red')
     
     with ui.row():
+        # 日志保存
+        ui.checkbox(config.get_text("config_output_log")).bind_value(config.userconfigdict, 'SAVE_LOG_TO_FILE')
+    
+    with ui.row():
         ui.number(config.get_text("config_run_until_try_times"),
                   step=1,
                   min=3,
@@ -52,6 +56,10 @@ def set_other(config, load_jsonname):
     
     with ui.row():
         ui.input(config.get_text("config_adb_path")).bind_value(config.userconfigdict, 'ADB_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+    
+    with ui.row():
+        # 截图模式
+        ui.select(options=["png", "pipe"], label=config.get_text("config_screenshot_mode")).bind_value(config.userconfigdict, 'SCREENSHOT_METHOD').style('width: 400px')
     
     with ui.row():
         ui.input(config.get_text("config_screenshot_name")).bind_value(config.userconfigdict, 'SCREENSHOT_NAME',forward=lambda v: v.replace("\\", "/")).style('width: 400px').set_enabled(False)

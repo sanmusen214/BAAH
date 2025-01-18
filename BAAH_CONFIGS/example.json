@@ -270,7 +270,7 @@
     "CLOSE_GAME_FINISH": true,
     "GAME_LOGIN_TIMEOUT": 600,
     "MAX_RESTART_EMULATOR_TIMES": 0,
-    "SCREENSHOT_METHOD": "png",
+    "SCREENSHOT_METHOD": "pipe",
     "OPEN_GAME_APP_TASK": true,
     "DO_POST_ALL_TASK": true,
     "TEAM_SET_STRENGTH": [
@@ -298,5 +298,8 @@
             "yellow": 0,
             "purple": 0
         }
-    ]
+    ],
+    "CAFE1_INVITE_SEQ": 1,
+    "CAFE2_INVITE_SEQ": 2,
+    "SAVE_LOG_TO_FILE": false
 }
