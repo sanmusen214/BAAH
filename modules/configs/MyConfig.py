@@ -12,14 +12,16 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.8.12"
+    NOWVERSION="1.8.13"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
+    LOG_FOLDER="./DATA/LOGS"
     SOFTWARE_CONFIG_NAME="software_config.json"
     # 读取config这个py里面的配置
     def __init__(self):
         self.current_dir = os.getcwd()
+        self.create_required_folders()
         # 软件的config
         self.softwareconfigdict = {}
         # 软件的语言包
@@ -32,6 +34,14 @@ class MyConfigger:
         self._check_session_config()
         # 读取软件的config
         self.parse_software_config(self.SOFTWARE_CONFIG_NAME)
+
+    def create_required_folders(self):
+        """创建需要的文件夹"""
+        required_folders = [self.LOG_FOLDER]
+        for folder in required_folders:
+            folder_path = os.path.join(self.current_dir, folder)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
 
     def parse_user_config(self, file_name, clear_sessiondict = True):
         """

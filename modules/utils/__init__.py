@@ -214,48 +214,45 @@ def screenshot(output_png = False):
     
 def check_connect():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
-    if os.path.exists(f"./{get_config_screenshot_name()}"):
-        logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Detele {get_config_screenshot_name()}"})
-        os.remove(f"./{get_config_screenshot_name()}")
+    if os.path.exists(get_config_screenshot_name()):
+        logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Delete {get_config_screenshot_name()}"})
+        os.remove(get_config_screenshot_name())
     connect_to_device()
     # 尝试截图
-    screenshot(output_png=True)
-    time.sleep(2)
-    if os.path.exists(f"./{get_config_screenshot_name()}"):
-        logging.info({"zh_CN": f"截图文件大小为{os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB", "en_US":f"The size of the screenshot file is {os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB"})
-        # 检查文件大小
-        if os.path.getsize(f"./{get_config_screenshot_name()}") !=0: # 不为0
-            logging.info({"zh_CN":"adb与模拟器连接正常" , "en_US":"The connection between adb and the emulator is normal"})
-            # 检查图片长和宽
-            img = cv2.imread(f"./{get_config_screenshot_name()}")
-            if img is None:
-                logging.error({"zh_CN": "图片读取失败，多次出现请尝试重启模拟器", "en_US":"Image read failed, try restart emulator if encountered multiple times"})
-            # 第一维度是高，第二维度是宽
-            elif img.shape[0] == 720 and img.shape[1] == 1280:
-                logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
-                dpi_res = get_dpi()
-                logging.info(f"DPI: {dpi_res}")
-                if "240" not in dpi_res:
-                    logging.warn(istr({
-                        CN: "请设置模拟器dpi为240",
-                        EN: "Please set the emulator dpi to 240"
-                    }))
-                    # auto fix
-                    set_dpi(240)
-                    return False
-                return True
-            elif img.shape[0] == 1280 and img.shape[1] == 720:
-                logging.warn({"zh_CN": "图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug", "en_US":"The resolution is 720*1280, it may be the wrong setting of the emulator, or it may be a bug of the emulator"})
-                logging.warn({"zh_CN": "继续运行，但是可能会出现问题，请确保模拟器分辨率为1280*720", "en_US":"Continue to run, but there may be problems, please make sure the emulator resolution is 1280*720"})
-                if "240" not in get_dpi():
-                    raise Exception(istr({
-                        CN: "请设置模拟器dpi为240",
-                        EN: "Please set the emulator dpi to 240"
-                    }))
-                return True
-            else:
-                logging.error({"zh_CN": "图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]), "en_US":"The resolution is not 1280*720, please set the resolution to 1280*720 (current {}*{})".format(img.shape[1], img.shape[0])})
-                raise Exception("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
+    screenshot()
+    time.sleep(1)
+    sc_data = get_screenshot_cv_data()
+    if sc_data is not None:
+        logging.info({"zh_CN":"adb与模拟器连接正常" , "en_US":"The connection between adb and the emulator is normal"})
+        # 检查图片长和宽
+        wm_height = sc_data.shape[0]
+        wm_width = sc_data.shape[1]
+        # 第一维度是高，第二维度是宽
+        if wm_height == 720 and wm_width == 1280:
+            logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
+            dpi_res = get_dpi()
+            logging.info(f"DPI: {dpi_res}")
+            if "240" not in dpi_res:
+                logging.warn(istr({
+                    CN: "请设置模拟器dpi为240",
+                    EN: "Please set the emulator dpi to 240"
+                }))
+                # auto fix
+                set_dpi(240)
+                return False
+            return True
+        elif wm_height == 1280 and wm_width == 720:
+            logging.warn({"zh_CN": "图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug", "en_US":"The resolution is 720*1280, it may be the wrong setting of the emulator, or it may be a bug of the emulator"})
+            logging.warn({"zh_CN": "继续运行，但是可能会出现问题，请确保模拟器分辨率为1280*720", "en_US":"Continue to run, but there may be problems, please make sure the emulator resolution is 1280*720"})
+            if "240" not in get_dpi():
+                raise Exception(istr({
+                    CN: "请设置模拟器dpi为240",
+                    EN: "Please set the emulator dpi to 240"
+                }))
+            return True
+        else:
+            logging.error({"zh_CN": "图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(wm_width, wm_height), "en_US":"The resolution is not 1280*720, please set the resolution to 1280*720 (current {}*{})".format(wm_width, wm_height)})
+            raise Exception("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(wm_width, wm_height))
     logging.error({"zh_CN": "adb与模拟器连接失败", "en_US":"Failed to connect to the emulator"})
     logging.info({"zh_CN": "请检查adb与模拟器连接端口号是否正确", "en_US":"Please check if the adb and emulator connection port number is correct"})
     return False

@@ -59,3 +59,5 @@ class ButtonName:
 
     # 部分活动只有关卡和挑战，关卡在左侧第一个而不是中间
     BUTTON_EVENT_QUEST_SELLECTED_LEFT = "BUTTON_EVENT_QUEST_SELLECTED_LEFT"
+
+    BUTTON_LOGIN_BILI = "BUTTON_LOGIN_BILI"

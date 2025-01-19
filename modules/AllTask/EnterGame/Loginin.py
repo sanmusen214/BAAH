@@ -9,13 +9,16 @@ from modules.AllTask.Task import Task
 
 from modules.utils.log_utils import logging
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN, match_pixel
 
 # =====
 
 class Loginin(Task):
     def __init__(self, name="Loginin", pre_times = 3, post_times = 10) -> None:
         super().__init__(name, pre_times, post_times)
+        # B站登录横幅，几个白色采样点
+        self.BILI_LOGIN_BANNER_WHITE_POINTS = [[115, 20], [115, 73], [526, 76], [885, 18], [1093, 78], [1161, 22]]
+        self.has_bili_login_banner = lambda: all([match_pixel(point, Page.COLOR_WHITE) for point in self.BILI_LOGIN_BANNER_WHITE_POINTS])
 
      
     def pre_condition(self) -> bool:
@@ -55,6 +58,17 @@ class Loginin(Task):
         elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
             # 点掉放弃上次战斗进度按钮
             click(button_pic(ButtonName.BUTTON_QUIT_LAST))
+        elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)):
+            # 点掉B站登录按钮
+            # 防止点到上方横幅右侧切换账号按钮，这里睡4s等待横幅消失
+            click(button_pic(ButtonName.BUTTON_LOGIN_BILI), sleeptime=4)
+        elif self.has_bili_login_banner():
+            # 如果出现B站登录横幅，睡2s等待横幅消失
+            logging.info(istr({
+                CN: "等待B站登录横幅消失",
+                EN: "Waiting for the Bilibili login banner to disappear"
+            }))
+            sleep(2)
         else:
             # 活动弹窗
             click((1250, 40))

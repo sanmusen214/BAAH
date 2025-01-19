@@ -205,7 +205,7 @@ defaultUserDict = {
 
     # 截图模式, png：保存/读取png图片，pipe读取/单例化管道内数据
     "SCREENSHOT_METHOD":{
-        "d":"png",
+        "d":"pipe",
         "s":["png", "pipe"]
     },
 
@@ -232,6 +232,8 @@ defaultUserDict = {
     # 要邀请的学生在momotalk中的序号，从1开始
     "CAFE1_INVITE_SEQ":{"d":1},
     "CAFE2_INVITE_SEQ":{"d":2},
+
+    "SAVE_LOG_TO_FILE":{"d":False},
 }
 
 # 软件的config里的默认值

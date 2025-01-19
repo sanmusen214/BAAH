@@ -318,10 +318,10 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         if must_auto_quit:
             return
         if forcewait or not config.userconfigdict["CLOSE_BAAH_FINISH"]:
-            user_input = input(f"Press Enter to exit/回车退出, [{key_map_func.keys()}]:")
+            user_input = input(f"Press Enter to exit/回车退出, "+str([f"[{k}]{key_map_func[k]['desc']}" for k in key_map_func]) + ": ")
             for k in key_map_func:
                 if user_input.upper() == k.upper():
-                    key_map_func[k]()
+                    key_map_func[k]["func"]()
                     break
         else:
             logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
@@ -428,7 +428,10 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             
             print_BAAH_config_info()
             BAAH_auto_quit(forcewait=True, key_map_func={
-                "R": lambda: [config.parse_user_config(config.nowuserconfigname), BAAH_main()]
+                "R": {
+                    "desc":"estart", # [R]estart
+                    "func":lambda: [config.parse_user_config(config.nowuserconfigname), BAAH_main()]
+                      }
             })
 
 

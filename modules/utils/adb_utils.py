@@ -200,13 +200,24 @@ def close_app(activity_path: str):
     appname = activity_path.split("/")[0]
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'force-stop', appname], isasync=True)
 
+def get_wm_size(use_config=None):
+    """
+    获取屏幕分辨率结果，例如 Physical size: 720x1280
+    """
+    if not use_config:
+        use_config = config
+    # only focus on last line
+    wmres = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "size"]).stdout.strip().split("\n")[-1]
+    return wmres
+
 def get_dpi(use_config=None):
     """
     获取屏幕dpi结果，例如 Physical density: 320
     """
     if not use_config:
         use_config = config
-    dpires = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density"]).stdout
+    # only focus on last line (Physical density, Override density)
+    dpires = subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density"]).stdout.strip().split("\n")[-1]
     return dpires
 
 def set_dpi(target_dpi, use_config=None):
