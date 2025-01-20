@@ -5,7 +5,7 @@ import os
 
 from modules.utils import screencut_tool, connect_to_device, screen_shot_to_global
 
-def set_other(config, load_jsonname):
+def set_other(config, gui_shared_config):
     with ui.row():
         ui.link_target("TOOL_PATH")
         ui.label(config.get_text("setting_other")).style('font-size: x-large')
@@ -14,7 +14,7 @@ def set_other(config, load_jsonname):
     
     with ui.row():
         # 日志保存
-        ui.checkbox(config.get_text("config_output_log")).bind_value(config.userconfigdict, 'SAVE_LOG_TO_FILE')
+        ui.checkbox(config.get_text("config_output_log")).bind_value(gui_shared_config.softwareconfigdict, 'SAVE_LOG_TO_FILE')
     
     with ui.row():
         ui.number(config.get_text("config_run_until_try_times"),

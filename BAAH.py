@@ -422,7 +422,11 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.error({"zh_CN": f"运行出错: {e}", "en_US": f"Error occurred: {e}"})
             # 打印完整的错误信息
             import traceback
-            traceback.print_exc()
+            # 打印错误信息, 保存日志信息到文件
+            detailed_trackback_str = traceback.format_exc()
+            logging.error(detailed_trackback_str)
+            logging.save_custom_log_file()
+            # 发送错误邮件
             BAAH_send_err_mail(e)
             print_BAAH_finish()
             

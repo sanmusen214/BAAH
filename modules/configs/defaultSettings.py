@@ -233,7 +233,6 @@ defaultUserDict = {
     "CAFE1_INVITE_SEQ":{"d":1},
     "CAFE2_INVITE_SEQ":{"d":2},
 
-    "SAVE_LOG_TO_FILE":{"d":False},
 }
 
 # 软件的config里的默认值
@@ -256,7 +255,9 @@ defaultSoftwareDict = {
     # 用户在GUI里的各种备注
     "NOTE":{"d":{
         "HARD_NOTE":"",
-    }}
+    }},
+    
+    "SAVE_LOG_TO_FILE":{"d":False},
 }
 
 # sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict
