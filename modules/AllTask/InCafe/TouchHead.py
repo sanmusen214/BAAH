@@ -96,7 +96,7 @@ class TouchHead(Task):
                     screenshot()
                     hasStu = get_screenshot_cv_data()
                     # 得出差异列表
-                    diff_pos_list = compare_diff(noStu, hasStu, [1, 1279], [124, 568])
+                    diff_pos_list = compare_diff(noStu, hasStu, [122, 1279], [124, 581])
                     logging.info({"zh_CN": f"第{match_times+1}次检测到{len(diff_pos_list)}个差异中心",
                                   "en_US": f"{len(diff_pos_list)} centers of diff "
                                            f"were detected for the {match_times} time"})
