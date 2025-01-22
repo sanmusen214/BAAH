@@ -27,6 +27,7 @@ class MyLogger:
         self.logqueue = None
         print("Use language: ", self.lang)
         self.tick = False
+        self.logfile = None
 
     def get_now_time_str(self):
         return strftime("%Y-%m-%d-%H-%M-%S")
