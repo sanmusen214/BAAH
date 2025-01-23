@@ -59,7 +59,7 @@ class NormalQuest(Task):
                 click((385, 183))
             else:
                 screenshot()
-                if not match(popup_pic(PopupName.POPUP_TASK_INFO)):
+                if not (match(popup_pic(PopupName.POPUP_TASK_INFO)) or match(popup_pic(PopupName.POPUP_TASK_INFO_FANHEXIE))):
                     # 匹配弹窗失败
                     logging.warn({"zh_CN": "未能匹配到扫荡弹窗，跳过", "en_US":"Cannot match the raid popup, skip"})
                     break
