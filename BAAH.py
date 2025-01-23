@@ -212,12 +212,11 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             sleep(1.5)
             subprocess.Popen(config.userconfigdict["POST_COMMAND"], shell=True)
 
-    def BAAH_kill_emulator():
+    def BAAH_kill_emulator(must_do = False):
         """
         杀掉模拟器进程
         """
-        if (config.userconfigdict["TARGET_EMULATOR_PATH"] and
-                config.userconfigdict["TARGET_EMULATOR_PATH"] != "" and config.userconfigdict["CLOSE_EMULATOR_FINISH"]):
+        if (config.userconfigdict["TARGET_EMULATOR_PATH"] and (config.userconfigdict["CLOSE_EMULATOR_FINISH"] or must_do)):
             try:
                 if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                     logging.error({"zh_CN": "未能获取到模拟器进程，跳过关闭模拟器",
@@ -372,57 +371,63 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         执行BAAH主程序, 在此之前config应该已经被单独import然后解析为用户指定的配置文件->随后再导入my_AllTask以及其他依赖config的模块
         """
         try:
-            config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
-            print_BAAH_info()
-            print_BAAH_config_info()
-            if run_precommand:
-                BAAH_run_pre_command()
-            BAAH_release_adb_port()
-            BAAH_start_emulator()
-            BAAH_check_adb_connect()
-            BAAH_start_VPN()
-            BAAH_open_target_app()
-            
-            # 运行任务
-            logging.info({"zh_CN": "运行任务", "en_US": "start running tasks"})
-            my_AllTask.run()
-            logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
-            BAAH_close_target_app()
-            BAAH_kill_emulator()
-            BAAH_send_email()
-            print_BAAH_finish()
-            BAAH_rm_pic()
-            BAAH_run_post_command()
-            
-            print_BAAH_config_info()
-            BAAH_auto_quit()
+            # 同级别的except只能捕获同级别的try里的错误
+            try:
+                config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
+                print_BAAH_info()
+                print_BAAH_config_info()
+                if run_precommand:
+                    BAAH_run_pre_command()
+                BAAH_release_adb_port()
+                BAAH_start_emulator()
+                BAAH_check_adb_connect()
+                BAAH_start_VPN()
+                BAAH_open_target_app()
+                
+                # 运行任务
+                logging.info({"zh_CN": "运行任务", "en_US": "start running tasks"})
+                my_AllTask.run()
+                logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
+                BAAH_close_target_app()
+                BAAH_kill_emulator()
+                BAAH_send_email()
+                print_BAAH_finish()
+                BAAH_rm_pic()
+                BAAH_run_post_command()
+                
+                print_BAAH_config_info()
+                BAAH_auto_quit()
 
-        except EmulatorBlockError as ebe:
-            logging.info(istr({
-                CN: "模拟器卡顿，重启模拟器",
-                EN: "Emulator Blocked, Restart Emulator"
-            }))
-            if config.sessiondict["EMULATOR_PROCESS_PID"] is None:
-                raise Exception(istr({
-                    CN: "无模拟器pid，无法重启模拟器，请确保模拟器由BAAH启动",
-                    EN: "Cannot identify emulator's pid, fail to restart emulator, please make sure it is started by BAAH"
+            except EmulatorBlockError as ebe:
+                logging.info(istr({
+                    CN: "模拟器卡顿，重启模拟器",
+                    EN: "Emulator Blocked, Restart Emulator"
                 }))
-            # sessionstorage里重启次数加1
-            store_restart_times = config.sessiondict["RESTART_EMULATOR_TIMES"] + 1
-            BAAH_kill_emulator()
-            time.sleep(5)
-            # 重新加载其他config值，覆盖模拟器重启次数到sessiondict
-            config.parse_user_config(config.nowuserconfigname)
-            config.sessiondict["RESTART_EMULATOR_TIMES"] = store_restart_times
-            # 防止重复调用precommand
-            BAAH_main(run_precommand=False)
+                if config.sessiondict["EMULATOR_PROCESS_PID"] is None:
+                    raise Exception(istr({
+                        CN: "无模拟器pid，无法重启模拟器，请确保模拟器由BAAH启动",
+                        EN: "Cannot identify emulator's pid, fail to restart emulator, please make sure it is started by BAAH"
+                    }))
+                # sessionstorage里重启次数加1
+                store_restart_times = config.sessiondict["RESTART_EMULATOR_TIMES"] + 1
+                BAAH_kill_emulator(must_do=True)
+                time.sleep(5)
+                # 重新加载其他config值，覆盖模拟器重启次数到sessiondict
+                config.parse_user_config(config.nowuserconfigname)
+                config.sessiondict["RESTART_EMULATOR_TIMES"] = store_restart_times
+                # 防止重复调用precommand
+                BAAH_main(run_precommand=False)
 
-            
+        # 最外层的except捕获正常运行过程中的错误 以及 模拟器重启次数达到最大值的错误
         except Exception as e:
             logging.error({"zh_CN": f"运行出错: {e}", "en_US": f"Error occurred: {e}"})
             # 打印完整的错误信息
             import traceback
-            traceback.print_exc()
+            # 打印错误信息, 保存日志信息到文件
+            detailed_trackback_str = traceback.format_exc()
+            logging.error(detailed_trackback_str)
+            logging.save_custom_log_file()
+            # 发送错误邮件
             BAAH_send_err_mail(e)
             print_BAAH_finish()
             

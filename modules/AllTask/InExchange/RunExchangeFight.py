@@ -34,7 +34,7 @@ class RunExchangeFight(Task):
     def on_run(self) -> None:
         # 找到目标关卡点击，不用滚动
         clickind = self.levelnum
-        ScrollSelect(clickind, 134, 235, 682, 1115, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO))).run()
+        ScrollSelect(clickind, 134, 235, 682, 1115, lambda: match(popup_pic(PopupName.POPUP_TASK_INFO)) or match(popup_pic(PopupName.POPUP_TASK_INFO_FANHEXIE))).run()
         # 扫荡
         RaidQuest(self.runtimes).run()
         # 关闭弹窗，回到EXCHANGE_SUB页面
