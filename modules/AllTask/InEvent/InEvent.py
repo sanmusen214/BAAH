@@ -15,7 +15,7 @@ from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot,
-                           check_app_running, open_app, get_now_running_app_entrance_activity, get_now_running_app)
+                           check_app_running, open_app, get_now_running_app_entrance_activity, get_now_running_app, istr, CN, EN)
 
 
 class InEvent(Task):
@@ -177,14 +177,20 @@ class InEvent(Task):
         if event_res:
             logging.info({"zh_CN": "活动开放中", "en_US": "The event is open"})
             # 避免重复输出
-            config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动开放中，结束日期: {end_date}"
+            config.append_noti_sentence(key="EVENT_DATE", sentence=istr({
+                CN: f"活动开放中，结束日期: {end_date}",
+                EN: f"Event open, end date: {end_date}"
+            }))
             return True
         else:
             logging.error({"zh_CN": "未能识别有效活动关卡，判断活动已结束",
                            "en_US": "Could not recognize the valid event level, and the event is judged to be over"})
             self.has_event_but_closed = True
             # 避免重复输出
-            config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动领取奖励阶段，结束日期: {end_date}"
+            config.append_noti_sentence(key="EVENT_DATE", sentence=istr({
+                CN: f"活动领取奖励阶段，结束日期: {end_date}",
+                EN: f"Event is during receive rewards stage, end date: {end_date}"
+            }))
             return False
 
     def get_biggest_level(self):

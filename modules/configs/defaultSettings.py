@@ -275,7 +275,6 @@ defaultSessionDict = {
     "CONTEST_NO_TICKET":{"d":False},
     "HAS_ENTER_EVENT":{"d":False},
     "INFO_DICT":{"d":{}},
-    "INFO_LIST":{"d":[]},
     # 截图文件读取失败的次数
     "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
     # 当前尝试重启模拟器次数

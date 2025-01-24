@@ -293,11 +293,9 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 EN: "Other messages"
             }))
             info_str = ""
-            # INFO_DICT 和 INFO_LIST 里的信息
+            # INFO_DICT 里的信息
             for key, value in config.sessiondict["INFO_DICT"].items():
                 info_str += f"{value}\n"
-            for info in config.sessiondict["INFO_LIST"]:
-                info_str += f"{info}\n"
             content.append(info_str)
             # 发送
             fullcontent = "\r\n".join(content)

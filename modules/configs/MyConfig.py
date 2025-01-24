@@ -230,6 +230,12 @@ class MyConfigger:
         file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, self.SOFTWARE_CONFIG_NAME)
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.softwareconfigdict, f, indent=4, ensure_ascii=False)
+
+    def append_noti_sentence(self, key:str, sentence:str):
+        """
+        使用键值对的形式添加INFO_DICT里的信息 信息会通过通知事件发送
+        """
+        self.sessiondict["INFO_DICT"][key] = sentence
     
     def get_one_version_num(self, versionstr=None):
         """
