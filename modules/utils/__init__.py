@@ -25,7 +25,7 @@ def get_config_pic_path():
 
 def get_screenshot_cv_data():
     """
-    获取截图的内容数据
+    获取截图的内容数据，当图片截图出错时，返回的内容是None
     """
     if config.userconfigdict["SCREENSHOT_METHOD"] == "pipe":
         return config.sessiondict["SCREENSHOT_DATA"]

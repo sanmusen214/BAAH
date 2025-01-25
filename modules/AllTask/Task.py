@@ -159,7 +159,7 @@ class Task:
         if(func2()):
             return True
         logging.warning("run_until exceeded max times")
-        logging.debug(f"func1: {inspect.getsource(func1)}\nfunc2: {inspect.getsource(func2)}")
+        logging.debug(f"\nfunc1: {inspect.getsource(func1)}\nfunc2: {inspect.getsource(func2)}")
         return False
 
     @staticmethod
