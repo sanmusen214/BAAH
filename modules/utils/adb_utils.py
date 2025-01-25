@@ -103,6 +103,9 @@ def screen_shot_to_global(use_config=None, output_png=False):
         if (platform.system() != "Linux"):
             binary_screenshot = screenshot.replace(b'\r\n', b'\n')
         # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
+        if (binary_screenshot == b''):
+            logging.error({"zh_CN": "pipe截图失败", "en_US": "Failed to take pipe screenshot"})
+            return
         img_screenshot = cv2.imdecode(np.frombuffer(binary_screenshot, np.uint8), cv2.IMREAD_COLOR)
         target_config.sessiondict["SCREENSHOT_DATA"] = img_screenshot
         if output_png:
