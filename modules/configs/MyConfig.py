@@ -12,7 +12,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.9.2"
+    NOWVERSION="1.9.3"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
