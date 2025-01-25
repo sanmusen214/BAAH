@@ -80,7 +80,7 @@ def match_pattern(sourcepic_mat: MatLike, patternpic: str,threshold: float = 0.9
     sourcepic_mat: Big pictures which may contains pattern, in MatLike
     patternpic: Small pattern picture path to be matched, in str
     """
-    logging.debug("Matching pattern {}".format(patternpic))
+    # logging.debug("Matching pattern {}".format(patternpic))
     default_response = (False, (0, 0), 0)
     try:
         screenshot_cvmat = sourcepic_mat
@@ -156,7 +156,7 @@ def match_pattern(sourcepic_mat: MatLike, patternpic: str,threshold: float = 0.9
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     if(max_val >= threshold):
-        logging.debug("Pattern {} matched ({}). Center: ({}, {})".format(patternpic, max_val, center_x, center_y))
+        # logging.debug("Pattern {} matched ({}). Center: ({}, {})".format(patternpic, max_val, center_x, center_y))
         return (True, (center_x, center_y), max_val)
     return (False, (0, 0), max_val)
 
