@@ -156,6 +156,7 @@
     "team_purple":"紫攻",
     "config_output_log":"是否输出日志到/DATA/LOGS/目录下",
     "config_screenshot_mode":"截图模式",
+    "config_cafe_samename_defer":"咖啡馆邀请如果出现同名是否往后推延一位序号",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",
