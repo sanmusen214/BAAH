@@ -42,41 +42,48 @@
                 {
                     "team": "A",
                     "action": "exchange",
-                    "target": "left-down"
+                    "target": "left-down",
+                    "click": [682, 500]
                 },
                 {
                     "team": "A",
                     "action": "move",
-                    "target": "right-down"
+                    "target": "right-down",
+                    "click": [742, 585]
                 }
             ],
             [
                 {
                     "team": "A",
                     "action": "move",
-                    "target": "right"
+                    "target": "right",
+                    "click": [817, 500]
                 },
                 {
                     "team": "B",
                     "action": "portal",
-                    "target": "center"
+                    "target": "center",
+                    "click": [581, 402]
                 },
                 {
                     "team": "B",
                     "action": "move",
-                    "target": "right"
+                    "target": "right",
+                    "click": [699, 239]
                 }
             ],
             [
                 {
                     "team": "A",
                     "action": "move",
-                    "target": "right"
+                    "target": "right",
+                    "click": [797, 508]
                 },
                 {
                     "team": "B",
                     "action": "portal",
-                    "target": "right"
+                    "target": "right",
+                    "click": [755, 274]
                 }
             ]
         ]
