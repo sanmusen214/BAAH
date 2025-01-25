@@ -10,7 +10,7 @@ from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
-                           match_pixel)
+                           match_pixel, istr, CN, EN)
 from modules.utils.log_utils import logging
 from numpy import linspace
 
@@ -238,12 +238,18 @@ class AutoAssault(Task):
                 open_date = ocr_area((788, 474), (1173, 522))[0]
                 # 重组数字，去除中文日文什么的
                 open_date = "".join([i for i in open_date if i.isdigit() or i in ["/", ":", " "]])
-                config.sessiondict["INFO_DICT"]["ASSAULT_DATE"] = f"总力战未开放，下次开放时间: {open_date}"
+                config.append_noti_sentence(key="ASSAULT_DATE", sentence=istr({
+                    CN: f"总力战未开放，下次开放时间: {open_date}",
+                    EN: f"Total assault battle is not open, next open time: {open_date}"
+                }))
                 return "can_not_open"
             else:
                 logging.info({"zh_CN": "总力战开放中", "en_US": "Total strength battle is open"})
                 end_date = ocr_area((1134, 110), (1253, 136))[0]
-                config.sessiondict["INFO_DICT"]["ASSAULT_DATE"] = f"总力战已开放，结束时间: {end_date}"
+                config.append_noti_sentence(key="ASSAULT_DATE", sentence=istr({
+                    CN: f"总力战已开放，结束时间: {end_date}",
+                    EN: f"Total assault battle is open, end time: {end_date}"
+                }))
 
         else:
             logging.info({"zh_CN": f"总力战第{next_ind + 1}关已完成",

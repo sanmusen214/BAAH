@@ -7,10 +7,11 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.SubTask.FightQuest import FightQuest
 from modules.AllTask.SubTask.SkipStory import SkipStory
+from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot,
-                           match_pixel)
+                           match_pixel, istr, CN, EN)
 
 
 class AutoStory(Task):
@@ -31,7 +32,7 @@ class AutoStory(Task):
         # 黄色提示点的bgr值
         self.yellow_bgr = ((0, 170, 250), (30, 200, 255))
 
-    def try_to_solve_new_section(self):
+    def try_to_solve_new_section(self, eposide_ind = -1):
         """
         尝试处理完当前章节所有可点的New小节，此操作会退出小节选择页面返回上级
         """
@@ -72,8 +73,32 @@ class AutoStory(Task):
                     lambda: click((637, 518)),
                     lambda: not match(popup_pic(PopupName.POPUP_CHAPTER_INFO)),
                 )
-                # 进入章节后先剧情，然后可能有战斗
-                SkipStory().run()
+                # 进入章节后先剧情（可能会有双重剧情），然后可能有战斗
+                skip_story = SkipStory()
+                if eposide_ind == 0:
+                    # 序幕考虑等久一点
+                    self.run_until(
+                        lambda: sleep(0.5),
+                        lambda: skip_story.pre_condition(),
+                        times=30
+                    )
+                skip_story.run()
+                # 多重剧情
+                for i in range(5):
+                    sleep(2)
+                    skip_story_again = SkipStory()
+                    if skip_story_again.pre_condition():
+                        logging.info(istr({
+                            CN: "检测到多重剧情，开始跳过",
+                            EN: "Multiple stories detected, start skipping"
+                        }))
+                        skip_story_again.run()
+                    else:
+                        break
+                logging.info(istr({
+                    CN: "剧情部分结束",
+                    EN: "The story is over"
+                }))
                 # 尝试回到选择小节页面，后面战斗完也要考虑这个，不过那里写在FightQuest里面了
                 back_to_select = self.run_until(
                     lambda: click(Page.MAGICPOINT),
@@ -157,37 +182,35 @@ class AutoStory(Task):
         # 可能在最终篇页面，点击左上角返回到Vol主线篇章选择页面
         click((84, 111), sleeptime=0.5)
         logging.info({"zh_CN": "进入主线剧情", "en_US": "Enter the main storyline"})
-        # 一共四篇主线
-        for i in range(self.recognize_max_chapter()):
+        self.scroll_to_left()
+        # 设置一共10篇主线 x:347, 611 y: 291, 415
+        for i in range(10):
             # 点下下每篇的章节，然后看右侧黄点
-            if i == 0:
-                # 滑动到最左边Vol1
-                self.scroll_to_left()
-                click((396, 242))  # Vol1
-            elif i == 1:
-                click((621, 464))  # Vol2
-            elif i == 2:
-                click((860, 250))  # Vol3
-            elif i == 3:
-                # 往右滑动到Vol3
-                swipe((830, 375), (280, 375), durationtime=1)
-                click((621, 464))  # Vol4
-            elif i == 4:
-                click((860, 250))  # Vol5
+            y_click = [291, 415] # 高度 上下
+            x_click = [327, 592] # 滑动到最左，和最右。两个EX剧情的格子中心左右坐标
+            offset_lr = i%2 # 0左1右
+            if i !=0 and offset_lr == 0:
+                # 往右翻页
+                ScrollSelect.compute_swipe(809, 365, distance=600, responsedist=config.userconfigdict['RESPOND_Y'], horizontal=True)
+            # 两次不同高度
+            click((x_click[0], y_click[0]) if offset_lr==0 else (x_click[1], y_click[0]))
+            click((x_click[0], y_click[1]) if offset_lr==0 else (x_click[1], y_click[1]))
+            
+
             sleep(1)
             screenshot()
             # 尝试匹配右侧黄点篇章-大章节
             for ind, point_pos in enumerate(self.yellow_points):
                 if match_pixel(point_pos, self.yellow_bgr):
-                    logging.info({"zh_CN": f"检测到篇章{i+1}新章节{ind+1}，点击进入",
-                                  "en_US": "Detected chapter {i+1} New chapter {ind+1}, click to enter"})
+                    logging.info({"zh_CN": f"检测到篇章{i}新章节{ind+1}，点击进入",
+                                  "en_US": f"Detected eposide {i} New chapter {ind+1}, click to enter"})
                     self.run_until(
                         lambda: click((point_pos[0] + 10, point_pos[1] + 5)),
                         lambda: Page.is_page(PageName.PAGE_STORY_SELECT_SECTION),
                         sleeptime=1
                     )
                     # 尝试处理完当前黄点篇章所有可点的New小节
-                    self.try_to_solve_new_section()
+                    self.try_to_solve_new_section(i)
                     screenshot()
             # 全部章节都处理完了
             logging.info({"zh_CN": f"篇章{i+1}所有章节处理完毕", "en_US": f"Chapter {i+1} All chapters have been processed"})
@@ -213,7 +236,7 @@ class AutoStory(Task):
                     sleeptime=1
                 )
                 # 尝试处理完当前黄点篇章所有可点的New小节
-                self.try_to_solve_new_section()
+                self.try_to_solve_new_section(100)
                 screenshot()
         logging.info({"zh_CN": f"最终篇所有章节处理完毕", "en_US": "All chapters of the final chapter have been processed"})
 

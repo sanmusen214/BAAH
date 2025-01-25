@@ -1,10 +1,11 @@
+import inspect
 from modules.AllPage.Page import Page
 from DATA.assets.PageName import PageName
 from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 
 
-from modules.utils import click, swipe, match, page_pic, match_pixel, button_pic, popup_pic, sleep, screenshot, config
+from modules.utils import click, swipe, match, page_pic, match_pixel, button_pic, popup_pic, sleep, screenshot, config, istr, CN, EN
 
 from modules.utils.adb_utils import check_app_running, open_app
 from modules.utils.log_utils import logging
@@ -69,7 +70,10 @@ class Task:
                     raise Exception("任务{}执行后条件不成立或超时，且无法正确返回主页，程序退出".format(self.name))
         else:
             logging.warn({"zh_CN": "任务{}执行前条件不成立或超时，跳过此任务".format(self.name), "en_US":"The condition before the task {} is not met or timed out, skip this task".format(self.name)})
-            config.sessiondict["INFO_DICT"][self.name+"_SKIP"] = f"跳过{self.name}任务"
+            config.append_noti_sentence(key = self.name+"_SKIP", sentence = istr({
+                CN: f"跳过{self.name}任务",
+                EN: f"Skip {self.name} task"
+            }))
 
     @staticmethod
     def back_to_home(times = 3) -> bool:
@@ -155,6 +159,7 @@ class Task:
         if(func2()):
             return True
         logging.warning("run_until exceeded max times")
+        logging.debug(f"\nfunc1: {inspect.getsource(func1)}\nfunc2: {inspect.getsource(func2)}")
         return False
 
     @staticmethod

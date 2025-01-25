@@ -44,10 +44,12 @@ class MyLogger:
             # 使用softwareconfigdict的配置来决定是否保存log到文件
             if config.softwareconfigdict["SAVE_LOG_TO_FILE"]:
                 now_timestr = self.get_now_time_str()
-                self.logfile = open(os.path.join(config.LOG_FOLDER, f"log_{now_timestr}.txt"), "w", encoding="utf-8")
-                print("tack log file fd")
+                log_file_full_path = os.path.join(config.LOG_FOLDER, f"log_{now_timestr}.txt")
+                self.logfile = open(log_file_full_path, "w", encoding="utf-8")
+                print(f"track log file fd, log output to: {log_file_full_path}")
             else:
                 self.logfile = None
+                print("track log file switch off")
         except Exception as e:
             print(f"Create log file error: {e}")
             import traceback
@@ -55,16 +57,28 @@ class MyLogger:
             self.logfile = None
 
     def save_custom_log_file(self):
+        """
+        保存错误发生时的custom日志到文件
+        """
         if self.custom_log_list:
             try:
                 now_timestr = self.get_now_time_str()
                 file_short_name = f"custom_log_{now_timestr}.txt"
-                with open(os.path.join(config.LOG_FOLDER, file_short_name), "w", encoding="utf-8") as f:
+                file_full_path = os.path.join(config.LOG_FOLDER, file_short_name)
+                with open(file_full_path, "w", encoding="utf-8") as f:
                     for line in self.custom_log_list:
                         f.write(line + "\n")
-                print(f"Save custom log file success: {file_short_name}")
+                logging.info("↓↓↓↓↓↓↓↓↓↓")
+                logging.info(self.get_i18n_sentence({
+                    CN: f"保存异常日志到文件: {file_full_path}",
+                    EN: f"Save custom log to file: {file_full_path}"
+                }))
+                logging.info("↑↑↑↑↑↑↑↑↑↑")
             except Exception as e:
-                print(f"Save custom log file error: {e}")
+                logging.error(self.get_i18n_sentence({
+                    CN: f"保存异常日志到文件失败: {e}",
+                    EN: f"Save custom log to file failed: {e}"
+                }))
                 import traceback
                 traceback.print_exc()
 

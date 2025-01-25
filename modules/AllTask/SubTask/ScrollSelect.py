@@ -62,18 +62,32 @@ class ScrollSelect(Task):
         return True
 
     @staticmethod
-    def compute_swipe(x1, y1, distance, responsey):
+    def compute_swipe(x1, y1, distance, responsedist, horizontal=False):
         """
-        纵向从下向上滑动，实际滑动距离根据两目标点距离distance计算，考虑惯性
+        纵向从下向上/从右往左滑动，实际滑动距离根据两目标点距离distance计算，考虑惯性
+
+        x1, y1: 
+            起始点坐标
+        distance: 
+            要滑动的距离
+        reponsedist: 
+            滑动后，触发滑动响应的距离
+        horizontal: bool
+            是否横向滑动，默认为False
         """
         distance = abs(distance)
         logging.debug(f"滑动距离: {distance}")
         # 0-50
         if distance < 50:
-            swipe((x1, y1), (x1, y1 - (distance + responsey)), 2)
+            if horizontal:
+                swipe((x1, y1), (x1 - (distance + responsedist), y1), 2)
+            else:
+                swipe((x1, y1), (x1, y1 - (distance + responsedist)), 2)
         else:
-            # 国服滑动有效距离为60
-            swipe((x1, y1), (x1, int(y1 - (distance + responsey - 4 * (1 + distance / 100)))), 1 + distance / 100)
+            if horizontal:
+                swipe((x1, y1), (int(x1 - (distance + responsedist - 4 * (1 + distance / 100))), y1), 1 + distance / 100)
+            else:
+                swipe((x1, y1), (x1, int(y1 - (distance + responsedist - 4 * (1 + distance / 100)))), 1 + distance / 100)
             # swipe((x1, y1), (x1, y1-(200+40-4*3)), 3)
             # swipe((x1, y1), (x1, y1-(300+40-4*4)), 4)
             # swipe((x1, y1), (x1, y1-(400+40-4*5)), 5)
