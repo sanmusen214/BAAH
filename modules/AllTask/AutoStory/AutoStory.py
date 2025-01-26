@@ -75,10 +75,14 @@ class AutoStory(Task):
                 )
                 # 进入章节后先剧情（可能会有双重剧情），然后可能有战斗
                 skip_story = SkipStory()
+                logging.info(istr({
+                    CN: "等待跳过剧情",
+                    EN: "Waiting to skip the story"
+                }))
                 if eposide_ind == 0:
                     # 序幕考虑等久一点
                     self.run_until(
-                        lambda: sleep(0.5),
+                        lambda: click(Page.MAGICPOINT, sleeptime=1),
                         lambda: skip_story.pre_condition(),
                         times=30
                     )
