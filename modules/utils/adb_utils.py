@@ -102,6 +102,9 @@ def screen_shot_to_global(use_config=None, output_png=False):
         # 将读取的字节流数据的回车换行替换成'\n'
         if (platform.system() != "Linux"):
             binary_screenshot = screenshot.replace(b'\r\n', b'\n')
+        else:
+            # Linux系统不需要替换
+            binary_screenshot = screenshot
         # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
         if (binary_screenshot == b''):
             logging.error({"zh_CN": "pipe截图失败", "en_US": "Failed to take pipe screenshot"})
