@@ -44,10 +44,11 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 ### Running via Docker
 
-1. Ensure you have a docker environment
-2. You can run in the following ways:
-   - Local compilation through `git clone https://github.com/sanmusen214/BAAH.git` and then execute `docker compose up -d`. (If you don't have a suitable network environment, you can uncomment the `dockerfile: Dockerfile.CN` line in the `docker-compose.yml` file)
-   - Get the image built by [Github Action](https://github.com/sanmusen214/BAAH/actions) and execute `docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`, or use the following `docker-compose.yml` file, execute `docker compose up -d`
+Ensure you have a docker environment. You can run in the following ways
+
+1. Prebuild Image: Get the image built by [Github Action](https://github.com/sanmusen214/BAAH/actions), execute `docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`
+
+2. Build Locally: Run `git clone https://github.com/sanmusen214/BAAH.git`. Use the following `docker-compose.yml` file and execute `docker compose up -d`
 
 ```yaml
 services:
