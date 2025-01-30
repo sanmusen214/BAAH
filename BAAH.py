@@ -7,12 +7,15 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
     @param must_auto_quit: 是否运行结束时自动退出
     @param msg_queue: log输出管道
     """
+    # ============= Initialize =============
     from modules.configs.MyConfig import config
     if reread_config_name is not None:
         config.parse_user_config(reread_config_name)
     
     from modules.utils.log_utils import logging
     logging.set_log_queue(msg_queue)
+
+    # ============= Import =============
 
     import os
     from modules.utils import subprocess_run, time, disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
@@ -440,3 +443,43 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
 
     # Run
     BAAH_main()
+
+
+def BAAH_single_func_process(reread_config_name = None, must_auto_quit = False, msg_queue = None, to_run_func_config_name = None, to_run_func_params:dict = None):
+    """
+    快捷执行某一个函数的wrapped方法
+    """
+    if to_run_func_config_name is None:
+        raise Exception("to_run_func_config_name is None")
+    
+    # ============= Initialize =============
+    from modules.configs.MyConfig import config
+    if reread_config_name is not None:
+        config.parse_user_config(reread_config_name)
+    
+    from modules.utils.log_utils import logging
+    logging.set_log_queue(msg_queue)
+
+    # ============= Import =============
+
+    from modules.utils import check_connect, istr, EN, CN
+    from modules.AllTask.myAllTask import task_instances_map
+
+    if to_run_func_config_name not in task_instances_map.taskmap:
+        raise Exception(f"to_run_func_config_name: {to_run_func_config_name} not in task_instances_map.taskmap")
+    
+    # 执行
+    try:
+        print("to_run_func_config_name: ", to_run_func_config_name)
+        task_ins = task_instances_map.taskmap[to_run_func_config_name]
+        module_func = task_ins.task_module
+        params_func = task_ins.task_params if to_run_func_params is None else to_run_func_params
+        check_connect()
+        module_func(**params_func).run()
+    except Exception as e:
+        logging.error({"zh_CN": f"运行出错: {e}", "en_US": f"Error occurred: {e}"})
+        # 打印完整的错误信息
+        import traceback
+        # 打印错误信息
+        detailed_trackback_str = traceback.format_exc()
+        logging.error(detailed_trackback_str)
