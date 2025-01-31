@@ -30,7 +30,7 @@ class InMomotalk(Task):
             click(self.momo_title_pos)
             # 有时候明明对话结束了，但是还是会有红标记，所以先点一下二号位刷新以下一号位的信息
             # 点第二个
-            click((262, 330), 1.2)
+            click((262, 330), sleeptime = 1.5)
             # 点第一个
             click((263, 253))
             # 检测红标记，手动截图！
@@ -57,7 +57,7 @@ class InMomotalk(Task):
         """
         # 右侧往下滑动, 在头像框的位置滑
         swipe((727, 460), (727, 243), sleeptime=0.2)
-        sleep(2)
+        sleep(4)
         # 手动截图！
         screenshot()
         # 回复按钮 +40
