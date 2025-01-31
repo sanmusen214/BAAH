@@ -4,12 +4,15 @@ from .running_task_pool import RunningBAAHProcess_instance as taskpool
 
 # 显示命令行输出的地方
 
-def run_baah_task_and_bind_log(logArea, configname, specific_func_confname=None, specific_func_params=None):
+def run_baah_task_and_bind_log(logArea, configname, specific_func_confname=None):
+    """
+    执行任务并绑定日志输出，如果specific_func_confname不为空，则执行特定的任务；否则，执行config的任务列表里所有任务
+    """
     msg_obj = taskpool.get_status_obj(configname)
     if not specific_func_confname:
         queue = taskpool.run_task(configname)
     else:
-        queue = taskpool.run_specific_task(configname, specific_func_confname, specific_func_params)
+        queue = taskpool.run_specific_task(configname, specific_func_confname)
     process = taskpool.get_process(configname)
     # 防止新的日志输出线程和旧的日志输出线程争抢queue，每次调用此方法都会记录logArea_ID，存储在msg_obj中，如果id与本次ID不同则退出while，结束此线程
     logArea_ID = time.time()

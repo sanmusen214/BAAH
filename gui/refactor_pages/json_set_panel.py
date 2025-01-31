@@ -55,12 +55,12 @@ class ConfigPanel:
         self.tab = tab
 
 
-def get_config_list(lst_config: MyConfigger) -> list:
+def get_config_list(lst_config: MyConfigger, logArea) -> list:
     return [
         ConfigPanel("BAAH", lambda: set_BAAH(lst_config, gui_shared_config), i18n_config=None),
         ConfigPanel("setting_emulator", lambda: set_emulator(lst_config), i18n_config=lst_config),
         ConfigPanel("setting_server", lambda: set_server(lst_config), i18n_config=lst_config),
-        ConfigPanel("setting_task_order", lambda: set_task_order(lst_config, task_instances_map.task_config_name_2_i18n_name), i18n_config=lst_config),
+        ConfigPanel("setting_task_order", lambda: set_task_order(lst_config, task_instances_map.task_config_name_2_i18n_name, logArea), i18n_config=lst_config),
         ConfigPanel("setting_vpn", lambda: set_vpn(lst_config), i18n_config=lst_config),
         ConfigPanel("setting_notification", lambda: set_notification(lst_config, gui_shared_config), i18n_config=lst_config),
         ConfigPanel("task_cafe", lambda: set_cafe(lst_config), i18n_config=lst_config),
@@ -87,10 +87,19 @@ def show_json_panel(json_file_name: str):
         return
     curr_config: MyConfigger = MyConfigger()
     curr_config.parse_user_config(json_file_name)
-    config_choose_list: list[ConfigPanel] = get_config_list(curr_config)
 
     # 设置splitter高度使其占满全屏，减去2rem是content这个class的内边距
     with ui.splitter(value=15).classes('w-full h-full').style("height: calc(100vh - 2rem);") as splitter:
+
+        # 创建logArea
+        with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
+            output_card = ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;')
+            with output_card:
+                logArea = ui.log(max_lines=1000).classes('w-full h-full')
+
+        # 获取tab列表，传参logArea以支持日志输出
+        config_choose_list: list[ConfigPanel] = get_config_list(curr_config, logArea)
+
         with splitter.before:
             ui.button("<-", on_click=lambda: ui.run_javascript('window.history.back()'))
             # 便于js查找tabs
@@ -108,11 +117,6 @@ def show_json_panel(json_file_name: str):
                         ui.html("<div style='width: 1px;height: 200px'></div>")
 
         ui.add_head_html(injectJSforTabs)
-
-        with ui.column().style('flex-grow: 1;width: 30vw;position:sticky; top: 0px;'):
-            output_card = ui.card().style('width: 30vw; height: 80vh;overflow-y: auto;')
-            with output_card:
-                logArea = ui.log(max_lines=1000).classes('w-full h-full')
 
         with ui.column().style(
                 'width: 10vw; overflow: auto; position: fixed; bottom: 40px; right: 20px;min-width: 150px;'):

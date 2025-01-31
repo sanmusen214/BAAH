@@ -157,6 +157,8 @@
     "config_output_log":"是否输出日志到/DATA/LOGS/目录下",
     "config_screenshot_mode":"截图模式",
     "config_cafe_samename_defer":"咖啡馆邀请如果出现同名是否往后推延一位序号",
+    "config_quick_call_task":"快速执行任务",
+    "config_desc_quick_call_task":"配置过模拟器端口和区服后，以下任务点击即可执行（推图任务需要配置推图起始关卡）",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

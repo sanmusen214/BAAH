@@ -446,7 +446,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
     BAAH_main()
 
 
-def BAAH_single_func_process(reread_config_name = None, must_auto_quit = False, msg_queue = None, to_run_func_config_name = None, to_run_func_params:dict = None):
+def BAAH_single_func_process(reread_config_name = None, msg_queue = None, to_run_func_config_name = None):
     """
     快捷执行某一个函数的wrapped方法
     """
@@ -474,7 +474,7 @@ def BAAH_single_func_process(reread_config_name = None, must_auto_quit = False, 
         print("to_run_func_config_name: ", to_run_func_config_name)
         task_ins = task_instances_map.taskmap[to_run_func_config_name]
         module_func = task_ins.task_module
-        params_func = task_ins.task_params if to_run_func_params is None else to_run_func_params
+        params_func = task_ins.task_params
         check_connect()
         module_func(**params_func).run()
     except Exception as e:

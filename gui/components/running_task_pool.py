@@ -67,12 +67,10 @@ class RunningBAAHProcess:
             pass_queue_name="msg_queue"
         )
     
-    def run_specific_task(self, configname, torunfunc_configname, torunfunc_params = None):
+    def run_specific_task(self, configname, torunfunc_configname):
         return self._start_task(configname, BAAH_single_func_process, {
             "reread_config_name": configname,
-            "must_auto_quit": True,
-            "to_run_func_config_name": torunfunc_configname,
-            "to_run_func_params": torunfunc_params
+            "to_run_func_config_name": torunfunc_configname
         }, pass_queue_name = "msg_queue")
         
     def stop_task(self, configname, logArea = None):

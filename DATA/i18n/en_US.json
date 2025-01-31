@@ -157,6 +157,8 @@
     "config_output_log":"Whether output log to /DATA/LOGS/ directory",
     "config_screenshot_mode":"Screenshot Mode",
     "config_cafe_samename_defer":"Whether defer the same name student when invitation in cafe",
+    "config_quick_call_task":"Quick Call Task",
+    "config_desc_quick_call_task":"After configuring the emulator port and server type, the following tasks can be executed by clicking (the explore task needs to configure the start chapter-level)",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
