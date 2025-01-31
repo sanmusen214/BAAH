@@ -1,6 +1,6 @@
 import multiprocessing
 import multiprocessing.managers
-from BAAH import BAAH_core_process
+from BAAH import BAAH_core_process, BAAH_single_func_process
 
 class RunningBAAHProcess:
     def __init__(self):
@@ -33,19 +33,23 @@ class RunningBAAHProcess:
     def get_manager(self, configname):
         return self.__name2manager.get(configname, None)
     
-    def run_task(self, configname):
+    def _start_task(self, configname, target_func, input_kwargs, pass_queue_name = None):
+        """
+        启动目标进程，返回queue
+
+        如果进程已经在运行，则返回原有的queue
+        """
         if not self.check_is_running(configname):
             # 用于共享消息
             manager = self.__ctx.Manager()
             queue = manager.Queue()
             self.__name2manager[configname] = manager
             self.__name2queue[configname] = queue
+            # 解构传入的参数，加入queue，queue对应的key为${pass_queue_name}
+            if pass_queue_name:
+                input_kwargs[pass_queue_name] = queue
             # 启动进程
-            p = self.__ctx.Process(target=BAAH_core_process, kwargs={
-                "reread_config_name": configname,
-                "must_auto_quit": True,
-                "msg_queue": queue
-            },
+            p = self.__ctx.Process(target=target_func, kwargs=input_kwargs,
             daemon=True)
             self.__name2process[configname] = p
             p.start()
@@ -54,6 +58,22 @@ class RunningBAAHProcess:
             this_status["runing_signal"] = 1
 
         return self.__name2queue[configname]
+
+    def run_task(self, configname):
+        return self._start_task(configname, BAAH_core_process, {
+            "reread_config_name": configname,
+            "must_auto_quit": True
+            },
+            pass_queue_name="msg_queue"
+        )
+    
+    def run_specific_task(self, configname, torunfunc_configname, torunfunc_params = None):
+        return self._start_task(configname, BAAH_single_func_process, {
+            "reread_config_name": configname,
+            "must_auto_quit": True,
+            "to_run_func_config_name": torunfunc_configname,
+            "to_run_func_params": torunfunc_params
+        }, pass_queue_name = "msg_queue")
         
     def stop_task(self, configname, logArea = None):
         """terminate process and do side effect"""
