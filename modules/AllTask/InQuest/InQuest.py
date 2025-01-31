@@ -25,7 +25,7 @@ class InQuest(Task):
         self.types = types
 
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_HOME)
+        return self.back_to_home()
 
     def on_run(self) -> None:
         # 进入Fight Center
