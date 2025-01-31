@@ -31,12 +31,13 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         logging.info("+" + "".center(80, "=") + "+")
 
     def print_BAAH_config_info():
+        adb_connect_string = f"{config.userconfigdict['ADB_SEIAL_NUMBER']}" if config.userconfigdict['ADB_DIRECT_USE_SERIAL_NUMBER'] else f"{config.userconfigdict['TARGET_IP_PATH']}:{config.userconfigdict['TARGET_PORT']}"
         # 打印config信息
         logging.info({"zh_CN": f"读取的配置文件: {config.nowuserconfigname}", "en_US": f"Read config file: {config.nowuserconfigname}"})
         logging.info({"zh_CN": f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}",
                         "en_US":f"Emulator: {config.userconfigdict['TARGET_EMULATOR_PATH']}"})
-        logging.info({"zh_CN": f"端口:{config.userconfigdict['TARGET_PORT']}",
-                        "en_US": f"Port: {config.userconfigdict['TARGET_PORT']}"})
+        logging.info({"zh_CN": f"ADB连接: {adb_connect_string}",
+                        "en_US": f"ADB connect: {adb_connect_string}"})
         logging.info({"zh_CN": f"区服:{config.userconfigdict['SERVER_TYPE']}",
                         "en_US": f"Server: {config.userconfigdict['SERVER_TYPE']}"})
         
