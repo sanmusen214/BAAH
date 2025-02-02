@@ -58,7 +58,7 @@ class MyLogger:
 
     def save_custom_log_file(self):
         """
-        保存错误发生时的custom日志到文件
+        保存发生了错误的全量custom日志到文件
         """
         if self.custom_log_list:
             try:
@@ -70,14 +70,14 @@ class MyLogger:
                         f.write(line + "\n")
                 logging.info("↓↓↓↓↓↓↓↓↓↓")
                 logging.info(self.get_i18n_sentence({
-                    CN: f"保存异常日志到文件: {file_full_path}",
-                    EN: f"Save custom log to file: {file_full_path}"
+                    CN: f"保存全量异常日志到文件: {file_full_path}",
+                    EN: f"Save full custom log to file: {file_full_path}"
                 }))
                 logging.info("↑↑↑↑↑↑↑↑↑↑")
             except Exception as e:
                 logging.error(self.get_i18n_sentence({
-                    CN: f"保存异常日志到文件失败: {e}",
-                    EN: f"Save custom log to file failed: {e}"
+                    CN: f"保存全量异常日志到文件失败: {e}",
+                    EN: f"Save full custom log to file failed: {e}"
                 }))
                 import traceback
                 traceback.print_exc()

@@ -64,7 +64,7 @@ class SolveChallenge(Task):
                     CN: "无法识别跳转弹窗",
                     EN: "can not recognize popup window"
                 }))
-                return
+                break
             blue_button_pos = scroll_task.wantclick_pos
             click((blue_button_pos[0] + 36, blue_button_pos[1] - 80), sleeptime=3)
             screenshot()
@@ -77,7 +77,7 @@ class SolveChallenge(Task):
             if push_task.status == push_task.STATUS_SKIP:
                 self.scroll_down_index += 1
                 logging.info(istr({
-                    CN: "跳过了本关卡扫荡，挑战任务下标+1",
+                    CN: "跳过了一个挑战关，挑战任务下标+1",
                     EN: "Since skip this level, challenge level index offset plus 1"
                 }))
             else:

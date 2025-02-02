@@ -44,10 +44,11 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 ### 通过docker运行
 
-1. 确认你有docker环境
-2. 可以通过以下几种方式运行：
-   - 本地编译通过 `git clone https://github.com/sanmusen214/BAAH.git`后，执行`docker compose up -d`。(如果没有合适网络的环境可以把docker-compose.yml文件中的`dockerfile: Dockerfile.CN`这行的注释取消)
-   - 通过获取由[Github Action](https://github.com/sanmusen214/BAAH/actions)构建的镜像，执行`docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`，或者使用以下提供的`docker-compose.yml`文件，执行`docker compose up -d`
+确认你有docker环境，可以通过以下几种方式运行：
+
+1. 拉取镜像：通过获取由[Github Action](https://github.com/sanmusen214/BAAH/actions)构建的镜像，执行`docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`
+
+2. 本地编译：通过 `git clone https://github.com/sanmusen214/BAAH.git`后，使用以下提供的`docker-compose.yml`文件，执行`docker compose up -d` (如果没有合适网络的环境可以把docker-compose.yml文件中的`dockerfile: Dockerfile.CN`这行的注释取消)
 
 ```yaml
 services:

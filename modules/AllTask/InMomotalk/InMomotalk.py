@@ -17,7 +17,7 @@ class InMomotalk(Task):
         super().__init__(name)
 
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_HOME)
+        return self.back_to_home()
 
     def whether_has_red_icon(self) -> bool:
         """
@@ -30,7 +30,9 @@ class InMomotalk(Task):
             click(self.momo_title_pos)
             # 有时候明明对话结束了，但是还是会有红标记，所以先点一下二号位刷新以下一号位的信息
             # 点第二个
-            click((262, 330), 1.2)
+            click((262, 330), sleeptime = 1.5)
+            # 有时候第二个对话也会刷出来按钮，这时候也可以直接检测并点一下，加快速度，不尝试等待 (有就点，没有就不点)
+            self.click_reply(only_try_once=True)
             # 点第一个
             click((263, 253))
             # 检测红标记，手动截图！
@@ -49,47 +51,55 @@ class InMomotalk(Task):
                 click((623, 177))
         return False
 
-    def click_reply(self) -> None:
+    def click_reply(self, only_try_once = False) -> None:
         """
         点击第一条对话，点击对话框位置或者羁绊按钮
 
         一般是 回复-》（粉色羁绊-》蓝色进入羁绊剧情）
         """
         # 右侧往下滑动, 在头像框的位置滑
-        swipe((727, 460), (727, 243), sleeptime=0.2)
-        sleep(2)
-        # 手动截图！
-        screenshot()
-        # 回复按钮 +40
-        reply_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87, returnpos=True)
-        logging.info({"zh_CN": "回复按钮匹配度:{:.2f}".format(reply_button[2]),
-                      "en_US": "Reply button matching degree :{:.2f}".format(reply_button[2])})
-        if reply_button[0]:
-            logging.info({"zh_CN": "检测到回复按钮", "en_US": "Reply Button Detected"})
-            self.run_until(
-                lambda: click((reply_button[1][0], reply_button[1][1] + 40)),
-                lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87)
-            )
-        # 羁绊按钮 +40
-        partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), threshold=0.87, returnpos=True)
-        logging.info({"zh_CN": "羁绊按钮匹配度:{:.2f}".format(partner_button[2]),
-                      "en_US": "Bond button matching degree:{:.2f}".format(partner_button[2])})
-        if partner_button[0]:
-            logging.info({"zh_CN": "检测到羁绊按钮", "en_US": "Bond Button Detected"})
-            self.run_until(
-                lambda: click((partner_button[1][0], partner_button[1][1] + 40)),
-                lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), threshold=0.87)
-            )
-            # 羁绊按钮后面必定有羁绊剧情按钮，等待一秒
-            sleep(1.5)
-            # 前往羁绊剧情按钮
-            self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY)),
-                lambda: not match(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY))
-            )
-            sleep(2)
-            # 尝试跳过剧情
-            SkipStory().run()
+        sleep(0.5)
+        # 执行两次检测按钮
+        for t_time in range(2):
+            swipe((727, 460), (727, 243), sleeptime=1)
+            # 手动截图！
+            screenshot()
+            # 回复按钮 +40
+            reply_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87, returnpos=True)
+            logging.info({"zh_CN": "回复按钮匹配度:{:.2f}".format(reply_button[2]),
+                        "en_US": "Reply button matching degree :{:.2f}".format(reply_button[2])})
+            if reply_button[0]:
+                logging.info({"zh_CN": "检测到回复按钮", "en_US": "Reply Button Detected"})
+                self.run_until(
+                    lambda: click((reply_button[1][0], reply_button[1][1] + 40)),
+                    lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_REPLY), threshold=0.87)
+                )
+            # 羁绊按钮 +40
+            partner_button = match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), threshold=0.87, returnpos=True)
+            logging.info({"zh_CN": "羁绊按钮匹配度:{:.2f}".format(partner_button[2]),
+                        "en_US": "Bond button matching degree:{:.2f}".format(partner_button[2])})
+            if partner_button[0]:
+                logging.info({"zh_CN": "检测到羁绊按钮", "en_US": "Bond Button Detected"})
+                self.run_until(
+                    lambda: click((partner_button[1][0], partner_button[1][1] + 40)),
+                    lambda: not match(button_pic(ButtonName.BUTTON_MOMOTALK_PARTNER), threshold=0.87)
+                )
+                # 羁绊按钮后面必定有羁绊剧情按钮，等待一秒
+                sleep(1.5)
+                # 前往羁绊剧情按钮
+                self.run_until(
+                    lambda: click(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY)),
+                    lambda: not match(button_pic(ButtonName.BUTTON_GO_PARTNER_STORY))
+                )
+                sleep(2)
+                # 尝试跳过剧情
+                SkipStory().run()
+            # 如果第一次执行没有匹配到任何按钮，睡4秒再试一次
+            if not only_try_once and t_time == 0 and not reply_button[0] and not partner_button[0]:
+                sleep(4)
+            else:
+                # 如果匹配到按钮或者是第二次执行，就不用睡了，直接break
+                break
 
     def on_run(self) -> None:
         # 点击打开momotalk界面
@@ -137,8 +147,9 @@ class InMomotalk(Task):
             # 按回复框或羁绊框并跳过剧情
             self.click_reply()
             # 剧情过完可能会有个得到回忆大厅的弹窗
+            sleep(1.5)
             self.run_until(
-                lambda: click(self.momo_title_pos),
+                lambda: click(self.momo_title_pos, sleeptime=0.7),
                 lambda: match(popup_pic(momotalk_popup_fpath))
             )
         logging.info({"zh_CN": "momotalk处理完毕，返回主页", "en_US": "momotalk finished, go back to homepage"})

@@ -296,6 +296,7 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
     quick_return : bool
         是否开启快速返回, 如果开启，点击右键后会返回坐标
     """
+    window_name = 'Screenshot'
     global start_x, start_y, drawing, quick_return_data
     drawing = False  # 检查是否正在绘制
     start_x, start_y = -1, -1
@@ -328,12 +329,12 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
             if drawing:
                 screenshot_copy = screenshot.copy()  # 创建截图的副本
                 cv2.rectangle(screenshot_copy, (start_x, start_y), (x, y), (0, 255, 0), 2)
-                cv2.imshow('Matched Screenshot', screenshot_copy)
+                cv2.imshow(window_name, screenshot_copy)
         elif event == cv2.EVENT_LBUTTONUP:  # 检查是否是鼠标左键释放事件
             drawing = False
             end_x, end_y = x, y
             # cv2.rectangle(screenshot, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)
-            cv2.imshow('Matched Screenshot', screenshot)
+            cv2.imshow(window_name, screenshot)
 
             # 保存截取的区域到当前目录
             selected_region = screenshot[min(start_y,end_y):max(start_y,end_y), min(start_x,end_x):max(start_x,end_x)]
@@ -347,9 +348,13 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
             if quick_return:
                 quick_return_data = filename
                 cv2.destroyAllWindows()
-
-    cv2.imshow('Matched Screenshot', screenshot)
-    cv2.setMouseCallback("Matched Screenshot", mouse_callback_s)
+    
+    # window can change size
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+    # window initial size
+    cv2.resizeWindow(window_name, screenshot.shape[1], screenshot.shape[0])
+    cv2.imshow(window_name, screenshot)
+    cv2.setMouseCallback(window_name, mouse_callback_s)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()

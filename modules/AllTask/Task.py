@@ -86,13 +86,12 @@ class Task:
         can_back_home = False
         if not check_app_running(config.userconfigdict["ACTIVITY_PATH"]):
             open_app(config.userconfigdict["ACTIVITY_PATH"])
-        click(Page.MAGICPOINT)
         for i in range(times):
-            screenshot()
+            Task.clear_popup()
             if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
                 click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=2.5)
                 can_back_home = True
-            Task.clear_popup()
+                Task.clear_popup()
             if(Page.is_page(PageName.PAGE_HOME)):
                 logging.info({"zh_CN": "返回主页成功", "en_US":"Successfully returned to the home page"})
                 return True
@@ -220,38 +219,23 @@ class Task:
         """
         清除弹窗
         """
-        at_home = False
-        def judge_now_page():
-            nonlocal at_home
-            # 判断当前是处于主页还是非主页
-            if Page.is_page(PageName.PAGE_HOME):
-                at_home = True
-            else:
-                at_home = False
-            click(Page.MAGICPOINT)
-        def judge_no_popup():
-            # 判断当前是否没有弹窗
-            nonlocal at_home
-            if at_home:
-                return not match(button_pic(ButtonName.BUTTON_CONFIRMB), threshold=0.93)
-            else:
-                return match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
-        
-        click(Page.MAGICPOINT)
         res = Task.run_until(
-            lambda: judge_now_page(),
-            lambda: judge_no_popup(),
-            times=15
+            lambda: click(Page.MAGICPOINT),
+            lambda: not Task.has_popup(),
+            times=15,
+            sleeptime=0.5
         )
         if not res:
-            logging.info("Popup closed failed")
+            logging.info("Popup clear failed")
         
     
     @staticmethod
     def has_popup():
         """
-        判断是否有弹窗，只适用于非主页场景
+        判断是否有弹窗
         """
+        if Page.is_page(PageName.PAGE_HOME):
+            return not match_pixel((1027, 49), Page.COLOR_WHITE)
         return not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
     
     @staticmethod
