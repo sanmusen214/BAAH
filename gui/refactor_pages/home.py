@@ -1,6 +1,5 @@
 import subprocess
-from .json_file_docker import get_json_list
-from .json_file_docker import add_new_config
+from .json_file_docker import get_json_list, add_new_config, copy_and_rename_config
 
 from nicegui import ui, app
 
@@ -95,19 +94,33 @@ def render_json_list():
                     # ============配置文件区域===========
                     ui.label(gui_shared_config.get_text("config_file")).style("font-size: xx-large")
 
+                    # 复制操作的相关参数：被复制的文件名，新文件名
+                    copy_related_params = {"old_name":"", "new_name":""}
+                    with ui.dialog() as dialog, ui.card():
+                        ui.input(gui_shared_config.get_text("button_copy")).bind_value_from(copy_related_params, "old_name").set_enabled(False)
+                        ui.input(gui_shared_config.get_text("button_rename")).bind_value_to(copy_related_params, "new_name")
+                        with ui.row():
+                            ui.button(gui_shared_config.get_text("button_hide"), color="white", on_click=dialog.close)
+                            ui.button(gui_shared_config.get_text("button_save"), on_click=lambda e:[copy_and_rename_config(copy_related_params["old_name"], copy_related_params["new_name"]), dialog.close()] if copy_related_params["new_name"] else ui.notify("缺少新文件名！/Missing new file name!"))
+                            
+
                     # 配置文件名 卡片
-                    with ui.row():
+                    with ui.column():
                         for config_name in get_json_list():
-                            with ui.link(target = f"/panel/{config_name}"):
-                                with ui.card().props('flat bordered'):
-                                    ui.label(config_name).style("font-size: large;")
+                            with ui.row().classes("flex items-center"):
+                                # config名
+                                with ui.link(target = f"/panel/{config_name}"):
+                                    with ui.card().props('flat bordered'):
+                                        ui.label(config_name).style("font-size: large;")
+                                # 复制按钮
+                                ui.button(gui_shared_config.get_text("button_copy"), on_click=lambda e, c=config_name:[copy_related_params.update({"old_name":c, "new_name":""}), dialog.open()])
 
                     # 添加配置
                     user_config_name = {"val":""}
-                    with ui.row():
+                    with ui.row().classes("flex items-center"):
                         ui.input("Name").bind_value(user_config_name, "val")
-                        ui.button("+", on_click=lambda: add_new_config(user_config_name["val"])).style(
-                        "width: 30px; height: 30px; line-height: 30px; text-align: center; cursor: pointer;")
+                        ui.button(gui_shared_config.get_text("button_add"), on_click=lambda: add_new_config(user_config_name["val"])).style(
+                        "height: 30px; line-height: 30px; text-align: center; cursor: pointer;")
 
 
 @ui.page("/")
