@@ -1,7 +1,5 @@
-from modules.AllTask.myAllTask import TaskName
-from gui.components.manage_baah_in_gui import run_baah_task_and_bind_log
 from nicegui import ui, run
-
+from gui.components.fast_run_task_buttons import show_fast_run_task_buttons, TaskName
 
 def set_task_order(config, real_taskname_to_show_taskname, logArea):
     with ui.row():
@@ -70,18 +68,5 @@ def set_task_order(config, real_taskname_to_show_taskname, logArea):
     # ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
 
     # 快速调用任务
-    ui.label(config.get_text("config_quick_call_task")).style('font-size: x-large')
-    ui.label(config.get_text("config_desc_quick_call_task"))
-
-    def gui_just_run_one_task(taskname):
-        async def just_run_one_task():
-            config.save_user_config(config.nowuserconfigname)
-            await run.io_bound(run_baah_task_and_bind_log, logArea, config.nowuserconfigname, taskname)
-        ui.button(real_taskname_to_show_taskname[taskname], on_click=just_run_one_task)
-
-    gui_just_run_one_task(TaskName.MOMOTALK)
-    gui_just_run_one_task(TaskName.MAIN_STORY)
-    gui_just_run_one_task(TaskName.SOLVE_CHALLENGE)
-    gui_just_run_one_task(TaskName.PUSH_NORMAL)
-    gui_just_run_one_task(TaskName.PUSH_HARD)
+    show_fast_run_task_buttons([TaskName.MOMOTALK, TaskName.MAIN_STORY, TaskName.SOLVE_CHALLENGE, TaskName.PUSH_NORMAL, TaskName.PUSH_HARD], config, real_taskname_to_show_taskname, logArea)
 

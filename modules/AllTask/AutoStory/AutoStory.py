@@ -184,7 +184,10 @@ class AutoStory(Task):
         click((359, 368), sleeptime=0.5)
         click((359, 368), sleeptime=1)
         # 可能在最终篇页面，点击左上角返回到Vol主线篇章选择页面
-        click((84, 111), sleeptime=0.5)
+        self.run_until(
+            lambda: click((84, 111)),
+            lambda: not match_pixel((84, 111), [(0, 0, 200), (255, 255, 255)]) # 主要比较第三位，白色按钮是244，淡蓝色背景是168
+        )
         logging.info({"zh_CN": "进入主线剧情", "en_US": "Enter the main storyline"})
         self.scroll_to_left()
         # 设置一共10篇主线 x:347, 611 y: 291, 415

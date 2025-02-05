@@ -63,6 +63,8 @@
     "button_edit":"Edit",
     "button_show":"Show",
     "button_hide":"Hide",
+    "button_copy":"Copy",
+    "button_rename":"Rename",
 
     "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
