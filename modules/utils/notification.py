@@ -61,7 +61,10 @@ class Email_Sender(Message_Sender):
         msg["To"] = self.receiver
         res=smtp.sendmail(self.sender, self.receiver, msg.as_string())
         smtp.quit()
-        print(res)
+        try:
+            print(res.split()[-6:])
+        except:
+            print("error when print email send result")
     
 class Http_Sender(Message_Sender):
     """
