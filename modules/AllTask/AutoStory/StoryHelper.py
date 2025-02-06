@@ -19,9 +19,9 @@ def try_to_solve_new_section(need_to_wait_more = False, new_button_threshold = 0
         """
         # 来到小节页面
         sleep(3)  # 等动画
-        screenshot()
         initial_enter = True
         while True:
+            screenshot()
             # 点击New章节
             new_bool, new_pos, new_val = match(button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL), threshold=new_button_threshold, returnpos=True)
             if new_bool:
@@ -113,7 +113,13 @@ def try_to_solve_new_section(need_to_wait_more = False, new_button_threshold = 0
                 CN: "等待5s",
                 EN: "Wait for 5s"
             }))
-            sleep(5) # 等动画
+            # 等动画 最多5s
+            Task.run_until(
+                lambda: click(Page.MAGICPOINT, sleeptime=0.1),
+                lambda: match(button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL), threshold=new_button_threshold),
+                sleeptime=1,
+                times=5
+            )
             initial_enter = False
         # 返回上级到主线剧情页面，离开剧情小节页面
         Task.run_until(
