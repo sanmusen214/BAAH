@@ -14,7 +14,7 @@ ZHT = TextSystem('en')
 
 def get_similarity(img1, img2):
     """img1: MatLike, img2: MatLike"""
-    similar = 1 - np.sum(np.abs(img1 - img2)) / np.sum(img1)
+    similar = np.sum(np.minimum(img1, img2)) / np.sum(np.maximum(img1, img2))
     return similar
 
 
