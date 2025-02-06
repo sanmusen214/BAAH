@@ -192,7 +192,7 @@ class TaskInstanceMap:
                     task_config_name = TaskName.MAIN_STORY,
                     i18n_key_name = "push_main_story",
                     task_module = AutoStory,
-                    task_params = {}
+                    task_params = {'types': ["main"]}
                 ),
             TaskName.SOLVE_CHALLENGE: TaskInstance(
                     task_config_name = TaskName.SOLVE_CHALLENGE,
