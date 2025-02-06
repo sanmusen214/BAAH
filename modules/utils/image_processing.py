@@ -12,6 +12,12 @@ from math import isnan
 
 ZHT = TextSystem('en')
 
+def get_similarity(img1, img2):
+    """img1: MatLike, img2: MatLike"""
+    similar = 1 - np.sum(np.abs(img1 - img2)) / np.sum(img1)
+    return similar
+
+
 def rotate_image_with_transparency(image_mat, angle):
     """
     给定一个包含透明层的图像Mat，将其旋转angle角度，返回旋转后的图像Mat
