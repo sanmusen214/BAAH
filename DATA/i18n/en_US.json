@@ -25,6 +25,8 @@
     "task_user_def_task": "User Defined Task",
     "task_craft":"Craft",
     "task_solve_challenge":"Complete Challenge Task",
+    "task_short_story":"Short Story",
+    "task_side_story":"Side Story",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",

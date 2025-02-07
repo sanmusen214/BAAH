@@ -25,6 +25,8 @@
     "task_user_def_task": "ユーザー定義タスク",
     "task_craft":"クラフト",
     "task_solve_challenge":"挑戦タスクを完了する",
+    "task_short_story":"短編ストーリー",
+    "task_side_story":"サイドストーリー",
 
     "setting_emulator": "エミュレータ設定",
     "setting_server": "サーバー設定",
