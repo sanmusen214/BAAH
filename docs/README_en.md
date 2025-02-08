@@ -18,6 +18,7 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 1. Emulator: Set the resolution to 1280*720 pixels, 240 DPI. Enable adb debugging. Note the adb debugging port of the emulator.
    - If you are using Mumu emulator, please disable background activity running at the bottom of the settings.
+   - If can not connect ADB, please shut the network bridge function of emulator, or change the adb connect ip.
 2. BA Game Settings:
    - Game: Turn off skill animations;
    - Graphics: Turn off black bars at the top and bottom during battles,
@@ -30,7 +31,9 @@ Discord: https://discord.com/invite/7cEvvfcd
 1. Download and extract the approximately 100MB zip file to any folder.
 2. Rename the example.json file in the BAAH_CONFIGS folder to any other name, such as task.json.
 3. Double-click BAAH_GUI.exe to open the interface.
-4. After modifying the task content of a configuration file in the interface, click `Save and Execute` in the bottom right corner of the interface.
+4. In Emulator Settings, change the port number to your emulator's adb port.
+5. In Server Settings, select your ba server.
+6. In Task List Settings, enable any tasks or click fast-run task button.
 
 ### Running via local Python environment
 
