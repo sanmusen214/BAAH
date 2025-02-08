@@ -2,6 +2,8 @@ from nicegui import ui, run
 from gui.components.cut_screenshot import cut_screenshot
 from gui.components.list_edit_area import list_edit_area
 import os
+import subprocess
+import time
 
 from modules.utils import screencut_tool, connect_to_device, screen_shot_to_global
 
@@ -87,3 +89,14 @@ def set_other(config, gui_shared_config):
     # 将截图功能内嵌进GUI
     with ui.row():
         ui.button("测试截图/screencut test", on_click=test_screencut)
+
+    async def restart_adb_server():
+        subprocess.run([config.userconfigdict['ADB_PATH'], "kill-server"])
+        time.sleep(0.5)
+        subprocess.run([config.userconfigdict['ADB_PATH'], "start-server"])
+        print("adb server restarted")
+        ui.notify("adb server resstarted")
+
+    # adb kill-server
+    with ui.row():
+        ui.button(config.get_text("button_kill_adb_server"), on_click=restart_adb_server, color="red")

@@ -67,6 +67,7 @@
     "button_hide":"隐藏",
     "button_copy":"复制",
     "button_rename":"重命名",
+    "button_kill_adb_server":"重启ADB服务",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
     "config_camera_full":"进入咖啡馆时视角为最高",
