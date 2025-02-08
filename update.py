@@ -9,7 +9,7 @@ import zipfile
 import time
 import sys
 
-updater_version = "0.2.1"
+updater_version = "0.3.0"
 print(f"This Updator Version: {updater_version}")
 
 def copy_to_temp_and_run():
@@ -157,13 +157,22 @@ def check_and_update():
     # 不存在zip文件则下载
     if not os.path.exists(targetfilename):
         try:
-            response = requests.get(target_url, timeout=10)
+            response = requests.get(target_url, stream=True, timeout=10)
             if response.status_code == 200:
+                block_size = 102400 # B
+                total_size = int(response.headers.get('content-length', 0)) # B
+                print("total_size: ", total_size/1024, "kB")
+                now_size = 0 # B
                 with open(targetfilename, "wb") as f:
-                    f.write(response.content)
+                    for data in response.iter_content(block_size):
+                        f.write(data)
+                        # 保留两位小数
+                        now_size += block_size
+                        print(f"\r{now_size/total_size:.2%}".ljust(10), end="")
+                    print("")
                 print("Downloading update zip: Success")
             else:
-                print("Downloading update zip: Failed")
+                print("Downloading update zip: Failed (not 200)")
                 return
         except Exception as e:
             print("Downloading new version: Failed")
