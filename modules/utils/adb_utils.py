@@ -100,7 +100,7 @@ def screen_shot_to_global(use_config=None, output_png=False):
         # 读取管道中的数据
         screenshot = process.stdout
         # 将读取的字节流数据的回车换行替换成'\n'
-        if (platform.system() != "Linux"):
+        if platform.system() not in ["Linux", "Darwin"]:
             binary_screenshot = screenshot.replace(b'\r\n', b'\n')
         else:
             # Linux系统不需要替换
