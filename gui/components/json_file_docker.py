@@ -5,8 +5,6 @@ import os
 
 
 DEFAULT_CONFIG_JSON_NAME = "config.json"
-LETTERS_NOT_UPPER_STYLE = "text-transform: none;"
-
 
 def get_json_list():
     """

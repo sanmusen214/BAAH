@@ -1,5 +1,5 @@
 import subprocess
-from .json_file_docker import get_json_list, add_new_config, copy_and_rename_config
+from ..components.json_file_docker import get_json_list, add_new_config, copy_and_rename_config
 
 from nicegui import ui, app
 
