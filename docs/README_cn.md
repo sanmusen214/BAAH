@@ -1,6 +1,6 @@
 # 碧蓝档案爱丽丝助手(BAAH)
 
-<div style="display:flex;justify-content:space-around"><img src="../DATA/assets/aris.png" style="width:48%"/><img src="../DATA/assets/kei.png" style="width:48%"/></div>
+<div style="display:flex;justify-content:space-around"><img src="../docs/static/aris.png" style="width:48%"/><img src="../docs/static/kei.png" style="width:48%"/></div>
 
 ---
 

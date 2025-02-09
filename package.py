@@ -95,7 +95,7 @@ baahcmd = [
     'pyinstaller',
     'main.py',
     '-n', 'BAAH',
-    '--icon', './DATA/assets/kei.ico',
+    '--icon', './DATA/icons/kei.ico',
     '--add-data', f'{Path(pponnxcr.__file__).parent}{os.pathsep}pponnxcr',
     '-y'
 ]
@@ -107,7 +107,7 @@ guicmd = [
     'jsoneditor.py',
     # '--windowed', # prevent console appearing, only use with ui.run(native=True, ...)
     '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui',
-    '--icon', './DATA/assets/aris.ico',
+    '--icon', './DATA/icons/aris.ico',
     '-y'
 ]
 subprocess.call(guicmd)
@@ -117,7 +117,7 @@ updatecmd = [
     'pyinstaller',
     'update.py',
     '-n', 'BAAH_UPDATE',
-    '--icon', './DATA/assets/kayoko.ico',
+    '--icon', './DATA/icons/kayoko.ico',
     '-y'
 ]
 subprocess.call(updatecmd)
