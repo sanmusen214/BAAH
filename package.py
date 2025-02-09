@@ -105,6 +105,7 @@ subprocess.call(baahcmd)
 guicmd = [
     'pyinstaller',
     'jsoneditor.py',
+    '-n', 'BAAH_GUI',
     # '--windowed', # prevent console appearing, only use with ui.run(native=True, ...)
     '--add-data', f'{Path(nicegui.__file__).parent}{os.pathsep}nicegui',
     '--icon', './DATA/icons/aris.ico',
@@ -129,8 +130,8 @@ workdir = os.getcwd()
 print("开始封装")
 
 
-# 遍历./dist/jsoneditor/_internal里的所有文件夹和文件，将它们拷贝到./dist/BAAH/_internal，如果已存在则跳过
-for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor', '_internal')):
+# 遍历./dist/BAAH_GUI/_internal里的所有文件夹和文件，将它们拷贝到./dist/BAAH/_internal，如果已存在则跳过
+for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'BAAH_GUI', '_internal')):
     for filename in filenames:
         package_copyfile(os.path.join(dirpath, filename), os.path.join('./dist/BAAH/_internal', filename))
     for dirname in dirnames:
@@ -160,13 +161,12 @@ package_copyfolder("./DATA/assets_jp", "./dist/BAAH/DATA/assets_jp")
 package_copyfolder("./DATA/assets_cn", "./dist/BAAH/DATA/assets_cn")
 package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en")
 package_copyfolder("./DATA/grid_solution", "./dist/BAAH/DATA/grid_solution")
-package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
+package_copyfile("./dist/BAAH_GUI/BAAH_GUI.exe", "./dist/BAAH/BAAH_GUI.exe")
 package_copyfile("./dist/BAAH_UPDATE/BAAH_UPDATE.exe", "./dist/BAAH/BAAH_UPDATE.exe")
 
 time.sleep(2)
 
 # package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
-package_rename("./dist/BAAH/jsoneditor.exe", "./dist/BAAH/BAAH_GUI.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
 package_remove_file("./BAAH.exe")
