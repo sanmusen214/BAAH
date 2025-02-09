@@ -1,6 +1,6 @@
 # 碧蓝档案爱丽丝助手 (BAAH)
 
-<div style="display:flex;justify-content:space-around"><img src="./DATA/assets/aris.png" style="width:48%"/><img src="./DATA/assets/kei.png" style="width:48%"/></div>
+<div style="display:flex;justify-content:space-around"><img src="./docs/static/aris.png" style="width:48%"/><img src="./docs/static/kei.png" style="width:48%"/></div>
 
 ---
 
@@ -12,15 +12,17 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 
 [项目文档 | Project Document](./README.md) <-- You are here | 你在这里
 
+如何使用请见使用文档 / Get to know how to use BAAH by reading usage documents
+
 [中文使用文档](./docs/README_cn.md) | [English Usage Document](./docs/README_en.md)
 
 [中文开发文档](./docs/README_dev.md) | [English Dev Document](./docs/README_dev_en.md)
 
 ---
 
-<img src="./DATA/assets/GUI_CN.png" />
-<img src="./DATA/assets/GUI_EN.png" />
-<img src="./DATA/assets/GUI_JP.png" />
+<img src="./docs/static/GUI_CN.png" />
+<img src="./docs/static/GUI_EN.png" />
+<img src="./docs/static/GUI_JP.png" />
 
 
 # Support
@@ -36,7 +38,7 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 - 国际服 Global Server 
 - 日服 Japanese Server 
 - 国服 CN Server 
-- B服 CN Bilibili Server 
+- B服 Bilibili Server 
 
 # Functions
 
@@ -62,41 +64,18 @@ Supported Functions：
 
 [![Stargazers over time](https://starchart.cc/sanmusen214/BAAH.svg?variant=adaptive)](https://starchart.cc/sanmusen214/BAAH)
 
-
-# Usage
-
-如何使用请见使用文档 / Get to know how to use BAAH by reading usage documents
-
-[中文使用文档](./docs/README_cn.md) | [English Usage Document](./docs/README_en.md)
-
 # Thank
 
-Icons from [@dada008](https://space.bilibili.com/23726244)
+## Contributors
 
-Japanese server support from [@LLL1997](https://github.com/LLL1997)
+<a href="https://github.com/sanmusen214/BAAH/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=sanmusen214/BAAH" />
+</a>
 
-CN server support from [@子墨](https://space.bilibili.com/11179370)
-
-Fully English logging support and function enhancement from [@ly5519](https://github.com/ly5519)
-
-Linux platform suitable by [@lonzzi](https://github.com/lonzzi)
-
-Docker support by [@rote66](https://github.com/rote66)
-
-Besides, many of them have joined the continues development of BAAH, thanks.
-
-Packages used in this project:
+## Packages
 
 [opencv-python](https://github.com/opencv/opencv)
 
 [pponnxcr](https://github.com/hgjazhgj/pponnxcr)
 
 [nicegui](https://github.com/zauberzeug/nicegui)
-
-# Other：
-
-Other scripts about BlueArchive
-
-1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto)
-2. [MBA](https://github.com/MaaAssistantArknights/MBA)
-3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script)

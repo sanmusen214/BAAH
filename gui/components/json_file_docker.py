@@ -5,12 +5,10 @@ import os
 
 
 DEFAULT_CONFIG_JSON_NAME = "config.json"
-LETTERS_NOT_UPPER_STYLE = "text-transform: none;"
-
 
 def get_json_list():
     """
-    can get all json file names list in BAAH_CONFIGS dir, if not exits, create a config.json, make the list not empty
+    can get all json file names list (like [xxx1.json, xxx2.json]) in BAAH_CONFIGS dir, if not exits, create a config.json, make the list not empty
     Returns:
         a list that all json file name from BAAH_CONFIGS dir
     """
@@ -49,6 +47,9 @@ def copy_and_rename_config(configname, rename_configname):
     configname = configname.strip()
     if configname not in alljson_list:
         ui.notify(f"配置 {configname} 不存在！/Config does not exist!")
+        return
+    if not rename_configname:
+        ui.notify("缺少新文件名！/Missing new file name!")
         return
     rename_configname = rename_configname.strip().replace(".json", "") + ".json" # 确保结尾有且只有一个.json
     if rename_configname in alljson_list:

@@ -16,13 +16,14 @@
             },
             {
                 "name": "B",
-                "type": "purple",
-                "position": "down"
+                "type": "red",
+                "position": "right"
             },
             {
                 "name": "C",
-                "type": "red",
-                "position": "right"
+                "type": "purple",
+                "position": "down",
+                "click": [472, 698]
             }
         ],
         "fight_plan": [
@@ -33,12 +34,12 @@
                     "target": "right"
                 },
                 {
-                    "team": "B",
+                    "team": "C",
                     "action": "move",
                     "target": "right"
                 },
                 {
-                    "team": "C",
+                    "team": "B",
                     "action": "move",
                     "target": "left-down"
                 }
@@ -50,17 +51,17 @@
                     "target": "right"
                 },
                 {
-                    "team": "B",
+                    "team": "C",
                     "action": "move",
                     "target": "right-up"
                 },
                 {
-                    "team": "C",
+                    "team": "B",
                     "action": "exchange",
                     "target": "left-down"
                 },
                 {
-                    "team": "C",
+                    "team": "B",
                     "action": "move",
                     "target": "left-down"
                 }
@@ -72,19 +73,19 @@
                     "target": "right-up"
                 },
                 {
-                    "team": "B",
+                    "team": "C",
                     "action": "move",
                     "target": "left-up"
                 },
                 {
-                    "team": "C",
+                    "team": "B",
                     "action": "move",
                     "target": "left-up"
                 }
             ],
             [
                 {
-                    "team": "B",
+                    "team": "C",
                     "action": "move",
                     "target": "left"
                 },
@@ -94,19 +95,19 @@
                     "target": "left-down"
                 },
                 {
-                    "team": "C",
+                    "team": "B",
                     "action": "move",
                     "target": "left-up"
                 }
             ],
             [
                 {
-                    "team": "C",
+                    "team": "B",
                     "action": "move",
                     "target": "left-up"
                 },
                 {
-                    "team": "B",
+                    "team": "C",
                     "action": "move",
                     "target": "left"
                 },

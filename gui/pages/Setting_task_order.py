@@ -68,5 +68,13 @@ def set_task_order(config, real_taskname_to_show_taskname, logArea):
     # ui.input(config.get_text("config_next_config")).bind_value(config.userconfigdict, 'NEXT_CONFIG',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
 
     # 快速调用任务
-    show_fast_run_task_buttons([TaskName.MOMOTALK, TaskName.MAIN_STORY, TaskName.SOLVE_CHALLENGE, TaskName.PUSH_NORMAL, TaskName.PUSH_HARD], config, real_taskname_to_show_taskname, logArea)
+    show_fast_run_task_buttons([
+        TaskName.MOMOTALK, 
+        TaskName.MAIN_STORY, 
+        TaskName.SHORT_STORY,
+        TaskName.SIDE_STORY,
+        TaskName.SOLVE_CHALLENGE, 
+        TaskName.PUSH_NORMAL, 
+        TaskName.PUSH_HARD
+    ], config, real_taskname_to_show_taskname, logArea)
 

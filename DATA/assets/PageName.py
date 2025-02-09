@@ -44,5 +44,6 @@ class PageName:
     PAGE_GRID_FIGHTING = "PAGE_GRID_FIGHTING"
     
     PAGE_STORY_SELECT_SECTION = "PAGE_STORY_SELECT_SECTION"
+    """右侧是章节目录的页面，点击章节目录下的按钮即可浏览剧情"""
     
     PAGE_ASSAULT = "PAGE_ASSAULT"

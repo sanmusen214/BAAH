@@ -1,5 +1,5 @@
 import subprocess
-from .json_file_docker import get_json_list, add_new_config, copy_and_rename_config
+from ..components.json_file_docker import get_json_list, add_new_config, copy_and_rename_config
 
 from nicegui import ui, app
 
@@ -101,7 +101,7 @@ def render_json_list():
                         ui.input(gui_shared_config.get_text("button_rename")).bind_value_to(copy_related_params, "new_name")
                         with ui.row():
                             ui.button(gui_shared_config.get_text("button_hide"), color="white", on_click=dialog.close)
-                            ui.button(gui_shared_config.get_text("button_save"), on_click=lambda e:[copy_and_rename_config(copy_related_params["old_name"], copy_related_params["new_name"]), dialog.close()] if copy_related_params["new_name"] else ui.notify("缺少新文件名！/Missing new file name!"))
+                            ui.button(gui_shared_config.get_text("button_save"), on_click=lambda e:[copy_and_rename_config(copy_related_params["old_name"], copy_related_params["new_name"]), dialog.close()])
                             
 
                     # 配置文件名 卡片

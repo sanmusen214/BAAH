@@ -25,6 +25,8 @@
     "task_user_def_task": "User Defined Task",
     "task_craft":"Craft",
     "task_solve_challenge":"Complete Challenge Task",
+    "task_short_story":"Short Story",
+    "task_side_story":"Side Story",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",
@@ -37,7 +39,7 @@
 
     "BAAH_desc": "BAAH can help you complete the dailies of Blue Archive in the JP server, Global server, CN official server, Bilibili server. All config files are in the BAAH_CONFIGS folder.",
     "BAAH_get_version": "To get the latest version, download from Github or join the group to download",
-    "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI! Game settings: the skill animation off, black bars during battles off",
+    "BAAH_attention": "Please set the emulator resolution to 1280*720, 240DPI, better close network bridge; Game settings: the skill animation off, black bars during battles off",
 
     "notice_success": "Success",
     "notice_fail": "Fail",
@@ -65,6 +67,7 @@
     "button_hide":"Hide",
     "button_copy":"Copy",
     "button_rename":"Rename",
+    "button_kill_adb_server":"Restart ADB Server",
 
     "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
