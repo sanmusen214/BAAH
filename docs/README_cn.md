@@ -51,24 +51,7 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 1. 拉取镜像：通过获取由[Github Action](https://github.com/sanmusen214/BAAH/actions)构建的镜像，执行`docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`
 
-2. 本地编译：通过 `git clone https://github.com/sanmusen214/BAAH.git`后，使用以下提供的`docker-compose.yml`文件，执行`docker compose up -d` (如果没有合适网络的环境可以把docker-compose.yml文件中的`dockerfile: Dockerfile.CN`这行的注释取消)
-
-```yaml
-services:
-  baah:
-    image: ghcr.io/sanmusen214/baah:latest
-    container_name: BAAH
-    volumes:
-      - ./DATA/CONFIGS:/app/BAAH/DATA/CONFIGS
-      - ./BAAH_CONFIGS:/app/BAAH/BAAH_CONFIGS
-    environment:
-      - TZ=Asia/Shanghai
-      - HOST=0.0.0.0
-      - PORT=8000
-      # - TOKEN=YOUR_TOKEN
-    ports:
-      - 8000:8000
-```
+2. 本地编译：通过 `git clone https://github.com/sanmusen214/BAAH.git`后，使用提供的`docker-compose.yml`文件，执行`docker compose up -d` (如果没有合适网络的环境可以把docker-compose.yml文件中的`dockerfile: Dockerfile.CN`这行的注释取消)
 
 ### 通过安卓termux运行
 
