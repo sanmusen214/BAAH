@@ -37,7 +37,7 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 ### 通过本地的python环境运行
 
-1. 确保你的python环境版本>=3.10
+1. 确保你的python环境版本==3.10.x
 2. 确保你的电脑中有adb.exe，并稍后修改配置文件里的ADB_PATH使其指向你电脑中的adb.exe
 3. 在命令行中执行`git clone https://github.com/sanmusen214/BAAH.git`
 4. 执行`cd BAAH` 进入项目目录
@@ -69,6 +69,10 @@ services:
     ports:
       - 8000:8000
 ```
+
+### 通过安卓termux运行
+
+参照[这篇博客](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
 
 # 常见问题
 

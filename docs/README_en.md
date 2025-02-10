@@ -37,7 +37,7 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 ### Running via local Python environment
 
-1. Ensure your Python environment version is >= 3.10.
+1. Ensure your Python environment version is == 3.10.x.
 2. Ensure adb.exe is available on your computer, and later modify the ADB_PATH in the configuration file to point to adb.exe on your computer.
 3. Execute `git clone https://github.com/sanmusen214/BAAH.git` in the command line.
 4. Execute `cd BAAH` to enter the project directory.
