@@ -70,6 +70,10 @@ services:
       - 8000:8000
 ```
 
+### 通过安卓termux运行
+
+参照[这篇博客](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
+
 # 常见问题
 
 ## 0. 如何更新BAAH
