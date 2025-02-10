@@ -100,10 +100,10 @@ def screen_shot_to_global(use_config=None, output_png=False):
         # 读取管道中的数据
         screenshot = process.stdout
         # 将读取的字节流数据的回车换行替换成'\n'
-        if (platform.system() != "Linux"):
+        if platform.system() not in ["Linux", "Darwin"]:
             binary_screenshot = screenshot.replace(b'\r\n', b'\n')
         else:
-            # Linux系统不需要替换
+            # Linux和Macos系统不需要替换
             binary_screenshot = screenshot
         # 使用numpy和imdecode将二进制数据转换成cv2的mat图片格式
         if (binary_screenshot == b''):
