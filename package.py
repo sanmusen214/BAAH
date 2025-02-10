@@ -161,6 +161,7 @@ package_copyfolder("./DATA/assets_jp", "./dist/BAAH/DATA/assets_jp")
 package_copyfolder("./DATA/assets_cn", "./dist/BAAH/DATA/assets_cn")
 package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en")
 package_copyfolder("./DATA/grid_solution", "./dist/BAAH/DATA/grid_solution")
+package_copyfile("./DATA/touch.zip", "./dist/BAAH/DATA/touch.zip")
 package_copyfile("./dist/BAAH_GUI/BAAH_GUI.exe", "./dist/BAAH/BAAH_GUI.exe")
 package_copyfile("./dist/BAAH_UPDATE/BAAH_UPDATE.exe", "./dist/BAAH/BAAH_UPDATE.exe")
 

@@ -342,3 +342,72 @@ def set_dpi(target_dpi, use_config=None):
 #         logging.error({"zh_CN": "mu_bak文件还原失败：{}".format(e), "en_US": "Failed to restore mu_bak file:{}".format(e)})
 #         traceback.print_exc()
 #         return ERROR
+
+# ========================================
+# minitouch：https://github.com/openstf/minitouch
+# adb shell getprop ro.product.cpu.abi
+# adb push minitouch /data/local/tmp
+# adb shell chmod 755 /data/local/tmp/minitouch
+# adb forward tcp:1111 localabstract:minitouch
+# adb shell /data/local/tmp/minitouch
+# 创建socket连接到localhost:1111，然后发送"m 0 20 40 50\n"，即可模拟点击事件
+
+# maatouch：https://github.com/MaaAssistantArknights/MaaTouch
+# adb push touch.zip /data/local/tmp/touch.jar
+# adb shell chmod 755 /data/local/tmp/touch.jar
+# adb shell export CLASSPATH=/data/local/tmp/touch.jar; app_process /data/local/tmp com.shxyke.touchevent.App
+# 启动后直接交互
+# ========================================
+
+class MaaTouchUtils:
+    def __init__(self, config):
+        self.config = config
+        self.adb_path = get_config_adb_path(config)
+        self.adb_serial = getNewestSeialNumber(config)
+        self.maatouch_process = None
+        self.fail_init = False
+        
+        
+    def initialize(self):
+        """初始化maatouch，如果已经初始化过了就不再初始化，返回MaaTouch控制进程是否可用"""
+        if self.maatouch_process:
+            # 已经初始化过了
+            return True
+        if self.fail_init:
+            # 初始化失败过，不再初始化
+            return False
+        # 检查在/data/local/tmp是否有touch.jar
+        jar_name = "_touch.jar"
+        completed_process = subprocess_run([self.adb_path, "-s", self.adb_serial, "shell", "ls", "/data/local/tmp"])
+        if jar_name not in completed_process.stdout:
+            # 没有的话，需要推送
+            logging.info({"zh_CN": "没有touch.jar，需要推送", "en_US": "No touch.jar found, need to push."})
+            # 检查本地是否有touch.zip
+            if not os.path.exists("./DATA/touch.zip"):
+                logging.error({"zh_CN": "本地没有touch.zip", "en_US": "No touch.zip found locally"})
+                self.fail_init = True
+                return False
+            # 推送touch.zip
+            completed_process = subprocess_run([self.adb_path, "-s", self.adb_serial, "push", "./DATA/touch.zip", f"/data/local/tmp/{jar_name}"])
+            logging.info(completed_process.stdout)
+        # 给予执行权限
+        completed_process = subprocess_run([self.adb_path, "-s", self.adb_serial, "shell", "chmod", "755", f"/data/local/tmp/{jar_name}"])
+        # 启动maatouch
+        self.maatouch_process = subprocess_run([self.adb_path, "-s", self.adb_serial, "shell", f'export CLASSPATH=/data/local/tmp/{jar_name}; app_process /data/local/tmp com.shxyke.touchevent.App'], isasync=True)
+        logging.info(f"maatouch pid: {self.maatouch_process.pid}")
+        time.sleep(0.5)
+        # 检查是否启动成功
+        if self.maatouch_process.poll() is None: # poll()返回None表示进程正在运行
+            logging.info({"zh_CN": "maatouch启动成功", "en_US": "maatouch started successfully"})
+            return True
+        else:
+            logging.error({"zh_CN": "maatouch启动失败", "en_US": "Failed to start maatouch"})
+            self.fail_init = True
+            return False
+    
+    def click(self, x, y):
+        if not self.initialize():
+            return
+        logging.info("click")
+        finger_str = f"d 0 {x} {y} 50\nu 0\nc\n"
+        self.maatouch_process.stdin.write(finger_str)

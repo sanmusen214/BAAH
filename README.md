@@ -84,3 +84,5 @@ Release notification bot support [@xiaofeiTM233](https://github.com/xiaofeiTM233
 [pponnxcr](https://github.com/hgjazhgj/pponnxcr)
 
 [nicegui](https://github.com/zauberzeug/nicegui)
+
+[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
