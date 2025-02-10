@@ -57,6 +57,12 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 参照 [BlockHaity的博客](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
 
+### 在Android Termux中运行 by BlockHaity
+
+注意，对Android Termux的适配为被动式实验性强行适配，可能会出现各种各样的问题。详细部署方法在下方链接中，如有问题，优先在部署方法下的评论区或 **BAAH - 问题解答** 群中@BlockHaity
+
+[🔗部署方法](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
+
 # 常见问题
 
 ## 0. 如何更新BAAH
