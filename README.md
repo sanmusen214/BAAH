@@ -18,8 +18,6 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 
 [中文开发文档](./docs/README_dev.md) | [English Dev Document](./docs/README_dev_en.md)
 
-[Android Termux部署指南](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
-
 ---
 
 <img src="./docs/static/GUI_CN.png" />
@@ -34,7 +32,7 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 - Windows (executable file, source code)
 - MacOS (source code)
 - Linux (source code, docker)
-- Android Termux (source code,运行于proot容器 run in a proot container,实验性 experimental)
+- Android Termux (source code, proot, experimental)
 
 支持的BA游戏服务器/Supported BA servers：
 
@@ -74,6 +72,10 @@ Supported Functions：
 <a href="https://github.com/sanmusen214/BAAH/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=sanmusen214/BAAH" />
 </a>
+
+Icons from [@dada008](https://space.bilibili.com/23726244?spm_id_from=333.337.0.0)
+
+Release notification bot support [@xiaofeiTM233](https://github.com/xiaofeiTM233)
 
 ## Packages
 

@@ -53,15 +53,11 @@ Discord: https://discord.com/invite/7cEvvfcd
 
 2. 本地编译：通过 `git clone https://github.com/sanmusen214/BAAH.git`后，使用提供的`docker-compose.yml`文件，执行`docker compose up -d` (如果没有合适网络的环境可以把docker-compose.yml文件中的`dockerfile: Dockerfile.CN`这行的注释取消)
 
-### 通过安卓termux运行（实验性）
+### 在Android Termux中运行
 
-参照 [BlockHaity的博客](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
+对Android Termux的适配为实验性适配。详细部署方法在下方链接中，欢迎探讨。
 
-### 在Android Termux中运行 by BlockHaity
-
-注意，对Android Termux的适配为被动式实验性强行适配，可能会出现各种各样的问题。详细部署方法在下方链接中，如有问题，优先在部署方法下的评论区或 **BAAH - 问题解答** 群中@BlockHaity
-
-[🔗部署方法](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/)
+[🔗部署方法](https://blockhaity.github.io/2025/02/10/BAAH%E5%9C%A8%E9%80%86%E5%A4%A9%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84%E8%BF%90%E8%A1%8C/) by [BlockHaity](https://github.com/BlockHaity)
 
 # 常见问题
 
