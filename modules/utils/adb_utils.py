@@ -2,7 +2,7 @@ import os
 import subprocess
 import traceback
 from modules.configs.MyConfig import config
-from modules.utils.log_utils import logging
+from modules.utils.log_utils import logging, istr, CN, EN
 from modules.utils.subprocess_helper import subprocess_run
 import time
 import numpy as np
@@ -360,18 +360,26 @@ def set_dpi(target_dpi, use_config=None):
 # ========================================
 
 class MaaTouchUtils:
-    def __init__(self, config):
+    """
+    使用maatouch的工具类，初始化后需要call load_config()方法
+    """
+    def __init__(self):
+        self.config = None
+        self.adb_path = None
+        self.adb_serial = None
+        self.maatouch_process = None
+        self.fail_init = False
+        self.time_step = 20 # 细粒度20ms
+
+    def load_config(self, config):
         self.config = config
         self.adb_path = get_config_adb_path(config)
         self.adb_serial = getNewestSeialNumber(config)
-        self.maatouch_process = None
-        self.fail_init = False
         
-        
-    def initialize(self):
+    def _initialize(self):
         """初始化maatouch，如果已经初始化过了就不再初始化，返回MaaTouch控制进程是否可用"""
-        if self.maatouch_process:
-            # 已经初始化过了
+        if self.maatouch_process and self.maatouch_process.poll() is None:
+            # 运行中
             return True
         if self.fail_init:
             # 初始化失败过，不再初始化
@@ -404,10 +412,109 @@ class MaaTouchUtils:
             logging.error({"zh_CN": "maatouch启动失败", "en_US": "Failed to start maatouch"})
             self.fail_init = True
             return False
+        
+    def _check_init(func):
+        """封装装饰器，检查是否初始化成功"""
+        def wrapper(self, *args, **kwargs):
+            if not self._initialize():
+                logging.error(istr({CN: "maatouch初始化失败", EN: "Failed to initialize maatouch"}))
+                return None
+            else:
+                res = func(self, *args, **kwargs)
+                return res
+        return wrapper
     
-    def click(self, x, y):
-        if not self.initialize():
-            return
-        logging.info("click")
-        finger_str = f"d 0 {x} {y} 50\nu 0\nc\n"
+    # ===============操作函数===================
+
+    @_check_init
+    def _press_down(self, id:int, x, y, pressure):
+        assert isinstance(id, int)
+        x = int(x)
+        y = int(y)
+        pressure = int(pressure)
+        finger_str = f"d {id} {x} {y} {pressure}\nc\n"
         self.maatouch_process.stdin.write(finger_str)
+        self.maatouch_process.stdin.flush()
+    
+    @_check_init
+    def _press_up(self, id:int):
+        assert isinstance(id, int)
+        finger_str = f"u {id}\nc\n"
+        self.maatouch_process.stdin.write(finger_str)
+        self.maatouch_process.stdin.flush()
+
+    @_check_init
+    def _press_move(self, id:int, x, y, pressure):
+        assert isinstance(id, int)
+        x = int(x)
+        y = int(y)
+        pressure = int(pressure)
+        finger_str = f"m {id} {x} {y} {pressure}\nc\n"
+        self.maatouch_process.stdin.write(finger_str)
+        self.maatouch_process.stdin.flush()
+
+    @_check_init
+    def _press_reset(self):
+        self.maatouch_process.stdin.write("r\nc\n")
+        self.maatouch_process.stdin.flush()
+
+    @_check_init
+    def _key_onceclick(self, key:int):
+        assert isinstance(key, int)
+        key_str = f"k {key} o\nc\n"
+        self.maatouch_process.stdin.write(key_str)
+        self.maatouch_process.stdin.flush()
+
+    @_check_init
+    def _key_down(self, key:int):
+        assert isinstance(key, int)
+        key_str = f"k {key} d\nc\n"
+        self.maatouch_process.stdin.write(key_str)
+        self.maatouch_process.stdin.flush()
+    
+    @_check_init
+    def _key_up(self, key:int):
+        assert isinstance(key, int)
+        key_str = f"k {key} u\nc\n"
+        self.maatouch_process.stdin.write(key_str)
+        self.maatouch_process.stdin.flush()
+
+    # ============功能函数==================
+
+    def sleep_ms(self, ms):
+        """休眠ms毫秒"""
+        time.sleep(ms / 1000)
+
+    def click(self, x, y):
+        self._press_down(0, x, y, 100)
+        self._press_up(0)
+
+    def swipe(self, x1, y1, x2, y2, ms):
+        x_step = (x2 - x1) / ms
+        y_step = (y2 - y1) / ms
+        self._press_down(0, x1, y1, 100)
+        # 细粒度20ms
+        for i in range(self.time_step, ms, self.time_step):
+            self.sleep_ms(self.time_step)
+            self._press_move(0, x1 + x_step * i, y1 + y_step * i, 100)
+        # 最后一步
+        self.sleep_ms(ms % self.time_step)
+        self._press_move(0, x2, y2, 100)
+        self._press_up(0)
+
+    def zoom(self, center_x, center_y, radius_from, radius_to, ms):
+        # 从中心点左右开始按下
+        self._press_down(0, center_x - radius_from, center_y, 100)
+        self._press_down(1, center_x + radius_from, center_y, 100)
+        x_step = (radius_to - radius_from) / ms
+        # 细粒度20ms
+        for i in range(self.time_step, ms, self.time_step):
+            self.sleep_ms(self.time_step)
+            self._press_move(0, center_x - (radius_from + x_step * i), center_y, 100)
+            self._press_move(1, center_x + (radius_from + x_step * i), center_y, 100)
+        # 最后一步
+        self.sleep_ms(ms % self.time_step)
+        self._press_move(0, center_x - radius_to, center_y, 100)
+        self._press_move(1, center_x + radius_to, center_y, 100)
+        self._press_up(0)
+        self._press_up(1)

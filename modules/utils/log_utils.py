@@ -3,7 +3,7 @@ import os
 from time import strftime
 # !在解析config之前导入log_utils的话，config可能未解析userconfigdict，避免使用userconfigdict，只使用softwareconfigdict
 from modules.configs.MyConfig import config
-from modules.utils.I18nstr import EN, CN, JP
+from modules.utils.I18nstr import istr, EN, CN, JP
 
 import hashlib
 
