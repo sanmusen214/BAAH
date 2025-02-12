@@ -234,6 +234,8 @@ defaultUserDict = {
     "CAFE2_INVITE_SEQ":{"d":2},
     # 咖啡馆邀请发生同名时是否顺延邀请序号
     "CAFE_INVITE_SAME_NAME_DELAY":{"d":False},
+    # 制造是否选择快速制造
+    "CRAFT_USE_QUICK":{"d":False},
 }
 
 # 软件的config里的默认值
