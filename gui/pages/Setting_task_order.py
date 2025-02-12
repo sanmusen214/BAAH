@@ -70,11 +70,8 @@ def set_task_order(config, real_taskname_to_show_taskname, logArea):
     # 快速调用任务
     show_fast_run_task_buttons([
         TaskName.MOMOTALK, 
-        TaskName.MAIN_STORY, 
-        TaskName.SHORT_STORY,
-        TaskName.SIDE_STORY,
+        [TaskName.MAIN_STORY, TaskName.SHORT_STORY, TaskName.SIDE_STORY],
         TaskName.SOLVE_CHALLENGE, 
-        TaskName.PUSH_NORMAL, 
-        TaskName.PUSH_HARD
+        [TaskName.PUSH_NORMAL, TaskName.PUSH_HARD],
     ], config, real_taskname_to_show_taskname, logArea)
 
