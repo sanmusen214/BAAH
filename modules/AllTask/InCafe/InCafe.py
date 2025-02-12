@@ -33,6 +33,8 @@ class InCafe(Task):
         )
         # 清除"今天到场的学生"弹窗
         self.clear_popup()
+        # 可能进入编辑模式，右上退出编辑模式
+        click((1171, 95))
         if self.collect:
             # 收集体力
             CollectPower().run()
