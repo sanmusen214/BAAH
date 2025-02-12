@@ -424,6 +424,12 @@ class MaaTouchUtils:
                 return res
         return wrapper
     
+    # ===============析构函数===================
+    def __del__(self):
+        if self.maatouch_process and self.maatouch_process.poll() is None:
+            self.maatouch_process.terminate()
+            logging.info(istr({CN: "maatouch进程已终止", EN: "maatouch process has been terminated"}))
+    
     # ===============操作函数===================
 
     @_check_init
