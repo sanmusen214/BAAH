@@ -112,7 +112,7 @@
     "config_push_normal_desc": "通常ステージ攻略の開始章",
     "config_push_hard_desc": "難関ステージ攻略の開始章",
     "config_rainbow_teams_desc": "属性に応じて自動的にチームを選択します。チェックを外すと、毎回チームを手動で設定する必要があります",
-    "config_explore_attention": "自分でレインボーチームを組むことをお勧めします。でないと、自分でチームを組むのは少し苦痛です。",
+    "config_explore_attention": "推進設定で各チームの属性強度を設定し、自動チーム選択をチェックすることをお勧めします",
     "email_notification_desc": "メール通知を有効にするかどうかを選択します。デフォルトはQQメールです",
     "email_account": "メールアカウント/QQ番号",
     "email_pwd": "SMTPパスワード",

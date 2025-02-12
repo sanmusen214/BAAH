@@ -112,7 +112,7 @@
     "config_push_normal_desc":"push normal stage start chapter",
     "config_push_hard_desc":"push hard stage start chapter",
     "config_rainbow_teams_desc":"Auto select team according to the attribute, if not checked, you need to manually configure the team each time",
-    "config_explore_attention":"Please use rainbow teams as your first choice",
+    "config_explore_attention":"Better define the team strength of each team",
     "email_notification_desc":"Whether enable email notification, default using QQ email",
     "email_account":"Email Account",
     "email_pwd":"Email SMTP token",

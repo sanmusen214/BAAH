@@ -112,7 +112,7 @@
     "config_push_normal_desc":"普通关卡推图起始章节",
     "config_push_hard_desc":"困难关卡推图起始章节",
     "config_rainbow_teams_desc":"推图是否自动根据属性选择队伍，如果不勾选则需要手动配置队伍",
-    "config_explore_attention":"建议自己配个彩虹队，要不然自己配队有点折磨",
+    "config_explore_attention":"建议在 推图设置 板块设置每个队伍的属性强度并勾选自动选择队伍",
     "email_notification_desc":"是否启用邮件通知，默认为QQ邮箱",
     "email_account":"邮件账号/QQ号",
     "email_pwd":"SMTP授权码",
