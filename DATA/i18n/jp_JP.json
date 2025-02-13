@@ -165,6 +165,7 @@
     "config_quick_call_task":"クイックタスク",
     "config_desc_quick_call_task":"エミュレータポートとサーバーを設定した後 、以下のタスクをクリックするとすぐに実行できます（推進タスクは推進開始章を設定する必要があります）",
     "config_use_quick_craft":"クイッククラフトを使用する",
+    "config_output_err_log":"エラーが発生した場合にログを保存するかどうか",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

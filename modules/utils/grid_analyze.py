@@ -355,7 +355,11 @@ class GridAnalyzer:
             traceback.print_exc()
             return [i for i in range(len(self.get_initialteams(require_type)))]
 
-    
+    # 忽略成就弹窗
+    # def ignore_achievement_popup(self, imgdata):
+    #     """检测是否有成就弹窗，有的话忽略"""
+    #     pass
+
     def get_head_triangle(self, imgdata):
         """
         获取头顶的黄色箭头的位置，返回中心点坐标，这里按照数组轴

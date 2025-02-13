@@ -165,6 +165,7 @@
     "config_quick_call_task":"快速执行任务",
     "config_desc_quick_call_task":"配置过模拟器端口和区服后，以下非日常类型的任务点击即可执行（推图任务需要配置推图起始关卡）",
     "config_use_quick_craft":"使用快速制造",
+    "config_output_err_log":"发生错误时是否保存日志",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",
