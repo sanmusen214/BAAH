@@ -209,8 +209,16 @@ class InCraft(Task):
             # 尚未制造：开始制造
             # 如果使用快速制造
             if config.userconfigdict["CRAFT_USE_QUICK"]:
+                logging.info(istr({
+                    CN: "使用快速制造",
+                    EN: "Use quick crafting"
+                }))
                 self.dealing_with_quick_craft()
             else:
+                logging.info(istr({
+                    CN: "使用普通制造",
+                    EN: "Use normal crafting"
+                }))
                 self.run_until(
                     lambda: click(self.items_pos[ind]),
                     lambda: not Page.is_page(PageName.PAGE_CRAFT)
