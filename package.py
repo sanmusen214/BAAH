@@ -170,8 +170,9 @@ time.sleep(2)
 # package_rename("./dist/BAAH/BAAH.exe", f"./dist/BAAH/BAAH{config_version}.exe")
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
 
-package_remove_file("./BAAH.exe")
-package_copyfile(f"./dist/BAAH{config_version}/BAAH.exe", "./BAAH.exe")
+# gui已经脱离BAAH.exe，不需要了
+# package_remove_file("./BAAH.exe")
+# package_copyfile(f"./dist/BAAH{config_version}/BAAH.exe", "./BAAH.exe")
 
 print("开始压缩")
 time.sleep(2)
