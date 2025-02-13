@@ -15,3 +15,4 @@ def set_craft(config):
                 max=3
                 ).bind_value(config.userconfigdict, 'CRAFT_TIMES', forward=lambda v: int(v), backward=lambda v:int(v)).style('width: 400px')
     
+    ui.checkbox(config.get_text("config_use_quick_craft")).bind_value(config.userconfigdict, 'CRAFT_USE_QUICK')

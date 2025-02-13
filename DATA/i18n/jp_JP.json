@@ -149,7 +149,7 @@
     "config_pre_command":"タスク開始前に実行するコマンド",
     "config_post_command":"タスク終了後に実行するコマンド",
     "config_use_simple_explore":"簡易攻略を使用する",
-    "config_craft_desc":"現在、クラフトタスクは1つのノードのみをサポートし、指定されたアイテムの優先順位をサポートしていません。国内サーバーがワンクリック製造を実装した後、ワンクリック製造を使用してサポートする予定です",
+    "config_craft_desc":"通常のクラフトタスクは、最初の黄色いノードを優先します",
     "config_craft_max_times":"最大製造回数",
     "desc_note":"備考",
     "config_login_timeout": "ゲームにログインするためのタイムアウト時間(秒)",
@@ -164,6 +164,7 @@
     "config_cafe_samename_defer":"カフェの招待が同じ名前の場合、後ろに一つずらす",
     "config_quick_call_task":"クイックタスク",
     "config_desc_quick_call_task":"エミュレータポートとサーバーを設定した後 、以下のタスクをクリックするとすぐに実行できます（推進タスクは推進開始章を設定する必要があります）",
+    "config_use_quick_craft":"クイッククラフトを使用する",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
