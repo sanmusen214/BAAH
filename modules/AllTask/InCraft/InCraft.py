@@ -45,6 +45,55 @@ class InCraft(Task):
             reslist.append(self.STATUS_CRAFT_DOING)
         return reslist
     
+    def dealing_with_quick_craft(self):
+        """
+        点击快速制造按钮，并完成快速制造
+        """
+        # 点开快速制造弹窗
+        self.run_until(
+            lambda: click([893, 619]),
+            lambda: self.has_popup(),
+            times=4
+        )
+        # 判断是否有黄色开始制造按钮
+        has_yellow_button = match_pixel([1009, 593], self.COLOR_BUTTON_CRAFT_YELLOW)
+        if not has_yellow_button:
+            warning_str = istr({
+                CN: "无法匹配快速制造弹窗，或没有足够的材料进行快速制造",
+                EN: "Can not match popup, or not enough materials for quick crafting"
+            })
+            config.append_noti_sentence(warning_str)
+            logging.warn(warning_str)
+            self.status=Task.STATUS_SKIP
+            return
+        # 点击开始制造按钮，出现蓝色确认
+        self.run_until(
+            lambda: click([1009, 593]),
+            lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB)),
+            times=4
+        )
+        # 点击确认按钮，直到返回制造页面
+        can_confirm = self.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
+            lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB)),
+            times=4,
+            sleeptime=1.5
+        )
+        if can_confirm:
+            logging.info(istr({
+                CN: "快速制造成功",
+                EN: "Quick crafting success"
+            }))
+        else:
+            logging.warn(istr({
+                CN: "快速制造失败",
+                EN: "Quick crafting failed"
+            }))
+            self.status=Task.STATUS_SKIP
+        # 可能多点到空白格子，进入制造清单;返回
+        if match_pixel([329, 381], Page.COLOR_WHITE):
+            click(Page.TOPLEFTBACK, sleeptime=1)
+    
     def dealing_with_craft(self):
         """
         进入到添加制造石头的页面
@@ -55,10 +104,12 @@ class InCraft(Task):
             lambda: match_pixel(self.BUTTON_CRAFT, self.COLOR_BUTTON_CRAFT_YELLOW)
         )
         if not button_light:
-            logging.warn(istr({
+            warning_str = istr({
                 CN: "点击制造失败",
                 EN: "Failed to click craft button"
-            }))
+            })
+            logging.warn(warning_str)
+            config.append_noti_sentence(warning_str)
             # 没制造材料，跳过之后的制造任务
             self.status=Task.STATUS_SKIP
             return
@@ -156,11 +207,23 @@ class InCraft(Task):
                 self.clear_popup()
                 # 随后制造
             # 尚未制造：开始制造
-            self.run_until(
-                lambda: click(self.items_pos[ind]),
-                lambda: not Page.is_page(PageName.PAGE_CRAFT)
-            )
-            self.dealing_with_craft()
+            # 如果使用快速制造
+            if config.userconfigdict["CRAFT_USE_QUICK"]:
+                logging.info(istr({
+                    CN: "使用快速制造",
+                    EN: "Use quick crafting"
+                }))
+                self.dealing_with_quick_craft()
+            else:
+                logging.info(istr({
+                    CN: "使用普通制造",
+                    EN: "Use normal crafting"
+                }))
+                self.run_until(
+                    lambda: click(self.items_pos[ind]),
+                    lambda: not Page.is_page(PageName.PAGE_CRAFT)
+                )
+                self.dealing_with_craft()
             if self.status == Task.STATUS_SKIP:
                 logging.warn(istr({
                     CN: "制造材料不足，跳过之后的制造任务",

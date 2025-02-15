@@ -188,6 +188,12 @@ def ocr_pic_area(image_mat, fromx, fromy, tox, toy, multi_lines = False):
         ocr_text = ocr_text.strip()
         ocr_text = ocr_text.replace("９", "9")
         return ocr_text
+    
+    def local2global_pos(pixel_pos):
+        """
+        将局部坐标转换为全局坐标
+        """
+        return [pixel_pos[0]+fromx, pixel_pos[1]+fromy]
 
     rawImage = image_mat
     if rawImage is None:
@@ -204,7 +210,7 @@ def ocr_pic_area(image_mat, fromx, fromy, tox, toy, multi_lines = False):
         else:
             # 图像识别多行
             resstring_list = ZHT.detect_and_ocr(rawImage)
-            return [[replace_mis(res.ocr_text), res.score if not isnan(res.score) else 0] for res in resstring_list]
+            return [[replace_mis(res.ocr_text), res.score if not isnan(res.score) else 0, [local2global_pos(res.box[0]), local2global_pos(res.box[2])]] for res in resstring_list]
     
 def match_pixel_color_range(image_mat, x, y, low_range, high_range, printit = False):
     """

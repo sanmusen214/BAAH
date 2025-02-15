@@ -9,10 +9,10 @@ def set_task_order(config, real_taskname_to_show_taskname, logArea):
     
     def select_clear_all_and_refresh_task_order(type="select"):
         if type == "select":
-            for i in range(1, len(config.userconfigdict["TASK_ACTIVATE"])):
+            for i in range(0, len(config.userconfigdict["TASK_ACTIVATE"])):
                 config.userconfigdict["TASK_ACTIVATE"][i] = True
         else:
-            for i in range(1, len(config.userconfigdict["TASK_ACTIVATE"])):
+            for i in range(0, len(config.userconfigdict["TASK_ACTIVATE"])):
                 config.userconfigdict["TASK_ACTIVATE"][i] = False
         task_order.refresh()
     
@@ -70,11 +70,8 @@ def set_task_order(config, real_taskname_to_show_taskname, logArea):
     # 快速调用任务
     show_fast_run_task_buttons([
         TaskName.MOMOTALK, 
-        TaskName.MAIN_STORY, 
-        TaskName.SHORT_STORY,
-        TaskName.SIDE_STORY,
+        [TaskName.MAIN_STORY, TaskName.SHORT_STORY, TaskName.SIDE_STORY],
         TaskName.SOLVE_CHALLENGE, 
-        TaskName.PUSH_NORMAL, 
-        TaskName.PUSH_HARD
+        [TaskName.PUSH_NORMAL, TaskName.PUSH_HARD],
     ], config, real_taskname_to_show_taskname, logArea)
 

@@ -20,11 +20,7 @@ class CollectPower(Task):
 
 
     def on_run(self) -> None:
-        self.run_until(
-            lambda: click(Page.MAGICPOINT),
-            lambda: Page.is_page(PageName.PAGE_CAFE),
-        )
-        sleep(2)
+        self.clear_popup()
         if match(button_pic(ButtonName.BUTTON_CAFE_CANNOT_COLLECT)):
             logging.info({"zh_CN": "咖啡馆没有可领取的物品", "en_US": "there's nothing in cafe"})
             return
@@ -56,7 +52,7 @@ class CollectPower(Task):
             logging.info({"zh_CN": "成功点击领取", "en_US": "Successfully clicked to claim"})
         else:
             logging.warn({"zh_CN": "领取失败", "en_US": "Failed to collect"})
-        # 不管成功失败，点击魔法点来关闭一次弹窗，让收益情况弹窗出现
+        # 不管成功失败，关闭弹窗
         self.clear_popup()
 
     def post_condition(self) -> bool:

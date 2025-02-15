@@ -32,6 +32,7 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 - Windows (executable file, source code)
 - MacOS (source code)
 - Linux (source code, docker)
+- Android Termux (source code, proot, experimental)
 
 支持的BA游戏服务器/Supported BA servers：
 
@@ -72,6 +73,10 @@ Supported Functions：
   <img src="https://contrib.rocks/image?repo=sanmusen214/BAAH" />
 </a>
 
+Icons from [@dada008](https://space.bilibili.com/23726244?spm_id_from=333.337.0.0)
+
+Release notification bot support [@xiaofeiTM233](https://github.com/xiaofeiTM233)
+
 ## Packages
 
 [opencv-python](https://github.com/opencv/opencv)
@@ -79,3 +84,5 @@ Supported Functions：
 [pponnxcr](https://github.com/hgjazhgj/pponnxcr)
 
 [nicegui](https://github.com/zauberzeug/nicegui)
+
+[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)

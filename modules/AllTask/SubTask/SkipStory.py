@@ -37,9 +37,8 @@ class SkipStory(Task):
             menupos = menures[1]
             # 按MENU,点击跳过直到看到蓝色确认按钮，这里MENU和跳过图标之间响应很快，直接连点
             clickmenu_and_skip = self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=0.3) and click((menupos[0], menupos[1] + 80), sleeptime=0.3),
-                lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB)),
-                sleeptime=2
+                lambda: click(button_pic(ButtonName.BUTTON_STORY_MENU), sleeptime=0.3) and click((menupos[0], menupos[1] + 80), sleeptime=1),
+                lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB))
             )
             if not clickmenu_and_skip:
                 logging.info({"zh_CN": "跳过剧情被打断，重试", "en_US": "Skip the plot was interruption, try again"})

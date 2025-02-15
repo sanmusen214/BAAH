@@ -28,15 +28,13 @@ class InCafe(Task):
         # 进入咖啡厅
         self.run_until(
             # 恰好是主页中的咖啡厅按钮，而又不是咖啡厅里的编辑按钮
-            lambda: click((116, 687)) and click(Page.MAGICPOINT),
+            lambda: click((116, 687)) and click(Page.MAGICPOINT, sleeptime=1.5),
             lambda: Page.is_page(PageName.PAGE_CAFE),
         )
         # 清除"今天到场的学生"弹窗
-        if match(popup_pic(PopupName.POPUP_CAFE_VISITED)):
-            self.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: not match(popup_pic(PopupName.POPUP_CAFE_VISITED)),
-            )
+        self.clear_popup()
+        # 可能进入编辑模式，右上退出编辑模式
+        click((1171, 95))
         if self.collect:
             # 收集体力
             CollectPower().run()

@@ -234,6 +234,8 @@ defaultUserDict = {
     "CAFE2_INVITE_SEQ":{"d":2},
     # 咖啡馆邀请发生同名时是否顺延邀请序号
     "CAFE_INVITE_SAME_NAME_DELAY":{"d":False},
+    # 制造是否选择快速制造
+    "CRAFT_USE_QUICK":{"d":False},
 }
 
 # 软件的config里的默认值
@@ -257,8 +259,10 @@ defaultSoftwareDict = {
     "NOTE":{"d":{
         "HARD_NOTE":"",
     }},
-    
+    # 是否输出日志
     "SAVE_LOG_TO_FILE":{"d":False},
+    # 发生错误时，是否输出custom日志
+    "SAVE_ERR_CUSTOM_LOG":{"d":True},
 }
 
 # sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict

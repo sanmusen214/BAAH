@@ -51,24 +51,7 @@ Ensure you have a docker environment. You can run in the following ways
 
 1. Prebuild Image: Get the image built by [Github Action](https://github.com/sanmusen214/BAAH/actions), execute `docker run -d --name BAAH -p 8000:8000 ghcr.io/sanmusen214/baah:latest`
 
-2. Build Locally: Run `git clone https://github.com/sanmusen214/BAAH.git`. Use the following `docker-compose.yml` file and execute `docker compose up -d`
-
-```yaml
-services:
-  baah:
-    image: ghcr.io/sanmusen214/baah:latest
-    container_name: BAAH
-    volumes:
-      - ./DATA/CONFIGS:/app/BAAH/DATA/CONFIGS
-      - ./BAAH_CONFIGS:/app/BAAH/BAAH_CONFIGS
-    environment:
-      - TZ=Asia/Shanghai
-      - HOST=0.0.0.0
-      - PORT=8000
-      # - TOKEN=YOUR_TOKEN
-    ports:
-      - 8000:8000
-```
+2. Build Locally: Run `git clone https://github.com/sanmusen214/BAAH.git`. Use the `docker-compose.yml` file and execute `docker compose up -d`
 
 # FAQs
 

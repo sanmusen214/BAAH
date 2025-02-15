@@ -221,7 +221,7 @@ class FightQuest(Task):
                     times=7,
                     sleeptime=1
                 )
-            # 尝试回到backtopic
+            # 尝试回到backtopic，此处会有 “请见下回” 或 “是否观看下一章节” 的弹窗，等久一点
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 self.backtopic,
