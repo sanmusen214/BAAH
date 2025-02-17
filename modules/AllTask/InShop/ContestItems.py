@@ -22,10 +22,7 @@ class ContestItems(Task):
 
     def on_run(self) -> None:
         logging.info({"zh_CN": "开始竞技场商店购买", "en_US": "start shopping(Arena)"})
-        if config.userconfigdict["SHOP_CONTEST_BUYALL"]:
-            BuyItems(config.userconfigdict['SHOP_CONTEST'], buyall = True).run()
-        else:
-            BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
+        BuyItems(config.userconfigdict['SHOP_CONTEST'], buyall = config.userconfigdict["SHOP_CONTEST_BUYALL"]).run()
         for i in range(config.userconfigdict["SHOP_CONTEST_REFRESH_TIME"]):
             logging.info({"zh_CN": "刷新", "en_US": "refresh"})
             # 点击刷新按钮
@@ -48,7 +45,7 @@ class ContestItems(Task):
                 # 成功刷新
                 if clickconfirm:
                     logging.info({"zh_CN": "刷新成功", "en_US": "Refresh successfully"})
-                    BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
+                    BuyItems(config.userconfigdict['SHOP_CONTEST'], buyall = config.userconfigdict["SHOP_CONTEST_BUYALL"]).run()
                 else:
                     logging.error({"zh_CN": "刷新失败", "en_US": "Refresh failed"})
                     click(Page.MAGICPOINT)
