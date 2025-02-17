@@ -166,6 +166,8 @@
     "config_desc_quick_call_task":"After configuring the emulator port and server type, the following tasks can be executed by clicking (the explore task needs to configure the start chapter-level)",
     "config_use_quick_craft":"Use Quick Craft",
     "config_output_err_log":"Whether save log when error occurs",
+    "config_shop_normal_buyall":"Buy all in normal shop",
+    "config_shop_contest_buyall":"Buy all in contest shop",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
