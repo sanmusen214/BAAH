@@ -16,12 +16,16 @@ class NormalItems(Task):
         super().__init__(name)
 
     def pre_condition(self) -> bool:
+        # 有要购买的物品或者要购买所有物品
         return (Page.is_page(PageName.PAGE_SHOP) and config.userconfigdict["SHOP_NORMAL"] and
-                len(config.userconfigdict["SHOP_NORMAL"]) > 0)
+                len(config.userconfigdict["SHOP_NORMAL"]) > 0) or config.userconfigdict["SHOP_NORMAL_BUYALL"]
 
     def on_run(self) -> None:
         logging.info({"zh_CN": "开始普通商店购买", "en_US": "start shopping(common)"})
-        BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
+        if config.userconfigdict["SHOP_NORMAL_BUYALL"]:
+            BuyItems(config.userconfigdict['SHOP_NORMAL'], buyall = True).run()
+        else:
+            BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
         for i in range(config.userconfigdict["SHOP_NORMAL_REFRESH_TIME"]):
             logging.info({"zh_CN": "刷新", "en_US": "refresh"})
             # 点击刷新按钮
