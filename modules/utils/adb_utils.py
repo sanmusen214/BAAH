@@ -192,7 +192,22 @@ def open_app(activity_path: str):
     """
     使用adb打开app
     """
-    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path], isasync=True)
+    brand_waydroid = False
+    try:
+        # https://github.com/MaaXYZ/MaaFramework/issues/548
+        # check waydroid, open in full screen
+        check_brand = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'getprop', 'ro.product.brand']).stdout
+        if "waydroid" in check_brand.lower():
+            brand_waydroid = True
+            logging.info("waydroid detected")
+    except Exception as e:
+        logging.error(f"Error when check brand: {e}")
+        pass
+    # ==============================
+    if brand_waydroid:
+        subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', '--windowingMode', '4', activity_path], isasync=True)
+    else:
+        subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path], isasync=True)
     time.sleep(1)
     # 加-n参数，可以在已经启动的时候，切换activity而不只是包
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', '-n', activity_path], isasync=True)
