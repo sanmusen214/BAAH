@@ -62,7 +62,9 @@ class InCraft(Task):
                 CN: "无法匹配快速制造弹窗，或没有足够的材料进行快速制造",
                 EN: "Can not match popup, or not enough materials for quick crafting"
             })
-            config.append_noti_sentence(warning_str)
+            config.append_noti_sentence(
+                key="CRAFT_FAILED", 
+                sentence=warning_str)
             logging.warn(warning_str)
             self.status=Task.STATUS_SKIP
             return
@@ -109,7 +111,9 @@ class InCraft(Task):
                 EN: "Failed to click craft button"
             })
             logging.warn(warning_str)
-            config.append_noti_sentence(warning_str)
+            config.append_noti_sentence(
+                key="CRAFT_FAILED",
+                sentence=warning_str)
             # 没制造材料，跳过之后的制造任务
             self.status=Task.STATUS_SKIP
             return

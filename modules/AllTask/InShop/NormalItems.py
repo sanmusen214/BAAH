@@ -16,12 +16,13 @@ class NormalItems(Task):
         super().__init__(name)
 
     def pre_condition(self) -> bool:
+        # 有要购买的物品或者要购买所有物品
         return (Page.is_page(PageName.PAGE_SHOP) and config.userconfigdict["SHOP_NORMAL"] and
-                len(config.userconfigdict["SHOP_NORMAL"]) > 0)
+                len(config.userconfigdict["SHOP_NORMAL"]) > 0) or config.userconfigdict["SHOP_NORMAL_BUYALL"]
 
     def on_run(self) -> None:
         logging.info({"zh_CN": "开始普通商店购买", "en_US": "start shopping(common)"})
-        BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
+        BuyItems(config.userconfigdict['SHOP_NORMAL'], buyall = config.userconfigdict["SHOP_NORMAL_BUYALL"]).run()
         for i in range(config.userconfigdict["SHOP_NORMAL_REFRESH_TIME"]):
             logging.info({"zh_CN": "刷新", "en_US": "refresh"})
             # 点击刷新按钮
@@ -44,7 +45,7 @@ class NormalItems(Task):
                 # 成功刷新
                 if clickconfirm:
                     logging.info({"zh_CN": "刷新成功", "en_US": "Refresh successfully"})
-                    BuyItems(config.userconfigdict['SHOP_NORMAL']).run()
+                    BuyItems(config.userconfigdict['SHOP_NORMAL'], buyall = config.userconfigdict["SHOP_NORMAL_BUYALL"]).run()
                 else:
                     logging.error({"zh_CN": "刷新失败", "en_US": "Fresh failed"})
                     click(Page.MAGICPOINT)
