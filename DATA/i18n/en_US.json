@@ -27,6 +27,7 @@
     "task_solve_challenge":"Complete Challenge Task",
     "task_short_story":"Short Story",
     "task_side_story":"Side Story",
+    "task_oneclick_raid":"One Click Raid",
 
     "setting_emulator": "Emulator Configuration",
     "setting_server": "Server Configuration",
@@ -168,6 +169,7 @@
     "config_output_err_log":"Whether save log when error occurs",
     "config_shop_normal_buyall":"Buy all in normal shop",
     "config_shop_contest_buyall":"Buy all in contest shop",
+    "desc_one_click_raid":"One click raid, need to select the raid stage first",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

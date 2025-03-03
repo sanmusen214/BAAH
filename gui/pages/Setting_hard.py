@@ -27,3 +27,19 @@ def set_hard(config, shared_softwareconfig):
         config.get_text("config_desc_list_edit"),
         has_switch=True
     )
+
+    # 一键扫荡
+    ui.label(config.get_text("task_oneclick_raid")).style('font-size: x-large')
+    list_edit_area(
+        config.userconfigdict["ONE_CLICK_RAID"],
+        [
+            config.get_text("config_day"), 
+            "",
+            [
+                config.get_text("config_task"),
+                config.get_text("config_times")
+            ]
+        ],
+        config.get_text("desc_one_click_raid"),
+        has_switch=True
+    )

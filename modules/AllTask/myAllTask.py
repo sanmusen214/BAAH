@@ -30,6 +30,7 @@ class TaskName():
     DAILY = "每日任务"
     MAIL = "邮件"
     NORMAL = "普通关卡"
+    ONE_CLICK_RAID = "一键扫荡"
     PUSH_NORMAL = "普通推图"
     PUSH_HARD = "困难推图"
     MAIN_STORY = "主线剧情"
@@ -166,6 +167,12 @@ class TaskInstanceMap:
                     task_module = CollectMails,
                     task_params = {}
                 ),
+            TaskName.ONE_CLICK_RAID: TaskInstance(
+                task_config_name=TaskName.ONE_CLICK_RAID,
+                i18n_key_name="task_oneclick_raid",
+                task_module=InQuest,
+                task_params={'types': ["one-click"]}
+            ),
             TaskName.NORMAL: TaskInstance(
                     task_config_name = TaskName.NORMAL,
                     i18n_key_name = "task_normal",
