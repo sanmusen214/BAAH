@@ -33,22 +33,22 @@ class OneClickQuest(Task):
             CN: f"开始一键扫荡{self.tasklist}",
             EN: f"Start one-click raid {self.tasklist}"
         }))
-        # 点开批量扫荡
-        open_popup = self.run_until(
-            lambda: click([483, 599]),
-            lambda: self.has_popup(),
-            times = 4
-        )
-        if not open_popup:
-            logging.error(istr({
-                CN: f"无法打开一键扫荡界面",
-                EN: f"Cannot open the one-click raid page"
-            }))
-            return
         # 7个坐标点
         point_y = 165
         points_x = np.linspace(167, 1125, 7, dtype=int)
         for i, task in enumerate(self.tasklist):
+            # 点开批量扫荡
+            open_popup = self.run_until(
+                lambda: click([483, 599]),
+                lambda: self.has_popup(),
+                times = 4
+            )
+            if not open_popup:
+                logging.error(istr({
+                    CN: f"无法打开一键扫荡界面",
+                    EN: f"Cannot open the one-click raid page"
+                }))
+                return
             index = task[0]
             times = task[1]
             whether_do = task[2]
