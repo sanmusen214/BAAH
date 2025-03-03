@@ -162,7 +162,7 @@ class InCraft(Task):
             EN:"Start crafting"
         }))
         self.run_until(
-            lambda: click(self.BUTTON_CRAFT),
+            lambda: click(self.BUTTON_CRAFT, sleeptime=1.5),
             lambda: self.has_popup(),
             sleeptime = 0.5
         )
