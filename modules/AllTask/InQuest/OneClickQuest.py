@@ -16,6 +16,7 @@ class OneClickQuest(Task):
         # 一件扫荡下标，次数
         self.tasklist = tasklist
         self.selected_tab = [[110, 70, 40], [120, 80, 55]]
+        self.button_min = [551, 591]
         self.button_minus = [620, 591]
         self.button_plus = [772, 592]
         self.button_max = [843, 591]
@@ -53,14 +54,14 @@ class OneClickQuest(Task):
             whether_do = task[2]
             if not whether_do:
                 logging.info(istr({
-                    CN: f"跳过扫荡下标{index}",
-                    EN: f"Skip raid index {index}"
+                    CN: f"跳过扫荡任务{task}",
+                    EN: f"Skip raid {task}"
                 }))
                 continue
             if index < 0 or index > 6:
                 logging.error(istr({
-                    CN: f"扫荡下标{index} 不合法",
-                    EN: f"Raid index {index} is illegal"
+                    CN: f"扫荡任务{task}次数 不合法",
+                    EN: f"Raid task {task} times is not legal"
                 }))
                 continue
             # 切换到对应的扫荡任务
@@ -71,13 +72,17 @@ class OneClickQuest(Task):
             # 扫荡次数
             if ocr_area(self.ocr_area[0], self.ocr_area[1])[0].strip() == "0":
                 logging.warn(istr({
-                    CN: f"一键扫荡下标{index}次数为0，无体力或次数不足",
-                    EN: f"One-click raid index {index} times is 0, no stamina or insufficient times"
+                    CN: f"一键扫荡任务{task}次数为0，无体力或次数不足",
+                    EN: f"One-click raid task {task} times is 0, no stamina or insufficient times"
                 }))
                 continue
+            self.run_until(
+                lambda: click(self.button_min),
+                lambda: ocr_area(self.ocr_area[0], self.ocr_area[1])[0].strip() == "1"
+            )
             # 点击次数
             if times > 0:
-                for _ in range(times):
+                for _ in range(times - 1):
                     click(self.button_plus)
             elif times < 0:
                 click(self.button_max)
@@ -85,6 +90,12 @@ class OneClickQuest(Task):
                     for _ in range(-times):
                         click(self.button_minus)
             # 点击扫荡
+            screenshot()
+            ocr_str_times = ocr_area(self.ocr_area[0], self.ocr_area[1])[0].strip()
+            logging.info(istr({
+                CN: f"开始一键扫荡下标{i} 任务{task} 次数{ocr_str_times}",
+                EN: f"Start one-click raid index {i} task {task} times {ocr_str_times}"
+            }))
             self.run_until(
                 lambda: click([947, 595]),
                 lambda: match(button_pic(ButtonName.BUTTON_CONFIRMY))
