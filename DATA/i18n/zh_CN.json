@@ -27,6 +27,7 @@
     "task_solve_challenge":"挑战任务",
     "task_short_story":"推短篇剧情/小故事",
     "task_side_story":"推支线剧情/社团故事",
+    "task_oneclick_raid":"一键扫荡",
 
     "setting_emulator":"模拟器配置",
     "setting_server":"服务器配置",
@@ -168,6 +169,7 @@
     "config_output_err_log":"发生错误时是否保存日志",
     "config_shop_normal_buyall":"普通商店购买所有",
     "config_shop_contest_buyall":"竞技场商店购买所有",
+    "desc_one_click_raid":"一键扫荡功能，需要先自己勾选设置扫荡关卡 并 手动扫荡一次保存勾选结果",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

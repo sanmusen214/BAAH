@@ -27,6 +27,7 @@
     "task_solve_challenge":"挑戦タスクを完了する",
     "task_short_story":"短編ストーリー",
     "task_side_story":"サイドストーリー",
+    "task_oneclick_raid":"一括攻略",
 
     "setting_emulator": "エミュレータ設定",
     "setting_server": "サーバー設定",
@@ -168,6 +169,7 @@
     "config_output_err_log":"エラーが発生した場合にログを保存するかどうか",
     "config_shop_normal_buyall":"通常のショップで全てを購入する",
     "config_shop_contest_buyall":"競技場のショップで全てを購入する",
+    "desc_one_click_raid":"一括攻略機能、自分でスキップするステージを選択してください そして一度手動でスキップしてください",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

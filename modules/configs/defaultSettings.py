@@ -238,6 +238,8 @@ defaultUserDict = {
     "CAFE_INVITE_SAME_NAME_DELAY":{"d":False},
     # 制造是否选择快速制造
     "CRAFT_USE_QUICK":{"d":False},
+    # 一键扫荡
+    "ONE_CLICK_RAID":{"d":[]}
 }
 
 # 软件的config里的默认值

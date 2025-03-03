@@ -11,16 +11,17 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 from .HardQuest import HardQuest
 from .NormalQuest import NormalQuest
 from .PushQuest import PushQuest
+from .OneClickQuest import OneClickQuest
 import time
 from modules.configs.MyConfig import config
 
 
 class InQuest(Task):
     """
-    进入 普通关卡/困难关卡， types=["normal", "hard", "push-normal", "push-hard"]
+    进入 普通关卡/困难关卡， types=["normal", "hard", "one-click", "push-normal", "push-hard"]
     """
 
-    def __init__(self, types=["normal", "hard"], name="InQuest") -> None:
+    def __init__(self, types=[], name="InQuest") -> None:
         super().__init__(name)
         self.types = types
 
@@ -103,6 +104,23 @@ class InQuest(Task):
                 logging.warn(istr({
                     CN: "普通任务队列为空!跳过",
                     EN: "The normal task queue is empty! Skip"
+                }))
+        if "one-click" in self.types:
+            # 选择一个ONE CLICK RAID List的下标
+            if len(config.userconfigdict['ONE_CLICK_RAID']) != 0:
+                # 可选任务队列不为空时
+                one_click_loc = today % len(config.userconfigdict['ONE_CLICK_RAID'])
+                # 得到要执行的ONE CLICK RAID LIST
+                # [[3,10],[4,-1]]
+                one_click_list = config.userconfigdict['ONE_CLICK_RAID'][one_click_loc]
+                # 序号转下标
+                one_click_list_2 = [[x[0]-1, *x[1:]] for x in one_click_list]
+                # do ONE CLICK RAID
+                OneClickQuest(one_click_list_2).run()
+            else:
+                logging.warn(istr({
+                    CN: "一键任务队列为空!跳过",
+                    EN: "The one-click task queue is empty! Skip"
                 }))
         self.back_to_home()
 
