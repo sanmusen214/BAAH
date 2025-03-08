@@ -123,6 +123,8 @@ defaultUserDict = {
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},
     "AUTO_EVENT_STORY_PUSH":{"d":False},
+    "ACTIVITY_AUTO_TEAM":{"d":False},
+    "EXPLORE_AUTO_TEAM":{"d":False},
     "EXPLORE_RAINBOW_TEAMS":{"d":False},
     "ENABLE_MAIL_NOTI":{"d":False},
     "CAFE_TOUCH_WAY_DIFF":{"d":True},
@@ -165,6 +167,7 @@ defaultUserDict = {
     "ADB_DIRECT_USE_SERIAL_NUMBER":{"d":False},
     "ADB_SEIAL_NUMBER":{"d":"emulator-5554"},
     # 是否助战学生
+    "IS_AUTO_ASSAULT_AUTO_TEAM":{"d":False},
     "IS_AUTO_ASSAULT_STUDENT_HELP":{"d":False},
     "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT":{"d":False},
     "AUTO_ASSAULT_HELP_STUDENT":{"d":""},

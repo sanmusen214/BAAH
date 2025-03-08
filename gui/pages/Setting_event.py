@@ -6,6 +6,7 @@ def set_event(config):
         ui.link_target("ACTIVITY")
         ui.label(config.get_text("task_event")).style('font-size: x-large')
 
+    ui.checkbox(config.get_text("config_auto_team")).bind_value(config.userconfigdict, "ACTIVITY_AUTO_TEAM")
     
     ui.checkbox(config.get_text("config_auto_event_story")).bind_value(config.userconfigdict, "AUTO_EVENT_STORY_PUSH")
     
