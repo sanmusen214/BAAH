@@ -143,6 +143,12 @@ class AutoAssault(Task):
             self.select_target_helper()
         # 配队页面点击右下出击按钮
         logging.info({"zh_CN": "出击", "en_US": "sortie"})
+        # 是否自动配队
+        if config.userconfigdict["IS_AUTO_ASSAULT_AUTO_TEAM"]:
+            # BlockHaity: 我没有各个服务器的按钮图片，而且是全屏界面，干脆直接硬点了。
+            click((1200, 185))
+            click((650, 600))
+            click((1150, 600))
         # 这边可能上次打架是个残编队，不会自动切换到下一队，所以需要切换第二队第三队去匹配
         if auto_switch_teams:
             # 如果可能需要切换队伍，那么就试图切换四个队伍
