@@ -65,7 +65,7 @@ class EventQuest(Task):
                 logging.warn({"zh_CN": "体力不够，结束", "en_US": "Not enough AP, end"})
                 return "noap"
             # 自动配队
-            if config.userconfigdict["EXPLORE_AUTO_TEAM"] and config.userconfigdict["ACTICITY_AUTO_TEAM"]:
+            if config.userconfigdict["EXPLORE_AUTO_TEAM"] or config.userconfigdict["ACTICITY_AUTO_TEAM"]:
                 # BlockHaity: 我没有各个服务器的按钮图片，而且是全屏界面，干脆直接硬点了。
                 click((1200, 185))
                 click((650, 600))
