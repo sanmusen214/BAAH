@@ -36,6 +36,13 @@ class Page:
     用于判断是否在活动中，如果在活动（双倍/三倍活动）中，这个颜色的横幅会出现在选关时左上角
     """
     
+    LEFT_FOUR_TEAMS_POSITIONS = (
+        [128, 186],
+        [124, 266],
+        [123, 344],
+        [122, 424]
+    )
+    """队伍选择界面，左侧四个队伍的选择按钮坐标"""
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

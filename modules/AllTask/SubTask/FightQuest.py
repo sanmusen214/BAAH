@@ -9,8 +9,8 @@ from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config,
-                           screenshot)
-
+                           screenshot, istr, CN, EN)
+import numpy as np
 
 class FightQuest(Task):
     """
@@ -22,7 +22,7 @@ class FightQuest(Task):
     in_main_story_mode: 是否是在剧情模式下，如果是，那么最后没有奖励页面， 跳过pre判断，直接来到调整三倍速和auto阶段，主线剧情里的战斗有时候无法用右上UI判断进入了战斗
     """
 
-    def __init__(self, backtopic, start_from_editpage=True, in_main_story_mode=False, name="FightQuest") -> None:
+    def __init__(self, backtopic, start_from_editpage=True, in_main_story_mode=False, auto_team=False, name="FightQuest") -> None:
         super().__init__(name)
         self.backtopic = backtopic
         # 是否从编辑部队页面开始，或者直接就是游戏内战斗画面
@@ -33,6 +33,8 @@ class FightQuest(Task):
         # 编辑页面开始的话，可能有剧情，最多等待2次
         # 如果是从游戏内战斗画面开始，那么不需要等待剧情，所以可以多检测几次
         self.pre_times = 1 if start_from_editpage else 2
+        # 是否在选择队伍界面自动配队
+        self.auto_team = auto_team
 
     @staticmethod
     def judge_whether_in_fight() -> bool:
@@ -81,10 +83,79 @@ class FightQuest(Task):
         SkipStory(pre_times=2).run()
         sleep(2)
         return Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM)
+    
+    def modify_now_teams_students(self, clear_all = False, auto_team = False):
+        """取消当前选择队伍的所有人员 或者 进行自动编队"""
+        # 快速编辑弹窗Empty人员的背景颜色
+        COLOR_NO_STU_SELECTED = ([164, 158, 154], [184, 178, 174])
+        # 自动编队按钮
+        AUTO_TEAM_BUILD_BUTTON = [624, 593]
+        # 快速编辑
+        self.run_until(
+            lambda: click([1202, 181]),
+            lambda: self.has_popup(),
+            times=4
+        )
+        y_height = 572
+        x_heights = np.linspace(76, 532, num=6, dtype=int)
+        if clear_all:
+            dont_care = True
+            # 如果本来就是全空，不管了
+            for x_height in x_heights:
+                if not match_pixel((x_height, y_height), COLOR_NO_STU_SELECTED):
+                    dont_care = False
+                    break
+            if not dont_care:
+                # 全点一遍
+                for x_height in x_heights:
+                    click((x_height, y_height), sleeptime=0.2)
+                # 检查一遍
+                for x_height in x_heights:
+                    self.run_until(
+                        lambda: click((x_height, y_height)),
+                        lambda: match_pixel((x_height, y_height), COLOR_NO_STU_SELECTED),
+                        times = 3
+                    )
+            logging.info(istr({
+                CN: "清空所有人员",
+                EN: "Clear All Students"
+            }))
+        elif auto_team:
+            click(AUTO_TEAM_BUILD_BUTTON)
+            click(AUTO_TEAM_BUILD_BUTTON)
+        # 确认 关闭弹窗
+        self.run_until(
+            lambda: click([1166, 570]),
+            lambda: not self.has_popup()
+        )
 
     def on_run(self) -> None:
         if not self.force_start:
             if self.start_from_editpage:
+                if self.auto_team:
+                    # 如果开启了自动配队
+                    # 取消所有队伍的在编人员，然后选择第一个队伍自动编队
+                    for i in range(len(Page.LEFT_FOUR_TEAMS_POSITIONS)-1, 0, -1):
+                        logging.info(istr({
+                            CN: f"点击队伍{i+1}",
+                            EN: f"Focus on team {i+1}"
+                        }))
+                        self.run_until(
+                            lambda: click(Page.LEFT_FOUR_TEAMS_POSITIONS[i]),
+                            lambda: not match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[i], Page.COLOR_WHITE)
+                        )
+                        self.modify_now_teams_students(clear_all=True)
+                    # 然后选择第一个队伍自动编队
+                    logging.info(istr({
+                        CN: f"点击队伍1",
+                        EN: f"Focus on team 1"
+                    }))
+                    self.run_until(
+                        lambda: click(Page.LEFT_FOUR_TEAMS_POSITIONS[0]),
+                        lambda: not match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[0], Page.COLOR_WHITE)
+                    )
+                    self.modify_now_teams_students(auto_team=True)
+
                 # 点击出击按钮位置
                 # 用竞技场的匹配按钮精度不够，点击固定位置即可
                 self.run_until(
