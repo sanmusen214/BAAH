@@ -17,7 +17,7 @@ def set_assault(config):
     ).bind_value(config.userconfigdict, "AUTO_ASSAULT_LEVEL", forward=lambda x: int(x)).style("width: 100px")
     
     # 是否自动配队
-    ui.checkbox(config.get_text("config_auto_team")).bind_value(config.userconfigdict, "IS_AUTO_ASSAULT_AUTO_TEAM")
+    # ui.checkbox(config.get_text("config_auto_team")).bind_value(config.userconfigdict, "IS_AUTO_ASSAULT_AUTO_TEAM")
     
     # 是否助战
     ui.checkbox(config.get_text("config_need_assault_helper")).bind_value(config.userconfigdict, "IS_AUTO_ASSAULT_STUDENT_HELP")
