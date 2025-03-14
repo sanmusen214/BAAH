@@ -1,4 +1,3 @@
-import inspect
 from modules.AllPage.Page import Page
 from DATA.assets.PageName import PageName
 from DATA.assets.PopupName import PopupName
@@ -9,7 +8,7 @@ from modules.utils import click, swipe, match, page_pic, match_pixel, button_pic
 
 from modules.utils.adb_utils import check_app_running, open_app
 from modules.utils.log_utils import logging
-
+import numpy as np
 
 class Task:
     STATUS_SUCCESS = 0
@@ -249,3 +248,88 @@ class Task:
         if match(popup_pic(PopupName.POPUP_NOTICE)) or match(popup_pic(PopupName.POPUP_USE_DIAMOND)) or match(popup_pic(PopupName.POPUP_TOTAL_PRICE), threshold=0.9):
             return True
         return False
+    
+    @staticmethod
+    def _modify_now_teams_students(clear_all = False, auto_team = False):
+        """取消当前选择队伍的所有人员 或者 进行自动编队"""
+        # 快速编辑弹窗Empty人员的背景颜色
+        COLOR_NO_STU_SELECTED = ([164, 158, 154], [184, 178, 174])
+        # 自动编队按钮
+        AUTO_TEAM_BUILD_BUTTON = [624, 593]
+        # 快速编辑
+        Task.run_until(
+            lambda: click([1202, 181]),
+            lambda: Task.has_popup(),
+            times=4
+        )
+        y_height = 572
+        x_heights = np.linspace(76, 532, num=6, dtype=int)
+        if clear_all:
+            dont_care = True
+            # 如果本来就是全空，不管了
+            for x_height in x_heights:
+                if not match_pixel((x_height, y_height), COLOR_NO_STU_SELECTED):
+                    dont_care = False
+                    break
+            if not dont_care:
+                # 全点一遍
+                for x_height in x_heights:
+                    click((x_height, y_height), sleeptime=0.2)
+                # 检查一遍
+                for x_height in x_heights:
+                    Task.run_until(
+                        lambda: click((x_height, y_height)),
+                        lambda: match_pixel((x_height, y_height), COLOR_NO_STU_SELECTED),
+                        times = 2
+                    )
+            logging.info(istr({
+                CN: "清空所有人员",
+                EN: "Clear All Students"
+            }))
+        elif auto_team:
+            click(AUTO_TEAM_BUILD_BUTTON)
+            click(AUTO_TEAM_BUILD_BUTTON)
+        # 确认 关闭弹窗
+        Task.run_until(
+            lambda: click([1166, 570]),
+            lambda: not Task.has_popup()
+        )
+    
+    @staticmethod
+    def set_auto_team(clear_team_inds = None, auto_team_inds = None):
+        """
+        进行自动编队，会先把不需要的队伍清空，然后把需要的队伍进行自动编队
+
+        clear_team_inds: list
+            需要清空的队伍下标，从0开始。默认清空1，2，3队伍
+        
+        auto_team_inds: list
+            需要自动编队的队伍下标，从0开始。默认自动编队0队伍
+        
+        """
+        if clear_team_inds is None:
+            clear_team_inds = [i for i in range(1, 4)]
+        if auto_team_inds is None:
+            auto_team_inds = [0]
+        # 取消所有队伍的在编人员
+        for i in clear_team_inds:
+            logging.info(istr({
+                CN: f"清空队伍{i+1}",
+                EN: f"Clear team {i+1}"
+            }))
+            Task.run_until(
+                lambda: click(Page.LEFT_FOUR_TEAMS_POSITIONS[i]),
+                lambda: not match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[i], Page.COLOR_WHITE)
+            )
+            Task._modify_now_teams_students(clear_all=True)
+        # 然后选择队伍自动编队
+        for i in auto_team_inds:
+            logging.info(istr({
+                CN: f"自动编队队伍 {i+1}",
+                EN: f"Auto group team {i+1}"
+            }))
+            Task.run_until(
+                lambda: click(Page.LEFT_FOUR_TEAMS_POSITIONS[i]),
+                lambda: not match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[i], Page.COLOR_WHITE)
+            )
+            Task._modify_now_teams_students(auto_team=True)
