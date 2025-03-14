@@ -257,11 +257,17 @@ class Task:
         # 自动编队按钮
         AUTO_TEAM_BUILD_BUTTON = [624, 593]
         # 快速编辑
-        Task.run_until(
+        open_quick_edit_popup = Task.run_until(
             lambda: click([1202, 181]),
             lambda: Task.has_popup(),
             times=4
         )
+        if not open_quick_edit_popup:
+            logging.error(istr({
+                CN: "打开快速编辑弹窗失败",
+                EN: "Failed to open quick edit popup"
+            }))
+            return
         y_height = 572
         x_heights = np.linspace(76, 532, num=6, dtype=int)
         if clear_all:
@@ -311,6 +317,10 @@ class Task:
             clear_team_inds = [i for i in range(1, 4)]
         if auto_team_inds is None:
             auto_team_inds = [0]
+        logging.info(istr({
+            CN: f"清空队伍index {clear_team_inds}，自动编队队伍index {auto_team_inds}",
+            EN: f"Clear team index {clear_team_inds}, auto group team index {auto_team_inds}"
+        }))
         # 取消所有队伍的在编人员
         for i in clear_team_inds:
             logging.info(istr({
