@@ -70,7 +70,7 @@
     "button_rename":"Rename",
     "button_kill_adb_server":"Restart ADB Server",
 
-    "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
+    "config_cafe_attention": "Please zoom out the cafe camera, and turn off the interactive furniture",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
     "config_kill_port": "Whether force to kill the port before starting emulator",

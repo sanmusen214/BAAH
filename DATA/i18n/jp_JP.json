@@ -70,7 +70,7 @@
     "button_rename":"名前を変更",
     "button_kill_adb_server":"ADBサーバーを再起動",
 
-    "config_cafe_attention": "カフェの視点を最大にしてください。以下の項目をチェックして効率を向上させます",
+    "config_cafe_attention": "カフェの視点を最大にしてください。インタラクティブな家具のスイッチをオフにしてください",
     "config_camera_full": "カフェに入るときに視点が最大になる",
     "config_emulator_port": "エミュレータポート",
     "config_kill_port": "エミュレータ起動前にポートを強制解放する",

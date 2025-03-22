@@ -70,7 +70,7 @@
     "button_rename":"重命名",
     "button_kill_adb_server":"重启ADB服务",
 
-    "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
+    "config_cafe_attention":"请将咖啡馆视角拉到最高，把互动家具的开关关闭",
     "config_camera_full":"进入咖啡馆时视角为最高",
     "config_emulator_port":"模拟器端口",
     "config_kill_port": "模拟器启动前强制释放端口",
