@@ -244,9 +244,27 @@ class FightQuest(Task):
             times=20,
             sleeptime=1
         )
+        logging.info(istr({
+            CN: "结束战斗",
+            EN: "End of fight"
+        }))
         if not backres:
-            # 有的关卡点击下方黄色确认后会进入剧情，然后跳过剧情完直接回到上级页面
+            # 有的关卡点击下方黄色确认后会进入剧情
+            # 然后跳过剧情完大部分会直接回到上级页面
+            # 部分活动剧情会有强制失败后再进入剧情，这个剧情过完后回到交战结束界面，出现获得物品弹窗，要再点下黄色确认按钮
             SkipStory(pre_times=3).run()
+            backto_res = self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) or click(Page.MAGICPOINT),
+                self.backtopic
+            )
+            if not backto_res:
+                logging.warn(istr({
+                    CN: "未能回到预期界面",
+                    EN: "Failed to return to the expected backtopic page"
+                }))
+
+
+
 
     def post_condition(self) -> bool:
         return self.backtopic()
