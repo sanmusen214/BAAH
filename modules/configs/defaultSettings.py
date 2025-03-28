@@ -245,6 +245,8 @@ defaultUserDict = {
     "IS_AUTO_ASSAULT_AUTO_TEAM":{"d":False},
     "ACTIVITY_AUTO_TEAM":{"d":False},
     "EXPLORE_AUTO_TEAM":{"d":False},
+    # 一键扫讨是否只在有三倍活动下进行
+    "DO_ONE_CLICK_RAID_ONLY_DURING_TRIPLE":{"d":False},
 }
 
 # 软件的config里的默认值
