@@ -163,7 +163,7 @@
     "team_purple":"紫の攻撃",
     "config_output_log":"ログを/DATA/LOGS/ディレクトリに出力するかどうか",
     "config_screenshot_mode":"スクリーンショットモード",
-    "config_cafe_samename_defer":"カフェの招待が同じ名前の場合、後ろに一つずらす",
+    "config_cafe_samename_defer":"カフェで同じ名前の学生がいる場合、後ろに一人ずらします",
     "config_quick_call_task":"クイックタスク",
     "config_desc_quick_call_task":"エミュレータポートとサーバーを設定した後 、以下のタスクをクリックするとすぐに実行できます（推進タスクは推進開始章を設定する必要があります）",
     "config_use_quick_craft":"クイッククラフトを使用する",

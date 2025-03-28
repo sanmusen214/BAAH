@@ -234,8 +234,10 @@ defaultUserDict = {
     # 要邀请的学生在momotalk中的序号，从1开始
     "CAFE1_INVITE_SEQ":{"d":1},
     "CAFE2_INVITE_SEQ":{"d":2},
-    # 咖啡馆邀请发生同名时是否顺延邀请序号
+    # 咖啡馆邀请发生同名时是否向后顺延邀请序号
     "CAFE_INVITE_SAME_NAME_DELAY":{"d":False},
+    # 咖啡馆邀请顺延时是否逆向（向前一位顺延）
+    "CAFE_INVITE_SAME_NAME_DELAY_REVERSE":{"d":False},
     # 制造是否选择快速制造
     "CRAFT_USE_QUICK":{"d":False},
     # 一键扫荡
