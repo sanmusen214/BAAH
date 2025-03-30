@@ -9,8 +9,8 @@ from modules.AllTask.SubTask.SkipStory import SkipStory
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config,
-                           screenshot)
-
+                           screenshot, istr, CN, EN)
+import numpy as np
 
 class FightQuest(Task):
     """
@@ -22,7 +22,7 @@ class FightQuest(Task):
     in_main_story_mode: 是否是在剧情模式下，如果是，那么最后没有奖励页面， 跳过pre判断，直接来到调整三倍速和auto阶段，主线剧情里的战斗有时候无法用右上UI判断进入了战斗
     """
 
-    def __init__(self, backtopic, start_from_editpage=True, in_main_story_mode=False, name="FightQuest") -> None:
+    def __init__(self, backtopic, start_from_editpage=True, in_main_story_mode=False, auto_team=False, name="FightQuest") -> None:
         super().__init__(name)
         self.backtopic = backtopic
         # 是否从编辑部队页面开始，或者直接就是游戏内战斗画面
@@ -33,6 +33,8 @@ class FightQuest(Task):
         # 编辑页面开始的话，可能有剧情，最多等待2次
         # 如果是从游戏内战斗画面开始，那么不需要等待剧情，所以可以多检测几次
         self.pre_times = 1 if start_from_editpage else 2
+        # 是否在选择队伍界面自动配队
+        self.auto_team = auto_team
 
     @staticmethod
     def judge_whether_in_fight() -> bool:
@@ -85,6 +87,10 @@ class FightQuest(Task):
     def on_run(self) -> None:
         if not self.force_start:
             if self.start_from_editpage:
+                if self.auto_team:
+                    # 如果开启了自动配队
+                    self.set_auto_team()
+
                 # 点击出击按钮位置
                 # 用竞技场的匹配按钮精度不够，点击固定位置即可
                 self.run_until(
@@ -238,9 +244,27 @@ class FightQuest(Task):
             times=20,
             sleeptime=1
         )
+        logging.info(istr({
+            CN: "结束战斗",
+            EN: "End of fight"
+        }))
         if not backres:
-            # 有的关卡点击下方黄色确认后会进入剧情，然后跳过剧情完直接回到上级页面
+            # 有的关卡点击下方黄色确认后会进入剧情
+            # 然后跳过剧情完大部分会直接回到上级页面
+            # 部分活动剧情会有强制失败后再进入剧情，这个剧情过完后回到交战结束界面，出现获得物品弹窗，要再点下黄色确认按钮
             SkipStory(pre_times=3).run()
+            backto_res = self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) or click(Page.MAGICPOINT),
+                self.backtopic
+            )
+            if not backto_res:
+                logging.warn(istr({
+                    CN: "未能回到预期界面",
+                    EN: "Failed to return to the expected backtopic page"
+                }))
+
+
+
 
     def post_condition(self) -> bool:
         return self.backtopic()

@@ -70,7 +70,7 @@
     "button_rename":"Rename",
     "button_kill_adb_server":"Restart ADB Server",
 
-    "config_cafe_attention": "For the global/JP server, please zoom out the camera, and keep the following item checked",
+    "config_cafe_attention": "Please zoom out the cafe camera, and turn off the interactive furniture",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
     "config_emulator_port": "Emulator Port",
     "config_kill_port": "Whether force to kill the port before starting emulator",
@@ -134,6 +134,7 @@
     "config_run_until_try_times":"Try times in loops",
     "adb_direct_use_serial":"Whether use adb serial to connect the emulator",
     "adb_serial":"emulator serial, like emulator-5554",
+    "config_auto_team":"Whether to use automatic matching",
     "config_need_assault_helper":"Whether need assault helper",
     "config_assault_helper_is_support":"Whether assault helper is support role",
     "config_assault_helper_student":"Assault helper student",
@@ -162,7 +163,7 @@
     "team_purple":"Purple Type Attack",
     "config_output_log":"Whether output log to /DATA/LOGS/ directory",
     "config_screenshot_mode":"Screenshot Mode",
-    "config_cafe_samename_defer":"Whether defer the same name student when invitation in cafe",
+    "config_cafe_samename_defer":"Whether defer the invited student when same name students is in cafe",
     "config_quick_call_task":"Quick Call Task",
     "config_desc_quick_call_task":"After configuring the emulator port and server type, the following tasks can be executed by clicking (the explore task needs to configure the start chapter-level)",
     "config_use_quick_craft":"Use Quick Craft",
@@ -170,6 +171,7 @@
     "config_shop_normal_buyall":"Buy all in normal shop",
     "config_shop_contest_buyall":"Buy all in contest shop",
     "desc_one_click_raid":"One click raid, need to select the raid stage first and manually raid once to save the selection",
+    "config_reversed": "Whether reversed",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

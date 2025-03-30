@@ -51,11 +51,11 @@ def render_json_list():
                     # 基本介绍
                     with ui.row().style("display: flex; justify-content: space-between; align-items: center;"):
                         ui.label(gui_shared_config.get_text("BAAH_desc"))
-                        ui.label("QQ: 715586983").style('font-size: x-large; color: red;')
 
                     # 如何使用
                     with ui.row():
                         ui.link(gui_shared_config.get_text("notice_QA"), how_to_use_url[gui_shared_config.softwareconfigdict["LANGUAGE"]], new_tab=True)
+                        ui.label("QQ: 715586983;1029291081").style('font-size: x-large; color: red;')
 
                     # 重要设置提醒
                     ui.label(gui_shared_config.get_text("BAAH_attention")).style('font-size: x-large')

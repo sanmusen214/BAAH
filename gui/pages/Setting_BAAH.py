@@ -23,8 +23,10 @@ def set_BAAH(config, shared_softwareconfig):
             ui.input("Bilibili").bind_value_from(web_url, "bilibili").style('width: 400px')
 
         ui.label(config.get_text("BAAH_attention")).style('color: red; font-size: x-large')
-        
-        ui.html('<iframe  src="//player.bilibili.com/player.html?aid=539065954&bvid=BV1pi4y1W7QB&cid=1413492023&p=1&autoplay=0" width="720px" height="480px" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>')
 
         # kei的教程
-        ui.html('<iframe  src="//player.bilibili.com/player.html?aid=113877383648785&bvid=BV1ZxfGYSEVr&cid=28301724347&p=1&autoplay=0" width="720px" height="480px" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>')
+        ui.link("BV1ZxfGYSEVr", "https://www.bilibili.com/video/BV1ZxfGYSEVr/", new_tab=True).style('font-size: large')
+        ui.html('<iframe  src="//www.bilibili.com/blackboard/html5mobileplayer.html?aid=113877383648785&bvid=BV1ZxfGYSEVr&cid=28301724347&p=1" width="720px" height="480px" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>')
+
+        # ui.link("BV1ZxfGYSEVr", "https://www.bilibili.com/video/BV1pi4y1W7QB/", new_tab=True)
+        # ui.html('<iframe  src="//www.bilibili.com/blackboard/html5mobileplayer.html?aid=539065954&bvid=BV1pi4y1W7QB&cid=1413492023&p=1" width="720px" height="480px" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>')

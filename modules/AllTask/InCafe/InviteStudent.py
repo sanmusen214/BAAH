@@ -38,11 +38,11 @@ class InviteStudent(Task):
             # 打开确认弹窗
             # 默认邀请第一个学生，一页有5个学生
             logging.info(istr({
-                CN: f"邀请第{self.stuind+1}个学生",
-                EN: f"Invite the {self.stuind+1}th student"
+                CN: f"邀请下标第{self.stuind}个学生",
+                EN: f"Invite the index {self.stuind}th student"
             }))
             # 邀请 直到出现确认按钮
-            select_stu = ScrollSelect(self.stuind, 186, 264, 576, clickx = 787, hasexpectimage=lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB)))
+            select_stu = ScrollSelect(abs(self.stuind), 186, 264, 576, clickx = 787, hasexpectimage=lambda: match(button_pic(ButtonName.BUTTON_CONFIRMB)))
             select_stu.run()
             if not select_stu.hasexpectimage():
                 logging.error(istr({
@@ -53,12 +53,17 @@ class InviteStudent(Task):
             if config.userconfigdict["CAFE_INVITE_SAME_NAME_DELAY"]:
                 # 需要考虑是否有同名学生 也就是弹窗是否是通知弹窗
                 if not match(popup_pic(PopupName.POPUP_NOTICE)):
-                    # 不是通知弹窗，发生同名，需要将邀请下标+1
-                    self.stuind += 1
+                    # 不是通知弹窗，发生同名，需要将邀请下标顺延
+                    if config.userconfigdict["CAFE_INVITE_SAME_NAME_DELAY_REVERSE"]:
+                        # 逆向顺延
+                        self.stuind -= 1
+                    else:
+                        # 顺序顺延
+                        self.stuind += 1
                     logging.warn(istr({
-                        # 打印的是序号，下标要再+1
-                        CN: f"邀请的学生已经在咖啡馆中, 邀请序号顺延: {self.stuind + 1}",
-                        EN: f"The invited student is already in the cafe, invite sequence number delay: {self.stuind + 1}"
+                        # 打印下标
+                        CN: f"邀请的学生已经在咖啡馆中, 邀请下标顺延: {self.stuind}",
+                        EN: f"The invited student is already in the cafe, invite index number update: {self.stuind}"
                     }))
                     self.clear_popup()
                     # 从头邀请

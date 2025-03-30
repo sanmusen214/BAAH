@@ -200,7 +200,10 @@ class PushQuest(Task):
                         lambda: click((639, 516)),
                         lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
                     )
-                FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL))).run()
+                FightQuest(
+                    backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL)), 
+                    auto_team=config.userconfigdict["EXPLORE_AUTO_TEAM"]
+                ).run()
                 # 普通任务完成后，level下标直接+1。如果是支线关卡，由于之前减过一了，这里直接+1就行
                 self.level_ind += 1
             else:
@@ -235,8 +238,10 @@ class PushQuest(Task):
                             choose_types_ind = ind
                 else:
                     choose_types_ind = self.require_type_ind
-                GridQuest(grider=grider, backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL)),
-                          require_type=require_types[choose_types_ind]).run()
+                GridQuest(grider=grider, 
+                          backtopic=lambda: match(page_pic(PageName.PAGE_QUEST_SEL)),
+                          require_type=require_types[choose_types_ind],
+                          auto_team=config.userconfigdict["EXPLORE_AUTO_TEAM"]).run()
                 # 判断是否只打当前关
                 if self.challenge_only:
                     self.clear_popup()

@@ -46,7 +46,7 @@ class GridQuest(Task):
         "any": "任意"
     }
 
-    def __init__(self, grider: GridAnalyzer, backtopic, require_type, name="GridQuest") -> None:
+    def __init__(self, grider: GridAnalyzer, backtopic, require_type, auto_team=False, name="GridQuest") -> None:
         super().__init__(name)
         self.backtopic = backtopic
         self.grider = grider
@@ -62,8 +62,13 @@ class GridQuest(Task):
         }
         # 上一次为了队伍移动点击的位置
         self.last_click_position = [-1, -1]
+        # 是否自动配队
+        self.auto_team = auto_team
         # 推图文件队伍下标到实际队伍下标的映射
         self.ind_map = self.grider.get_map_from_team_name2real_team_ind(self.require_type)
+        # 开启自动配队的话，使用从0开始的range作为ind_map
+        if self.auto_team:
+            self.ind_map = list(range(len(self.ind_map)))
 
     def pre_condition(self) -> bool:
         click(Page.MAGICPOINT, 1)
@@ -274,8 +279,8 @@ class GridQuest(Task):
                 # 让用户去配队！
                 need_user_set_teams = True
                 break
-        # 如果开启了彩虹队配置，则不用配队
-        if config.userconfigdict["EXPLORE_RAINBOW_TEAMS"]:
+        # 如果开启了彩虹队配置 或 开启了自动配队，则不用配队
+        if config.userconfigdict["EXPLORE_RAINBOW_TEAMS"] or self.auto_team:
             need_user_set_teams = False
         if need_user_set_teams:
             # 需要用户配队
@@ -357,6 +362,13 @@ class GridQuest(Task):
                 self.print_team_config(now_need_team_set_list)
                 input("请按照以上要求手动出击队伍，然后返回至格子地图界面，回车以继续...")
             # 选择队伍编号
+            # 如果开启了自动配队，第一次循环的时候进行自动配队
+            if self.auto_team and focus_team_ind == 0:
+                self.set_auto_team(
+                    clear_team_inds=list(set(range(4)) - set(self.ind_map)),  # 开启自动配队后，self.ind_map是range序列，range(4)与其做差得出需要清空的队伍
+                    auto_team_inds=self.ind_map
+                )
+
             left_team_x = 125
             left_team_ys = [189, 266, 344, 422]
             self.run_until(

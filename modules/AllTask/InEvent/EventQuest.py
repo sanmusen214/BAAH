@@ -65,7 +65,7 @@ class EventQuest(Task):
                 logging.warn({"zh_CN": "体力不够，结束", "en_US": "Not enough AP, end"})
                 return "noap"
             # 单次战斗
-            FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT))).run()
+            FightQuest(backtopic=lambda: match(page_pic(PageName.PAGE_EVENT)), auto_team = config.userconfigdict["ACTIVITY_AUTO_TEAM"]).run()
             # 更新上次自动推图的关卡下标
             self.last_fight_level_ind = this_level_ind
             return "yes"

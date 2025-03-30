@@ -70,7 +70,7 @@
     "button_rename":"名前を変更",
     "button_kill_adb_server":"ADBサーバーを再起動",
 
-    "config_cafe_attention": "カフェの視点を最大にしてください。以下の項目をチェックして効率を向上させます",
+    "config_cafe_attention": "カフェの視点を最大にしてください。インタラクティブな家具のスイッチをオフにしてください",
     "config_camera_full": "カフェに入るときに視点が最大になる",
     "config_emulator_port": "エミュレータポート",
     "config_kill_port": "エミュレータ起動前にポートを強制解放する",
@@ -134,6 +134,7 @@
     "config_run_until_try_times":"循環試行回数",
     "adb_direct_use_serial":"ADB直接使用シリアル番号",
     "adb_serial":"シリアル番号，(emulator-5554)",
+    "config_auto_team":"自動マッチングを使用するかどうか",
     "config_need_assault_helper":"総力戦助戦が必要です",
     "config_assault_helper_is_support":"助戦生徒がサポートされています",
     "config_assault_helper_student":"助戦生徒",
@@ -162,7 +163,7 @@
     "team_purple":"紫の攻撃",
     "config_output_log":"ログを/DATA/LOGS/ディレクトリに出力するかどうか",
     "config_screenshot_mode":"スクリーンショットモード",
-    "config_cafe_samename_defer":"カフェの招待が同じ名前の場合、後ろに一つずらす",
+    "config_cafe_samename_defer":"カフェで同じ名前の学生がいる場合、後ろに一人ずらします",
     "config_quick_call_task":"クイックタスク",
     "config_desc_quick_call_task":"エミュレータポートとサーバーを設定した後 、以下のタスクをクリックするとすぐに実行できます（推進タスクは推進開始章を設定する必要があります）",
     "config_use_quick_craft":"クイッククラフトを使用する",
@@ -170,6 +171,7 @@
     "config_shop_normal_buyall":"通常のショップで全てを購入する",
     "config_shop_contest_buyall":"競技場のショップで全てを購入する",
     "desc_one_click_raid":"一括攻略機能、自分でスキップするステージを選択してください そして一度手動でスキップしてください",
+    "config_reversed": "逆順にするかどうか",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",

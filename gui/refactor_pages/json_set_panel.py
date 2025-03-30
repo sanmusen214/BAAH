@@ -22,6 +22,7 @@ from ..pages.Setting_Assault import set_assault
 from ..pages.Setting_BuyAP import set_buyAP
 from ..pages.Setting_UserTask import set_usertask
 from ..pages.Setting_explore import set_explore
+from ..pages.Setting_Oneclick_Raid import set_oneclick_raid
 from modules.AllTask.myAllTask import task_instances_map # 这里导入myAllTask可能会导致其内my_AllTask单例值异常，目前通过在run()里使用前再读取config的任务列表解决此bug
 from modules.configs.MyConfig import MyConfigger
 from ..define import gui_shared_config, injectJSforTabs
@@ -73,6 +74,7 @@ def get_config_list(lst_config: MyConfigger, logArea) -> list:
         ConfigPanel("task_exchange", lambda: set_exchange(lst_config), i18n_config=lst_config),
         ConfigPanel("task_event", lambda: set_event(lst_config), i18n_config=lst_config),
         ConfigPanel("task_assault", lambda: set_assault(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_oneclick_raid", lambda: set_oneclick_raid(lst_config), i18n_config=lst_config),
         ConfigPanel("task_hard", lambda: set_hard(lst_config, gui_shared_config), i18n_config=lst_config),
         ConfigPanel("task_normal", lambda: set_normal(lst_config), i18n_config=lst_config),
         ConfigPanel("setting_explore", lambda: set_explore(lst_config, task_instances_map.task_config_name_2_i18n_name, logArea), i18n_config=lst_config),

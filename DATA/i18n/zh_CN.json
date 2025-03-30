@@ -70,7 +70,7 @@
     "button_rename":"重命名",
     "button_kill_adb_server":"重启ADB服务",
 
-    "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
+    "config_cafe_attention":"请将咖啡馆视角拉到最高，把互动家具的开关关闭",
     "config_camera_full":"进入咖啡馆时视角为最高",
     "config_emulator_port":"模拟器端口",
     "config_kill_port": "模拟器启动前强制释放端口",
@@ -134,6 +134,7 @@
     "config_run_until_try_times":"循环尝试次数",
     "adb_direct_use_serial":"直接使用序列号连接模拟器",
     "adb_serial":"模拟器序列号，如emulator-5554",
+    "config_auto_team":"是否使用自动配队",
     "config_need_assault_helper":"总力战1号队是否选择助战",
     "config_assault_helper_is_support":"总力战助战学生是否是后排角色",
     "config_assault_helper_student":"总力战助战学生",
@@ -162,7 +163,7 @@
     "team_purple":"紫攻",
     "config_output_log":"是否输出日志到/DATA/LOGS/目录下",
     "config_screenshot_mode":"截图模式",
-    "config_cafe_samename_defer":"咖啡馆邀请如果出现同名是否往后推延一位序号",
+    "config_cafe_samename_defer":"咖啡馆邀请时如果同名学生已在场是否往后推延一位序号",
     "config_quick_call_task":"快速执行任务",
     "config_desc_quick_call_task":"配置过模拟器端口和区服后，以下非日常类型的任务点击即可执行（推图任务需要配置推图起始关卡）",
     "config_use_quick_craft":"使用快速制造",
@@ -170,6 +171,7 @@
     "config_shop_normal_buyall":"普通商店购买所有",
     "config_shop_contest_buyall":"竞技场商店购买所有",
     "desc_one_click_raid":"一键扫荡功能，需要先自己勾选设置扫荡关卡 并 手动扫荡一次保存勾选结果",
+    "config_reversed": "反向",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

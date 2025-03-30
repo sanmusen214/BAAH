@@ -20,8 +20,9 @@ def set_cafe(config):
     # 二号咖啡馆邀请
     ui.number("2" + config.get_text("cafe_invite_desc"), min=0, max=5, precision=0, step=1).bind_value(config.userconfigdict, "CAFE2_INVITE_SEQ", forward=lambda x:int(x), backward=lambda x: int(x)).bind_visibility_from(config.userconfigdict, "CAFE_TOUCH").style("width: 300px;")
 
-    ui.checkbox(config.get_text("config_cafe_samename_defer")).bind_value(config.userconfigdict, "CAFE_INVITE_SAME_NAME_DELAY")
-    
+    with ui.row():
+        ui.checkbox(config.get_text("config_cafe_samename_defer")).bind_value(config.userconfigdict, "CAFE_INVITE_SAME_NAME_DELAY")
+        ui.checkbox(config.get_text("config_reversed")).bind_value(config.userconfigdict, "CAFE_INVITE_SAME_NAME_DELAY_REVERSE").bind_visibility_from(config.userconfigdict, "CAFE_INVITE_SAME_NAME_DELAY")
 
 
     # 关于视角的提示

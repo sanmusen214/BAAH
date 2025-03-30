@@ -301,5 +301,11 @@
     ],
     "CAFE1_INVITE_SEQ": 1,
     "CAFE2_INVITE_SEQ": 2,
-    "SAVE_LOG_TO_FILE": false
+    "SAVE_LOG_TO_FILE": false,
+    "SHOP_NORMAL_BUYALL": false,
+    "SHOP_CONTEST_BUYALL": false,
+    "CAFE_INVITE_SAME_NAME_DELAY": false,
+    "CRAFT_USE_QUICK": false,
+    "ONE_CLICK_RAID": [],
+    "IS_AUTO_ASSAULT_AUTO_TEAM": false
 }
