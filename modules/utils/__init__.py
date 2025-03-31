@@ -188,7 +188,7 @@ def get_grid_solution_json(location, level, ishard=False):
     ishardstr = "h" if ishard else ""
     filename = f"./DATA/grid_solution/quest/{ishardstr}{location}-{level}.json"
     # 读取并解析json返回
-    with open(filename, encoding="utf-8") as f:
+    with open(filename, "r", encoding="utf-8") as f:
         return json.load(f)
 
 def sleep(seconds:float):

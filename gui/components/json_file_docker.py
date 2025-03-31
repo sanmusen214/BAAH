@@ -14,7 +14,7 @@ def get_json_list():
     """
     arr = [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
     if len(arr) == 0:
-        with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, DEFAULT_CONFIG_JSON_NAME), 'w') as f:
+        with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, DEFAULT_CONFIG_JSON_NAME), 'w', encoding="utf8") as f:
             f.write("{}")
         arr.append(DEFAULT_CONFIG_JSON_NAME)
     return arr
@@ -36,7 +36,7 @@ async def add_new_config(configname):
             ui.notify("配置名已存在/Config name already exists")
         else:
             # 创建一个新的json文件
-            with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, configname), 'w') as f:
+            with open(os.path.join(MyConfigger.USER_CONFIG_FOLDER, configname), 'w', encoding="utf8") as f:
                 f.write("{}")
             ui.run_javascript('window.location.reload()')
 
