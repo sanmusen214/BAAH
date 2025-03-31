@@ -9,7 +9,7 @@ import zipfile
 import time
 import sys
 
-updater_version = "0.3.0"
+updater_version = "0.3.1"
 print(f"This Updator Version: {updater_version}")
 
 def copy_to_temp_and_run():
@@ -117,7 +117,7 @@ def whether_has_new_version():
     
     # 这里读取software_config.json实际存储的字符串
     # DATA/CONFIGS/software_config.json里的NOWVERSION字段
-    with open(os.path.join("DATA", "CONFIGS", "software_config.json"), "r") as f:
+    with open(os.path.join("DATA", "CONFIGS", "software_config.json"), "r", encoding="utf-8") as f:
         confile = json.load(f)
     current_version_num = get_one_version_num(confile["NOWVERSION"])
     new_version_num = get_one_version_num(newest_tag)
