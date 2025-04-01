@@ -11,36 +11,48 @@
         "initial_teams": [
             {
                 "name": "A",
-                "type": "yellow",
-                "position": "left-down"
+                "type": "red",
+                "position": "right"
             },
             {
                 "name": "B",
-                "type": "red",
-                "position": "right"
+                "type": "yellow",
+                "position": "left-down"
             }
         ],
         "fight_plan": [
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 }
             ],
             [
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 },
                 {
+                    "team": "B",
+                    "action": "move",
+                    "target": "right-up"
+                }
+            ],
+            [
+                {
                     "team": "A",
+                    "action": "move",
+                    "target": "right-up"
+                },
+                {
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 }
@@ -48,18 +60,6 @@
             [
                 {
                     "team": "B",
-                    "action": "move",
-                    "target": "right-up"
-                },
-                {
-                    "team": "A",
-                    "action": "move",
-                    "target": "right-up"
-                }
-            ],
-            [
-                {
-                    "team": "A",
                     "action": "move",
                     "target": "right-up"
                 }

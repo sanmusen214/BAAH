@@ -11,72 +11,72 @@
         "initial_teams": [
             {
                 "name": "A",
-                "type": "yellow",
-                "position": "left-down"
+                "type": "red",
+                "position": "right-up"
             },
             {
                 "name": "B",
-                "type": "red",
-                "position": "right-up"
+                "type": "yellow",
+                "position": "left-down"
             }
         ],
         "fight_plan": [
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 }
             ],
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left"
                 }
             ],
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-down"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-up"
                 }
             ],
             [
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 },
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 }
             ],
             [
                 {
-                    "team": "B",
+                    "team": "A",
                     "action": "move",
                     "target": "left-down"
                 },
                 {
-                    "team": "A",
+                    "team": "B",
                     "action": "move",
                     "target": "right-up"
                 }
