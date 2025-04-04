@@ -16,6 +16,7 @@ from time import time
 
 # selective value作为提醒值存在，主要的map映射应当在settingMaps里，-》myAllTask.parse_task
 
+# userconfigdict是一个dict，存储用户的一个脚本的BAAH配置文件的内容，用户可以在GUI里修改这些值
 defaultUserDict = {
     "TIMETABLE_TASK": {"d":[]},
     "WANTED_HIGHEST_LEVEL": {"d":[]},
@@ -252,6 +253,15 @@ defaultUserDict = {
     "DO_ONE_CLICK_RAID_ONLY_DURING_NORMAL_TRIPLE":{"d":False},
     "DO_ONE_CLICK_RAID_ONLY_DURING_HARD_TRIPLE":{"d":False},
 
+    # 用户存储文件的名字
+    "USER_STORAGE_FILE_NAME":{
+        "d":"userStorage",
+        "m":{
+            "from": "SCREENSHOT_NAME",
+            "map": lambda x: x.replace(".png", ".json")
+        }
+    },
+
 }
 
 # 软件的config里的默认值
@@ -301,4 +311,9 @@ defaultSessionDict = {
     "RESTART_EMULATOR_TIMES":{"d":0},
     # 截图数据，当SCREENSHOT_METHOD为pipe时使用
     "SCREENSHOT_DATA":{"d":None},
+}
+
+# storagedict存储与某一个配置文件对应的游戏实例的持久性存储信息（如钻石历史变化曲线），其生命周期与userconfig相同，但是在脚本运行时是随用随写的
+defaultStorageDict = {
+
 }
