@@ -5,7 +5,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config, ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config, ocr_area, logging, istr, CN, EN
 # =====
 from .Loginin import Loginin
 from .CloseInform import CloseInform
@@ -28,20 +28,41 @@ class EnterGame(Task):
         config.sessiondict["BEFORE_BAAH_SOURCES"] = {"power": power_num, "credit": credit_num, "diamond": diamond_num}
      
     def pre_condition(self) -> bool:
+        return True
+    
+     
+    def on_run(self) -> None:
+        has_recorded = False
         if Page.is_page(PageName.PAGE_HOME):
             # 直接就在主页，直接记录资源
             self.record_resources()
-            return False
+            has_recorded = True
         if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
             return_home = self.back_to_home()
             if return_home:
                 # 如果成功返回主页，记录资源
                 self.record_resources()
-            return not return_home
-        return True
-    
-     
-    def on_run(self) -> None:
+                has_recorded = True
+        if has_recorded:
+            # 如果已经在游戏主页，判断是否服务器刷新需要重新登录
+            logging.info(istr({
+                CN: "检查是否需要重新登录",
+                EN: "Check if need to re-login"
+            }))
+            can_go_to_daily_task_page = self.run_until(
+                lambda: click((66, 237)),
+                lambda: Page.is_page(PageName.PAGE_TASK_CENTER),
+                times=4
+            )
+            if can_go_to_daily_task_page:
+                logging.info(istr({
+                    CN: "无需重新登录",
+                    EN: "No need to re-login"
+                }))
+                # 如果可以进入日常任务页，说明已经在主页
+                self.back_to_home()
+                return
+        # 登录流程
         Loginin().run()
         CloseInform().run()
         # 如果登入到游戏，记录资源
