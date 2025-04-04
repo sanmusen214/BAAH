@@ -72,6 +72,7 @@
 
     "config_cafe_attention": "Please zoom out the cafe camera, and turn off the interactive furniture",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
+    "desc_cafe_invite":"To invite specific students, please star the students you want to invite and set the filter in the cafe invite list to 'Favorite'",
     "config_emulator_port": "Emulator Port",
     "config_kill_port": "Whether force to kill the port before starting emulator",
     "config_emulator_path": "Emulator Path",
@@ -172,6 +173,7 @@
     "config_shop_contest_buyall":"Buy all in contest shop",
     "desc_one_click_raid":"One click raid, need to select the raid stage first and manually raid once to save the selection",
     "config_reversed": "Whether reversed",
+    "desc_cli_since_manual":"Since the explore task is set to manual start up teams, run in GUI will report an error， please use terminal to run",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",
