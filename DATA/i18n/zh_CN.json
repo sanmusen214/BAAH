@@ -173,7 +173,7 @@
     "config_shop_contest_buyall":"竞技场商店购买所有",
     "desc_one_click_raid":"一键扫荡功能，需要先自己勾选设置扫荡关卡 并 手动扫荡一次保存勾选结果",
     "config_reversed": "反向",
-    "desc_cli_since_manual":"由于推图任务设置了手动出击队伍，GUI执行将会报错，请使用终端执行",
+    "desc_cli_since_manual":"由于推图任务设置了手动出击队伍，GUI执行走格子将会报错，请使用终端执行",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",
