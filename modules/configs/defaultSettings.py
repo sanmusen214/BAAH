@@ -248,7 +248,10 @@ defaultUserDict = {
     "ACTIVITY_AUTO_TEAM":{"d":False},
     "EXPLORE_AUTO_TEAM":{"d":False},
     # 一键扫讨是否只在有三倍活动下进行
-    "DO_ONE_CLICK_RAID_ONLY_DURING_TRIPLE":{"d":False},
+    "DO_ONE_CLICK_RAID_ONLY_DURING_EVENT":{"d":False},
+    "DO_ONE_CLICK_RAID_ONLY_DURING_NORMAL_TRIPLE":{"d":False},
+    "DO_ONE_CLICK_RAID_ONLY_DURING_HARD_TRIPLE":{"d":False},
+
 }
 
 # 软件的config里的默认值

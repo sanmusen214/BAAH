@@ -174,6 +174,8 @@
     "desc_one_click_raid":"One click raid, need to select the raid stage first and manually raid once to save the selection",
     "config_reversed": "Whether reversed",
     "desc_cli_since_manual":"Since the explore task is set to manual start up teams, run in GUI will report an error， please use terminal to run",
+    "word_normal":"Normal",
+    "word_hard":"Hard",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

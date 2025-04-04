@@ -12,7 +12,7 @@ from modules.AllTask.Task import Task
 from modules.utils import (click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, config,
                            screenshot)
 
-from .Questhelper import has_triple_result_event, jump_to_page, close_popup_until_see, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L
+from .Questhelper import has_triple_result_event, jump_to_page, close_popup_until_see, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L, HARD_TAB_POSITION
 import numpy as np
 
 
@@ -27,7 +27,7 @@ class HardQuest(Task):
     def on_run(self) -> None:
         logging.info({"zh_CN": "切换到困难关卡", "en_US": "switch to hard quest"})
         self.run_until(
-            lambda: click((1064, 161)),
+            lambda: click(HARD_TAB_POSITION),
             lambda: match(button_pic(ButtonName.BUTTON_HARD))
         )
         if config.userconfigdict["HARD_QUEST_EVENT_STATUS"] and not has_triple_result_event():

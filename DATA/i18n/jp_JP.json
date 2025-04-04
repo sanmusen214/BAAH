@@ -174,6 +174,8 @@
     "desc_one_click_raid":"一括攻略機能、自分でスキップするステージを選択してください そして一度手動でスキップしてください",
     "config_reversed": "逆順にするかどうか",
     "desc_cli_since_manual":"推進タスクに手動出撃チームが設定されているため、GUI実行時にエラーが発生します，ターミナルを使用して実行してください",
+    "word_normal":"通常",
+    "word_hard":"難関",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
