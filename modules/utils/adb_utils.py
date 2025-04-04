@@ -125,22 +125,26 @@ def get_now_running_app(use_config=None):
     else:
         output = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'dumpsys', 'window']).stdout
     # adb shell "dumpsys window | grep mCurrentFocus"
-    for sentence in output.split("\n"):
+    # 有时候启动器排前，应用排后，这里逆序排序
+    for sentence in output.split("\n")[::-1]:
         if "mCurrentFocus" in sentence:
-            # 找到当前运行的app那行
-            output = sentence
-            if "null" in output:
+            # 找到当前运行的app activity
+            # 判断是否有null，是null就继续查看后面的mCurrentFocus行
+            if "null" in sentence:
                 logging.warn({"zh_CN": ">>> MUMU模拟器需要设置里关闭保活！ <<<",
                               "en_US": "If you are using MUMU emulator, please turn off the keep alive in the settings!"})
-                # break
-    # 截取app activity
-    try:
-        app_activity = output.split(" ")[-1].split("}")[0]
-    except Exception as e:
-        logging.warn({"zh_CN": "截取当前运行的app名失败：{}".format(output),
-                      "en_US": "Failed to get the current running app name:{}".format(output)})
-        return output
-    return app_activity
+                continue
+            else:
+                # 找到第一行不是null的app activity
+                # 截取app activity
+                try:
+                    app_activity = sentence.split(" ")[-1].split("}")[0]
+                    return app_activity
+                except Exception as e:
+                    logging.warn({"zh_CN": "截取当前运行的app名失败：{}".format(output),
+                                "en_US": "Failed to get the current running app name:{}".format(output)})
+                    break
+    return output
 
 
 def get_now_running_app_entrance_activity(use_config=None):
