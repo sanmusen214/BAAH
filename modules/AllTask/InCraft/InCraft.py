@@ -32,6 +32,7 @@ class InCraft(Task):
         return self.back_to_home()
     
     def getNowCraftStatus(self):
+        screenshot()
         reslist = []
         for item in self.items_pos:
             res = match_pixel(item, self.COLOR_CRAFT_NOTHING, printit=True)
@@ -193,6 +194,7 @@ class InCraft(Task):
             }))
             self.dealing_with_craft_details()
         # 获取当前制造状态
+        sleep(1.5)  # 留足时间过动画
         status_list = self.getNowCraftStatus()
         logging.info(status_list)
         now_craft_number = 0

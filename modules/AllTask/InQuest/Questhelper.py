@@ -3,6 +3,9 @@ from modules.AllTask.Task import Task
 from modules.AllPage.Page import Page
 from modules.utils.log_utils import logging
 
+NORMAL_TAB_POSITION = (798, 159)
+HARD_TAB_POSITION = (1064, 161)
+
 def jump_to_page(to_num: int) -> bool:
     """
     Jump to page

@@ -9,6 +9,8 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot, match_pixel, istr, CN, EN, JP
 from modules.utils.log_utils import logging
 
+from .Questhelper import HARD_TAB_POSITION, NORMAL_TAB_POSITION, has_triple_result_event
+
 class OneClickQuest(Task):
     def __init__(self, tasklist, name="OneClickQuest") -> None:
         super().__init__(name)
@@ -33,6 +35,44 @@ class OneClickQuest(Task):
             CN: f"开始一键扫荡{self.tasklist}",
             EN: f"Start one-click raid {self.tasklist}"
         }))
+        # 检查活动开启状态
+        if config.userconfigdict["DO_ONE_CLICK_RAID_ONLY_DURING_EVENT"]:
+            event_status = {"n":False, "h":False}
+            self.run_until(
+                lambda: click(NORMAL_TAB_POSITION),
+                lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
+            )
+            if has_triple_result_event():
+                event_status["n"] = True
+            
+            self.run_until(
+                lambda: click(HARD_TAB_POSITION),
+                lambda: match(button_pic(ButtonName.BUTTON_HARD))
+            )
+            if has_triple_result_event():
+                event_status["h"] = True
+            # 检查活动状态是否能执行
+            only_do_with_normal_event = config.userconfigdict["DO_ONE_CLICK_RAID_ONLY_DURING_NORMAL_TRIPLE"]
+            only_do_with_hard_event = config.userconfigdict["DO_ONE_CLICK_RAID_ONLY_DURING_HARD_TRIPLE"]
+            logging.info(f"event_status: {event_status}, only_do_with_normal_event: {only_do_with_normal_event}, only_do_with_hard_event: {only_do_with_hard_event}")
+            if (only_do_with_normal_event and event_status["n"]) or (only_do_with_hard_event and event_status["h"]):
+                logging.info(istr({
+                    CN: f"一键扫荡任务，当前多倍活动状态满足要求",
+                    EN: f"One-click raid task, current multi event status meets the requirements"
+                }))
+                pass
+            elif not only_do_with_normal_event and not only_do_with_hard_event:
+                logging.info(istr({
+                    CN: f"一键扫荡任务，无活动状态要求",
+                    EN: f"One-click raid task, no event status requirements"
+                }))
+                pass
+            else:
+                logging.info(istr({
+                    CN: f"一键扫荡任务，当前活动状态不满足要求",
+                    EN: f"One-click raid task, current event status does not meet the requirements"
+                }))
+                return
         # 7个坐标点
         point_y = 165
         points_x = np.linspace(167, 1125, 7, dtype=int)

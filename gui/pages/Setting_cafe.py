@@ -15,6 +15,7 @@ def set_cafe(config):
         ui.checkbox(config.get_text("cafe_touch_desc")).bind_value(config.userconfigdict, "CAFE_TOUCH")
         ui.checkbox(config.get_text("enable_diff_touch")).bind_value(config.userconfigdict, "CAFE_TOUCH_WAY_DIFF").bind_visibility_from(config.userconfigdict, "CAFE_TOUCH")
         
+    ui.label(config.get_text("desc_cafe_invite"))
     # 一号咖啡馆邀请
     ui.number("1" + config.get_text("cafe_invite_desc"), min=0, max=5, precision=0, step=1).bind_value(config.userconfigdict, "CAFE1_INVITE_SEQ", forward=lambda x:int(x), backward=lambda x: int(x)).bind_visibility_from(config.userconfigdict, "CAFE_TOUCH").style("width: 300px;")
     # 二号咖啡馆邀请

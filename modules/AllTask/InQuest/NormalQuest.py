@@ -11,7 +11,7 @@ from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, config, screenshot
-from .Questhelper import has_triple_result_event, jump_to_page, close_popup_until_see, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L
+from .Questhelper import has_triple_result_event, jump_to_page, close_popup_until_see, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L, NORMAL_TAB_POSITION, HARD_TAB_POSITION
 import numpy as np
 
 class NormalQuest(Task):
@@ -27,7 +27,7 @@ class NormalQuest(Task):
     def on_run(self) -> None:
         logging.info({"zh_CN": "切换到普通关卡", "en_US": "switch to normal quest"})
         self.run_until(
-            lambda: click((798, 159)),
+            lambda: click(NORMAL_TAB_POSITION),
             lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
         )
         if config.userconfigdict["NORMAL_QUEST_EVENT_STATUS"] and not has_triple_result_event():
