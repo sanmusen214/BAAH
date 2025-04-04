@@ -5,7 +5,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config, ocr_area, logging, istr, CN, EN
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config, ocr_area, logging, istr, CN, EN, screenshot
 # =====
 from .Loginin import Loginin
 from .CloseInform import CloseInform
@@ -32,6 +32,10 @@ class EnterGame(Task):
     
      
     def on_run(self) -> None:
+        # 闲置状态下会隐藏主页UI，随便点两下试图唤起UI（如果在游戏内的话）
+        click(Page.MAGICPOINT)
+        click(Page.MAGICPOINT)
+        screenshot()
         has_recorded = False
         if Page.is_page(PageName.PAGE_HOME):
             # 直接就在主页，直接记录资源
