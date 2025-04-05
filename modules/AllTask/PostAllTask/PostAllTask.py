@@ -6,8 +6,9 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot, match_pixel
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, ActionType,screenshot, match_pixel, istr, CN, EN
 from modules.utils.log_utils import logging
+import time
 
 class PostAllTask(Task):
     def __init__(self, name="PostAllTask") -> None:
@@ -17,18 +18,60 @@ class PostAllTask(Task):
     def pre_condition(self) -> bool:
         return self.back_to_home()
     
+    def save_sources_to_user_storage(self, rec_obj):
+        """记录钻石信用币到用户存储"""
+        # 记录时间 年月日
+        str_time = time.strftime("%Y-%m-%d", time.localtime(time.time()))
+        # 增加时间戳
+        rec_obj["date"] = str_time
+        # 检查上次存储的时间
+        last_rec_date = config.userstoragedict.get("LAST_SAVE_MONEY_DIAMOND_DATE", "")
+        if last_rec_date != str_time:
+            # 如果不是同一天，更新存储的时间
+            config.update_user_storage_dict(
+                "LAST_SAVE_MONEY_DIAMOND_DATE", 
+                str_time, 
+                action_type=ActionType.WRITE)
+            # 更新存储的资源
+            config.update_user_storage_dict(
+                "HISTORY_MONEY_DIAMOND_LIST", 
+                rec_obj, 
+                action_type=ActionType.APPEND)
+            # 保存json
+            config.save_user_storage_dict()
+
+            logging.info(istr({
+                CN: f"记录资源到用户存储成功 {rec_obj}",
+                EN: f"Successfully saved resources to user storage {rec_obj}"
+            }))
+        else:
+            logging.info(istr({
+                CN: f"今天已经记录资源信息过了, 不再保存 {rec_obj}",
+                EN: f"Already saved record today, not saving again {rec_obj}"
+            }))
+        
+    
     def record_resources(self):
         """
         记录主页中的资源
         """
         # 记录主页中的资源
-        power_num = ocr_area((503, 17), (602, 56))[0]
-        # print("体力: ", power_num)
-        credit_num = ocr_area((688, 19), (832, 59))[0]
-        # print("信用点: ", credit_num)
-        diamond_num = ocr_area((863, 21), (973, 60))[0]
-        # print("钻石: ", diamond_num)
-        config.sessiondict["AFTER_BAAH_SOURCES"] = {"power": power_num, "credit": credit_num, "diamond": diamond_num}
+        power_str = ocr_area((503, 17), (602, 56))[0]
+        # print("体力: ", power_str)
+        credit_str = ocr_area((688, 19), (832, 59))[0]
+        # print("信用点: ", credit_str)
+        diamond_str = ocr_area((863, 21), (973, 60))[0]
+        # print("钻石: ", diamond_str)
+        record_obj = {"power": power_str, "credit": credit_str, "diamond": diamond_str}
+        config.sessiondict["AFTER_BAAH_SOURCES"] = record_obj
+
+        try:
+            self.save_sources_to_user_storage(record_obj)
+        except Exception as e:
+            logging.error(istr({
+                CN: f"保存资源到用户存储失败: {e}",
+                EN: f"Failed to save resources to user storage: {e}"
+            }))
      
     def on_run(self) -> None:
         self.record_resources()

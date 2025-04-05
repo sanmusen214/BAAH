@@ -315,5 +315,8 @@ defaultSessionDict = {
 
 # storagedict存储与某一个配置文件对应的游戏实例的持久性存储信息（如钻石历史变化曲线），其生命周期与userconfig相同，但是在脚本运行时是随用随写的
 defaultStorageDict = {
-
+    # 记录上一次存储 信用点和钻石的日期
+    "LAST_SAVE_MONEY_DIAMOND_DATE":{"d":""},
+    # 记录历史存储的 信用点和钻石和对应日期 列表
+    "HISTORY_MONEY_DIAMOND_LIST":{"d":[]},
 }

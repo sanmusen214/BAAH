@@ -12,7 +12,7 @@ from .baah_exceptions import *
 
 from modules.utils.log_utils import logging
 import time
-from modules.configs.MyConfig import config
+from modules.configs.MyConfig import config, ActionType
 
 def get_config_time_after_click():
     return config.userconfigdict['TIME_AFTER_CLICK']
