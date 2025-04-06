@@ -35,6 +35,8 @@ class FightQuest(Task):
         self.pre_times = 1 if start_from_editpage else 2
         # 是否在选择队伍界面自动配队
         self.auto_team = auto_team
+        # 队伍选择界面被选中的队伍的颜色范围
+        self.COLOR_TEAM_SELECT_DARK = ([90, 60, 35], [110, 80, 55])
 
     @staticmethod
     def judge_whether_in_fight() -> bool:
@@ -43,6 +45,15 @@ class FightQuest(Task):
             SkipStory(pre_times=2).run()
             screenshot()
         return match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True)
+
+    def in_edit_team_page(self) -> bool:
+        """判断是否在编辑部队页面"""
+        count = 0
+        for i in range(len(Page.LEFT_FOUR_TEAMS_POSITIONS)):
+            if (match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[i], self.COLOR_TEAM_SELECT_DARK) or 
+                    match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[i], Page.COLOR_BUTTON_WHITE)):
+                count += 1
+        return count == 4
 
     def pre_condition(self) -> bool:
         if self.force_start:
@@ -76,13 +87,15 @@ class FightQuest(Task):
         screenshot()
         if Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM):
             return True
+        if self.in_edit_team_page():
+            return True
         if self.backtopic():
             # 如果已经在战斗结束应当返回的页面，那么直接返回
             return False
         # 可能有剧情
         SkipStory(pre_times=2).run()
         sleep(2)
-        return Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM)
+        return Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM) or self.in_edit_team_page()
 
     def on_run(self) -> None:
         if not self.force_start:
