@@ -23,6 +23,7 @@ class TaskName():
     BOUNTY = "悬赏通缉"
     SPECIAL = "特殊任务"
     SCHOOL_EXCHANGE_MEETING = "学园交流会"
+    EXAM = "战术测试"
     TACTICAL_CHALLENGE = "战术大赛"
     HARD = "困难关卡"
     EVENT = "活动关卡"
@@ -142,6 +143,12 @@ class TaskInstanceMap:
                     i18n_key_name = "task_contest",
                     task_module = InContest,
                     task_params = {'collect': False}
+                ),
+            TaskName.EXAM: TaskInstance(
+                    task_config_name = TaskName.EXAM,
+                    i18n_key_name = "task_exam",
+                    task_module = InExam,
+                    task_params = {}
                 ),
             TaskName.ASSAULT: TaskInstance(
                     task_config_name = TaskName.ASSAULT,
