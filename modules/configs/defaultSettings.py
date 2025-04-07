@@ -261,6 +261,14 @@ defaultUserDict = {
             "map": lambda x: x.replace(".png", ".json")
         }
     },
+    # 综合战术考试 关卡
+    "EXAM_TARGET_LEVEL":{
+        "d":2
+    },
+    # 综合战术考试 考试队伍次数
+    "EXAM_TEAM_COUNT":{
+        "d":3
+    },
 
 }
 

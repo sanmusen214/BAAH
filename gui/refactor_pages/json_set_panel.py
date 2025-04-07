@@ -13,6 +13,7 @@ from ..pages.Setting_other import set_other
 from ..pages.Setting_server import set_server
 from ..pages.Setting_shop import set_shop
 from ..pages.Setting_special import set_special
+from ..pages.Setting_exam import set_exam
 from ..pages.Setting_task_order import set_task_order # 此方法内有个导入myAllTask，可能导致下述异常
 from ..pages.Setting_timetable import set_timetable
 from ..pages.Setting_wanted import set_wanted
@@ -72,6 +73,7 @@ def get_config_list(lst_config: MyConfigger, logArea) -> list:
         ConfigPanel("task_wanted", lambda: set_wanted(lst_config), i18n_config=lst_config),
         ConfigPanel("task_special", lambda: set_special(lst_config), i18n_config=lst_config),
         ConfigPanel("task_exchange", lambda: set_exchange(lst_config), i18n_config=lst_config),
+        ConfigPanel("task_exam", lambda: set_exam(lst_config), i18n_config=lst_config),
         ConfigPanel("task_event", lambda: set_event(lst_config), i18n_config=lst_config),
         ConfigPanel("task_assault", lambda: set_assault(lst_config), i18n_config=lst_config),
         ConfigPanel("task_oneclick_raid", lambda: set_oneclick_raid(lst_config), i18n_config=lst_config),

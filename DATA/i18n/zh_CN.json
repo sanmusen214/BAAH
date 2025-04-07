@@ -12,7 +12,7 @@
     "task_wanted":"悬赏通缉/指名手配",
     "task_special":"特殊任务/委托/依赖",
     "task_exchange":"学园交流会",
-    "task_exam":"综合战术考试/合同火力演习",
+    "task_exam":"战术考试/火力演习",
     "task_contest":"战术大赛/竞技场",
     "task_hard":"困难图扫荡",
     "task_event":"活动关卡",
@@ -177,6 +177,7 @@
     "desc_cli_since_manual":"由于推图任务设置了手动出击队伍，GUI执行走格子将会报错，请使用终端执行",
     "word_normal":"普通",
     "word_hard":"困难",
+    "desc_exam_times":"参与考试的小队数量",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

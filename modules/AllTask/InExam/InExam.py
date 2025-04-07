@@ -42,11 +42,17 @@ class InExam(Task):
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY)),
             lambda: not self.has_popup()
         )
-        for t in range(3):
+        target_team_number = int(config.userconfigdict["EXAM_TEAM_COUNT"])
+        for t in range(target_team_number):
             self.clear_popup()
-            # 点第二关
+            target_ind = int(config.userconfigdict["EXAM_TARGET_LEVEL"]) - 1
+            logging.info(istr({
+                CN: f"正在进行考试，选择第{target_ind + 1}关",
+                EN: f"Exam in progress, select level {target_ind + 1}",
+            }))
+            # 点第n关
             self.run_until(
-                lambda: click(self.enter_buttons_pos_list[1]),  # 点击第二个按钮
+                lambda: click(self.enter_buttons_pos_list[target_ind]),  # 点击第n个按钮，下标减一
                 lambda: self.has_popup()
             )
             # 点考试开始
