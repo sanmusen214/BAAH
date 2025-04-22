@@ -1,3 +1,13 @@
+def handle_error_mention(e, print_method):
+    """
+    根据各种奇妙的异常字符串，给出异常解决提示
+
+    无论是完整process运行还是单个函数运行，出异常后都会调用这个函数
+    """
+    if "EOF" in e:
+        print_method("错误提示(EOF): 如果不勾选自动配队的话，请使用终端执行推格子图任务！")
+        print_method("Error Mention(EOF): If you do not check auto team select, please use terminal to run the explore task!")
+
 def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_queue = None):
     """
     运行BAAH核心流程
@@ -428,6 +438,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             # 打印错误信息, 保存日志信息到文件
             detailed_trackback_str = traceback.format_exc()
             logging.error(detailed_trackback_str)
+            handle_error_mention(str(e), logging.warn)
             logging.save_custom_log_file()
             # 发送错误邮件
             BAAH_send_err_mail(e)
@@ -484,3 +495,4 @@ def BAAH_single_func_process(reread_config_name = None, msg_queue = None, to_run
         # 打印错误信息
         detailed_trackback_str = traceback.format_exc()
         logging.error(detailed_trackback_str)
+        handle_error_mention(str(e), logging.warn)
