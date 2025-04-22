@@ -4,9 +4,12 @@ def handle_error_mention(e, print_method):
 
     无论是完整process运行还是单个函数运行，出异常后都会调用这个函数
     """
-    if "EOF" in e:
-        print_method("错误提示(EOF): 如果不勾选自动配队的话，请使用终端执行推格子图任务！")
-        print_method("Error Mention(EOF): If you do not check auto team select, please use terminal to run the explore task!")
+    try:
+        if "EOF" in e:
+            print_method("错误提示(EOF): 如果手动出击队伍的话，请使用终端执行推走格子图任务！")
+            print_method("Error Mention(EOF): If you wanna manually select teams, please use terminal to run the grid quest explore task!")
+    except Exception as newe:
+        print("Error when mention error msg: " + str(newe))
 
 def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_queue = None):
     """
