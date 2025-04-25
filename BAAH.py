@@ -67,13 +67,13 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         if config.userconfigdict["KILL_PORT_IF_EXIST"] or justDoIt:
             try:
                 # 确保端口未被占用
-                res = subprocess_run(["netstat", "-ano"], encoding="gbk").stdout
+                res = subprocess_run(["netstat", "-ano"], encoding="utf8").stdout
                 for line in res.split("\n"):
                     if ":"+str(config.userconfigdict["TARGET_PORT"]) in line and "LISTENING" in line:
                         logging.info(line)
                         logging.info({"zh_CN":"端口被占用，正在释放" , "en_US":"Port is used, releasing now"})
                         pid=line.split()[-1]
-                        subprocess_run(["taskkill", "/T", "/F", "/PID", pid], encoding="gbk")
+                        subprocess_run(["taskkill", "/T", "/F", "/PID", pid], encoding="utf8")
                         logging.info({"zh_CN": "端口被占用，已释放", "en_US": "Port is used, released"})
                         config.sessiondict["PORT_IS_USED"] = True
                         break
@@ -88,7 +88,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         检查进程是否存在
         """
         try:
-            tasks = subprocess_run(["tasklist"], encoding="gbk").stdout
+            tasks = subprocess_run(["tasklist"], encoding="utf8").stdout
             tasklist = tasks.split("\n")
             for task in tasklist:
                 wordlist = task.strip().split()
@@ -243,7 +243,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
                 emulator_exe = os.path.basename(full_path).split(".exe")[0] + ".exe"
                 subprocess_run(["taskkill", "/T", "/F", "/PID", str(config.sessiondict["EMULATOR_PROCESS_PID"])],
-                            encoding="gbk")
+                            encoding="utf8")
                 # 杀掉模拟器可见窗口进程后，可能残留后台进程，这里根据adb端口再杀一次
                 BAAH_release_adb_port(justDoIt=True)
             except Exception as e:
