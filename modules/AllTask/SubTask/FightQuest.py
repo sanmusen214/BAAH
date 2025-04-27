@@ -108,7 +108,7 @@ class FightQuest(Task):
                 # 用竞技场的匹配按钮精度不够，点击固定位置即可
                 self.run_until(
                     lambda: click((1106, 657)) and click(Page.MAGICPOINT),
-                    lambda: not Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM),
+                    lambda: not Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM) and not self.in_edit_team_page(),
                     sleeptime=2
                 )
             for t in range(2):
