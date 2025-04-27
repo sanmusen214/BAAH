@@ -130,10 +130,7 @@ class InContest(Task):
             # 强制收集
             self.collect = True
             # close all popup
-            self.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: not match(popup_pic(PopupName.POPUP_CONTEST_TARGET))
-            )
+            self.clear_popup()
         else:
             # Enter Editting Team Page
             # check whether jump option is open
@@ -153,10 +150,7 @@ class InContest(Task):
                 sleeptime=2
             )
             # click magic point to close the Result popup, back to pure contest page
-            self.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: not match(popup_pic(PopupName.POPUP_FIGHT_RESULT))
-            )
+            self.clear_popup()
         if self.collect:
             # receive the reward
             self.run_until(
