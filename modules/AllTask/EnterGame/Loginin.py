@@ -58,11 +58,11 @@ class Loginin(Task):
         elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
             # 点掉放弃上次战斗进度按钮
             click(button_pic(ButtonName.BUTTON_QUIT_LAST))
-        elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)):
+        elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)) and config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
             # 点掉B站登录按钮
             # 防止点到上方横幅右侧切换账号按钮，这里睡4s等待横幅消失
             click(button_pic(ButtonName.BUTTON_LOGIN_BILI), sleeptime=4)
-        elif self.has_bili_login_banner():
+        elif self.has_bili_login_banner() and config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
             # 如果出现B站登录横幅，睡2s等待横幅消失
             logging.info(istr({
                 CN: "等待B站登录横幅消失",

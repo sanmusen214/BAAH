@@ -13,6 +13,7 @@ from .InWanted.InWanted import InWanted
 from .InSpecial.InSpecial import InSpecial
 from .InExchange.InExchange import InExchange
 from .InContest.InContest import InContest
+from .InExam.InExam import InExam
 
 from .CollectMails.CollectMails import CollectMails
 from .CollectDailyRewards.CollectDailyRewards import CollectDailyRewards

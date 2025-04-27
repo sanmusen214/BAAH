@@ -373,3 +373,61 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
     
     if quick_return:
         return quick_return_data
+    
+
+
+
+def find_color_diff_positions(start_from_xy, distance, pic_data, vertical = True, range_pixels = 10, threshold = 20):
+    """
+    记录颜色发生变化的边缘坐标
+
+    返回坐标列表
+
+    start_from_xy: 
+        起始坐标
+    distance: 
+        变化范围
+    pic_data: 
+        图片数据
+    vertical: 
+        是否垂直变化
+    range_pixels: 
+        每次变化的像素数
+    threshold: 
+        颜色变化的阈值
+    """
+    color_change_coords = []
+    last_color = pic_data[start_from_xy[1]][start_from_xy[0]]
+    range_index = 1 if vertical else 0
+    for range_p in range(start_from_xy[range_index], start_from_xy[range_index] + distance + 1, range_pixels):
+        # 获取当前坐标的颜色
+        # 图片坐标系
+        x_pos = start_from_xy[0] if vertical else range_p
+        y_pos = range_p if vertical else start_from_xy[1]
+        color = pic_data[y_pos][x_pos]
+        # 算颜色的各个分量的差值之和
+        color_diff = abs(int(color[0]) - int(last_color[0])) + abs(int(color[1]) - int(last_color[1])) + abs(int(color[2]) - int(last_color[2]))
+        # 如果颜色变化大于，记录坐标
+        if color_diff > threshold:
+            color_change_coords.append((x_pos, y_pos))
+        last_color = color
+    return color_change_coords
+
+def find_pairs_distance_greater_than(point_list, distance):
+    """
+    找到距离大于distance的两点坐标
+
+    返回两两坐标组合的列表
+
+    point_list: 
+        坐标列表
+    distance: 
+        距离阈值
+    """
+    result = []
+    if len(point_list) < 2:
+        return result
+    for i in range(len(point_list)-1):
+        if abs(point_list[i][0] - point_list[i+1][0]) + abs(point_list[i][1] - point_list[i+1][1]) > distance:
+            result.append((point_list[i], point_list[i+1]))
+    return result

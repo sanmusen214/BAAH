@@ -253,7 +253,7 @@ class Task:
     def _modify_now_teams_students(clear_all = False, auto_team = False):
         """取消当前选择队伍的所有人员 或者 进行自动编队"""
         # 快速编辑弹窗Empty人员的背景颜色
-        COLOR_NO_STU_SELECTED = ([164, 158, 154], [184, 178, 174])
+        COLOR_NO_STU_SELECTED = ([164, 158, 145], [184, 178, 174])
         # 自动编队按钮
         AUTO_TEAM_BUILD_BUTTON = [624, 593]
         # 快速编辑

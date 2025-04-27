@@ -12,6 +12,7 @@ compact_log.txt
 /BAAH*_update.zip
 notrack_*.py
 /DATA/LOGS
+/DATA/USER_STORAGE
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

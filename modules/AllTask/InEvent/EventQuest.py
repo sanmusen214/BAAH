@@ -13,7 +13,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, screenshot, istr, CN, EN
 
 
 class EventQuest(Task):
@@ -152,8 +152,8 @@ class EventQuest(Task):
                               "en_US": f"Try to jump to the {level_ind+1} level"})
                 # 向右挪到第level_ind个level
                 if not config.userconfigdict["AUTO_PUSH_EVENT_QUEST"] or not self.explore:
-                    logging.info({"zh_CN": "设置的不自动推活动图，尝试直接跳转到扫荡关卡",
-                                  "en_US": "Set to not push the activity diagram automatically, "
+                    logging.info({"zh_CN": "不推活动图，尝试直接跳转到扫荡关卡",
+                                  "en_US": "Not push the activity diagram, "
                                            "try to jump directly to the sweep level"})
                 # 判断是否要推图并推图
                 res = self.judge_whether_and_do_fight(0)
@@ -171,6 +171,16 @@ class EventQuest(Task):
                 hasfight_newlevel = False
                 for i in range(level_ind):
                     click((1171, 359), sleeptime=1)
+                    if self.raid:
+                        # 如果是扫荡模式，这里需要判断翻页后的关卡是否解锁了
+                        screenshot()
+                        if not self.has_popup():
+                            logging.warn(istr({
+                                CN: f"第{i+2}关未解锁，跳过此扫荡任务",
+                                EN: f"The {i+2} level is not unlocked, skip this sweep task"
+                            }))
+                            # 停止继续翻页，防止误触第二关按钮
+                            break
                     # 判断是否要推图并推图
                     res = self.judge_whether_and_do_fight(1 + i)
                     if res == "yes":

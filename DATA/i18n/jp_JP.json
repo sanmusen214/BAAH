@@ -12,6 +12,7 @@
     "task_wanted": "指名手配／懸賞",
     "task_special": "特別任務／依頼",
     "task_exchange": "学園交流会",
+    "task_exam": "合同火力演習",
     "task_contest": "戦術大会／競技場",
     "task_hard": "難関ステージ",
     "task_event": "イベントステージ",
@@ -176,6 +177,7 @@
     "desc_cli_since_manual":"推進タスクに手動出撃チームが設定されているため、GUI実行時にエラーが発生します，ターミナルを使用して実行してください",
     "word_normal":"通常",
     "word_hard":"難関",
+    "desc_exam_times":"試験を受けるチームの数",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
