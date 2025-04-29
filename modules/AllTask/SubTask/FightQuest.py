@@ -37,6 +37,8 @@ class FightQuest(Task):
         self.auto_team = auto_team
         # 队伍选择界面被选中的队伍的颜色范围
         self.COLOR_TEAM_SELECT_DARK = ([90, 60, 35], [110, 80, 55])
+        # 记录战斗结束时是成功还是失败
+        self.win_fight_flag = False
 
     @staticmethod
     def judge_whether_in_fight() -> bool:
@@ -194,6 +196,7 @@ class FightQuest(Task):
             logging.info({"zh_CN": "战斗失败", "en_US": "Fight failed"})
             logging.warn({"zh_CN": "请检查自动AUTO是否开启，提升队伍练度",
                           "en_US": "Please check if AUTO is on, and improve the team's level"})
+            self.win_fight_flag = False
         else:
             # 战斗结算页面
             # 四人界面 右下确认蓝色
@@ -204,6 +207,7 @@ class FightQuest(Task):
                 times=7,
                 sleeptime=1
             )
+            self.win_fight_flag = True
         # 战斗后可能剧情
         # 先看有没有出现黄色结算，有结算那肯定没剧情
         hasconfirmy = self.run_until(
