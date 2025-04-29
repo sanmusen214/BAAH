@@ -11,6 +11,8 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot, match_pixel, istr, CN, EN, JP
 from modules.utils.log_utils import logging
 
+
+# 考试如果队伍数量不够3，需要手动结束考试；如果队伍数量等于3，那么最后一场战斗结束会返回考试区域选择页面
 class InExam(Task):
     def __init__(self, name="InExam") -> None:
         super().__init__(name)
@@ -33,7 +35,9 @@ class InExam(Task):
         return self.back_to_home()
     
     def do_a_new_exam(self) -> bool:
-        # 按钮位置相同，开始新的一次考试
+        """开始新的一次考试，返回是否存在至少一个队伍成功"""
+        all_lose = True
+        # 按钮位置相同
         self.run_until(
             lambda: click(self.COLOT_GIVEUP_POINT["pos"]),
             lambda: self.has_popup()
@@ -62,14 +66,38 @@ class InExam(Task):
             )
             # =====配队页面=======
             # 切队伍
-            click(Page.LEFT_FOUR_TEAMS_POSITIONS[t])
+            self.run_until(
+                lambda: click(Page.LEFT_FOUR_TEAMS_POSITIONS[t]),
+                lambda: match_pixel(Page.LEFT_FOUR_TEAMS_POSITIONS[t], Page.COLOR_SELECTED_LEFT_FOUR_TEAM)
+            )
             # 出击打架
-            FightQuest(backtopic=lambda: Page.is_page(PageName.PAGE_EXAM)).run()
+            team_fight = FightQuest(backtopic=lambda: Page.is_page(PageName.PAGE_EXAM))
+            team_fight.run()
+            self.clear_popup()
+            if not team_fight.win_fight_flag:
+                logging.warn(istr({
+                    CN: f"考试队伍 {t+1} 考试失败",
+                    EN: f"Exam team {t+1} failed",
+                }))
+            else:
+                all_lose = False
+        # 队伍交战完毕，如果队伍数量小于3，会停留在考试关卡页面，需要判断点击放弃按钮
+        self.finish_last_exam()
+        return not all_lose
 
     def can_exam_raid(self):
+        screenshot()
         if match_pixel(self.COLOR_RAID_POINT["pos"], self.COLOR_RAID_POINT["color"]):
             # 扫荡按钮亮了
+            logging.info(istr({
+                CN: "存在扫荡按钮",
+                EN: "Raid button exists",
+            }))
             return True
+        logging.info(istr({
+            CN: "不存在扫荡按钮",
+            EN: "Raid button not found",
+        }))
         return False
 
     def do_exam_raid(self):
@@ -100,6 +128,66 @@ class InExam(Task):
             lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB))
         )
         self.clear_popup()
+
+    def go_to_open_exam_area_pos(self) -> bool:
+        """点击并进入开放考试的区域，返回是否成功进入，如果没有开放区域，返回False"""
+        screenshot()
+        if match_pixel([374, 681], Page.COLOR_WHITE):
+            # 考试关卡选择页面
+            logging.info(istr({
+                CN: "已经在考试关卡选择页面",
+                EN: "Already in exam level selection page",
+            }))
+            return True
+        else:
+            # 地区选择
+            # 判断开放的考试区域
+            can_enter = False
+            for i in range(len(self.AREAS_POINTS)):
+                if match_pixel(self.AREAS_POINTS[i], Page.COLOR_WHITE):
+                    # 亮的区域
+                    can_enter = True
+                    # 进入考试,左上角出现查看全地图按钮
+                    self.run_until(
+                        lambda: click([self.AREAS_POINTS[i][0] + 50, self.AREAS_POINTS[i][1]]),
+                        lambda: match_pixel((63, 90), Page.COLOR_WHITE)
+                    )
+                    logging.info(istr({
+                        CN: "进入考试区域",
+                        EN: "Enter exam area",
+                    }))
+                    return True
+            logging.info(istr({
+                CN: "没有可进入的考试区域",
+                EN: "No available exam area",
+            }))
+            return False
+    
+    def finish_last_exam(self):
+        """放弃未完成的考试，会判断是否右下角有放弃按钮点击"""
+        screenshot()
+        if match_pixel(self.COLOT_GIVEUP_POINT["pos"], self.COLOT_GIVEUP_POINT["color"]):
+            # 结束上次的考试
+            logging.info(istr({
+                CN: "结束上次的考试",
+                EN: "End the last exam",
+            }))
+            self.run_until(
+                lambda: click(self.COLOT_GIVEUP_POINT["pos"]),
+                lambda: self.has_popup()
+            )
+            self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
+                lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB))
+            )
+            sleep(2)
+            self.clear_popup()
+        else:
+            logging.info(istr({
+                CN: "不存在放弃按钮",
+                EN: "No give up button",
+            }))
+        
      
     def on_run(self) -> None:
         # 进到中心
@@ -120,44 +208,29 @@ class InExam(Task):
             story.on_run()
             self.clear_popup()
         # 两个页面，一个是地区选择，一个是考试选择
-        if match_pixel([374, 681], Page.COLOR_WHITE):
-            # 考试选择页面
-            pass
-        else:
-            # 地区选择
-            # 判断开放的考试区域
-            can_enter = False
-            for i in range(len(self.AREAS_POINTS)):
-                if match_pixel(self.AREAS_POINTS[i], Page.COLOR_WHITE):
-                    # 亮的区域
-                    can_enter = True
-                    # 进入考试
-                    click([self.AREAS_POINTS[i][0] + 50, self.AREAS_POINTS[i][1]])
-                    break
-            if not can_enter:
-                logging.info(istr({
-                    CN: "没有可进入的考试区域",
-                    EN: "No available exam area",
-                }))
-                return
+        if not self.go_to_open_exam_area_pos():
+            # 考试未开放，返回
+            return
         # ======考试选择页面=======
         # 上次考试可能没结束，点结束上次的
-        if match_pixel(self.COLOT_GIVEUP_POINT["pos"], self.COLOT_GIVEUP_POINT["color"]):
-            # 结束上次的考试
-            self.run_until(
-                lambda: click(self.COLOT_GIVEUP_POINT["pos"]),
-                lambda: self.has_popup()
-            )
-            self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
-                lambda: not match(button_pic(ButtonName.BUTTON_CONFIRMB))
-            )
-            sleep(2)
-            self.clear_popup()
+        self.finish_last_exam()
+        self.clear_popup()
         if not self.can_exam_raid():
             # 开始新考试
-            self.do_a_new_exam()
-        # 考试扫荡
+            has_team_passed = self.do_a_new_exam()
+            if not has_team_passed:
+                logging.error(istr({
+                    CN: "考试全部队伍失败,无法扫荡，请降低考试关卡难度或提高队伍练度",
+                    EN: "All exam teams failed， please lower the exam level or increase the team level",
+                }))
+                return
+            else:
+                logging.info(istr({
+                    CN: "考试结束",
+                    EN: "Exam finished",
+                }))
+        # 考试扫荡，如果是交战结束后，那么会回到考试区域选择页面，重新进入下
+        self.go_to_open_exam_area_pos()
         self.do_exam_raid()
             
 
