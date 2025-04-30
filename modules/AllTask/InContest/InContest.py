@@ -167,8 +167,7 @@ class InContest(Task):
     def collect_and_magic(self):
         click((352, 388))
         click((354, 467))
-        sleep(1)
-        click(Page.MAGICPOINT)
+        self.clear_popup()
 
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
