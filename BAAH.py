@@ -449,11 +449,26 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             print_BAAH_finish()
             
             print_BAAH_config_info()
+            def continue_redo_tasks():
+                """出错后用户选择从出错点继续执行脚本"""
+                # 记录CURRENT_PERIOD_TASK_INDEX
+                last_period_task_index = config.sessiondict["CURRENT_PERIOD_TASK_INDEX"]
+                # 重新加载其他config值
+                config.parse_user_config(config.nowuserconfigname)
+                # 重新加载CURRENT_PERIOD_TASK_INDEX
+                config.sessiondict["CURRENT_PERIOD_TASK_INDEX"] = last_period_task_index
+                # 执行BAAH
+                BAAH_main(run_precommand=False)
+            
             BAAH_auto_quit(forcewait=True, key_map_func={
                 "R": {
                     "desc":"estart", # [R]estart
                     "func":lambda: [config.parse_user_config(config.nowuserconfigname), BAAH_main()]
-                      }
+                      },
+                "C": {
+                    "desc":"ontinue", # [C]ontinue
+                    "func":continue_redo_tasks
+                }
             })
 
 
