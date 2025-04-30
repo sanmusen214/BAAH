@@ -269,7 +269,11 @@ defaultUserDict = {
     "EXAM_TEAM_COUNT":{
         "d":3
     },
-
+    # ARIA2配置
+    "ARIA2_PATH":{"d":"./tools/aria2/aria2c.exe"},
+    "ARIA2_THREADS":{"d":16},
+    "ARIA2_MAX_TRIES":{"d":5},
+    "ARIA2_FAILURED_WAIT_TIME":{"d":0.5},
 }
 
 # 软件的config里的默认值

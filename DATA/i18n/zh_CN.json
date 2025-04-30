@@ -189,7 +189,10 @@
     "config_event_status": "是否只在活动开启状态下执行",
     "notice_QA":"如何使用以及常见问题",
 
-
+    "aria2_path":"Aria2路径",
+    "aria2_thread":"Aria2下载线程数",
+    "aria2_max_tries":"Aria2最大重试次数",
+    "aria2_failured_wait_time":"Aria2下载失败后等待时间",
 
 
 
