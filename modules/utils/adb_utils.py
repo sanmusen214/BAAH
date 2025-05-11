@@ -42,6 +42,9 @@ def disconnect_this_device():
     """Disconnect this device."""
     subprocess_run([get_config_adb_path(), "disconnect", getNewestSeialNumber()])
 
+def reconnect_offline():
+    """Reconnect to the device that was disconnected, or remove the offline status of the device."""
+    subprocess_run([get_config_adb_path(), "reconnect", "offline"])
 
 def kill_adb_server():
     """Kill the adb server."""
