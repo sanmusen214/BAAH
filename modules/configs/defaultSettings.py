@@ -274,6 +274,11 @@ defaultUserDict = {
     "ARIA2_THREADS":{"d":16},
     "ARIA2_MAX_TRIES":{"d":5},
     "ARIA2_FAILURED_WAIT_TIME":{"d":0.5},
+    
+    # 大更新配置
+    "BIG_UPDATE":{"d":False},
+    "BIG_UPDATE_TYPE":{"d":"API",
+                                        "s":["API", "URLGET"]}
 }
 
 # 软件的config里的默认值
