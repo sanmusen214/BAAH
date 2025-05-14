@@ -119,9 +119,10 @@ class InExam(Task):
         click([991, 359])
         click([991, 359])
         # 如果弹窗消失，则没有考试票卷了
+        screenshot()
         if not self.has_popup():
             logging.warn(istr({
-                CN: "没有考试卷了，扫荡结束",
+                CN: "扫荡弹窗消失，可能是没有考试卷了，扫荡结束",
                 EN: "No exam tickets, raid end",
             }))
             return
