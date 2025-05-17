@@ -1,5 +1,3 @@
-from modules.utils.log_utils import logging
-
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
 from DATA.assets.PopupName import PopupName
@@ -8,7 +6,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 import numpy as np
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
+from modules.utils import click, get_screenshot_cv_data, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, find_color_diff_positions, logging, istr, CN, EN
 
 
 class ScrollSelect(Task):
@@ -32,7 +30,7 @@ class ScrollSelect(Task):
     swipeoffsetx: int
         滑动时基础x坐标的x偏移量，防止滑动时意外点击按钮
     finalclick: bool
-        是否滑动结束后点击clickx与最后一行的y
+        是否滑动结束后点击clickx与y
     """
 
     def __init__(self, targetind, window_starty, first_item_endy, window_endy, clickx, hasexpectimage,
@@ -55,7 +53,7 @@ class ScrollSelect(Task):
                           "en_US": "Default value 40 is used for swipe trigger distance RESPOND_Y"})
             self.responsey = 40
         self.finalclick = finalclick
-        # 最后ScrollSelect任务想要点击的x,y坐标
+        # 最后ScrollSelect任务想要点击的x,y坐标，当做出最终点击动作时，记录坐标到这个值
         self.wantclick_pos = [-1, -1]
 
     def pre_condition(self) -> bool:
@@ -153,3 +151,127 @@ class ScrollSelect(Task):
 
     def post_condition(self) -> bool:
         return True
+    
+
+class SmartScrollSelect(Task):
+    """
+    根据所给列进行边缘点分析，提取出按钮位置，分析每个按钮正中的坐标颜色，根据颜色筛选可点击的那些按钮
+    
+    可以用于找到已经解锁的最后一关，用于扫荡任务时注意已经解锁的最后一关可能并未3星可扫荡
+
+    Parameters
+    ----------
+    targetind : int
+        目标关卡的下标, 负数，一般是 -1 表示已经解锁的最后一个关卡
+    window_starty:
+        窗口上边缘y坐标 稍微超出窗口
+    window_endy:
+        窗口下边缘y坐标 稍微超出窗口
+    clickx: int
+        点击按钮的x坐标, 垂线需要经过关卡列表中的按钮以区分每个关卡的解锁状态
+    active_button_color:
+        已经解锁的关卡的颜色
+    hasexpectimage: function
+        期望点击后出现的图片判断函数，返回bool
+    swipeoffsetx: int
+        滑动时基础x坐标的x偏移量，防止滑动时意外点击按钮
+    finalclick: bool
+        是否滑动结束后点击clickx与y
+    min_button_height: int
+        关卡按钮的最小识别高度，默认40
+    """
+    def __init__(self, 
+                    targetind, window_starty, window_endy, clickx, active_button_color, hasexpectimage,
+                    swipeoffsetx=-100, finalclick=True, min_button_height=40,
+                 name="SmartScrollSelect") -> None:
+        super().__init__(name)
+        self.targetind = targetind
+        self.window_starty = int(window_starty)
+        self.window_endy = int(window_endy)
+        self.window_height = int(window_endy - window_starty)
+        self.window_middley = int((window_starty + window_endy) / 2)
+        self.clickx = clickx
+        self.active_button_color = active_button_color
+        self.hasexpectimage = hasexpectimage
+        self.swipeoffsetx = swipeoffsetx
+        self.finalclick = finalclick
+        self.min_button_height = min_button_height
+
+        # 最后ScrollSelect任务想要点击的x,y坐标，当做出最终点击动作时，记录坐标到这个值
+        self.wantclick_pos = [-1, -1]
+
+     
+    def pre_condition(self) -> bool:
+        return super().pre_condition()
+    
+    def go_down(self):
+        """手指上划，下翻"""
+        # 别从最边上滑动，这边从中间偏下方开始滑
+        swipe((self.clickx+self.swipeoffsetx, self.window_middley + self.window_height//3), (self.clickx+self.swipeoffsetx, self.window_middley - self.window_height//2))
+
+    def go_up(self):
+        """手指下划，上翻"""
+        swipe((self.clickx+self.swipeoffsetx, self.window_middley - self.window_height//3), (self.clickx+self.swipeoffsetx, self.window_middley + self.window_height//2))
+
+    def analyze_column_segment(self):
+        pixel_list = find_color_diff_positions((self.clickx, self.window_starty), distance=self.window_height, pic_data=get_screenshot_cv_data(), vertical=True)
+        # 计算相邻两个点的高度差大于min_height的点对，也就是识别到的按钮坐标
+        pair_list = SmartScrollSelect.compute_interval_greater_than(pixel_list, self.min_button_height)
+        # 构造列表，分析每个按钮中间像素值，如果符合active_button_color，就认为是已经解锁的关卡
+        enable_button_list = []
+        for pair in pair_list:
+            if match_pixel(pair[2], self.active_button_color):
+                enable_button_list.append(pair[2])
+        return enable_button_list
+        
+    @staticmethod
+    def compute_interval_greater_than(pixel_list, min_height):
+        """
+        计算相邻两个点的高度差大于min_height的点对
+
+        返回二维列表，元素为符合条件的 [start point, end point, middle point]
+        """
+        res_list = []
+        for i in range(1, len(pixel_list)):
+            last_p = pixel_list[i-1]
+            this_p = pixel_list[i]
+            distance = abs(last_p[1] - this_p[1]) + abs(last_p[0] - this_p[0])
+            if distance > min_height:
+                res_list.append((last_p, this_p, ((last_p[0] + this_p[0]) // 2, (last_p[1] + this_p[1]) // 2)))
+        return res_list
+
+    def on_run(self) -> None:
+        # 基本逻辑就是先滑到底，然后识别，如果最后一个按钮已解锁，那最高关卡就是最后一个按钮
+        # 不是的话就是找到已解锁与未解锁的分界，没找到就上划下
+        for i in range(3):
+            self.go_down()
+        for try_times in range(3):
+            unlock_button_pixels = self.analyze_column_segment()
+            print(unlock_button_pixels)
+            # 如果没有找到解锁的按钮或解锁的按钮数量不够，就继续上划
+            if len(unlock_button_pixels) < abs(self.targetind):
+                self.go_up()
+            else:
+                break
+        # 有足够的按钮数量，点击
+        if len(unlock_button_pixels) >= abs(self.targetind):
+            logging.info(istr({
+                CN: f"找到解锁的按钮坐标: {unlock_button_pixels}",
+                EN: f"Found the coordinates of the unlocked button: {unlock_button_pixels}"
+            }))
+            self.wantclick_pos = [self.clickx, unlock_button_pixels[self.targetind][1]]
+            if self.finalclick:
+                self.run_until(
+                    lambda: click(self.wantclick_pos),
+                    self.hasexpectimage
+                )
+        else:
+            logging.warn({"zh_CN": "没有找到解锁的按钮",
+                          "en_US": "No unlocked button found"})
+            return False
+        
+        
+
+     
+    def post_condition(self) -> bool:
+        return super().post_condition()

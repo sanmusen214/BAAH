@@ -392,7 +392,7 @@ def find_color_diff_positions(start_from_xy, distance, pic_data, vertical = True
     vertical: 
         是否垂直变化
     range_pixels: 
-        每次变化的像素数
+        采样像素间隔
     threshold: 
         颜色变化的阈值
     """
