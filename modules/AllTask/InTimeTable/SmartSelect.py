@@ -100,6 +100,10 @@ class SmartSelect(Task):
                 lambda: click(button_pic(ButtonName.BUTTON_ALL_TIMETABLE)),
                 lambda: match(popup_pic(PopupName.POPUP_TIMETABLE_ALL))
             )
+            # 向下滑动，截图
+            if config.userconfigdict['SERVER_TYPE'] in ["JP"]:
+                swipe([814, 574], [813, 257], 0.5, sleeptime=0.5)
+                screenshot()
             heartdict = get_hearts_of_rooms()
             opendict = get_open_status_of_rooms()
             # 计算分数

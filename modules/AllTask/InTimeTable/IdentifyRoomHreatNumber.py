@@ -1,19 +1,28 @@
 import numpy as np
 
-from modules.utils import (screenshot, match_pixel)
+from modules.utils import (screenshot, match_pixel, config)
 
 
 def get_hearts_of_rooms() -> dict:
     """
     截图并返回所有房间的爱心数，返回一个键值对，{房间的序号:爱心数}
     """
-    # 每个房间最右侧学生大头的爱心位置， x：[445, 788, 1133], y: [290, 442, 594]
-    baseX = np.linspace(445, 1133, 3, dtype=int)
-    baseY = np.linspace(290, 594, 3, dtype=int)
-    # 单个房间内爱心x坐标挨个的偏移量 51
-    OFFSET_X = -51
-    # 爱心的BGR值 [144 118 255]
-    COLOR_HEART = [[140, 115, 253], [145, 120, 255]]
+    if config.userconfigdict['SERVER_TYPE'] not in ["JP"]:
+        # 每个房间最右侧学生大头的爱心位置， x：[445, 788, 1133], y: [290, 442, 594]
+        # 日服改动后（需要滚动）：x: [354, 698, 1043], y: [277, 428, 579]
+        baseX = np.linspace(445, 1133, 3, dtype=int)
+        baseY = np.linspace(290, 594, 3, dtype=int)
+        # 单个房间内爱心x坐标挨个的偏移量 51，日服改动后 71
+        OFFSET_X = -51
+        # 爱心的BGR值 [144 118 255]，日服改动后 [210, 184, 243]
+        COLOR_HEART = [[140, 115, 253], [145, 120, 255]]
+    else:
+        # 日服
+        baseX = np.linspace(354, 1043, 3, dtype=int)
+        baseY = np.linspace(277, 579, 3, dtype=int)
+        OFFSET_X = -71
+        COLOR_HEART = [[205, 180, 239], [215, 189, 248]]
+
     
     total_counts = dict()
     
@@ -27,7 +36,7 @@ def get_hearts_of_rooms() -> dict:
             # 序号从1开始
             total_counts[j * 3 + i + 1] = heart_count
     # print("爱心数量", total_counts)
-    
+    print(f"Room heart nums: {total_counts}")
     return total_counts
 
 def get_open_status_of_rooms() -> dict:
