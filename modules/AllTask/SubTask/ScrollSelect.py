@@ -6,7 +6,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 import numpy as np
 
-from modules.utils import click, get_screenshot_cv_data, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, find_color_diff_positions, logging, istr, CN, EN
+from modules.utils import click, get_screenshot_cv_data, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, find_color_diff_positions, logging, istr, CN, EN, screenshot
 
 
 class ScrollSelect(Task):
@@ -204,14 +204,14 @@ class SmartScrollSelect(Task):
     def pre_condition(self) -> bool:
         return super().pre_condition()
     
-    def go_down(self):
+    def go_down(self, swipe_during=0.5):
         """手指上划，下翻"""
         # 别从最边上滑动，这边从中间偏下方开始滑
-        swipe((self.clickx+self.swipeoffsetx, self.window_middley + self.window_height//3), (self.clickx+self.swipeoffsetx, self.window_middley - self.window_height//2))
+        swipe((self.clickx+self.swipeoffsetx, self.window_middley + self.window_height//3), (self.clickx+self.swipeoffsetx, self.window_middley - self.window_height//3), durationtime=swipe_during)
 
-    def go_up(self):
+    def go_up(self, swipe_during=0.5):
         """手指下划，上翻"""
-        swipe((self.clickx+self.swipeoffsetx, self.window_middley - self.window_height//3), (self.clickx+self.swipeoffsetx, self.window_middley + self.window_height//2))
+        swipe((self.clickx+self.swipeoffsetx, self.window_middley - self.window_height//3), (self.clickx+self.swipeoffsetx, self.window_middley + self.window_height//3), durationtime=swipe_during)
 
     def analyze_column_segment(self):
         pixel_list = find_color_diff_positions((self.clickx, self.window_starty), distance=self.window_height, pic_data=get_screenshot_cv_data(), vertical=True)
@@ -246,11 +246,12 @@ class SmartScrollSelect(Task):
         for i in range(3):
             self.go_down()
         for try_times in range(3):
+            screenshot()
             unlock_button_pixels = self.analyze_column_segment()
-            print(unlock_button_pixels)
             # 如果没有找到解锁的按钮或解锁的按钮数量不够，就继续上划
             if len(unlock_button_pixels) < abs(self.targetind):
-                self.go_up()
+                self.go_up(swipe_during=2)
+                sleep(1)
             else:
                 break
         # 有足够的按钮数量，点击
