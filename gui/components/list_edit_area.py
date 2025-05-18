@@ -1,13 +1,17 @@
 from nicegui import ui
 from modules.configs.MyConfig import config
 
-def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
+def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False, 
+                   min_value_for_1st_dim = 1,min_value_for_2nd_dim = 1, min_value_for_3rd_dim = -99):
     """
     datadict: 要修改的二维或三维列表，长度代表列表维度
         [str1, str2] 或 [str1, str2, [str3, str4]] 或 [str1, str2, [str3, str4, str5]]
     linedesc: 二维或三维列表的描述，长度代表列表维度
     blockdesc: 对于这个块的描述
     has_switch: 是否有单个元素的功能开关，有功能开关的话，二维列表会升三维，三维列表的最后一维会多一个值 表示开关
+    min_value_for_1st_dim: 元素长度为2时元素中的第一维度（地区序号）的最小值，默认为1
+    min_value_for_2nd_dim: 元素长度为3时元素中的第二维度（关卡序号）的最小值，默认为1
+    min_value_for_3rd_dim: 元素长度为3时元素中的第三维度（关卡扫荡次数）的最小值，默认为-99
     """
     dim = len(linedesc)
     # 对列表的最后一维的元素的文字描述的数量
@@ -65,13 +69,13 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
                                             ui.switch(value=line_item[j][k],on_change=lambda v,i=i,j=j:datadict[i][j].__setitem__(k, bool(v.value)))
                                         continue
                                     #  遍历地区, 关卡和次数
-                                    min_value = 1
+                                    min_value = min_value_for_1st_dim
                                     # 如果数据的位置就是最后一个文字描述的位置，代表的数据是扫荡次数，最小值为-99
                                     if k == subdim-1:
-                                        min_value = -99
-                                    # 如果数据的位置是倒数第二个文字描述的位置，代表数据对应扫荡的关卡下标，最小值设置为 -1
+                                        min_value = min_value_for_3rd_dim
+                                    # 如果数据的位置是倒数第二个文字描述的位置，代表数据对应扫荡的关卡序号
                                     if k == subdim-2:
-                                        min_value = -1
+                                        min_value = min_value_for_2nd_dim
                                     ui.number(f'{linedesc[2][k]}',
                                                 min=min_value,
                                                 step=1,
