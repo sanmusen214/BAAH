@@ -69,6 +69,9 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False):
                                     # 如果数据的位置就是最后一个文字描述的位置，代表的数据是扫荡次数，最小值为-99
                                     if k == subdim-1:
                                         min_value = -99
+                                    # 如果数据的位置是倒数第二个文字描述的位置，代表数据对应扫荡的关卡下标，最小值设置为 -1
+                                    if k == subdim-2:
+                                        min_value = -1
                                     ui.number(f'{linedesc[2][k]}',
                                                 min=min_value,
                                                 step=1,
