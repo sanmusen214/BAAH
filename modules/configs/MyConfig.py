@@ -144,7 +144,10 @@ class MyConfigger:
             else:
                 raise Exception(f'文件不存在： {file_path}')
         except Exception as e:
-            raise Exception(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)}')
+            print(f'error occurred when reading {file_path}, please check the file: {str(e)}')
+            print(f'读取{file_path}文件时发生错误，请检查{file_path}文件: {str(e)} 并上报bug')
+            time.sleep(3)
+            return {}
     
     def _do_post_parse_action(self, defaultmap, selfmap, key):
         """

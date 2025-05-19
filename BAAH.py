@@ -5,6 +5,9 @@ def handle_error_mention(e, print_method):
     无论是完整process运行还是单个函数运行，出异常后都会调用这个函数
     """
     try:
+        print_method("=================")
+        print_method(f"错误提示: {e}")
+        print_method(f"Error Mention: {e}")
         if "EOF" in e:
             print_method("错误提示(EOF): 如果手动出击队伍的话，请使用终端执行推走格子图任务！")
             print_method("Error Mention(EOF): If you wanna manually select teams, please use terminal to run the grid quest explore task!")
@@ -325,8 +328,6 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
 
     def BAAH_auto_quit(forcewait = False, key_map_func = None):
         """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
-        # 用于GUI识别是否结束的关键字
-        logging.info("GUI_BAAH_TASK_END")
         # 默认值空字典
         if key_map_func is None:
             key_map_func = dict()
