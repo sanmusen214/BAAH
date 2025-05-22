@@ -4,9 +4,10 @@ from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 
 
-from modules.utils import click, swipe, match, page_pic, match_pixel, button_pic, popup_pic, sleep, screenshot, config, istr, CN, EN
+from modules.utils import click, swipe, match, page_pic, match_pixel, button_pic, popup_pic, sleep, screenshot, config, istr, CN, EN, ocr_area
 
 from modules.utils.adb_utils import check_app_running, open_app
+from modules.utils.baah_exceptions import EmulatorBlockError
 from modules.utils.log_utils import logging
 import numpy as np
 
@@ -138,6 +139,17 @@ class Task:
             sleep(sleeptime)
     
     @staticmethod
+    def global_screenshot_check():
+        """
+        全局的截图元素检查，是否有卡顿弹窗等
+        """
+        if "NGS" in ocr_area([444, 307], [829, 355]):
+            raise EmulatorBlockError(istr({
+                CN: "匹配到NGS，触发模拟器卡顿异常",
+                EN: "Match NGS, trigger emulator lag error"
+            }))
+
+    @staticmethod
     def run_until(func1, func2, times=None, sleeptime = None) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
@@ -160,6 +172,7 @@ class Task:
                 return True
             func1()
             sleep(sleeptime)
+            Task.global_screenshot_check()
         screenshot()
         if(func2()):
             return True
