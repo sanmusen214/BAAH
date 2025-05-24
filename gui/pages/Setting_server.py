@@ -1,5 +1,5 @@
 from nicegui import ui
-from modules.configs.settingMaps import server2pic, server2activity, server2respond
+from modules.configs.settingMaps import server2pic, server2activity, server2respond, server2url
 
 def set_server(config):
     with ui.row():
@@ -20,6 +20,7 @@ def set_server(config):
         config.userconfigdict["ACTIVITY_PATH"] = server2activity[servername]
         if config.userconfigdict["LOCK_SERVER_TO_RESPOND_Y"]:
             config.userconfigdict["RESPOND_Y"] = server2respond[servername]
+        config.userconfigdict["UPDATE_API_URL"] = server2url[servername]
     
     # 大更新配置
     #  BlockHaity:没写逻辑，先隐藏

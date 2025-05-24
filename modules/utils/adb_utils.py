@@ -259,6 +259,19 @@ def set_dpi(target_dpi, use_config=None):
         target_dpi = int(target_dpi)
     subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density", str(target_dpi)], isasync=True)
     
+def install_apk(filepath):
+    status = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "install", filepath], isasync=True)
+    if status.returncode != 0:
+        logging.error({"zh_CN": "安装失败", "en_US": "Installation failed"})
+    
+def install_dir(dir):
+    command = [get_config_adb_path(), "-s", getNewestSeialNumber(), "install-multiple"]
+    for filename in os.listdir(dir):
+        if filename.endswith(".apk"):
+            command.append(f"{dir}/{filename}")
+    status = subprocess_run(command, isasync=True)
+    if status.returncode != 0:
+        logging.error({"zh_CN": "安装失败", "en_US": "Installation failed"})
 
 # NO_NEED = "NO_NEED"
 # ERROR = "ERROR"
