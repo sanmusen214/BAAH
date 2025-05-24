@@ -22,3 +22,4 @@ def aria2_download(url, filename):
         raise Exception(istr({"zh_CN": f"下载文件失败: {url}, 尝试次数: {aria2c_try + 1} 次, 超出最大尝试次数",
                                  "en_US": f"Download file failed: {url}, try count: {aria2c_try + 1}, exceed max try count"
         }))
+        

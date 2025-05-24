@@ -9,7 +9,7 @@ from .notification import *
 from .data_utils import *
 from .I18nstr import *
 from .baah_exceptions import *
-from .aria2_utils import *
+from .download_utils import *
 
 from modules.utils.log_utils import logging
 import time
