@@ -9,6 +9,7 @@ from .notification import *
 from .data_utils import *
 from .I18nstr import *
 from .baah_exceptions import *
+from .download_utils import *
 
 from modules.utils.log_utils import logging
 import time
@@ -217,6 +218,7 @@ def check_connect():
     if os.path.exists(get_config_screenshot_name()):
         logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Delete {get_config_screenshot_name()}"})
         os.remove(get_config_screenshot_name())
+    reconnect_offline()
     connect_to_device()
     # 尝试截图
     screenshot()
