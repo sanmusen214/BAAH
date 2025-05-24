@@ -28,6 +28,8 @@ def list_edit_area(datadict, linedesc, blockdesc="", has_switch=False,
             line_item = datadict[i]
             ui.label(f'{config.get_text("config_nth")} {i+1} {linedesc[0]}: ')
             with ui.row():
+                if len(line_item) == 0:
+                    ui.label(config.get_text("config_no_tasks_set_here"))
                 for j in range(len(line_item)):
                     if len(linedesc) == 2:
                         # 第i个地区的第j个教室, or 商店里的第i行第j个物品
