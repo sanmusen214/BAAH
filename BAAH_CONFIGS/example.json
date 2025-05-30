@@ -322,6 +322,5 @@
     "ARIA2_MAX_TRIES": 5,
     "ARIA2_FAILURED_WAIT_TIME": 0.5,
     "BIG_UPDATE": false,
-    "ARIA2_THREAD": 0,
     "BIG_UPDATE_TYPE": "API"
 }
