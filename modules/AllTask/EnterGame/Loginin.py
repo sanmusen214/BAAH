@@ -50,34 +50,33 @@ class Loginin(Task):
             logging.warn({"zh_CN": "游戏未在前台，尝试打开游戏", "en_US":"The game is not in the foreground, try to open the game"})
             sleep(2)
             screenshot()
-        
-        if match(popup_pic(PopupName.POPUP_UPDATE_APP)):
+
+    
+        if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
+            # 点掉确认按钮
+            click(button_pic(ButtonName.BUTTON_CONFIRMB))
+        elif match(button_pic(ButtonName.BUTTON_USER_AGREEMENT)):
+            # 用户协议
+            click(button_pic(ButtonName.BUTTON_USER_AGREEMENT))
+        elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
+            # 点掉放弃上次战斗进度按钮
+            click(button_pic(ButtonName.BUTTON_QUIT_LAST))
+        elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)) and config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
+            # 点掉B站登录按钮
+            # 防止点到上方横幅右侧切换账号按钮，这里睡4s等待横幅消失
+            click(button_pic(ButtonName.BUTTON_LOGIN_BILI), sleeptime=4)
+        elif self.has_bili_login_banner() and config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
+            # 如果出现B站登录横幅，睡2s等待横幅消失
+            logging.info(istr({
+                CN: "等待B站登录横幅消失",
+                EN: "Waiting for the Bilibili login banner to disappear"
+            }))
+            sleep(2)
+        elif match(popup_pic(PopupName.POPUP_UPDATE_APP)):
             Update().run()
         else:
-            if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
-                # 点掉确认按钮
-                click(button_pic(ButtonName.BUTTON_CONFIRMB))
-            elif match(button_pic(ButtonName.BUTTON_USER_AGREEMENT)):
-                # 用户协议
-                click(button_pic(ButtonName.BUTTON_USER_AGREEMENT))
-            elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
-                # 点掉放弃上次战斗进度按钮
-                click(button_pic(ButtonName.BUTTON_QUIT_LAST))
-            elif match(button_pic(ButtonName.BUTTON_LOGIN_BILI)) and config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
-                # 点掉B站登录按钮
-                # 防止点到上方横幅右侧切换账号按钮，这里睡4s等待横幅消失
-                click(button_pic(ButtonName.BUTTON_LOGIN_BILI), sleeptime=4)
-            elif self.has_bili_login_banner() and config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
-                # 如果出现B站登录横幅，睡2s等待横幅消失
-                logging.info(istr({
-                    CN: "等待B站登录横幅消失",
-                    EN: "Waiting for the Bilibili login banner to disappear"
-                }))
-                sleep(2)
-            else:
-                # 活动弹窗
-                click((1250, 40))
-    
+            # 活动弹窗
+            click((1250, 40))
      
     def on_run(self) -> None:
         self.task_start_time = time.time()
