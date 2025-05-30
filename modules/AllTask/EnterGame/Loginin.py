@@ -51,8 +51,10 @@ class Loginin(Task):
             sleep(2)
             screenshot()
 
-    
-        if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
+            # 大更新
+        if match(popup_pic(PopupName.POPUP_UPDATE_APP)):
+            Update().run()
+        elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             # 点掉确认按钮
             click(button_pic(ButtonName.BUTTON_CONFIRMB))
         elif match(button_pic(ButtonName.BUTTON_USER_AGREEMENT)):
@@ -72,8 +74,6 @@ class Loginin(Task):
                 EN: "Waiting for the Bilibili login banner to disappear"
             }))
             sleep(2)
-        elif match(popup_pic(PopupName.POPUP_UPDATE_APP)):
-            Update().run()
         else:
             # 活动弹窗
             click((1250, 40))
