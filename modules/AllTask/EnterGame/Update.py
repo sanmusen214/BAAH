@@ -87,16 +87,16 @@ class Update(Task):
              "en_US": "Detected that there is an APP update, start downloading the update"
         })
         
-        if not os.path.exists("Data/tmp"):
-            os.mkdir("Data/tmp")
+        if not os.path.exists("DATA/tmp"):
+            os.mkdir("DATA/tmp")
         
         if xapk:
-            aria2_download(url, "Data/tmp/update.xapk")
-            with zipfile.ZipFile("Data/tmp/update.xapk", 'r') as zip_ref:
-                os.mkdir("Data/tmp/unzip")
-                zip_ref.extractall("Data/tmp/unzip")
+            aria2_download(url, "DATA/tmp/update.xapk")
+            with zipfile.ZipFile("DATA/tmp/update.xapk", 'r') as zip_ref:
+                os.mkdir("DATA/tmp/unzip")
+                zip_ref.extractall("DATA/tmp/unzip")
         else:
-            aria2_download(url, "Data/tmp/update.apk")
+            aria2_download(url, "DATA/tmp/update.apk")
         
         logging.info({
             "zh_CN":"更新下载完成，开始安装",
@@ -104,13 +104,13 @@ class Update(Task):
         })
         
         if xapk:
-            install_dir("Data/tmp/unzip")
+            install_dir("DATA/tmp/unzip")
         else:
-            install_apk("Data/tmp/update.apk")
+            install_apk("DATA/tmp/update.apk")
         
         logging.info({
             "zh_CN":"更新完成，清理目录",
             "en_US": "Update completed, clean up directory"
             })
-        shutil.rmtree("Data/tmp")
+        shutil.rmtree("DATA/tmp")
         EnterGame().run()
