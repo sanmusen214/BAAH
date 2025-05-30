@@ -53,7 +53,13 @@ class Loginin(Task):
 
             # 大更新
         if match(popup_pic(PopupName.POPUP_UPDATE_APP)):
-            Update().run()
+            if config.userconfigdict["BIG_UPDATE"]:
+                Update().run()
+            else:
+                raise Exception(istr({
+                    CN: "检测到新版本，未开启游戏胞体更新，请手动更新",
+                    EN: "New version detected, auto update is not enabled, please update manually"
+                }))
         elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             # 点掉确认按钮
             click(button_pic(ButtonName.BUTTON_CONFIRMB))
