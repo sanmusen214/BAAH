@@ -117,4 +117,4 @@ class Update(Task):
         EnterGame().run()
         
     def post_condition(self) -> bool:
-        return false
+        return False
