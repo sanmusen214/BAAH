@@ -6,6 +6,7 @@ import zipfile
 import shutil
 
 import requests
+from sympy import false
 
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
@@ -114,3 +115,6 @@ class Update(Task):
             })
         shutil.rmtree("DATA/tmp")
         EnterGame().run()
+        
+    def post_condition(self) -> bool:
+        return false
