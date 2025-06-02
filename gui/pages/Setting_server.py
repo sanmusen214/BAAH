@@ -22,16 +22,17 @@ def set_server(config):
             config.userconfigdict["RESPOND_Y"] = server2respond[servername]
         config.userconfigdict["UPDATE_API_URL"] = server2url[servername]
     
-    # 大更新配置
+    #  大更新配置
     #  BlockHaity:没写逻辑，先隐藏
-    # ui.checkbox(config.get_text("config_big_update")).bind_value(config.userconfigdict, "BIG_UPDATE")
+    ui.checkbox(config.get_text("config_big_update")).bind_value(config.userconfigdict, "BIG_UPDATE")
     
-    # ui.label(config.get_text("big_update_type")).style('font-size: large').bind_visibility_from(config.userconfigdict, "BIG_UPDATE", lambda x: x)
+    ui.label(config.get_text("big_update_type")).style('font-size: large').bind_visibility_from(config.userconfigdict, "BIG_UPDATE", lambda x: x)
     
-    # ui.radio({
-    #     "API":config.get_text("big_update_type_api"),
-    #     "URLGET":config.get_text("big_update_type_urlget")}, 
-    #                 value=config.userconfigdict['BIG_UPDATE_TYPE'], on_change=lambda a:set_big_update_type(a.value)).props('inline').bind_visibility_from(config.userconfigdict, "BIG_UPDATE", lambda x: x)
+    ui.radio({
+        "API":config.get_text("big_update_type_api"),
+#        "URLGET":config.get_text("big_update_type_urlget")
+    },
+                    value=config.userconfigdict['BIG_UPDATE_TYPE'], on_change=lambda a:set_big_update_type(a.value)).props('inline').bind_visibility_from(config.userconfigdict, "BIG_UPDATE", lambda x: x)
     
-    # def set_big_update_type(big_update_type):
-    #     config.userconfigdict['BIG_UPDATE_TYPE'] = big_update_type
+    def set_big_update_type(big_update_type):
+        config.userconfigdict['BIG_UPDATE_TYPE'] = big_update_type

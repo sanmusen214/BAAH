@@ -87,7 +87,7 @@ def set_other(config, gui_shared_config):
         ui.number(config.get_text("aria2_thread"),
                   step=1,
                   min=1,
-                  precision=0).bind_value(config.userconfigdict, 'ARIA2_THREAD', forward=lambda x: int(x) if x is not None else 0, backward=lambda x: int(x) if x is not None else 0)
+                  precision=0).bind_value(config.userconfigdict, 'ARIA2_THREADS', forward=lambda x: int(x) if x is not None else 0, backward=lambda x: int(x) if x is not None else 0)
     
     with ui.row():
         ui.number(config.get_text("aria2_max_tries"),

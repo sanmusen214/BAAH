@@ -3,7 +3,6 @@ import re
 import time
 import os
 import zipfile
-import shutil
 
 import requests
 from sympy import false
@@ -17,9 +16,7 @@ from modules.AllTask.Task import Task
 
 from modules.utils.log_utils import logging
 
-from modules.utils import subprocess_run, click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN, match_pixel, aria2_download, install_apk, install_dir
-
-from .EnterGame import EnterGame
+from modules.utils import subprocess_run, click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN, match_pixel, install_apk, install_dir
 
 # =====
 
@@ -53,15 +50,15 @@ class Update(Task):
     
     def aria2_download(url, filename):
         aria2c_try = 0
-        while aria2c_try < config.userconfigdict("ARIA2_MAX_TRIES"):
-            logging.info({"zh_CN": f"开始下载文件: {url}, 线程数: {config.userconfigdict("ARIA2_THREADS")}, 尝试次数: {aria2c_try + 1}",
-                                   "en_US": f"Start downloading file: {url}, thread count: {config.userconfigdict("ARIA2_THREADS")}, try count: {aria2c_try + 1}"})
-            run = subprocess_run([config.userconfigdict("ARIA2_PATH"), "-x", config.userconfigdict("ARIA2_THREADS"), url, "-o", filename])
+        while aria2c_try < config.userconfigdict["ARIA2_MAX_TRIES"]:
+            logging.info({"zh_CN": f"开始下载文件: {url}, 线程数: {config.userconfigdict["ARIA2_THREADS"]}, 尝试次数: {aria2c_try + 1}",
+                                   "en_US": f"Start downloading file: {url}, thread count: {config.userconfigdict["ARIA2_THREADS"]}, try count: {aria2c_try + 1}"})
+            run = subprocess_run([config.userconfigdict["ARIA2_PATH"], "-x", str(config.userconfigdict["ARIA2_THREADS"]), url, "-o", filename])
             if run.returncode != 0:
                 logging.error({"zh_CN": f"下载文件失败: {url}, 错误信息: {run.stderr.decode('utf-8')}",
                                          "en_US": f"Download file failed: {url}, error message: {run.stderr.decode('utf-8')}"})
                 aria2c_try += 1
-                time.sleep(config.userconfigdict("ARIA2_FAILURED_WAIT_TIME"))
+                time.sleep(config.userconfigdict["ARIA2_FAILURED_WAIT_TIME"])
             else:
                 logging.info({"zh_CN": f"下载文件成功",
                                        "en_US": f"Download file success"})
@@ -92,12 +89,12 @@ class Update(Task):
             os.mkdir("DATA/tmp")
         
         if xapk:
-            aria2_download(url, "DATA/tmp/update.xapk")
+            Update.aria2_download(url, "DATA/tmp/update.xapk")
             with zipfile.ZipFile("DATA/tmp/update.xapk", 'r') as zip_ref:
                 os.mkdir("DATA/tmp/unzip")
                 zip_ref.extractall("DATA/tmp/unzip")
         else:
-            aria2_download(url, "DATA/tmp/update.apk")
+            Update.aria2_download(url, "DATA/tmp/update.apk")
         
         logging.info({
             "zh_CN":"更新下载完成，开始安装",
@@ -113,7 +110,13 @@ class Update(Task):
             "zh_CN":"更新完成，清理目录",
             "en_US": "Update completed, clean up directory"
             })
-        shutil.rmtree("DATA/tmp")
+        for file in os.listdir("DATA/tmp/unzip"):
+            os.remove("DATA/tmp/unzip/" + file)
+        os.rmdir("DATA/tmp/unzip")
+        for file in os.listdir("DATA/tmp"):
+            os.remove("DATA/tmp/" + file)
+        os.rmdir("DATA/tmp")
+        from .EnterGame import EnterGame
         EnterGame().run()
         
     def post_condition(self) -> bool:
