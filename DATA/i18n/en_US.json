@@ -125,6 +125,7 @@
     "notice_example_json":"You are using the example json file, please rename it before editing and restart GUI",
     "enable_diff_touch":"Enable student recognize touch mode",
     "vpn_desc":"If you want to use VPN application",
+    "vpn_stop_desc": "Action list to close VPN",
     "cafe_collect_desc":"Whether collect in cafe",
     "cafe_touch_desc":"Whether touch in cafe",
     "cafe_invite_desc":"cafe invite which student (0 means no invite)",

@@ -3,7 +3,7 @@ from gui.components.cut_screenshot import cut_screenshot
 from modules.utils import connect_to_device, get_now_running_app,  get_now_running_app_entrance_activity, screen_shot_to_global, screencut_tool
 
 def set_vpn(config):
-    async def connect_and_get_now_app(enter_activity = True):
+    async def connect_and_get_now_app(modified_key_name, enter_activity = True):
         """
         链接并获取当前运行的app
         """
@@ -13,14 +13,14 @@ def set_vpn(config):
         else:
             app = get_now_running_app(config)
         if app:
-            config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'] = app
+            config.userconfigdict[modified_key_name]['VPN_ACTIVITY'] = app
         
     
-    def list_of_click_and_sleep():
+    def list_of_click_and_sleep(modified_key_name):
         """
         用于编辑的表格
         """
-        click_and_wait_list = config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']
+        click_and_wait_list = config.userconfigdict[modified_key_name]['CLICK_AND_WAIT_LIST']
         
         def change_click_pos_x(lineind, itemind, val):
             """
@@ -98,13 +98,27 @@ def set_vpn(config):
     with ui.row():
         ui.link_target("VPN")
         ui.label(config.get_text("setting_vpn")).style('font-size: x-large')
-    
-    # 选择是否使用
-    ui.checkbox(config.get_text("vpn_desc")).bind_value(config.userconfigdict, "USE_VPN")
-    with ui.row():
-        # 选择加速器包名
-        ui.input("APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
-        ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(enter_activity=True))
-        ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(enter_activity=False))
-    # 一系列点击操作
-    list_of_click_and_sleep()
+
+    # -----------------------------
+    # 选择是否定义 开加速器 actions
+    with ui.card():
+        ui.checkbox(config.get_text("vpn_desc")).bind_value(config.userconfigdict, "USE_VPN")
+        with ui.row():
+            # 选择加速器包名
+            ui.input("APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
+            ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(modified_key_name="VPN_CONFIG", enter_activity=True))
+            ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(modified_key_name="VPN_CONFIG",enter_activity=False))
+        # 一系列点击操作
+        list_of_click_and_sleep(modified_key_name="VPN_CONFIG")
+
+    # -----------------------------
+    # 选择是否定义 关闭加速器 操作列表
+    with ui.card():
+        ui.checkbox(config.get_text("vpn_stop_desc")).bind_value(config.userconfigdict, "CLOSE_VPN")
+        with ui.row():
+            # 选择加速器包名
+            ui.input("APP").bind_value(config.userconfigdict['VPN_CLOSE_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
+            ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(modified_key_name="VPN_CLOSE_CONFIG", enter_activity=True))
+            ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(modified_key_name="VPN_CLOSE_CONFIG", enter_activity=False))
+        # 一系列点击操作
+        list_of_click_and_sleep(modified_key_name='VPN_CLOSE_CONFIG')

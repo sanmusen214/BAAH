@@ -153,6 +153,31 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             raise Exception("检测到启动BAAH前 端口已被占用，但BAAH无法连接至该端口。上次模拟器可能未被正常关闭，请在启动BAAH前关闭模拟器")
         raise Exception("adb连接失败, 请检查配置里的adb端口")
 
+    def _do_user_defined_action(activity_name, action_list):
+        """执行用户定义的点击坐标或图片序列"""
+        try:
+            if activity_name:
+                open_app(activity_name)
+            sleep(5)
+            logging.info({"zh_CN": f"当前打开的应用: {get_now_running_app()}",
+                        "en_US": f"now running app: {get_now_running_app()}"})
+            # 点击
+            for click_sleep_pair in action_list:
+                screenshot()
+                click_pos, sleep_time = click_sleep_pair
+                # 如果为列表且第一个元素为负数，表示不点击
+                if type(click_pos) == list and click_pos[0] < 0 and click_pos[1] < 0:
+                    if sleep_time > 0:
+                        sleep(sleep_time)
+                    continue
+                logging.info({"zh_CN": f"点击{click_pos}, 等待{sleep_time}秒",
+                            "en_US": f"Cilck {click_pos}, wait {sleep_time} seconds"})
+                logging.info(type(sleep_time))
+                click(click_pos, sleeptime=sleep_time)
+        except Exception as e:
+            logging.error({"zh_CN": "执行用户定义序列失败, 可能是配置有误",
+                        "en_US": "Failed to preform user-defined actions, possibly due to misconfiguration"})
+            logging.error(e)
 
     def BAAH_start_VPN():
         """
@@ -160,31 +185,25 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         """
         if config.userconfigdict["USE_VPN"]:
             logging.info({"zh_CN": "启动指定的加速器", "en_US": "Starting the specified accelerator"})
-            try:
-                if config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY']:
-                    open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
-                sleep(5)
-                logging.info({"zh_CN": f"当前打开的应用: {get_now_running_app()}",
-                            "en_US": f"now running app: {get_now_running_app()}"})
-                # 点击
-                for click_sleep_pair in config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']:
-                    screenshot()
-                    click_pos, sleep_time = click_sleep_pair
-                    # 如果为列表且第一个元素为负数，表示不点击
-                    if type(click_pos) == list and click_pos[0] < 0 and click_pos[1] < 0:
-                        if sleep_time > 0:
-                            sleep(sleep_time)
-                        continue
-                    logging.info({"zh_CN": f"点击{click_pos}, 等待{sleep_time}秒",
-                                "en_US": f"Cilck {click_pos}, wait {sleep_time} seconds"})
-                    logging.info(type(sleep_time))
-                    click(click_pos, sleeptime=sleep_time)
-            except Exception as e:
-                logging.error({"zh_CN": "启动加速器失败, 可能是配置有误",
-                            "en_US": "Accelerator failed to start, possibly due to misconfiguration"})
-                logging.error(e)
+            _do_user_defined_action(
+                activity_name=config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'],
+                action_list=config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']
+            )
         else:
             logging.info({"zh_CN": "跳过启动加速器", "en_US": "Skip startup accelerator"})
+    
+    def BAAH_close_VPN():
+        """
+        关闭加速器
+        """
+        if config.userconfigdict["CLOSE_VPN"]:
+            logging.info({"zh_CN": "关闭指定的加速器", "en_US": "Stop the specified accelerator"})
+            _do_user_defined_action(
+                activity_name=config.userconfigdict['VPN_CLOSE_CONFIG']['VPN_ACTIVITY'],
+                action_list=config.userconfigdict['VPN_CLOSE_CONFIG']['CLICK_AND_WAIT_LIST']
+            )
+        else:
+            logging.info({"zh_CN": "跳过关闭加速器", "en_US": "Skip stop accelerator"})
 
 
     def BAAH_open_target_app():
@@ -416,6 +435,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 my_AllTask.run()
                 logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
                 BAAH_close_target_app()
+                BAAH_close_VPN()
                 BAAH_kill_emulator()
                 BAAH_send_email()
                 print_BAAH_finish()
