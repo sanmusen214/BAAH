@@ -205,11 +205,11 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 return True
         raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
-    def BAAH_close_target_app():
+    def BAAH_close_target_app(must_do=False):
         """
         关闭游戏
         """
-        if (config.userconfigdict["CLOSE_GAME_FINISH"]):
+        if (config.userconfigdict["CLOSE_GAME_FINISH"] or must_do):
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.info({"zh_CN": "检测到游戏已关闭", "en_US": "Detected that the game is already killing"})
                 return True
@@ -427,6 +427,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                     }))
                 # sessionstorage里重启次数加1
                 store_restart_times = config.sessiondict["RESTART_EMULATOR_TIMES"] + 1
+                BAAH_close_target_app(must_do=True)
                 BAAH_kill_emulator(must_do=True)
                 time.sleep(5)
                 # 重新加载其他config值，覆盖模拟器重启次数到sessiondict
