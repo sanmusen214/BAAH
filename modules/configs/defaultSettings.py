@@ -69,6 +69,16 @@ defaultUserDict = {
             "map": lambda x: x
         }
     },
+    # 发生异常报错后是否关闭模拟器
+    "CLOSE_EMULATOR_ERROR":{
+        "d": False,
+    },
+    "CLOSE_GAME_ERROR":{
+        "d": False,
+    },
+    "CLOSE_BAAH_ERROR":{
+        "d": False,
+    },
     "PIC_PATH":{
         "d":"./DATA/assets",
         "s":[

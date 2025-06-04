@@ -205,11 +205,11 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 return True
         raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
-    def BAAH_close_target_app(must_do=False):
+    def BAAH_close_target_app(must_do=False, meet_error=False):
         """
         关闭游戏
         """
-        if (config.userconfigdict["CLOSE_GAME_FINISH"] or must_do):
+        if ((not meet_error and config.userconfigdict["CLOSE_GAME_FINISH"]) or must_do or (meet_error and config.userconfigdict["CLOSE_GAME_ERROR"])):
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.info({"zh_CN": "检测到游戏已关闭", "en_US": "Detected that the game is already killing"})
                 return True
@@ -233,11 +233,17 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             sleep(1.5)
             subprocess.Popen(config.userconfigdict["POST_COMMAND"], shell=True)
 
-    def BAAH_kill_emulator(must_do = False):
+    def BAAH_kill_emulator(must_do = False, meet_error = False):
         """
         杀掉模拟器进程
         """
-        if (config.userconfigdict["TARGET_EMULATOR_PATH"] and (config.userconfigdict["CLOSE_EMULATOR_FINISH"] or must_do)):
+        if (config.userconfigdict["TARGET_EMULATOR_PATH"] and 
+            ((not meet_error and config.userconfigdict["CLOSE_EMULATOR_FINISH"]) 
+             or 
+             must_do
+             or
+             (meet_error and config.userconfigdict["CLOSE_EMULATOR_ERROR"]))
+             ):
             try:
                 if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                     logging.error({"zh_CN": "未能获取到模拟器进程，跳过关闭模拟器",
@@ -326,22 +332,26 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
             logging.error(e)
 
-    def BAAH_auto_quit(forcewait = False, key_map_func = None):
+    def BAAH_auto_quit(forcewait = False, key_map_func = None, meet_error = False):
         """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
         # 默认值空字典
         if key_map_func is None:
             key_map_func = dict()
         if must_auto_quit:
             return
-        if forcewait or not config.userconfigdict["CLOSE_BAAH_FINISH"]:
+        if not forcewait and (
+            (not meet_error and config.userconfigdict["CLOSE_BAAH_FINISH"])
+            or
+            (meet_error and config.userconfigdict["CLOSE_BAAH_ERROR"])
+            ):
+            logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
+            sleep(10)
+        else:
             user_input = input(f"Press Enter to exit/回车退出, "+str([f"[{k}]{key_map_func[k]['desc']}" for k in key_map_func]) + ": ")
             for k in key_map_func:
                 if user_input.upper() == k.upper():
                     key_map_func[k]["func"]()
                     break
-        else:
-            logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
-            sleep(10)
             
     def BAAH_rm_pic():
         """运行结束后，删除截图文件，内含try-except"""
@@ -448,6 +458,9 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.save_custom_log_file()
             # 发送错误邮件
             BAAH_send_err_mail(e)
+            # 关闭游戏和模拟器
+            BAAH_close_target_app(meet_error=True)
+            BAAH_kill_emulator(meet_error=True)
             print_BAAH_finish()
             
             print_BAAH_config_info()
@@ -471,7 +484,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                     "desc":"ontinue", # [C]ontinue
                     "func":continue_redo_tasks
                 }
-            })
+            }, meet_error=True)
 
 
     # Run
