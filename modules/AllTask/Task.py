@@ -143,7 +143,7 @@ class Task:
         """
         全局的截图元素检查，是否有卡顿弹窗等
         """
-        if "NGS" in ocr_area([444, 307], [829, 355]):
+        if "NGS" in ocr_area([444, 307], [829, 355])[0]:
             raise EmulatorBlockError(istr({
                 CN: "匹配到NGS，触发模拟器卡顿异常",
                 EN: "Match NGS, trigger emulator lag error"
