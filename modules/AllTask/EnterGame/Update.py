@@ -110,9 +110,10 @@ class Update(Task):
             "zh_CN":"更新完成，清理目录",
             "en_US": "Update completed, clean up directory"
             })
-        for file in os.listdir("DATA/tmp/unzip"):
-            os.remove("DATA/tmp/unzip/" + file)
-        os.rmdir("DATA/tmp/unzip")
+        if xapk:
+            for file in os.listdir("DATA/tmp/unzip"):
+                os.remove("DATA/tmp/unzip/" + file)
+            os.rmdir("DATA/tmp/unzip")
         for file in os.listdir("DATA/tmp"):
             os.remove("DATA/tmp/" + file)
         os.rmdir("DATA/tmp")

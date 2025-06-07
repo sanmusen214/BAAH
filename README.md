@@ -50,6 +50,7 @@ BAAH can help you finish daily tasks of BlueArchive (Global server, Japan server
 - 消耗体力/票卷进行扫荡（课程表，普通关，困难关，活动关，悬赏通缉，特殊任务，学院交流会，战术大赛，总力战）
 - 购买（每日商店购买，竞技场商店购买）
 - 探索（清桃信红点，推普通关卡，推困难关卡，推活动关卡，推主线剧情）
+- 自动更新游戏（游戏包体，资源包）
 
 Supported Functions：
 
@@ -58,6 +59,7 @@ Supported Functions：
 - Spend tickets/power to raid (Timetable, Normal, Hard, Event, Bounty, Commissions, Scrimmage, Tactical Challenge, Total Assault)
 - Buy (Normal Shop，Tactical Challenge Shop)
 - Explore (Momotalk, Normal, Hard, Event, Episode)
+- Update game (Game Package, Resource Package)
 
 # Star
 
