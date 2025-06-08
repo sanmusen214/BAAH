@@ -38,7 +38,7 @@ class RunWantedFight(Task):
         rq = RaidQuest(self.runtimes)
         if self.levelnum > 0:
             # 找到目标关卡点击
-            ScrollSelect(self.levelnum, 131, 230, 684, 1118, hasexpectimage=RunWantedFight.match_task_info).run()
+            ScrollSelect(self.levelnum, 131, 230, 684, 1118, self.match_task_info).run()
         elif self.levelnum < 0:
             # 构造tuple的时候会将用户输入-1还原成下标
             # 如果用户GUI填的是-1，那么-1后这里self.levelnum值就是-2. 使用t in range(1, -1, -1)修正为SmartScrollSelect入参代表的值

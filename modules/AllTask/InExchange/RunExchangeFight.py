@@ -39,7 +39,7 @@ class RunExchangeFight(Task):
         rq = RaidQuest(self.runtimes)
         if self.levelnum > 0:
             # 找到目标关卡点击
-            ScrollSelect(self.levelnum, 134, 235, 682, 1115, lambda: RunExchangeFight.match_task_info).run()
+            ScrollSelect(self.levelnum, 134, 235, 682, 1115, self.match_task_info).run()
         elif self.levelnum < 0:
             for t in range(1, -1, -1):
                 SmartScrollSelect(targetind=self.levelnum + t, window_starty=129, window_endy=686, clickx=1079, active_button_color=Page.COLOR_BUTTON_BLUE, hasexpectimage=self.has_popup).run()
