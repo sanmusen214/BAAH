@@ -21,6 +21,7 @@ def set_special(config):
             
         ], 
         config.get_text("config_desc_list_edit"),
-        has_switch=True
+        has_switch=True,
+        min_value_for_2nd_dim=-1
     )
             

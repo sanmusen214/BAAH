@@ -69,6 +69,16 @@ defaultUserDict = {
             "map": lambda x: x
         }
     },
+    # 发生异常报错后是否关闭模拟器
+    "CLOSE_EMULATOR_ERROR":{
+        "d": False,
+    },
+    "CLOSE_GAME_ERROR":{
+        "d": False,
+    },
+    "CLOSE_BAAH_ERROR":{
+        "d": False,
+    },
     "PIC_PATH":{
         "d":"./DATA/assets",
         "s":[
@@ -129,6 +139,11 @@ defaultUserDict = {
     "CAFE_TOUCH_WAY_DIFF":{"d":True},
     "USE_VPN":{"d":False},
     "VPN_CONFIG":{"d":{
+        "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST":[[[622, 248], 2]],
+    }},
+    "CLOSE_VPN":{"d":False},
+    "VPN_CLOSE_CONFIG":{"d":{
         "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
         "CLICK_AND_WAIT_LIST":[[[622, 248], 2]],
     }},

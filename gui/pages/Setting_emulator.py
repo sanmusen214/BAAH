@@ -71,9 +71,20 @@ def set_emulator(config):
         ui.input(config.get_text("config_emulator_path"),
                     ).bind_value(config.userconfigdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')
     
-    ui.checkbox(config.get_text("config_close_emulator_when_finish")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_FINISH')
-    ui.checkbox(config.get_text("config_close_game_when_finish")).bind_value(config.userconfigdict, 'CLOSE_GAME_FINISH')
-    ui.checkbox(config.get_text("config_close_BAAH_when_finish")).bind_value(config.userconfigdict, 'CLOSE_BAAH_FINISH')
+    # 结束后自动关闭操作
+    with ui.card():
+        with ui.row():
+            ui.checkbox(config.get_text("config_close_emulator_when_finish")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_FINISH')
+            ui.checkbox(config.get_text("config_close_even_if_error")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_ERROR').bind_visibility_from(config.userconfigdict, "CLOSE_EMULATOR_FINISH")
+    with ui.card():
+        with ui.row():
+            ui.checkbox(config.get_text("config_close_game_when_finish")).bind_value(config.userconfigdict, 'CLOSE_GAME_FINISH')
+            ui.checkbox(config.get_text("config_close_even_if_error")).bind_value(config.userconfigdict, 'CLOSE_GAME_ERROR').bind_visibility_from(config.userconfigdict, "CLOSE_GAME_FINISH")
+    
+    with ui.card():
+        with ui.row():
+            ui.checkbox(config.get_text("config_close_BAAH_when_finish")).bind_value(config.userconfigdict, 'CLOSE_BAAH_FINISH')
+            ui.checkbox(config.get_text("config_close_even_if_error")).bind_value(config.userconfigdict, 'CLOSE_BAAH_ERROR').bind_visibility_from(config.userconfigdict, "CLOSE_BAAH_FINISH")
 
     # 登录超时重启模拟器
     ui.number(config.get_text("config_login_timeout"), min=180, precision=0, step=1).bind_value(config.userconfigdict, "GAME_LOGIN_TIMEOUT", forward= lambda x: int(x)).style("width: 200px")

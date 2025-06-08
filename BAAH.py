@@ -5,6 +5,9 @@ def handle_error_mention(e, print_method):
     无论是完整process运行还是单个函数运行，出异常后都会调用这个函数
     """
     try:
+        print_method("=================")
+        print_method(f"错误提示: {e}")
+        print_method(f"Error Mention: {e}")
         if "EOF" in e:
             print_method("错误提示(EOF): 如果手动出击队伍的话，请使用终端执行推走格子图任务！")
             print_method("Error Mention(EOF): If you wanna manually select teams, please use terminal to run the grid quest explore task!")
@@ -150,6 +153,31 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             raise Exception("检测到启动BAAH前 端口已被占用，但BAAH无法连接至该端口。上次模拟器可能未被正常关闭，请在启动BAAH前关闭模拟器")
         raise Exception("adb连接失败, 请检查配置里的adb端口")
 
+    def _do_user_defined_action(activity_name, action_list):
+        """执行用户定义的点击坐标或图片序列"""
+        try:
+            if activity_name:
+                open_app(activity_name)
+            sleep(5)
+            logging.info({"zh_CN": f"当前打开的应用: {get_now_running_app()}",
+                        "en_US": f"now running app: {get_now_running_app()}"})
+            # 点击
+            for click_sleep_pair in action_list:
+                screenshot()
+                click_pos, sleep_time = click_sleep_pair
+                # 如果为列表且第一个元素为负数，表示不点击
+                if type(click_pos) == list and click_pos[0] < 0 and click_pos[1] < 0:
+                    if sleep_time > 0:
+                        sleep(sleep_time)
+                    continue
+                logging.info({"zh_CN": f"点击{click_pos}, 等待{sleep_time}秒",
+                            "en_US": f"Cilck {click_pos}, wait {sleep_time} seconds"})
+                logging.info(type(sleep_time))
+                click(click_pos, sleeptime=sleep_time)
+        except Exception as e:
+            logging.error({"zh_CN": "执行用户定义序列失败, 可能是配置有误",
+                        "en_US": "Failed to preform user-defined actions, possibly due to misconfiguration"})
+            logging.error(e)
 
     def BAAH_start_VPN():
         """
@@ -157,31 +185,25 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         """
         if config.userconfigdict["USE_VPN"]:
             logging.info({"zh_CN": "启动指定的加速器", "en_US": "Starting the specified accelerator"})
-            try:
-                if config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY']:
-                    open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
-                sleep(5)
-                logging.info({"zh_CN": f"当前打开的应用: {get_now_running_app()}",
-                            "en_US": f"now running app: {get_now_running_app()}"})
-                # 点击
-                for click_sleep_pair in config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']:
-                    screenshot()
-                    click_pos, sleep_time = click_sleep_pair
-                    # 如果为列表且第一个元素为负数，表示不点击
-                    if type(click_pos) == list and click_pos[0] < 0 and click_pos[1] < 0:
-                        if sleep_time > 0:
-                            sleep(sleep_time)
-                        continue
-                    logging.info({"zh_CN": f"点击{click_pos}, 等待{sleep_time}秒",
-                                "en_US": f"Cilck {click_pos}, wait {sleep_time} seconds"})
-                    logging.info(type(sleep_time))
-                    click(click_pos, sleeptime=sleep_time)
-            except Exception as e:
-                logging.error({"zh_CN": "启动加速器失败, 可能是配置有误",
-                            "en_US": "Accelerator failed to start, possibly due to misconfiguration"})
-                logging.error(e)
+            _do_user_defined_action(
+                activity_name=config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'],
+                action_list=config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']
+            )
         else:
             logging.info({"zh_CN": "跳过启动加速器", "en_US": "Skip startup accelerator"})
+    
+    def BAAH_close_VPN():
+        """
+        关闭加速器
+        """
+        if config.userconfigdict["CLOSE_VPN"]:
+            logging.info({"zh_CN": "关闭指定的加速器", "en_US": "Stop the specified accelerator"})
+            _do_user_defined_action(
+                activity_name=config.userconfigdict['VPN_CLOSE_CONFIG']['VPN_ACTIVITY'],
+                action_list=config.userconfigdict['VPN_CLOSE_CONFIG']['CLICK_AND_WAIT_LIST']
+            )
+        else:
+            logging.info({"zh_CN": "跳过关闭加速器", "en_US": "Skip stop accelerator"})
 
 
     def BAAH_open_target_app():
@@ -202,11 +224,11 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 return True
         raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
-    def BAAH_close_target_app():
+    def BAAH_close_target_app(must_do=False, meet_error=False):
         """
         关闭游戏
         """
-        if (config.userconfigdict["CLOSE_GAME_FINISH"]):
+        if ((not meet_error and config.userconfigdict["CLOSE_GAME_FINISH"]) or must_do or (meet_error and config.userconfigdict["CLOSE_GAME_ERROR"])):
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.info({"zh_CN": "检测到游戏已关闭", "en_US": "Detected that the game is already killing"})
                 return True
@@ -230,11 +252,17 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             sleep(1.5)
             subprocess.Popen(config.userconfigdict["POST_COMMAND"], shell=True)
 
-    def BAAH_kill_emulator(must_do = False):
+    def BAAH_kill_emulator(must_do = False, meet_error = False):
         """
         杀掉模拟器进程
         """
-        if (config.userconfigdict["TARGET_EMULATOR_PATH"] and (config.userconfigdict["CLOSE_EMULATOR_FINISH"] or must_do)):
+        if (config.userconfigdict["TARGET_EMULATOR_PATH"] and 
+            ((not meet_error and config.userconfigdict["CLOSE_EMULATOR_FINISH"]) 
+             or 
+             must_do
+             or
+             (meet_error and config.userconfigdict["CLOSE_EMULATOR_ERROR"]))
+             ):
             try:
                 if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                     logging.error({"zh_CN": "未能获取到模拟器进程，跳过关闭模拟器",
@@ -323,24 +351,26 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
             logging.error(e)
 
-    def BAAH_auto_quit(forcewait = False, key_map_func = None):
+    def BAAH_auto_quit(forcewait = False, key_map_func = None, meet_error = False):
         """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
-        # 用于GUI识别是否结束的关键字
-        logging.info("GUI_BAAH_TASK_END")
         # 默认值空字典
         if key_map_func is None:
             key_map_func = dict()
         if must_auto_quit:
             return
-        if forcewait or not config.userconfigdict["CLOSE_BAAH_FINISH"]:
+        if not forcewait and (
+            (not meet_error and config.userconfigdict["CLOSE_BAAH_FINISH"])
+            or
+            (meet_error and config.userconfigdict["CLOSE_BAAH_ERROR"])
+            ):
+            logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
+            sleep(10)
+        else:
             user_input = input(f"Press Enter to exit/回车退出, "+str([f"[{k}]{key_map_func[k]['desc']}" for k in key_map_func]) + ": ")
             for k in key_map_func:
                 if user_input.upper() == k.upper():
                     key_map_func[k]["func"]()
                     break
-        else:
-            logging.info({"zh_CN": "10秒后自动关闭", "en_US": "Auto close in 10 seconds"})
-            sleep(10)
             
     def BAAH_rm_pic():
         """运行结束后，删除截图文件，内含try-except"""
@@ -405,6 +435,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 my_AllTask.run()
                 logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
                 BAAH_close_target_app()
+                BAAH_close_VPN()
                 BAAH_kill_emulator()
                 BAAH_send_email()
                 print_BAAH_finish()
@@ -420,13 +451,26 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                     EN: "Emulator Blocked, Restart Emulator"
                 }))
                 if config.sessiondict["EMULATOR_PROCESS_PID"] is None:
-                    raise Exception(istr({
+                    logging.error(istr({
                         CN: "无模拟器pid，无法重启模拟器，请确保模拟器由BAAH启动",
                         EN: "Cannot identify emulator's pid, fail to restart emulator, please make sure it is started by BAAH"
                     }))
                 # sessionstorage里重启次数加1
                 store_restart_times = config.sessiondict["RESTART_EMULATOR_TIMES"] + 1
+                logging.info(istr({
+                    CN: "关闭应用",
+                    EN: "Close the app"
+                }))
+                BAAH_close_target_app(must_do=True)
+                logging.info(istr({
+                    CN: "关闭模拟器",
+                    EN: "Close the emulator"
+                }))
                 BAAH_kill_emulator(must_do=True)
+                logging.info(istr({
+                    CN: "重新运行脚本",
+                    EN: "Restart the script"
+                }))
                 time.sleep(5)
                 # 重新加载其他config值，覆盖模拟器重启次数到sessiondict
                 config.parse_user_config(config.nowuserconfigname)
@@ -446,6 +490,9 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.save_custom_log_file()
             # 发送错误邮件
             BAAH_send_err_mail(e)
+            # 关闭游戏和模拟器
+            BAAH_close_target_app(meet_error=True)
+            BAAH_kill_emulator(meet_error=True)
             print_BAAH_finish()
             
             print_BAAH_config_info()
@@ -469,7 +516,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                     "desc":"ontinue", # [C]ontinue
                     "func":continue_redo_tasks
                 }
-            })
+            }, meet_error=True)
 
 
     # Run
