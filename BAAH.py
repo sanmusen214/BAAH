@@ -451,14 +451,26 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                     EN: "Emulator Blocked, Restart Emulator"
                 }))
                 if config.sessiondict["EMULATOR_PROCESS_PID"] is None:
-                    raise Exception(istr({
+                    logging.error(istr({
                         CN: "无模拟器pid，无法重启模拟器，请确保模拟器由BAAH启动",
                         EN: "Cannot identify emulator's pid, fail to restart emulator, please make sure it is started by BAAH"
                     }))
                 # sessionstorage里重启次数加1
                 store_restart_times = config.sessiondict["RESTART_EMULATOR_TIMES"] + 1
+                logging.info(istr({
+                    CN: "关闭应用",
+                    EN: "Close the app"
+                }))
                 BAAH_close_target_app(must_do=True)
+                logging.info(istr({
+                    CN: "关闭模拟器",
+                    EN: "Close the emulator"
+                }))
                 BAAH_kill_emulator(must_do=True)
+                logging.info(istr({
+                    CN: "重新运行脚本",
+                    EN: "Restart the script"
+                }))
                 time.sleep(5)
                 # 重新加载其他config值，覆盖模拟器重启次数到sessiondict
                 config.parse_user_config(config.nowuserconfigname)
