@@ -351,14 +351,14 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             logging.error({"zh_CN": "发送通知失败", "en_US": "Failed to send notification"})
             logging.error(e)
 
-    def BAAH_auto_quit(forcewait = False, key_map_func = None, meet_error = False):
+    def BAAH_auto_quit(key_map_func = None, meet_error = False):
         """ 结束运行，如果用户没有勾选自动关闭模拟器与BAAH，等待用户按回车键 """
         # 默认值空字典
         if key_map_func is None:
             key_map_func = dict()
         if must_auto_quit:
             return
-        if not forcewait and (
+        if (
             (not meet_error and config.userconfigdict["CLOSE_BAAH_FINISH"])
             or
             (meet_error and config.userconfigdict["CLOSE_BAAH_ERROR"])
@@ -507,7 +507,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 # 执行BAAH
                 BAAH_main(run_precommand=False)
             
-            BAAH_auto_quit(forcewait=True, key_map_func={
+            BAAH_auto_quit(key_map_func={
                 "R": {
                     "desc":"estart", # [R]estart
                     "func":lambda: [config.parse_user_config(config.nowuserconfigname), BAAH_main()]
