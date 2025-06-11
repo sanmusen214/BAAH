@@ -259,6 +259,25 @@ def set_dpi(target_dpi, use_config=None):
         target_dpi = int(target_dpi)
     subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density", str(target_dpi)], isasync=True)
     
+def set_size(size=[]):
+    """
+    set size
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "size", str(size[0])+"x"+str(size[1])], isasync=True)
+    
+def reset_dpi():
+    """
+    reset DPI
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "density", "reset"], isasync=True)
+
+def reset_size():
+    """
+    reset size
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "size", "reset"], isasync=True)
+    
+
 def install_apk(filepath):
     status = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "install", filepath], isasync=True)
     if status.returncode != 0:
