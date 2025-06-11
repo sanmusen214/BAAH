@@ -127,7 +127,7 @@ config_version = config.NOWVERSION
 # mainly for windows, download adb
 package_download_adb(platformstr="Windows")
 # mainly for windows, download aria2
-package_download_aria2(platformstr="Windows")
+# package_download_aria2(platformstr="Windows")
 
 
 package_remove_folder("./dist")
@@ -182,7 +182,7 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'BAAH_GUI', '
     break
 
 package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
-package_copyfolder('./tools/aria2', './dist/BAAH/tools/aria2')
+# package_copyfolder('./tools/aria2', './dist/BAAH/tools/aria2')
 
 # pytinstall的时候已经把pponnxcr和nicegui文件拷贝进去了
 # package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
