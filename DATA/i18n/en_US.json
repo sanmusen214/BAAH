@@ -192,12 +192,15 @@
     "config_event_status": "Execute only when the event is active",
     "notice_QA":"How to use and FAQ",
 
+    "aria2_path" : "Aria2 path",
+    "aria2_thread": "The number of Aria2 download threads",
+    "aria2_max_tries": "Maximum number of retries for Aria2",
+    "aria2_failured_wait_time": "Wait time after Aria2 download failure",
 
-
-
-
-
-
+    "config_big_update": "Update the game package",
+    "big_update_type": "Update type",
+    "big_update_type_api": "API",
+    "big_update_type_urlget": "URLGET",
     
 
     "status_finish": "All Tasks Completed"

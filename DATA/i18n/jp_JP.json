@@ -192,12 +192,15 @@
     "config_event_status": "イベントがアクティブな状態のときにのみ実行する",
     "notice_QA":"使用方法とよくある質問",
 
+    "aria2_path": "Aria2のパス",
+    "aria2_thread":"Aria2のダウンロードスレッド数",
+    "aria2_max_tries":"Aria2の最大再試行回数",
+    "aria2_failured_wait_time": "Aria2のダウンロード失敗後の待機時間",
 
-
-
-
-    
-
+    "config_big_update": "ゲームパッケージを更新する",
+    "big_update_type": "更新方法",
+    "big_update_type_api": "API",
+    "big_update_type_urlget": "URLGET",
 
 
     "status_finish": "すべてのタスクが終了しました"

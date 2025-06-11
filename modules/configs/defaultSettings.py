@@ -46,6 +46,19 @@ defaultUserDict = {
             "map": lambda x: activity2server[x] if x in activity2server else "GLOBAL"
         }
     },
+    "UPDATE_API_URL": {
+        "d":"https://baah.02000721.xyz/apk/global",
+        "s": [
+            "https://baah.02000721.xyz/apk/jp",
+            "https://baah.02000721.xyz/apk/global",
+            "html://https://mumu.163.com/games/22367.html",
+            "json://https://line1-h5-pc-api.biligame.com/game/detail/gameinfo?game_base_id=109864"
+        ],
+        "m": {
+            "from": "SERVER_TYPE",
+            "map": lambda x: server2url[x] if x in server2url else "https://baah.02000721.xyz/apk/global"
+        }
+    },
     "TARGET_EMULATOR_PATH":{"d":""},
     "CLOSE_EMULATOR_BAAH":{"d":False}, # deprecate
     "CLOSE_EMULATOR_FINISH":{
@@ -284,7 +297,16 @@ defaultUserDict = {
     "EXAM_TEAM_COUNT":{
         "d":3
     },
-
+    # ARIA2配置
+    "ARIA2_PATH":{"d":"./tools/aria2/aria2c.exe"},
+    "ARIA2_THREADS":{"d":16},
+    "ARIA2_MAX_TRIES":{"d":5},
+    "ARIA2_FAILURED_WAIT_TIME":{"d":0.5},
+    
+    # 大更新配置
+    "BIG_UPDATE":{"d":False},
+    "BIG_UPDATE_TYPE":{"d":"API",
+                                        "s":["API", "URLGET"]}
 }
 
 # 软件的config里的默认值

@@ -218,6 +218,7 @@ def check_connect():
         logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Delete {get_config_screenshot_name()}"})
         os.remove(get_config_screenshot_name())
     connect_to_device()
+    reconnect_offline()
     # 尝试截图
     screenshot()
     time.sleep(1)
