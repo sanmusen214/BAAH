@@ -48,12 +48,6 @@ defaultUserDict = {
     },
     "UPDATE_API_URL": {
         "d":"https://baah.02000721.xyz/apk/global",
-        "s": [
-            "https://baah.02000721.xyz/apk/jp",
-            "https://baah.02000721.xyz/apk/global",
-            "html://https://mumu.163.com/games/22367.html",
-            "json://https://line1-h5-pc-api.biligame.com/game/detail/gameinfo?game_base_id=109864"
-        ],
         "m": {
             "from": "SERVER_TYPE",
             "map": lambda x: server2url[x] if x in server2url else "https://baah.02000721.xyz/apk/global"
