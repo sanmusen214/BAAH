@@ -202,6 +202,8 @@
     "big_update_type_api": "API",
     "big_update_type_urlget": "URLGET",
 
+    "is_physical_machine":"物理マシン/Shizuku/AVDを使用する場合は、この項目にチェックを入れてください。",
+
 
     "status_finish": "すべてのタスクが終了しました"
 }

@@ -202,6 +202,7 @@
     "big_update_type_api": "API",
     "big_update_type_urlget": "URLGET",
 
+    "is_physical_machine": "若使用物理机/Shizuku/AVD，请勾选此项",
 
 
     "status_finish":"所有任务运行结束"

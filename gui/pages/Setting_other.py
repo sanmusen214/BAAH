@@ -66,6 +66,9 @@ def set_other(config, gui_shared_config):
         # 切换使用序列号还是IP+端口
         ui.checkbox(config.get_text("adb_direct_use_serial")).bind_value(config.userconfigdict, 'ADB_DIRECT_USE_SERIAL_NUMBER')
     
+        # 物理机适配
+        # ui.checkbox(config.get_text("is_physical_machine")).bind_value(config.userconfigdict, 'IS_PHYSICAL_MACHINE').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER")
+    
     with ui.row():
         ui.input(config.get_text("config_adb_path")).bind_value(config.userconfigdict, 'ADB_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
 

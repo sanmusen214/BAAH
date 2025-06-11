@@ -201,7 +201,9 @@
     "big_update_type": "Update type",
     "big_update_type_api": "API",
     "big_update_type_urlget": "URLGET",
-    
+
+    "is_physical_machine": "If you are using a physical machine/Shizuku/AVD, select this option",
+
 
     "status_finish": "All Tasks Completed"
 }

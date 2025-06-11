@@ -89,3 +89,6 @@ def set_emulator(config):
     # 登录超时重启模拟器
     ui.number(config.get_text("config_login_timeout"), min=180, precision=0, step=1).bind_value(config.userconfigdict, "GAME_LOGIN_TIMEOUT", forward= lambda x: int(x)).style("width: 200px")
     ui.number(config.get_text("config_max_emulator_restart_times"), min=0, max=10, precision=0, step=1).bind_value(config.userconfigdict, "MAX_RESTART_EMULATOR_TIMES", forward= lambda x: int(x)).style("width: 400px")
+    
+    # 物理机适配
+    # ui.checkbox(config.get_text("is_physical_machine")).bind_value(config.userconfigdict, 'IS_PHYSICAL_MACHINE').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER")
