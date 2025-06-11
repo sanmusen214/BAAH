@@ -9,7 +9,7 @@ import zipfile
 import time
 import sys
 
-updater_version = "0.3.1"
+updater_version = "0.3.2"
 print(f"This Updator Version: {updater_version}")
 
 def copy_to_temp_and_run():
@@ -38,16 +38,13 @@ def copy_to_temp_and_run():
         print(f"This is {temp_update_name}")
         return False
 
-def get_one_version_num(versionstr=None):
+def get_one_version_num(versionstr):
     """
     将版本号字符串转换成数字
     
     如 1.4.10 -> 10410
     """
-
     try:
-        if not versionstr:
-            versionstr = self.NOWVERSION
         versionlist = versionstr.split(".")
         return int(versionlist[0])*10000+int(versionlist[1])*100+int(versionlist[2])
     except Exception as e:

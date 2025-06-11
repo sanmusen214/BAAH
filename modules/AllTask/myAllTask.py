@@ -4,7 +4,7 @@ from modules.AllTask import *
 from modules.AllPage.Page import Page
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
-from modules.utils.log_utils import logging, CN, EN
+from modules.utils.log_utils import logging, istr, CN, EN
 from modules.configs.MyConfig import config
 
 class TaskName():
@@ -288,9 +288,21 @@ class AllTask:
         """
         运行任务
         """
-        # 运行任务前解析
+        # 运行任务前解析需要执行的任务内容，适应config的不同解析导致的config本身的更改
         self.parse_task()
-        for task in self.taskpool:
+        # 解析上次运行到第几个任务了，默认这个下标值是-1，如果是continue run的话会是发生报错时的任务下标。
+        last_do_task_index = config.sessiondict["CURRENT_PERIOD_TASK_INDEX"]
+        if last_do_task_index != -1:
+            logging.warn(istr({
+                CN: f"CURRENT_PERIOD_TASK_INDEX = {last_do_task_index}，继续运行",
+                EN: f"CURRENT_PERIOD_TASK_INDEX = {last_do_task_index}, continue run"
+            }))
+        for i,task in enumerate(self.taskpool):
+            if i < last_do_task_index and task.name != "EnterGame":
+                # 跳过已经完成的任务（保留登录游戏任务）
+                continue
+            # 运行任务，更新正在运行的任务下标
+            config.sessiondict["CURRENT_PERIOD_TASK_INDEX"] = i
             task.run()
     
     def add_task(self, task:Task) -> None:

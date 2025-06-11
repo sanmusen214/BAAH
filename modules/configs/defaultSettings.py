@@ -82,6 +82,16 @@ defaultUserDict = {
             "map": lambda x: x
         }
     },
+    # 发生异常报错后是否关闭模拟器
+    "CLOSE_EMULATOR_ERROR":{
+        "d": False,
+    },
+    "CLOSE_GAME_ERROR":{
+        "d": False,
+    },
+    "CLOSE_BAAH_ERROR":{
+        "d": False,
+    },
     "PIC_PATH":{
         "d":"./DATA/assets",
         "s":[
@@ -142,6 +152,11 @@ defaultUserDict = {
     "CAFE_TOUCH_WAY_DIFF":{"d":True},
     "USE_VPN":{"d":False},
     "VPN_CONFIG":{"d":{
+        "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST":[[[622, 248], 2]],
+    }},
+    "CLOSE_VPN":{"d":False},
+    "VPN_CLOSE_CONFIG":{"d":{
         "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
         "CLICK_AND_WAIT_LIST":[[[622, 248], 2]],
     }},
@@ -341,6 +356,8 @@ defaultSessionDict = {
     "RESTART_EMULATOR_TIMES":{"d":0},
     # 截图数据，当SCREENSHOT_METHOD为pipe时使用
     "SCREENSHOT_DATA":{"d":None},
+    # 记录这次运行执行到第几个任务了，任务开始时更新此项。-1表示之前没有执行任何任务
+    "CURRENT_PERIOD_TASK_INDEX":{"d":-1},
 }
 
 # storagedict存储与某一个配置文件对应的游戏实例的持久性存储信息（如钻石历史变化曲线），其生命周期与userconfig相同，但是在脚本运行时是随用随写的

@@ -140,7 +140,7 @@ class InExam(Task):
     def go_to_open_exam_area_pos(self) -> bool:
         """点击并进入开放考试的区域，返回是否成功进入，如果没有开放区域，返回False"""
         screenshot()
-        if match_pixel([374, 681], Page.COLOR_WHITE):
+        if match_pixel([370, 681], Page.COLOR_WHITE):
             # 考试关卡选择页面
             logging.info(istr({
                 CN: "已经在考试关卡选择页面",
@@ -149,16 +149,23 @@ class InExam(Task):
             return True
         else:
             # 地区选择
+            # 判断地区选择页面左上角是否有助人设定
+            if match_pixel([57, 91], Page.COLOR_BUTTON_WHITE):
+                self.AREAS_POINTS[0] = [82, 438]
+                logging.info(istr({
+                    CN: f"检测到助人设定，调整考试区域坐标，当前坐标为{self.AREAS_POINTS}",
+                    EN: f"Detected helper settings, adjusted exam area coordinates, current coordinates are {self.AREAS_POINTS}",
+                }))
             # 判断开放的考试区域
             can_enter = False
             for i in range(len(self.AREAS_POINTS)):
                 if match_pixel(self.AREAS_POINTS[i], Page.COLOR_WHITE):
                     # 亮的区域
                     can_enter = True
-                    # 进入考试,左上角出现查看全地图按钮
+                    # 进入考试,下方出现白色bar
                     self.run_until(
                         lambda: click([self.AREAS_POINTS[i][0] + 50, self.AREAS_POINTS[i][1]]),
-                        lambda: match_pixel((63, 90), Page.COLOR_WHITE)
+                        lambda: match_pixel([370, 681], Page.COLOR_WHITE)
                     )
                     logging.info(istr({
                         CN: "进入考试区域",
