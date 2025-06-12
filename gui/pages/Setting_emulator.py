@@ -62,17 +62,17 @@ def set_emulator(config):
         ui.checkbox(config.get_text("adb_direct_use_serial")).bind_value(config.userconfigdict, 'ADB_DIRECT_USE_SERIAL_NUMBER')
         
     
-    with ui.row():
+    with ui.row().bind_visibility_from(config.userconfigdict, "IS_PHYSICAL_MACHINE", lambda v: not v):
         kill_port = ui.checkbox(config.get_text("config_kill_port")).bind_value(config.userconfigdict, "KILL_PORT_IF_EXIST")
         kill_port.set_value(False)
         kill_port.set_enabled(False)
     
-    with ui.row():    
+    with ui.row().bind_visibility_from(config.userconfigdict, "IS_PHYSICAL_MACHINE", lambda v: not v):    
         ui.input(config.get_text("config_emulator_path"),
                     ).bind_value(config.userconfigdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')
     
     # 结束后自动关闭操作
-    with ui.card():
+    with ui.card().bind_visibility_from(config.userconfigdict, "IS_PHYSICAL_MACHINE", lambda v: not v):
         with ui.row():
             ui.checkbox(config.get_text("config_close_emulator_when_finish")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_FINISH')
             ui.checkbox(config.get_text("config_close_even_if_error")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_ERROR').bind_visibility_from(config.userconfigdict, "CLOSE_EMULATOR_FINISH")
@@ -91,4 +91,4 @@ def set_emulator(config):
     ui.number(config.get_text("config_max_emulator_restart_times"), min=0, max=10, precision=0, step=1).bind_value(config.userconfigdict, "MAX_RESTART_EMULATOR_TIMES", forward= lambda x: int(x)).style("width: 400px")
     
     # 物理机适配
-    # ui.checkbox(config.get_text("is_physical_machine")).bind_value(config.userconfigdict, 'IS_PHYSICAL_MACHINE').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER")
+    ui.checkbox(config.get_text("is_physical_machine")).bind_value(config.userconfigdict, 'IS_PHYSICAL_MACHINE').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER")
