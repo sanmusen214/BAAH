@@ -495,7 +495,8 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                     CN: "关闭模拟器",
                     EN: "Close the emulator"
                 }))
-                BAAH_kill_emulator(must_do=True)
+                if config.userconfigdict["PHYICAL_SUPPORT"] is False:
+                    BAAH_kill_emulator(must_do=True)
                 logging.info(istr({
                     CN: "重新运行脚本",
                     EN: "Restart the script"
@@ -521,7 +522,8 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             BAAH_send_err_mail(e)
             # 关闭游戏和模拟器
             BAAH_close_target_app(meet_error=True)
-            BAAH_kill_emulator(meet_error=True)
+            if config.userconfigdict["PHYICAL_SUPPORT"] is False:
+                BAAH_kill_emulator(meet_error=True)
             print_BAAH_finish()
             
             print_BAAH_config_info()
