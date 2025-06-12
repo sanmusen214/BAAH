@@ -162,6 +162,8 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         """
         物理机/Shizuku/AVD额外操作(开头)
         """
+        if check_shizuku:
+            logging.warn({"zh_CN": "检测到shizuku,android termux为实验性适配，建议使用电脑加模拟器运行", "en_US": "Shizuku detected, android termux is experimental, it is recommended to run on computer with emulator"})
         logging.info({"zh_CN": "设置分辨率1280x720", "en_US": "Set resolution 1280x720"})
         set_size([1280, 720])
         logging.info({"zh_CN": "设置dpi240", "en_US": "Set dpi 240"})
@@ -455,9 +457,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                                            "en_US": "Physical machine mode, do not start emulator"})
                 BAAH_check_adb_connect()
                 if config.userconfigdict["IS_PHYSICAL_MACHINE"] is True:
-                    if check_shizuku:
-                        logging.warn({"zh_CN": "检测到shizuku,android termux为实验性适配，建议使用电脑加模拟器运行", "en_US": "Shizuku detected, android termux is experimental, it is recommended to run on computer with emulator"})
-                    BAAH_physical_start()
+                   BAAH_physical_start()
                 BAAH_start_VPN()
                 BAAH_open_target_app()
                 
