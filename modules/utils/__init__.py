@@ -228,7 +228,14 @@ def check_connect():
         wm_height = sc_data.shape[0]
         wm_width = sc_data.shape[1]
         # 第一维度是高，第二维度是宽
-        if wm_height == 720 and wm_width == 1280:
+        if config.userconfigdict["PHYICAL_SUPPORT"]:
+            logging.info({"zh_CN": "开启物理机适配，跳过分辨率，DPI检查", "en_US":"Physical machine adaptation is turned on, skip resolution, DPI check"})
+            if wm_height is not None and wm_width is not None:
+                return True
+            else:
+                logging.error({"zh_CN": "截图失败，请检查adb与设备连接", "en_US":"Screenshot failed, please check the adb and device connection"})
+                return False
+        elif wm_height == 720 and wm_width == 1280:
             logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
             dpi_res = get_dpi()
             logging.info(f"DPI: {dpi_res}")
