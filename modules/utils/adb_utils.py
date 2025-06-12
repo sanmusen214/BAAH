@@ -277,6 +277,14 @@ def reset_size():
     """
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "size", "reset"], isasync=True)
     
+def check_shizuku():
+    """
+    检查shizuku是否安装
+    """
+    if subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "pm", "list", "packages", "moe.shizuku.privileged.api"], isasync=True).returncode == 0:
+        return True
+    else:
+        return False
 
 def install_apk(filepath):
     status = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "install", filepath], isasync=True)

@@ -37,7 +37,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
     # ============= Import =============
 
     import os
-    from modules.utils import subprocess_run, time, set_dpi, set_size, reset_dpi, reset_size,disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
+    from modules.utils import subprocess_run, time, set_dpi, set_size, reset_dpi, reset_size,disconnect_this_device, sleep, check_connect, check_shizuku, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
     from modules.AllTask.myAllTask import my_AllTask
 
     def print_BAAH_info():
@@ -455,6 +455,8 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                                            "en_US": "Physical machine mode, do not start emulator"})
                 BAAH_check_adb_connect()
                 if config.userconfigdict["IS_PHYSICAL_MACHINE"] is True:
+                    if check_shizuku:
+                        logging.warn({"zh_CN": "检测到shizuku,android termux为实验性适配，建议使用电脑加模拟器运行", "en_US": "Shizuku detected, android termux is experimental, it is recommended to run on computer with emulator"})
                     BAAH_physical_start()
                 BAAH_start_VPN()
                 BAAH_open_target_app()
