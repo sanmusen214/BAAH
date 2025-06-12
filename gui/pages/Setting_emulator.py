@@ -59,20 +59,24 @@ def set_emulator(config):
         ui.input(config.get_text("adb_serial")).bind_value(config.userconfigdict, 'ADB_SEIAL_NUMBER').style('width: 400px').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER", lambda v: v)
         
         # 切换使用序列号还是IP+端口
-        ui.checkbox(config.get_text("adb_direct_use_serial")).bind_value(config.userconfigdict, 'ADB_DIRECT_USE_SERIAL_NUMBER')
+        ui.checkbox(config.get_text("adb_direct_use_serial")).bind_value(config.userconfigdict, 'ADB_DIRECT_USE_SERIAL_NUMBER').bind_visibility_from(config.userconfigdict, "PHYICAL_SUPPORT", lambda v: not v)
+        
+    with ui.row():
+        # 物理机支持
+        ui.checkbox(config.get_text("phyical_support")).bind_value(config.userconfigdict, 'PHYICAL_SUPPORT').bind_visibility_from(config.userconfigdict, "ADB_DIRECT_USE_SERIAL_NUMBER", lambda v: v)
         
     
-    with ui.row():
+    with ui.row().bind_visibility_from(config.userconfigdict, "PHYICAL_SUPPORT", lambda v: not v):
         kill_port = ui.checkbox(config.get_text("config_kill_port")).bind_value(config.userconfigdict, "KILL_PORT_IF_EXIST")
         kill_port.set_value(False)
         kill_port.set_enabled(False)
     
-    with ui.row():    
+    with ui.row().bind_visibility_from(config.userconfigdict, "PHYICAL_SUPPORT", lambda v: not v):    
         ui.input(config.get_text("config_emulator_path"),
                     ).bind_value(config.userconfigdict, 'TARGET_EMULATOR_PATH',forward=lambda v: v.replace("\\", "/").replace('"','')).style('width: 400px')
     
     # 结束后自动关闭操作
-    with ui.card():
+    with ui.card().bind_visibility_from(config.userconfigdict, "PHYICAL_SUPPORT", lambda v: not v):
         with ui.row():
             ui.checkbox(config.get_text("config_close_emulator_when_finish")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_FINISH')
             ui.checkbox(config.get_text("config_close_even_if_error")).bind_value(config.userconfigdict, 'CLOSE_EMULATOR_ERROR').bind_visibility_from(config.userconfigdict, "CLOSE_EMULATOR_FINISH")

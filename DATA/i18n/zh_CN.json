@@ -192,7 +192,7 @@
     "config_event_status": "是否只在活动开启状态下执行",
     "notice_QA":"如何使用以及常见问题",
 
-
+    "phyical_support":"如果你正在使用物理机/Shizuku/AVD,请勾选此项",
 
 
 

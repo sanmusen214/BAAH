@@ -192,7 +192,7 @@
     "config_event_status": "Execute only when the event is active",
     "notice_QA":"How to use and FAQ",
 
-
+    "phyical_support": "If you are using a physical machine/Shizuku/AVD, please check this option",
 
 
 
