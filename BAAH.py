@@ -34,7 +34,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
     # ============= Import =============
 
     import os
-    from modules.utils import subprocess_run, time, disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
+    from modules.utils import subprocess_run, time, set_dpi, set_size, reset_dpi, reset_size, check_shizuku, disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
     from modules.AllTask.myAllTask import my_AllTask
 
     def print_BAAH_info():
@@ -139,7 +139,9 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         检查adb连接
         """
         # 检查adb连接
-        disconnect_this_device()
+        # AVD与物理机一样，断联了就再也连不上了，Shizuku则会假死。 ——BlockHaity
+        if config.userconfigdict["PHYICAL_SUPPORT"] is False:
+            disconnect_this_device()
         for i in range(1, 10):
             sleep(i)
             if check_connect():
@@ -252,6 +254,27 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             sleep(1.5)
             subprocess.Popen(config.userconfigdict["POST_COMMAND"], shell=True)
 
+    def BAAH_phyical_support_start():
+        """
+        实体机额外操作（开头）
+        """
+        if check_shizuku() == True:
+            logging.warnning({"zh_CN": "检测到Shizuku, Android Termux兼容为实验性，建议使用电脑加模拟器的方式运行",
+                            "en_US": "Detected Shizuku, Android Termux compatibility is experimental, "})
+        logging.info({"zh_CN": "设置分辨率:1280x720", "en_US": "Set resolution:1280x720"})
+        set_size([1280, 720])
+        logging.info({"zh_CN": "设置DPI:240", "en_US": "Set DPI:240"})
+        set_dpi(240)
+    
+    def BAAH_phyical_support_end():
+        """
+        实体机额外操作（结尾）
+        """
+        logging.info({"zh_CN": "恢复分辨率", "en_US": "Restore resolution"})
+        reset_size()
+        logging.info({"zh_CN": "恢复DPI", "en_US": "Restore DPI"})
+        reset_dpi()
+    
     def BAAH_kill_emulator(must_do = False, meet_error = False):
         """
         杀掉模拟器进程
@@ -424,9 +447,12 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 print_BAAH_config_info()
                 if run_precommand:
                     BAAH_run_pre_command()
-                BAAH_release_adb_port()
-                BAAH_start_emulator()
+                if config.userconfigdict["PHYICAL_SUPPORT"] is False:
+                    BAAH_release_adb_port()
+                    BAAH_start_emulator()
                 BAAH_check_adb_connect()
+                if config.userconfigdict["PHYICAL_SUPPORT"] is True:
+                    BAAH_phyical_support_start
                 BAAH_start_VPN()
                 BAAH_open_target_app()
                 
@@ -436,7 +462,10 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
                 BAAH_close_target_app()
                 BAAH_close_VPN()
-                BAAH_kill_emulator()
+                if config.userconfigdict["PHYICAL_SUPPORT"] is False:
+                    BAAH_kill_emulator()
+                if config.userconfigdict["PHYICAL_SUPPORT"] is True:
+                    BAAH_phyical_support_end()
                 BAAH_send_email()
                 print_BAAH_finish()
                 BAAH_rm_pic()

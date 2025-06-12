@@ -217,7 +217,8 @@ def check_connect():
     if os.path.exists(get_config_screenshot_name()):
         logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Delete {get_config_screenshot_name()}"})
         os.remove(get_config_screenshot_name())
-    connect_to_device()
+    if config.userconfigdict["PHYICAL_SUPPORT"] is False:
+        connect_to_device()
     # 尝试截图
     screenshot()
     time.sleep(1)
