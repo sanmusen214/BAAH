@@ -470,7 +470,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 if config.userconfigdict["IS_PHYSICAL_MACHINE"] is False:
                     BAAH_kill_emulator()
                 else:
-                    logging.info({"zh_CN": "物理机模式，不关闭模拟器", 
+                    logging.info({"zh_CN": "物理机模式，跳过关闭模拟器", 
                                           "en_US": "Physical machine mode, do not close emulator"})
                 BAAH_send_email()
                 print_BAAH_finish()
