@@ -220,7 +220,7 @@ def check_connect():
     if config.userconfigdict["IS_PHYSICAL_MACHINE"] is False:
         connect_to_device()
     else:
-        logging.info({"zh_CN": "已配置物理机/Shizuku/AVD支持，跳过连接", 
+        logging.info({"zh_CN": "物理机模式，跳过连接", 
                               "en_US": "The physical machine/Shizuku/AVD support is configured, skip the connection"})
     reconnect_offline()
     # 尝试截图
@@ -234,7 +234,7 @@ def check_connect():
         wm_width = sc_data.shape[1]
         # 第一维度是高，第二维度是宽
         if config.userconfigdict["IS_PHYSICAL_MACHINE"] is True:
-            logging.info({"zh_CN": "已配置物理机/Shizuku/AVD支持，跳过分辨率检查"})
+            logging.info({"zh_CN": "物理机模式，跳过分辨率检查"})
         elif wm_height == 720 and wm_width == 1280:
             logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
             dpi_res = get_dpi()
