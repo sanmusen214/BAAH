@@ -217,7 +217,11 @@ def check_connect():
     if os.path.exists(get_config_screenshot_name()):
         logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Delete {get_config_screenshot_name()}"})
         os.remove(get_config_screenshot_name())
-    connect_to_device()
+    if config.userconfigdict["IS_PHYSICAL_MACHINE"] is False:
+        connect_to_device()
+    else:
+        logging.info({"zh_CN": "已配置物理机/Shizuku/AVD支持，跳过连接", 
+                              "en_US": "The physical machine/Shizuku/AVD support is configured, skip the connection"})
     reconnect_offline()
     # 尝试截图
     screenshot()
@@ -229,7 +233,9 @@ def check_connect():
         wm_height = sc_data.shape[0]
         wm_width = sc_data.shape[1]
         # 第一维度是高，第二维度是宽
-        if wm_height == 720 and wm_width == 1280:
+        if config.userconfigdict["IS_PHYSICAL_MACHINE"]:
+            logging.info({"zh_CN": "已配置物理机/Shizuku/AVD支持，跳过分辨率检查"})
+        elif wm_height == 720 and wm_width == 1280:
             logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
             dpi_res = get_dpi()
             logging.info(f"DPI: {dpi_res}")

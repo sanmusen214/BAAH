@@ -1,3 +1,6 @@
+from sympy import false
+
+
 def handle_error_mention(e, print_method):
     """
     根据各种奇妙的异常字符串，给出异常解决提示
@@ -34,7 +37,7 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
     # ============= Import =============
 
     import os
-    from modules.utils import subprocess_run, time, disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
+    from modules.utils import subprocess_run, time, set_dpi, set_size, reset_dpi, reset_size,disconnect_this_device, sleep, check_connect, open_app, close_app, get_now_running_app, screenshot, click, check_app_running, subprocess, create_notificationer, EmulatorBlockError, istr, EN, CN
     from modules.AllTask.myAllTask import my_AllTask
 
     def print_BAAH_info():
@@ -139,7 +142,9 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
         检查adb连接
         """
         # 检查adb连接
-        disconnect_this_device()
+        # 物理机，AVD断联了就再也连不上了，Shizuku会假死几秒，之前的逻辑会使得在假死过程中多出来一个emulater-5554:5555  —— BlockHaity
+        if config.userconfigdict["IS_PHYSICAL_MACHINE"] is False:
+            disconnect_this_device()
         for i in range(1, 10):
             sleep(i)
             if check_connect():
@@ -153,6 +158,24 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
             raise Exception("检测到启动BAAH前 端口已被占用，但BAAH无法连接至该端口。上次模拟器可能未被正常关闭，请在启动BAAH前关闭模拟器")
         raise Exception("adb连接失败, 请检查配置里的adb端口")
 
+    def BAAH_physical_start():
+        """
+        物理机/Shizuku/AVD额外操作(开头)
+        """
+        logging.info({"zh_CN": "设置分辨率1280x720", "en_US": "Set resolution 1280x720"})
+        set_size([1280, 720])
+        logging.info({"zh_CN": "设置dpi240", "en_US": "Set dpi 240"})
+        set_dpi(240)
+    
+    def BAAH_physical_end():
+        """
+        物理机/Shizuku/AVD额外操作(结尾)
+        """
+        logging.info({"zh_CN": "重置分辨率", "en_US": "Reset resolution"})
+        reset_size()
+        logging.info({"zh_CN": "重置dpi", "en_US": "Reset dpi"})
+        reset_dpi()
+    
     def _do_user_defined_action(activity_name, action_list):
         """执行用户定义的点击坐标或图片序列"""
         try:
@@ -424,9 +447,15 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 print_BAAH_config_info()
                 if run_precommand:
                     BAAH_run_pre_command()
-                BAAH_release_adb_port()
-                BAAH_start_emulator()
+                if config.userconfigdict["IS_PHYSICAL_MACHINE"] is False:
+                    BAAH_release_adb_port()
+                    BAAH_start_emulator()
+                else:
+                    logging.info({"zh_CN": "物理机模式，不释放端口与启动模拟器",
+                                           "en_US": "Physical machine mode, do not start emulator"})
                 BAAH_check_adb_connect()
+                if config.userconfigdict["IS_PHYSICAL_MACHINE"] is True:
+                    BAAH_physical_start()
                 BAAH_start_VPN()
                 BAAH_open_target_app()
                 
@@ -436,7 +465,13 @@ def BAAH_core_process(reread_config_name = None, must_auto_quit = False, msg_que
                 logging.info({"zh_CN": "所有任务结束", "en_US": "All tasks are finished"})
                 BAAH_close_target_app()
                 BAAH_close_VPN()
-                BAAH_kill_emulator()
+                if config.userconfigdict["IS_PHYSICAL_MACHINE"] is True:
+                    BAAH_physical_end()
+                if config.userconfigdict["IS_PHYSICAL_MACHINE"] is False:
+                    BAAH_kill_emulator()
+                else:
+                    logging.info({"zh_CN": "物理机模式，不关闭模拟器", 
+                                          "en_US": "Physical machine mode, do not close emulator"})
                 BAAH_send_email()
                 print_BAAH_finish()
                 BAAH_rm_pic()
