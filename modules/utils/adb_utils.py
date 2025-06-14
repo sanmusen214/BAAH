@@ -255,7 +255,34 @@ def set_dpi(target_dpi, use_config=None):
     if isinstance(target_dpi, float):
         target_dpi = int(target_dpi)
     subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density", str(target_dpi)], isasync=True)
-    
+
+def set_size(target_size=[]):
+    """
+    set size
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "size", f"{target_size[0]}x{target_size[1]}"], isasync=True)
+
+def reset_dpi():
+    """
+    reset DPI
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "density", "reset"], isasync=True)
+
+def reset_size():
+    """
+    reset size
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "wm", "size", "reset"], isasync=True)
+
+def check_shizuku():
+    """
+    检查shizuku是否安装
+    """
+    returncode = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "shell", "pm", "list", "packages", "moe.shizuku.privileged.api "], isasync=True).returncode
+    if returncode == 0:
+        return True
+    else:
+        return False
 
 # NO_NEED = "NO_NEED"
 # ERROR = "ERROR"

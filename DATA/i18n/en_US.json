@@ -193,7 +193,7 @@
     "notice_QA":"How to use and FAQ",
     "mirror_desc": "You can add an existing Mirror key to speed up the download of update packages and improve stability",
 
-
+    "phyical_support": "If you are using a physical machine/Shizuku/AVD, please check this option",
 
 
 
