@@ -17,18 +17,8 @@ jobs:
           repo: BAAH
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: MirrorChyan/uploading-action@v1
-        with:
-          filetype: latest-release
-          filename: '${{ steps.latest-release.outputs.release }}_update.zip'
-          mirrorchyan_rid: BAAH
-
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          owner: sanmusen214
-          repo: BAAH
-          upload_token: ${{ secrets.MirrorChyanUploadToken }}
-
-      - uses: MirrorChyan/uploading-action@v1
+      - name: Upload Full package
+        uses: MirrorChyan/uploading-action@v1
         with:
           filetype: latest-release
           filename: '${{ steps.latest-release.outputs.release }}.zip'
@@ -40,3 +30,16 @@ jobs:
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           os: win
           arch: x64
+
+      - name: Upload update.zip
+        uses: MirrorChyan/uploading-action@v1
+        if: always()
+        with:
+          filetype: latest-release
+          filename: '*_update.zip'
+          mirrorchyan_rid: BAAH
+
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: sanmusen214
+          repo: BAAH
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
