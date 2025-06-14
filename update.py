@@ -9,7 +9,7 @@ import zipfile
 import time
 import sys
 
-updater_version = "0.3.2"
+updater_version = "0.4.0"
 print(f"This Updator Version: {updater_version}")
 
 def copy_to_temp_and_run():
@@ -53,10 +53,15 @@ def get_one_version_num(versionstr):
 
 class VersionInfo:
     def __init__(self):
-        self.has_new_version = False
-        self.msg = "No new version"
-        self.version_str = ""
-        self.update_zip_url = ""
+        self.has_new_version = False # 是否有新版本
+        self.msg = "No new version" # 提示消息文本
+        self.version_str = "" # 去除前缀BAAH的版本号字符串
+        self.update_zip_url = "" # 更新包下载链接
+        self.update_body_text = "" # 更新内容文本
+        self.from_source = "" # 更新源，gitee或github等
+
+    def __str__(self):
+        return f"VersionInfo(has_new_version={self.has_new_version}, msg='{self.msg}', version_str='{self.version_str}', update_zip_url='{self.update_zip_url}', update_body_text='\n{self.update_body_text}\n')"
         
 
 def file_checksum(file_path):
@@ -79,61 +84,71 @@ def whether_has_new_version():
     """
     检查是否有新版本
     """
+    # 初始化值
+    vi = None
     urls = {
         "gitee": "https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest",
         "github": "https://api.github.com/repos/sanmusen214/BAAH/releases/latest"
     }
-    
-    eachtime = {}
-    eachnewesttag = {} # 存放各个平台上最新的版本号 如 1.5.3
-    eachdownloadurl = {} # 存放各个平台上最新的下载链接
+    # 这里读取software_config.json
+    # DATA/CONFIGS/software_config.json里的NOWVERSION字段
+    with open(os.path.join("DATA", "CONFIGS", "software_config.json"), "r", encoding="utf-8") as f:
+        confile = json.load(f)
+    # 当前BAAH的版本号
+    current_version_num = get_one_version_num(confile["NOWVERSION"].replace("BAAH", ""))
+
     print("Checking for new version...")
+    # 遍历当前所有更新源，维护 [tag最新的] 可访问的VersionInfo对象
     for key in urls:
-        nowtime = time.time()
+        if vi is None:
+            vi = VersionInfo()
         try:
             print(f"Checking: {key}...")
-            response = requests.get(urls[key], timeout=5)
+            response = requests.get(urls[key], timeout=3)
             if response.status_code == 200:
-                eachtime[key] = time.time() - nowtime
+                # 内容解析
                 data = response.json()
-                eachnewesttag[key] = data["tag_name"].replace("BAAH", "")
-                eachdownloadurl[key] = [each["browser_download_url"] for each in data["assets"]]
+                version_str = data.get("tag_name", "").replace("BAAH", "")
+                update_zip_url = [each["browser_download_url"] for each in data.get("assets", []) if each["browser_download_url"].endswith("_update.zip")]
+                update_body_text = data.get("body", "")
+                # early quit
+                if not version_str or len(update_zip_url) == 0:
+                    print(f"No valid version or download URL found for {key}.")
+                    continue
+                update_zip_url = update_zip_url[0] 
+                if get_one_version_num(version_str) <= current_version_num:
+                    print(f"Out-dated version found for {key}. Current version: {confile['NOWVERSION']}, Found version: {version_str}")
+                    continue
+                # 如果vi内有版本，判断当前循环的源与现在记录的源的版本号大小，如果已记录的vi里版本更加新
+                if vi.has_new_version and get_one_version_num(vi.version_str) >= get_one_version_num(version_str):
+                    print(f"Last checked version source {vi.from_source} occurs, {vi.version_str} ({vi.from_source}) is newer or equal to {version_str} ({key}). Skipping {key}.")
+                    continue
+                # ======== 更新 vi ========
+                print(f"New version found: {version_str} ({key})")
+                vi.has_new_version = True
+                vi.msg = f"New version: {version_str} ({key})"
+                vi.version_str = version_str
+                vi.update_zip_url = update_zip_url
+                vi.update_body_text = update_body_text
+                vi.from_source = key
         except Exception as e:
             print(f"Error accessing {key}: {e}")
             continue
     
-    if not eachtime:
+    if vi is None:
         print("Failed to check time spent for accessing github nor gitee.")
-        vi = VersionInfo()
-        vi.msg = "Failed to check time spent for accessing github nor gitee."
-        return vi
-    print(eachtime)
-    print(eachnewesttag)
-    fastestkey = min(eachtime, key=eachtime.get)
-    newest_tag = eachnewesttag[fastestkey]
+        rvi = VersionInfo()
+        rvi.msg = "Failed to check time spent for accessing github nor gitee."
+        return rvi
     
-    # 这里读取software_config.json实际存储的字符串
-    # DATA/CONFIGS/software_config.json里的NOWVERSION字段
-    with open(os.path.join("DATA", "CONFIGS", "software_config.json"), "r", encoding="utf-8") as f:
-        confile = json.load(f)
-    current_version_num = get_one_version_num(confile["NOWVERSION"])
-    new_version_num = get_one_version_num(newest_tag)
+    if not vi.has_new_version:
+        print("No new version found.")
+        rvi = VersionInfo()
+        rvi.msg = "No new version found."
+        return rvi
     
-    if new_version_num > current_version_num:
-        vi = VersionInfo()
-        vi.has_new_version = True
-        vi.msg = f"New version available: {newest_tag} ({fastestkey})"
-        vi.version_str = newest_tag
-        vi.update_zip_url = next((url for url in eachdownloadurl[fastestkey] if url.endswith("_update.zip")), "")
-        # 如果没有以update末尾的文件，说明没有更新文件
-        if vi.update_zip_url == "":
-            vi.msg += "\nFailed to get the download URL."
-            vi.has_new_version = False
-        return vi
-    else:
-        vi = VersionInfo()
-        vi.msg = "No new version"
-        return vi
+    # 拿到最新的vi对象，确认已经有新版本
+    return vi
         
 def check_and_update():
     # 判断路径下是否有BAAH.exe，如果没有说明运行目录不对

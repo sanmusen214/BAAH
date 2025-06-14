@@ -3,7 +3,7 @@ from ..components.json_file_docker import get_json_list, add_new_config, copy_an
 
 from nicegui import ui, app
 
-from ..components.check_update import only_check_version, get_newest_version
+from ..components.check_update import only_check_version
 from ..components.exec_arg_parse import check_token_dialog
 from ..define import gui_shared_config
 
@@ -68,10 +68,10 @@ def render_json_list():
                     # 显示更新信息
                     release_area = ui.card()
                     async def show_release():
-                        result = await only_check_version()
+                        resultVI = await only_check_version()
                         with release_area:
-                            ui.label(result.get("msg","")).style(f'font-size: x-large;{"color: red" if result.get("status",False) else "color: black"}')
-                            ui.html(f'<div style="white-space: pre-line;font-size: large">{result.get("body","")}</div>')
+                            ui.label(resultVI.msg).style(f'font-size: x-large;{"color: red" if resultVI.has_new_version else "color: black"}')
+                            ui.html(f'<div style="white-space: pre-line;font-size: large">{resultVI.update_body_text}</div>')
 
                     ui.timer(0.1, show_release, once=True)
                     
@@ -84,8 +84,6 @@ def render_json_list():
                             ui.notify(f"Failed to start BAAH_UPDATE.exe: {e}", type="warning")
                     
                     with ui.row():
-                        # 下载更新包
-                        ui.button(gui_shared_config.get_text("button_check_version"), on_click=lambda e, c=gui_shared_config:get_newest_version(c))
                         # 一键更新按钮
                         ui.button(gui_shared_config.get_text("button_update_advance"), on_click=update_advance)
 
