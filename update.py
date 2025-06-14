@@ -50,6 +50,12 @@ def get_one_version_num(versionstr):
     except Exception as e:
         print(e)
         return -1
+    
+def decrypt_data(data, key):
+    """
+    根据key作凯撒解密, key长度小于data，因此key循环使用
+    """
+    return "".join([chr(ord(data[i]) ^ ord(key[i % len(key)])) for i in range(len(data))])
 
 class VersionInfo:
     def __init__(self):
@@ -86,16 +92,21 @@ def whether_has_new_version():
     """
     # 初始化值
     vi = None
-    urls = {
-        "gitee": "https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest",
-        "github": "https://api.github.com/repos/sanmusen214/BAAH/releases/latest"
-    }
     # 这里读取software_config.json
     # DATA/CONFIGS/software_config.json里的NOWVERSION字段
     with open(os.path.join("DATA", "CONFIGS", "software_config.json"), "r", encoding="utf-8") as f:
         confile = json.load(f)
     # 当前BAAH的版本号
     current_version_num = get_one_version_num(confile["NOWVERSION"].replace("BAAH", ""))
+    enc_key = confile.get("ENCRYPTION_KEY", "12345")
+    mirror_key = confile.get("SEC_KEY_M", "12345")
+    # 更新源声明
+    urls = {
+        "gitee": "https://gitee.com/api/v5/repos/sammusen/BAAH/releases/latest",
+        "github": "https://api.github.com/repos/sanmusen214/BAAH/releases/latest",
+    }
+    if confile["SEC_KEY_M"]:
+        urls["mirror"] = f"https://mirrorchyan.com/api/resources/BAAH/latest?cdk={decrypt_data(mirror_key, enc_key)}"
 
     print("Checking for new version...")
     # 遍历当前所有更新源，维护 [tag最新的] 可访问的VersionInfo对象
@@ -107,22 +118,32 @@ def whether_has_new_version():
             response = requests.get(urls[key], timeout=3)
             if response.status_code == 200:
                 # 内容解析
-                data = response.json()
-                version_str = data.get("tag_name", "").replace("BAAH", "")
-                update_zip_url = [each["browser_download_url"] for each in data.get("assets", []) if each["browser_download_url"].endswith("_update.zip")]
-                update_body_text = data.get("body", "")
-                # early quit
+                if key == "mirror":
+                    data = response.json().get("data", {})
+                    version_str = data.get("version_name", "").replace("BAAH", "")
+                    update_zip_url = data.get("url", "")
+                    update_body_text = data.get("release_note", "")
+                else:
+                    data = response.json()
+                    version_str = data.get("tag_name", "").replace("BAAH", "")
+                    update_zip_url = [each["browser_download_url"] for each in data.get("assets", []) if each["browser_download_url"].endswith("_update.zip")][:1]
+                    update_zip_url = update_zip_url[0] if update_zip_url else ""
+                    update_body_text = data.get("body", "")
+                # ======== early quit ========
                 if not version_str or len(update_zip_url) == 0:
                     print(f"No valid version or download URL found for {key}.")
                     continue
-                update_zip_url = update_zip_url[0] 
                 if get_one_version_num(version_str) <= current_version_num:
                     print(f"Out-dated version found for {key}. Current version: {confile['NOWVERSION']}, Found version: {version_str}")
                     continue
                 # 如果vi内有版本，判断当前循环的源与现在记录的源的版本号大小，如果已记录的vi里版本更加新
                 if vi.has_new_version and get_one_version_num(vi.version_str) >= get_one_version_num(version_str):
                     print(f"Last checked version source {vi.from_source} occurs, {vi.version_str} ({vi.from_source}) is newer or equal to {version_str} ({key}). Skipping {key}.")
-                    continue
+                    if get_one_version_num(vi.version_str) == get_one_version_num(version_str) and key == "mirror":
+                        # 如果版本号相同，现在循环的是mirror源，由于用户填写了mirror密钥，肯定是希望走mirror源的，所以不跳过
+                        print("Versions keep same, but mirror source is preferred, not skipping.")
+                    else:
+                        continue
                 # ======== 更新 vi ========
                 print(f"New version found: {version_str} ({key})")
                 vi.has_new_version = True

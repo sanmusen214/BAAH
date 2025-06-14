@@ -312,6 +312,10 @@ defaultSoftwareDict = {
     "SAVE_LOG_TO_FILE":{"d":False},
     # 发生错误时，是否输出custom日志
     "SAVE_ERR_CUSTOM_LOG":{"d":True},
+    # Mirror酱的密钥
+    "SEC_KEY_M":{
+        "d": "",
+    },
 }
 
 # sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict

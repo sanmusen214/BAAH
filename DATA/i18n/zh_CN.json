@@ -191,6 +191,7 @@
 
     "config_event_status": "是否只在活动开启状态下执行",
     "notice_QA":"如何使用以及常见问题",
+    "mirror_desc":"你可以通过添加已有的Mirror酱密钥来加快更新包的下载速度/稳定性",
 
 
 
