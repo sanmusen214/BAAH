@@ -69,6 +69,7 @@ class InCafe(Task):
             logging.info({"zh_CN": "进入第二个咖啡厅", "en_US": "Entering the second cafe"})
             click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM), sleeptime=1)
             click((247, 165))
+            self.clear_popup()
             if self.touch:
                 # 摸第二个咖啡厅头
                 TouchHead().run()
@@ -87,7 +88,7 @@ class InCafe(Task):
             else:
                 logging.info({"zh_CN": "设置的咖啡馆不摸头", "en_US": "Set cafe without touching the head"})
         # 返回主页
-        Task.back_to_home()
+        self.back_to_home()
 
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
