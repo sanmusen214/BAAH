@@ -16,7 +16,7 @@ class ScrollSelect(Task):
     Parameters
     ----------
     targetind : int
-        目标关卡的下标
+        目标关卡的下标，从0开始
     window_starty:
         窗口上边缘y坐标
     first_item_endy:

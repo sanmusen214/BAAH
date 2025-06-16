@@ -3,8 +3,9 @@ from ..components.json_file_docker import get_json_list, add_new_config, copy_an
 
 from nicegui import ui, app
 
-from ..components.check_update import only_check_version, get_newest_version
+from ..components.check_update import only_check_version
 from ..components.exec_arg_parse import check_token_dialog
+from modules.utils.data_utils import encrypt_data, decrypt_data
 from ..define import gui_shared_config
 
 
@@ -49,11 +50,11 @@ def render_json_list():
                     ui.toggle({"zh_CN":"中文", "en_US":"English", "jp_JP":"日本語"}, value=gui_shared_config.softwareconfigdict["LANGUAGE"], on_change=lambda e:select_language(e.value)).bind_value_from(gui_shared_config.softwareconfigdict, "LANGUAGE")
 
                     # 基本介绍
-                    with ui.row().style("display: flex; justify-content: space-between; align-items: center;"):
+                    with ui.row():
                         ui.label(gui_shared_config.get_text("BAAH_desc"))
 
                     # 如何使用
-                    with ui.row():
+                    with ui.row().style("display: flex; justify-content: space-between; align-items: center;"):
                         ui.link(gui_shared_config.get_text("notice_QA"), how_to_use_url.get(gui_shared_config.softwareconfigdict["LANGUAGE"], ""), new_tab=True)
                         ui.label("QQ: 715586983;1029291081").style('font-size: x-large; color: red;')
 
@@ -68,10 +69,10 @@ def render_json_list():
                     # 显示更新信息
                     release_area = ui.card()
                     async def show_release():
-                        result = await only_check_version()
+                        resultVI = await only_check_version()
                         with release_area:
-                            ui.label(result.get("msg","")).style(f'font-size: x-large;{"color: red" if result.get("status",False) else "color: black"}')
-                            ui.html(f'<div style="white-space: pre-line;font-size: large">{result.get("body","")}</div>')
+                            ui.label(resultVI.msg).style(f'font-size: x-large;{"color: red" if resultVI.has_new_version else "color: black"}')
+                            ui.html(f'<div style="white-space: pre-line;font-size: large">{resultVI.update_body_text}</div>')
 
                     ui.timer(0.1, show_release, once=True)
                     
@@ -84,10 +85,20 @@ def render_json_list():
                             ui.notify(f"Failed to start BAAH_UPDATE.exe: {e}", type="warning")
                     
                     with ui.row():
-                        # 下载更新包
-                        ui.button(gui_shared_config.get_text("button_check_version"), on_click=lambda e, c=gui_shared_config:get_newest_version(c))
                         # 一键更新按钮
                         ui.button(gui_shared_config.get_text("button_update_advance"), on_click=update_advance)
+                    
+                    # mirror酱密钥
+                    with ui.row().style("display: flex; justify-content: space-between; align-items: center;"):
+                        ui.label(gui_shared_config.get_text("mirror_desc"))
+                        ui.link(text="Mirror", target = "https://mirrorchyan.com/zh/get-start", new_tab=True)
+                        ui.input("Mirror Key", password=True, placeholder="Mirror Key", password_toggle_button=True,
+                                 on_change = gui_shared_config.save_software_config
+                                ).bind_value(gui_shared_config.softwareconfigdict, "SEC_KEY_M", 
+                                            forward=lambda val: encrypt_data(val, gui_shared_config.softwareconfigdict["ENCRYPT_KEY"]),
+                                            backward=lambda val: decrypt_data(val, gui_shared_config.softwareconfigdict["ENCRYPT_KEY"])
+                            ).style("width: 200px")
+                            
 
             with splitter.after:
                 with ui.column().style("padding: 20px"):

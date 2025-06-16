@@ -36,10 +36,10 @@ class RunWantedFight(Task):
      
     def on_run(self) -> None:
         rq = RaidQuest(self.runtimes)
-        if self.levelnum > 0:
+        if self.levelnum >= 0:
             # 找到目标关卡点击
             ScrollSelect(self.levelnum, 131, 230, 684, 1118, self.match_task_info).run()
-        elif self.levelnum < 0:
+        elif self.levelnum <= -2:
             # 构造tuple的时候会将用户输入-1还原成下标
             # 如果用户GUI填的是-1，那么-1后这里self.levelnum值就是-2. 使用t in range(1, -1, -1)修正为SmartScrollSelect入参代表的值
             # 也就是还原成-1 (第二次循环是-2) 来找到可战斗的倒数第一关（第二关），并且可扫荡（可能最后可战斗的关卡没三星，所以这里需要前推一次）
@@ -58,6 +58,12 @@ class RunWantedFight(Task):
                         EN : f"Did not find the target raidable level, detect index move decrease"
                     }))
                     self.clear_popup()
+        else:
+            logging.error(istr({
+                CN: "关卡序号为0，无法扫荡",
+                EN: "Level number is 0, cannot raid"
+            }))
+            return
 
         # 扫荡
         rq.run()
