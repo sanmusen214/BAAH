@@ -98,7 +98,7 @@ def whether_has_new_version():
         confile = json.load(f)
     # 当前BAAH的版本号
     current_version_num = get_one_version_num(confile["NOWVERSION"].replace("BAAH", ""))
-    enc_key = confile.get("ENCRYPTION_KEY", "12345")
+    enc_key = confile.get("ENCRYPT_KEY", "12345")
     mirror_key = confile.get("SEC_KEY_M", "12345")
     # 更新源声明
     urls = {
@@ -152,6 +152,9 @@ def whether_has_new_version():
                 vi.update_zip_url = update_zip_url
                 vi.update_body_text = update_body_text
                 vi.from_source = key
+            else:
+                print(f"Failed to access {key}: HTTP {response.status_code}")
+                continue
         except Exception as e:
             print(f"Error accessing {key}: {e}")
             continue

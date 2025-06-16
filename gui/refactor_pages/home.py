@@ -92,7 +92,8 @@ def render_json_list():
                     with ui.row().style("display: flex; justify-content: space-between; align-items: center;"):
                         ui.label(gui_shared_config.get_text("mirror_desc"))
                         ui.link(text="Mirror", target = "https://mirrorchyan.com/zh/get-start", new_tab=True)
-                        ui.input("Mirror Key", password=True, placeholder="Mirror Key",password_toggle_button=True
+                        ui.input("Mirror Key", password=True, placeholder="Mirror Key", password_toggle_button=True,
+                                 on_change = gui_shared_config.save_software_config
                                 ).bind_value(gui_shared_config.softwareconfigdict, "SEC_KEY_M", 
                                             forward=lambda val: encrypt_data(val, gui_shared_config.softwareconfigdict["ENCRYPT_KEY"]),
                                             backward=lambda val: decrypt_data(val, gui_shared_config.softwareconfigdict["ENCRYPT_KEY"])
