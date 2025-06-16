@@ -8,7 +8,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
 from modules.utils import (click, ocr_area_0, swipe, match, page_pic, button_pic, popup_pic, sleep,
-                           ocr_area, screenshot, config, match_pixel)
+                           ocr_area, screenshot, config, match_pixel, istr, CN, EN)
 
 
 
@@ -49,8 +49,19 @@ class RaidQuest(Task):
 
     def pre_condition(self) -> bool:
         # 判断默认的次数不是0才能进入
-        return not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE) and not ocr_area_0(self.ocr_area_pos_1,
-                                                                                     self.ocr_area_pos_2)
+        if ocr_area_0(self.ocr_area_pos_1, self.ocr_area_pos_2):
+            logging.warn(istr({
+                CN: "扫荡次数为0，无法扫荡",
+                EN: "Raid number is 0, cannot raid"
+            }))
+            return False
+        if not self.has_popup():
+            logging.warn(istr({
+                CN: "没有弹出扫荡弹窗，无法扫荡",
+                EN: "Raid popup not found, cannot raid"
+            }))
+            return False
+        return True
 
     def check_has_max(self) -> bool:
         """
