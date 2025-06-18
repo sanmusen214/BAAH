@@ -54,6 +54,8 @@ class AutoAssault(Task):
                           "en_US": f"The {target_ind + 1} level of the Total Assault has been unlocked"})
             res = -1
         else:
+            # 默认res设置为target_ind（目标下标），既然进入到了这个else，如果0到target_ind-1下标的关卡都没解锁，那么就是target_ind没有解锁了
+            res = target_ind
             # 从头开始检查,找到第一个未解锁的关卡
             for ind in range(target_ind):
                 # 检查是否解锁
