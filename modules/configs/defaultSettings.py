@@ -285,6 +285,8 @@ defaultUserDict = {
         "d":3
     },
 
+    # 物理机适配
+    "PHYICAL_SUPPORT":{"d":False},
 }
 
 # 软件的config里的默认值
