@@ -42,6 +42,9 @@ def disconnect_this_device():
     """Disconnect this device."""
     subprocess_run([get_config_adb_path(), "disconnect", getNewestSeialNumber()])
 
+def reconnect_offline():
+    """Reconnect to the device that was disconnected, or remove the offline status of the device."""
+    subprocess_run([get_config_adb_path(), "reconnect", "offline"])
 
 def kill_adb_server():
     """Kill the adb server."""
@@ -256,6 +259,19 @@ def set_dpi(target_dpi, use_config=None):
         target_dpi = int(target_dpi)
     subprocess_run([get_config_adb_path(use_config), "-s", getNewestSeialNumber(use_config), "shell", "wm", "density", str(target_dpi)], isasync=True)
     
+def install_apk(filepath):
+    status = subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), "install", filepath], isasync=True)
+    if status.returncode != 0:
+        raise(Exception(istr({"zh_CN": "安装失败", "en_US": "Installation failed"})))
+    
+def install_dir(dir):
+    command = f"{get_config_adb_path()} -s {getNewestSeialNumber()} install-multiple"
+    for filename in os.listdir(dir):
+        if filename.endswith(".apk"):
+            command = command + f" {dir}/{filename}"
+    status = os.system(command)
+    if status != 0:
+        raise(Exception(istr({"zh_CN": "安装失败", "en_US": "Installation failed"})))
 
 # NO_NEED = "NO_NEED"
 # ERROR = "ERROR"

@@ -11,6 +11,8 @@ from modules.utils.log_utils import logging
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN, match_pixel
 
+from modules.AllTask.EnterGame.Update import Update
+
 # =====
 
 class Loginin(Task):
@@ -48,8 +50,21 @@ class Loginin(Task):
             logging.warn({"zh_CN": "游戏未在前台，尝试打开游戏", "en_US":"The game is not in the foreground, try to open the game"})
             sleep(2)
             screenshot()
-        
-        if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
+
+            # 大更新
+        if match(popup_pic(PopupName.POPUP_UPDATE_APP)):
+            if config.userconfigdict["BIG_UPDATE"]:
+                Update().run()
+                raise EmulatorBlockError(istr({
+                    CN: "游戏进行了包体更新，触发了大更新流程，开始重新运行任务",
+                    EN: "The game has performed a package update, triggering the big update process, starting to rerun the task"
+                }))
+            else:
+                raise Exception(istr({
+                    CN: "检测到新版本，未开启游戏包体更新，请手动更新",
+                    EN: "New version detected, auto update is not enabled, please update manually"
+                }))
+        elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             # 点掉确认按钮
             click(button_pic(ButtonName.BUTTON_CONFIRMB))
         elif match(button_pic(ButtonName.BUTTON_USER_AGREEMENT)):
@@ -72,7 +87,6 @@ class Loginin(Task):
         else:
             # 活动弹窗
             click((1250, 40))
-    
      
     def on_run(self) -> None:
         self.task_start_time = time.time()

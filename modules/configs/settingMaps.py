@@ -18,6 +18,14 @@ server2activity = {
     "CN_BILI":"com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity"
 }
 
+server2url = {
+    "JP":"https://baah.02000721.xyz/apk/jp",
+    "GLOBAL_EN":"https://baah.02000721.xyz/apk/global",
+    "GLOBAL":"https://baah.02000721.xyz/apk/global",
+    "CN":"https://bluearchive-cn.com/download",
+    "CN_BILI":"json://https://line1-h5-pc-api.biligame.com/game/detail/gameinfo?game_base_id=109864"
+}
+
 # important
 activity2server = {v:k for k,v in server2activity.items()}
 

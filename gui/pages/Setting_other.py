@@ -80,6 +80,29 @@ def set_other(config, gui_shared_config):
     #     with ui.row():
     #         ui.button("测试截图/screencut test", on_click=lambda: os.system(f'start screencut.exe "{load_jsonname}"'))
 
+    with ui.row():
+        ui.input(config.get_text("aria2_path")).bind_value(config.userconfigdict, 'ARIA2_PATH',forward=lambda v: v.replace("\\", "/")).style('width: 400px')
+    
+    with ui.row():
+        ui.number(config.get_text("aria2_thread"),
+                  step=1,
+                  min=1,
+                  precision=0).bind_value(config.userconfigdict, 'ARIA2_THREADS', forward=lambda x: int(x) if x is not None else 0, backward=lambda x: int(x) if x is not None else 0)
+    
+    with ui.row():
+        ui.number(config.get_text("aria2_max_tries"),
+                  step=1,
+                  min=1,
+                  precision=0).bind_value(config.userconfigdict, 'ARIA2_MAX_TRIES', forward=lambda x: int(x) if x is not None else 0, backward=lambda x: int(x) if x is not None else 0)   
+
+    with ui.row():
+        ui.number(config.get_text("aria2_failured_wait_time"),
+                  suffix="s",
+                  step=0.1,
+                  min=0.1,
+                  precision=1
+                  ).bind_value(config.userconfigdict, 'ARIA2_FAILURED_WAIT_TIME')
+    
     ui.label("Test").style('font-size: x-large')
     
     async def test_screencut():
