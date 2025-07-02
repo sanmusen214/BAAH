@@ -11,7 +11,7 @@ from modules.utils.log_utils import logging
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, config, screenshot, EmulatorBlockError, istr, CN, EN, match_pixel
 
-from modules.AllTask.EnterGame.Update import Update
+from modules.AllTask.EnterGame.GameUpdate import GameUpdate
 
 # =====
 
@@ -54,7 +54,7 @@ class Loginin(Task):
             # 大更新
         if match(popup_pic(PopupName.POPUP_UPDATE_APP)):
             if config.userconfigdict["BIG_UPDATE"]:
-                Update().run()
+                GameUpdate().run()
                 raise EmulatorBlockError(istr({
                     CN: "游戏进行了包体更新，触发了大更新流程，开始重新运行任务",
                     EN: "The game has performed a package update, triggering the big update process, starting to rerun the task"
