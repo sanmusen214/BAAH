@@ -13,6 +13,7 @@ compact_log.txt
 notrack_*.py
 /DATA/LOGS
 /DATA/USER_STORAGE
+/aria2.zip
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

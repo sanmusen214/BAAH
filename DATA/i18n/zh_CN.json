@@ -198,7 +198,7 @@
     "aria2_max_tries":"Aria2最大重试次数",
     "aria2_failured_wait_time":"Aria2下载失败后等待时间",
 
-    "config_big_update": "大版本更新时更新游戏包体",
+    "config_big_update": "大版本更新时更新游戏包体（实验性功能）",
     "big_update_type": "更新方式",
     "big_update_type_api": "API",
     "big_update_type_urlget": "URLGET",

@@ -44,8 +44,8 @@ def package_download_adb(platformstr = None):
         print(f"adb already exists: {target_adb_path}")
 
 def package_download_aria2(platformstr = None):
-    
-    target_aria2_path = os.path.join(os.getcwd(), "tools", "aria2")
+    tools_base_path = os.path.join(os.getcwd(), "tools")
+    target_aria2_path = os.path.join(tools_base_path, "aria2")
     downloadurls = {
         "Windows": "https://gh-proxy.com/github.com/aria2/aria2/releases/download/release-1.37.0/aria2-1.37.0-win-64bit-build1.zip",
         "Linux": "https://gh-proxy.com/github.com/aria2/aria2/releases/download/release-1.37.0/aria2-1.37.0.tar.gz"
@@ -62,21 +62,21 @@ def package_download_aria2(platformstr = None):
         # download zip/tar
         r = requests.get(url)
         if platformstr == "Windows":
-            with open('aria2.zip', "r") as f:
+            with open('aria2.zip', "wb") as f:
                 f.write(r.content)
             # unzip to target_aria2_path, rename the upper folder "aria2-1.37.0-win-64bit-build1" to "aria2"
             with zipfile.ZipFile("aria2.zip", 'r') as z:
-                z.extractall(target_aria2_path)
-            print(f"aria2 downloaded to: {target_aria2_path}")
-            package_rename(os.path.join(target_aria2_path, "aria2-1.37.0-win-64bit-build1"), target_aria2_path)
+                z.extractall(tools_base_path)
+            print(f"aria2 downloaded to: {tools_base_path}")
+            package_rename(os.path.join(tools_base_path, "aria2-1.37.0-win-64bit-build1"), target_aria2_path)
         if platformstr == "Linux":
-            with open('aria2.tar.gz', "r") as f:
+            with open('aria2.tar.gz', "wb") as f:
                 f.write(r.content)
             # untar to target_aria2_path, rename the upper folder "aria2-1.37.0" to "aria2"
             with tarfile.open("aria2.tar.gz", 'r') as z:
-                z.extractall(target_aria2_path)
-            print(f"aria2 downloaded to: {target_aria2_path}")
-            package_rename(os.path.join(target_aria2_path, "aria2-1.37.0"), target_aria2_path)
+                z.extractall(tools_base_path)
+            print(f"aria2 downloaded to: {tools_base_path}")
+            package_rename(os.path.join(tools_base_path, "aria2-1.37.0"), target_aria2_path)
             
     else:
         print(f"aria2 already exists: {target_aria2_path}")
@@ -127,7 +127,7 @@ config_version = config.NOWVERSION
 # mainly for windows, download adb
 package_download_adb(platformstr="Windows")
 # mainly for windows, download aria2
-# package_download_aria2(platformstr="Windows")
+package_download_aria2(platformstr="Windows")
 
 
 package_remove_folder("./dist")
@@ -182,7 +182,7 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'BAAH_GUI', '
     break
 
 package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
-# package_copyfolder('./tools/aria2', './dist/BAAH/tools/aria2')
+package_copyfolder('./tools/aria2', './dist/BAAH/tools/aria2')
 
 # pytinstall的时候已经把pponnxcr和nicegui文件拷贝进去了
 # package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')

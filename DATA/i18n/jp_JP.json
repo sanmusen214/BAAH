@@ -198,7 +198,7 @@
     "aria2_max_tries":"Aria2の最大再試行回数",
     "aria2_failured_wait_time": "Aria2のダウンロード失敗後の待機時間",
 
-    "config_big_update": "ゲームパッケージを更新する 大規模アップデート時",
+    "config_big_update": "ゲームパッケージを更新する 大規模アップデート時 （実験的機能）",
     "big_update_type": "更新方法",
     "big_update_type_api": "API",
     "big_update_type_urlget": "URLGET",
